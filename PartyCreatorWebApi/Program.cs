@@ -1,7 +1,7 @@
 using PartyCreatorWebApi.HubConfig;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Michal
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
