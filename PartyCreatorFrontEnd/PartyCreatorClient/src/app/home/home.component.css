@@ -1,0 +1,18 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+  }
+  
+  .div1 {
+      padding:50px;
+    grid-area: 1 / 2 / 2 / 3;
+    text-align:center;
+  }
+  
+.body
+{
+    background-color:transparent;
+}
