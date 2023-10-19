@@ -262,7 +262,7 @@
     width: 1920px;
   }
 
-  /* Responsive Styles */
+  /* Responsive Styles test test test */
   @media screen and (max-width: 767px) {
     .card-container > *:not(.circle-link) ,
     .terminal {
