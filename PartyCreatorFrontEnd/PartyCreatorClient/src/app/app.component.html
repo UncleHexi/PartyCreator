@@ -1,19 +1,7 @@
 <body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
+  
     <router-outlet></router-outlet>
-  </div>
+    <app-nav-menu></app-nav-menu>
 
-
-  <div>
-    <div *ngFor="let message of messages">
-      <strong>{{ message.user }}:</strong> {{ message.text }}
-    </div>
-  </div>
-  <div>
-    <input [(ngModel)]="user" placeholder="Enter your name" />
-    <input [(ngModel)]="message" placeholder="Type your message" />
-    <button (click)="sendMessage()">Send</button>
-  </div>
   </body>
   
