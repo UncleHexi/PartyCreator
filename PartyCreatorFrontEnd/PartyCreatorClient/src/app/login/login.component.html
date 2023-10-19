@@ -1,0 +1,12 @@
+<body>
+  <app-nav-menu></app-nav-menu>
+
+  <div class="container">
+    <nav>
+      <button type="button" (click)="toggleForm('signin')">Logowanie</button>
+      <button type="button" (click)="toggleForm('signup')">Rejestracja</button>
+    </nav>
+    <app-signin *ngIf="showSignInForm"></app-signin>
+    <app-signup *ngIf="showSignUpForm"></app-signup>
+  </div>
+</body>
