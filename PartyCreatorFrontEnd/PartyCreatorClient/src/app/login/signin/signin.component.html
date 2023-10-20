@@ -1,0 +1,10 @@
+<label for="email">E-mail:</label><br />
+<input id="email" type="email" [formControl]="email" />
+
+<br />
+<label for="password">Hasło:</label><br />
+<input id="password" type="password" [formControl]="password" />
+
+<p>Email: {{ email.value }}</p>
+
+<button type="button" (click)="updateEmail()">Zaloguj się</button>
