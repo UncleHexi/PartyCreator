@@ -23,3 +23,6 @@ a.navbar-brand {
     font-weight:bolder;
   }
   
+  .navbar {
+    z-index:1000;
+  }

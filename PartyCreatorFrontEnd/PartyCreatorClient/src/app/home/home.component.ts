@@ -35,5 +35,11 @@ export class HomeComponent implements OnInit {
       .catch((err) => console.error(err));
     this.message = '';
   }
+
+scrollToElement($element: HTMLElement): void {
+  console.log($element);
+  $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+}
+
 }
 

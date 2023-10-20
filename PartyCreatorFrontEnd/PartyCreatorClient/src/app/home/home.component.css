@@ -1,50 +1,128 @@
 .parent {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
   }
-  
-.div1 {
-  padding:150px;
-  grid-area: 1 / 2 / 2 / 3;
-  text-align:center;
-  color: white;
+.div1 { 
+  position:fixed;
+  top:15%;
+  font-size:20px;
+  left:45%;
+  right:8%;
+    grid-area: 1 / 2 / 2 / 3;;   
+    text-align:center;
+    color: white;    
 }
+.div1  h1{
+  font-size:62px;
+}
+.div2  h1{
+  font-size:48px;
+}
+.div2 { 
+  position:fixed;
+  grid-area: 2 / 1 / 3 / 2;
+  text-align:center;
+  color: black; 
+  top: 70%;
+  left:3%;
+}
+
 @media (max-width: 768px) {
   .parent {
-    grid-template-columns: 1fr; /* Jedna kolumna na mniejszych ekranach */
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, 1fr);
   }
 
   .div1 {
-    grid-area: auto; /* Usuń ustawienia grid-area */
+    font-size:20px;
+    grid-area: 1 / 1 / 2 / 2;
+    margin-top:10%;
+    left:5%;
+    right:5%;
+  }
+  .div1 h1, .div2 h1{
+    font-size:24px;
+  }
+  .div2 {
+    margin-top:22%;
+  }
+  .parent2 {
+    margin-top:150%;
+    grid-template-columns: 1fr; /* Jedna kolumna */
+    grid-template-rows: auto; /* Kolumny rosną w miarę potrzeb */
+    text-align: center; /* Wyśrodkowanie zawartości poziomo */
+  }
+  .parent2 h3, .parent2 p {
+    font-size: 16px; 
   }
 }
-body
-{
-    background-color:transparent;
-}
-
 
 .background {
-  position:absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
   width: 100%;
-  height: 90%;
-  -webkit-transform: skewY(12deg);
-  transform: skewY(12deg);
+  height: 82%;
+  -webkit-transform: skewY(12deg); /*webkit-transform jest wersją dla przeglądarek opartych na silniku WebKit (takich jak Safari i starsze wersje Chrome */
+  transform: skewY(12deg); /*transform jest wersją zgodną z nowszym standardem CSS*/
   -webkit-transform-origin: 100%;
   transform-origin: 100%;
   background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
   background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
+  z-index:1;
 }
-
 
 .bg {
   position: absolute;
   width: 100%;
   height: 100%;
   background-color:transparent;
+  z-index:1;
 }
 
+.section {
+  position: absolute;
+  top: 100%; /* Początkowe położenie poza ekranem */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
+  background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
+  color:white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  z-index: 9999; /* Ustaw z-index na wartość większą niż wszystkie inne elementy */
+  transition: top 0.3s; /* Dodaj płynne przejście, aby było mniej gwałtowne */
+}
 
+.parent2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-column-gap: 20px; /* Dodaj odstęp między kolumnami */
+  grid-row-gap: 50px; /* Dodaj odstęp między wierszami */
+  font-size:22px;
+  padding: 20px;
+  }
+  .parent2 h3 {
+    color: rgb(90, 170, 255);
+    text-align: center; /* Wyśrodkowanie poziome */
+  }
+  .parent2 p{
+    font-size:18px;
+  }
+  .div1Functions { grid-area: 1 / 1 / 2 / 2; }
+  .div2Functions { grid-area: 1 / 2 / 2 / 3; }
+  .div3Functions { grid-area: 1 / 3 / 2 / 4; }
+  .div4Functions { grid-area: 2 / 1 / 3 / 2; }
+  .div5Functions { grid-area: 2 / 2 / 3 / 3; }
+  .div6Functions { grid-area: 2 / 3 / 3 / 4; }
+  .div7Functions { grid-area: 3 / 1 / 4 / 2; }
+  .div8Functions { grid-area: 3 / 2 / 4 / 3; }
+  .div9Functions { grid-area: 3 / 2 / 4 / 3; }
+  .div10Functions { grid-area: 3 / 3 / 4 / 4; }
