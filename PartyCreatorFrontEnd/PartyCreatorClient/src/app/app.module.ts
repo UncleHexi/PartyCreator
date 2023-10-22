@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './login/signup/signup.component';
 import { SigninComponent } from './login/signin/signin.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { SigninComponent } from './login/signin/signin.component';
     SignupComponent,
     SigninComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
   providers: [],
   bootstrap: [AppComponent],
 })
