@@ -92,7 +92,6 @@
               "src/styles.css",
               "src/app/nav-menu/nav-menu.component.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
-
             ],
             "scripts": []
           }
