@@ -1,0 +1,26 @@
+.is-invalid {
+  border-left: solid 6px red;
+}
+
+.material-icons {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.card-header {
+  background-color: #dbdbdb;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #000000;
+  border-color: #000000;
+  display: block;
+}
+
+.btn-primary:disabled {
+  background-color: #dbdbdb;
+  border-color: #dbdbdb;
+  color: #000000;
+  display: block;
+}
