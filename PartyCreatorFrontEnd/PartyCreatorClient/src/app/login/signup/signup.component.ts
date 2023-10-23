@@ -17,33 +17,48 @@ export class SignupComponent {
     this.signupForm = this.createSingupForm();
   }
 
+  // tworzenie formularza rejestracji
   createSingupForm(): FormGroup {
     return this.fb.group(
       {
-        firstName: ['', [Validators.required, Validators.minLength(3)]],
-        lastName: ['', [Validators.required, Validators.minLength(3)]],
-        email: ['', [Validators.required, Validators.email]],
+        firstName: [
+          '',
+          [
+            Validators.required, // imię jest wymagane
+            Validators.minLength(3), // imię musi mieć co najmniej 3 znaki
+            Validators.pattern('[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*'), // imię może zawierać tylko litery (w tym polskie litery)
+          ],
+        ],
+        lastName: [
+          '',
+          [
+            Validators.required, // nazwisko jest wymagane
+            Validators.minLength(3), // nazwisko musi mieć co najmniej 3 znaki
+            Validators.pattern('[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*'), // nazwisko może zawierać tylko litery (w tym polskie litery)
+          ],
+        ],
+        email: ['', [Validators.required, Validators.email]], // email jest wymagany i musi być poprawnym adresem email
         password: [
           '',
           [
-            Validators.required,
-            CustomValidators.patternValidator(/\d/, { hasNumber: true }),
+            Validators.required, // hasło jest wymagane
+            CustomValidators.patternValidator(/\d/, { hasNumber: true }), // hasło musi zawierać co najmniej jedną cyfrę
             CustomValidators.patternValidator(/[A-Z]/, {
               hasCapitalCase: true,
-            }),
-            CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-            Validators.minLength(8),
+            }), // hasło musi zawierać co najmniej jedną dużą literę
+            CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }), // hasło musi zawierać co najmniej jedną małą literę
+            Validators.minLength(8), // hasło musi mieć co najmniej 8 znaków
           ],
         ],
-        confirmPassword: ['', [Validators.required]],
+        confirmPassword: ['', [Validators.required]], // potwierdzenie hasła jest wymagane
       },
       {
-        validator: CustomValidators.passwordMatchValidator,
+        validator: CustomValidators.passwordMatchValidator, // niestandardowy walidator sprawdzający, czy hasło i potwierdzenie hasła są takie same
       }
     );
   }
 
   submit() {
-    console.log(this.signupForm.value);
+    this.signupForm.reset(); // resetowanie formularza po jego złożeniu
   }
 }
