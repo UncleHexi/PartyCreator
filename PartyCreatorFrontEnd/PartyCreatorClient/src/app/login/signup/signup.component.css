@@ -1,36 +1,7 @@
-.material-icons {
-  display: inline-flex;
-  vertical-align: middle;
-}
-
-.card-header {
-  background-color: #646464;
-  font-weight: bold;
-  color: #f2f2f2;
-}
 .card {
-  background-color: rgb(49, 49, 49);
+  width: 380px;
 }
 
-input {
-  background-color: #575757;
-  border-radius: 0%;
-  color: #f2f2f2;
-  border: #575757;
-}
-input::placeholder {
-  color: #f2f2f2;
-}
-
-.btn-primary {
-  background-color: #000000;
-  border-color: #000000;
-  display: block;
-}
-
-.btn-primary:disabled {
-  background-color: #f2f2f2;
-  border-color: #f2f2f2;
-  color: #000000;
-  display: block;
+a {
+  cursor: pointer;
 }
