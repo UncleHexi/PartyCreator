@@ -29,128 +29,105 @@
   top: 90%;
   left:22%;
 }
-@media (max-width: 768px) {
-  body {
-    margin:0px;
-    width:100vw;
-    height:100vh;
-    overflow:auto;
-  }
 
-  .parent {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    margin: 0 auto; /* Dodaj to, aby wyśrodkować element */
-    padding:10%;
-    width:100vh;
-  }
-  
-  .background,
-  .div1,
-  .div2 {
-    position: static;
-  }
-  
-  .div1 {
-    font-size: 46px;
-    grid-area: 1 / 1 / 2 / 2;
-    margin-top: 15%;
-  }
-  
-  .div2 {
-    grid-area: 2 / 1 / 4 / 2;
-    margin-top: 350px;
-  }
-  
-  .div1 h1 {
-    font-size: 64px;
-    margin-top: 10px;
-  }
-  
-  .div1 h2 {
-    font-size: 64px;
-    margin-top: 10px;
-  }
-  .div2 h1 {
-    font-size: 28px;
-    margin-top: 15px;
-  }
-  
-  .section {
-    margin-top: 100px;
-  }
-  
-  .parent2 {
-    margin-top: 900px;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    text-align: center;
-    padding: 0;
-  }
-  
-  .parent2 h3, .parent2 p {
-    font-size: 16px;
-  }
+.div1 p, .div2 p{
+  margin-top:5%;
 }
-
 .background {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: 82%;
-  -webkit-transform: skewY(12deg); /*webkit-transform jest wersją dla przeglądarek opartych na silniku WebKit (takich jak Safari i starsze wersje Chrome */
-  transform: skewY(12deg); /*transform jest wersją zgodną z nowszym standardem CSS*/
-  -webkit-transform-origin: 100%;
-  transform-origin: 100%;
-  background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
-  background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
-  z-index:1;
+position: fixed;
+top: 0;
+right: 0;
+width: 100%;
+height: 82%;
+-webkit-transform: skewY(12deg); /*webkit-transform jest wersją dla przeglądarek opartych na silniku WebKit (takich jak Safari i starsze wersje Chrome */
+transform: skewY(12deg); /*transform jest wersją zgodną z nowszym standardem CSS*/
+-webkit-transform-origin: 100%;
+transform-origin: 100%;
+background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
+background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
+z-index:1;
 }
 
 .bg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color:transparent;
-  z-index:1;
+position: absolute;
+width: 100%;
+height: 100%;
+background-color:transparent;
+z-index:1;
 }
 
 
 .parent2 { 
-  position: absolute;
-  top: 100%; /* Początkowe położenie poza ekranem */
-  left: 0;
-  width: 100%;
-  height: auto;
-  background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
-  background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
-  color:white;
-  align-items: center;
-  justify-content: center;
-  font-size: 60px;
-  z-index: 9999; /* Ustaw z-index na wartość większą niż wszystkie inne elementy */
-  transition: top 0.3s; /* Dodaj płynne przejście, aby było mniej gwałtowne */
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  grid-column-gap: 200px; /* Dodaj odstęp między kolumnami */
-  grid-row-gap: 110px; /* Dodaj odstęp między wierszami */
-  font-size:22px;
-  padding: 160px;
+position: absolute;
+top: 100%; /* Początkowe położenie poza ekranem */
+left: 0;
+width: 100%;
+height: auto;
+background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
+background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
+color:white;
+align-items: center;
+justify-content: center;
+font-size: 60px;
+z-index: 9999; /* Ustaw z-index na wartość większą niż wszystkie inne elementy */
+transition: top 0.3s; /* Dodaj płynne przejście, aby było mniej gwałtowne */
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+grid-template-rows: repeat(5, 1fr);
+grid-column-gap: 200px; /* Dodaj odstęp między kolumnami */
+grid-row-gap: 110px; /* Dodaj odstęp między wierszami */
+font-size:22px;
+padding: 160px;
+}
+.parent2 h3 {
+  color: rgb(90, 170, 255);
+  text-align: center; /* Wyśrodkowanie poziome */
+}
+.parent2 p{
+  font-size:18px;
+}
+
+.div1Functions, .div1Functions, .div2Functions, .div3Functions, .div4Functions, .div5Functions, .div6Functions, .div7Functions, .div8Functions{
+  grid-area:auto;
+}
+
+@media (max-width: 768px) {
+  .parent, .parent2 {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .div1,
+  .div2 {
+    padding: 5%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+  }
+  .div1 h1 {
+    font-size: 30px;
+  }
+  .div2 h1 {
+    font-size: 20px;
+  }
+  .div1 p,
+  .div2 p {
+    margin-top: 5%;
+  }
+  .parent2 {
+    top: 100%;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0;
+    grid-row-gap: 10px; 
+    font-size: 18px; 
+    padding: 20px;
   }
   .parent2 h3 {
-    color: rgb(90, 170, 255);
-    text-align: center; /* Wyśrodkowanie poziome */
+    font-size: 24px; 
   }
-  .parent2 p{
-    font-size:18px;
+  .parent2 > * {
+    margin: 50px 0; 
   }
-  .div1Functions { grid-area: 1 / 1 / 2 / 2; }
-  .div2Functions { grid-area: 1 / 2 / 2 / 3; }
-  .div3Functions { grid-area: 2 / 1 / 3 / 2; }
-  .div4Functions { grid-area: 2 / 2 / 3 / 3; }
-  .div5Functions { grid-area: 3 / 1 / 4 / 2; }
-  .div6Functions { grid-area: 3 / 2 / 4 / 3; }
-  .div7Functions { grid-area: 4 / 1 / 5 / 2; }
-  .div8Functions { grid-area: 4 / 2 / 5 / 3; }
+}
