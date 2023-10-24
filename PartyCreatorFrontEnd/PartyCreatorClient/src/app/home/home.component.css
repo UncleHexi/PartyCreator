@@ -19,7 +19,7 @@
   font-size:62px;
 }
 .div2  h1{
-  font-size:42px;
+  font-size:34px;
 }
 .div2 { 
   position:fixed;
@@ -27,36 +27,69 @@
   text-align:center;
   color: black; 
   top: 90%;
-  left:17%;
+  left:22%;
 }
-
 @media (max-width: 768px) {
+  body {
+    margin:0px;
+    width:100vw;
+    height:100vh;
+    overflow:auto;
+  }
+
   .parent {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: auto auto;
+    margin: 0 auto; /* Dodaj to, aby wyśrodkować element */
+    padding:10%;
+    width:100vh;
   }
-
-  .div1 {
-    font-size:20px;
-    grid-area: 1 / 1 / 2 / 2;
-    margin-top:10%;
-    left:5%;
-    right:5%;
-  }
-  .div1 h1, .div2 h1{
-    font-size:24px;
-  }
+  
+  .background,
+  .div1,
   .div2 {
-    margin-top:22%;
+    position: static;
   }
+  
+  .div1 {
+    font-size: 46px;
+    grid-area: 1 / 1 / 2 / 2;
+    margin-top: 15%;
+  }
+  
+  .div2 {
+    grid-area: 2 / 1 / 4 / 2;
+    margin-top: 350px;
+  }
+  
+  .div1 h1 {
+    font-size: 64px;
+    margin-top: 10px;
+  }
+  
+  .div1 h2 {
+    font-size: 64px;
+    margin-top: 10px;
+  }
+  .div2 h1 {
+    font-size: 28px;
+    margin-top: 15px;
+  }
+  
+  .section {
+    margin-top: 100px;
+  }
+  
   .parent2 {
-    margin-top:150%;
-    grid-template-columns: 1fr; /* Jedna kolumna */
-    grid-template-rows: auto; /* Kolumny rosną w miarę potrzeb */
-    text-align: center; /* Wyśrodkowanie zawartości poziomo */
+    margin-top: 900px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    text-align: center;
+    padding: 0;
   }
+  
   .parent2 h3, .parent2 p {
-    font-size: 16px; 
+    font-size: 16px;
   }
 }
 
@@ -83,31 +116,28 @@
   z-index:1;
 }
 
-.section {
+
+.parent2 { 
   position: absolute;
   top: 100%; /* Początkowe położenie poza ekranem */
   left: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   background: -o-linear-gradient(240deg, #222222 15%, #373737 70%, #3c4859 94%);
   background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
   color:white;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 60px;
   z-index: 9999; /* Ustaw z-index na wartość większą niż wszystkie inne elementy */
   transition: top 0.3s; /* Dodaj płynne przejście, aby było mniej gwałtowne */
-}
-
-.parent2 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 20px; /* Dodaj odstęp między kolumnami */
-  grid-row-gap: 50px; /* Dodaj odstęp między wierszami */
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-column-gap: 200px; /* Dodaj odstęp między kolumnami */
+  grid-row-gap: 110px; /* Dodaj odstęp między wierszami */
   font-size:22px;
-  padding: 20px;
+  padding: 160px;
   }
   .parent2 h3 {
     color: rgb(90, 170, 255);
@@ -118,11 +148,9 @@
   }
   .div1Functions { grid-area: 1 / 1 / 2 / 2; }
   .div2Functions { grid-area: 1 / 2 / 2 / 3; }
-  .div3Functions { grid-area: 1 / 3 / 2 / 4; }
-  .div4Functions { grid-area: 2 / 1 / 3 / 2; }
-  .div5Functions { grid-area: 2 / 2 / 3 / 3; }
-  .div6Functions { grid-area: 2 / 3 / 3 / 4; }
-  .div7Functions { grid-area: 3 / 1 / 4 / 2; }
-  .div8Functions { grid-area: 3 / 2 / 4 / 3; }
-  .div9Functions { grid-area: 3 / 2 / 4 / 3; }
-  .div10Functions { grid-area: 3 / 3 / 4 / 4; }
+  .div3Functions { grid-area: 2 / 1 / 3 / 2; }
+  .div4Functions { grid-area: 2 / 2 / 3 / 3; }
+  .div5Functions { grid-area: 3 / 1 / 4 / 2; }
+  .div6Functions { grid-area: 3 / 2 / 4 / 3; }
+  .div7Functions { grid-area: 4 / 1 / 5 / 2; }
+  .div8Functions { grid-area: 4 / 2 / 5 / 3; }
