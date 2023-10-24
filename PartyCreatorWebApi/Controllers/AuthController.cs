@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PartyCreatorWebApi.Dtos;
@@ -30,6 +31,12 @@ namespace PartyCreatorWebApi.Controllers
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
+            return Ok(user);
+        }
+
+        [HttpGet("test"), Authorize]
+        public async Task<ActionResult<UserTemp>> GetUser()
+        {
             return Ok(user);
         }
 
