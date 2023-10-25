@@ -2,18 +2,17 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { CustomValidators } from '../custom-validators';
+import { LoginComponent } from '../login.component';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
-
-// formularz rejestracji
 export class SignupComponent {
-  public signupForm: FormGroup;
+  public signupForm: FormGroup; // formularz rejestracji
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private loginComponent: LoginComponent) {
     this.signupForm = this.createSingupForm();
   }
 
@@ -56,6 +55,10 @@ export class SignupComponent {
         validator: CustomValidators.passwordMatchValidator, // niestandardowy walidator sprawdzający, czy hasło i potwierdzenie hasła są takie same
       }
     );
+  }
+
+  toggleForm() {
+    this.loginComponent.toggleForm('signin'); // przełączenie formularza na logowanie
   }
 
   submit() {

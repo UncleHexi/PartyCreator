@@ -1,10 +1,68 @@
-<label for="email">E-mail:</label><br />
-<input id="email" type="email" [formControl]="email" />
-
-<br />
-<label for="password">Hasło:</label><br />
-<input id="password" type="password" [formControl]="password" />
-
-<p>Email: {{ email.value }}</p>
-
-<button type="button" (click)="updateEmail()">Zaloguj się</button>
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="card">
+    <div class="card-header">Logowanie</div>
+    <div class="card-body">
+      <form [formGroup]="signinForm" (submit)="submit()">
+        <div class="form-group">
+          <input
+            id="email"
+            formControlName="email"
+            type="text"
+            class="form-control"
+            placeholder="Wpisz email"
+          />
+          <div
+            *ngIf="
+              signinForm.controls['email'].invalid &&
+              (signinForm.controls['email'].dirty ||
+                signinForm.controls['email'].touched)
+            "
+          >
+            <!-- <label
+                class="text-danger"
+                *ngIf="signinForm.controls['email'].hasError('required')"
+              >
+                Email jest wymagany!
+              </label> -->
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="Wpisz hasło"
+          />
+          <div
+            *ngIf="
+              signinForm.controls['password'].invalid &&
+              (signinForm.controls['password'].dirty ||
+                signinForm.controls['password'].touched)
+            "
+          >
+            <!-- <label
+                class="text-danger"
+                *ngIf="signinForm.controls['password'].hasError('required')"
+              >
+                Hasło jest wymagane!
+              </label> -->
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="signinForm.invalid"
+          >
+            Zaloguj się
+          </button>
+        </div>
+        <br />
+        <p>Nie masz konta? <a (click)="toggleForm()">Zarejestruj się!</a></p>
+      </form>
+    </div>
+  </div>
+</div>

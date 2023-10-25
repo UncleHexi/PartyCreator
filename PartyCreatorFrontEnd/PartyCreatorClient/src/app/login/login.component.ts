@@ -11,7 +11,7 @@ export type LoginType = 'signin' | 'signup';
 // wybór między logowaniem a rejestracją
 export class LoginComponent {
   //ustawianie domyślnego formularza
-  login: LoginType = 'signup';
+  login: LoginType = 'signin';
 
   get showSignInForm() {
     return this.login === 'signin';
