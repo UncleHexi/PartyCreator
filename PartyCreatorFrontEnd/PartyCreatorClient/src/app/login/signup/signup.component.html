@@ -1,217 +1,215 @@
-<div class="container p-3">
-  <div class="offset-4 col-6">
-    <div class="card">
-      <div class="card-header">Rejestracja</div>
-      <div class="card card-body">
-        <form [formGroup]="signupForm" (submit)="submit()">
-          <!-- Pole wprowadzania imienia -->
-          <div class="form-group">
-            <input
-              id="firstName"
-              formControlName="firstName"
-              type="text"
-              placeholder="Wpisz imię"
-              class="form-control"
-            />
-            <!-- Komunikaty błędów dla niepoprawnego wprowadzenia imienia -->
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="card">
+    <div class="card-header">Rejestracja</div>
+    <div class="card-body">
+      <form [formGroup]="signupForm" (submit)="submit()">
+        <!-- Pole wprowadzania imienia -->
+        <div class="form-group">
+          <input
+            id="firstName"
+            formControlName="firstName"
+            type="text"
+            placeholder="Wpisz imię"
+            class="form-control"
+          />
+          <!-- Komunikaty błędów dla niepoprawnego wprowadzenia imienia -->
+          <div
+            *ngIf="
+              signupForm.controls['firstName'].invalid &&
+              (signupForm.controls['firstName'].dirty ||
+                signupForm.controls['firstName'].touched)
+            "
+          >
+            <label
+              class="text-danger"
+              *ngIf="signupForm.controls['firstName'].hasError('required')"
+            >
+              Imię jest wymagane!
+            </label>
+            <label
+              class="text-danger"
+              *ngIf="signupForm.controls['firstName'].hasError('pattern')"
+            >
+              Imię jest niepoprawne!
+            </label>
+          </div>
+        </div>
+        <br />
+        <!-- Pole wprowadzania nazwiska -->
+        <div class="form-group">
+          <input
+            id="lastName"
+            formControlName="lastName"
+            type="text"
+            class="form-control"
+            placeholder="Wpisz nazwisko"
+          />
+          <!-- Komunikaty błędów dla niepoprawnego wprowadzenia nazwiska -->
+          <div
+            *ngIf="
+              signupForm.controls['lastName'].invalid &&
+              (signupForm.controls['lastName'].dirty ||
+                signupForm.controls['lastName'].touched)
+            "
+          >
+            <label
+              class="text-danger"
+              *ngIf="signupForm.controls['lastName'].hasError('required')"
+            >
+              Nazwisko jest wymagane
+            </label>
+            <label
+              class="text-danger"
+              *ngIf="signupForm.controls['lastName'].hasError('pattern')"
+            >
+              Nazwisko jest niepoprawne!
+            </label>
+          </div>
+        </div>
+        <br />
+        <!-- Pole wprowadzania adresu e-mail -->
+        <div class="form-group">
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            class="form-control"
+            placeholder="Wpisz e-mail"
+          />
+          <!-- Komunikaty błędów dla niepoprawnego wprowadzenia adresu e-mail -->
+          <div
+            *ngIf="
+              signupForm.controls['email'].invalid &&
+              (signupForm.controls['email'].dirty ||
+                signupForm.controls['email'].touched)
+            "
+          >
+            <label
+              class="text-danger"
+              *ngIf="signupForm.controls['email'].hasError('required')"
+            >
+              E-mail jest wymagany
+            </label>
+            <label
+              class="text-danger"
+              *ngIf="signupForm.controls['email'].hasError('email')"
+            >
+              E-mail jest niepoprawny
+            </label>
+          </div>
+        </div>
+        <br />
+        <!-- Pole wprowadzania hasła -->
+        <div class="form-group">
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            class="form-control"
+            placeholder="Wpisz hasło"
+          />
+          <!-- Komunikaty błędów dla niepoprawnego wprowadzenia hasła -->
+          <div
+            *ngIf="
+              signupForm.controls['password'].invalid &&
+              (signupForm.controls['password'].dirty ||
+                signupForm.controls['password'].touched)
+            "
+          >
             <div
               *ngIf="
-                signupForm.controls['firstName'].invalid &&
-                (signupForm.controls['firstName'].dirty ||
-                  signupForm.controls['firstName'].touched)
+                signupForm.controls['password'].hasError('required') ||
+                signupForm.controls['password'].hasError('minlength')
               "
             >
-              <label
-                class="text-danger"
-                *ngIf="signupForm.controls['firstName'].hasError('required')"
-              >
-                Imię jest wymagane!
+              <label class="text-danger">
+                Musi zawierać co najmniej 8 znaków!
               </label>
-              <label
-                class="text-danger"
-                *ngIf="signupForm.controls['firstName'].hasError('pattern')"
-              >
-                Imię jest niepoprawne!
+            </div>
+            <div
+              *ngIf="
+                signupForm.controls['password'].hasError('required') ||
+                signupForm.controls['password'].hasError('hasNumber')
+              "
+            >
+              <label class="text-danger">
+                Musi zawierać co najmniej 1 cyfrę!
+              </label>
+            </div>
+            <div
+              *ngIf="
+                signupForm.controls['password'].hasError('required') ||
+                signupForm.controls['password'].hasError('hasCapitalCase')
+              "
+            >
+              <label class="text-danger">
+                Musi zawierać co najmniej 1 wielką literę!
+              </label>
+            </div>
+            <div
+              *ngIf="
+                signupForm.controls['password'].hasError('required') ||
+                signupForm.controls['password'].hasError('hasSmallCase')
+              "
+            >
+              <label class="text-danger">
+                Musi zawierać co najmniej 1 małą literę!
               </label>
             </div>
           </div>
-          <br />
-          <!-- Pole wprowadzania nazwiska -->
-          <div class="form-group">
-            <input
-              id="lastName"
-              formControlName="lastName"
-              type="text"
-              class="form-control"
-              placeholder="Wpisz nazwisko"
-            />
-            <!-- Komunikaty błędów dla niepoprawnego wprowadzenia nazwiska -->
-            <div
+        </div>
+        <br />
+        <!-- Pole wprowadzania potwierdzenia hasła -->
+        <div class="form-group">
+          <input
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            type="password"
+            class="form-control"
+            placeholder="Potwierdź hasło"
+          />
+          <!-- Komunikaty błędów dla niepoprawnego wprowadzenia potwierdzenia hasła -->
+          <div
+            *ngIf="
+              signupForm.controls['confirmPassword'].invalid &&
+              (signupForm.controls['confirmPassword'].dirty ||
+                signupForm.controls['confirmPassword'].touched)
+            "
+          >
+            <label
+              class="text-danger"
               *ngIf="
-                signupForm.controls['lastName'].invalid &&
-                (signupForm.controls['lastName'].dirty ||
-                  signupForm.controls['lastName'].touched)
+                signupForm.controls['confirmPassword'].hasError('required')
               "
             >
-              <label
-                class="text-danger"
-                *ngIf="signupForm.controls['lastName'].hasError('required')"
-              >
-                Nazwisko jest wymagane
-              </label>
-              <label
-                class="text-danger"
-                *ngIf="signupForm.controls['lastName'].hasError('pattern')"
-              >
-                Nazwisko jest niepoprawne!
-              </label>
-            </div>
-          </div>
-          <br />
-          <!-- Pole wprowadzania adresu e-mail -->
-          <div class="form-group">
-            <input
-              id="email"
-              formControlName="email"
-              type="email"
-              class="form-control"
-              placeholder="Wpisz e-mail"
-            />
-            <!-- Komunikaty błędów dla niepoprawnego wprowadzenia adresu e-mail -->
-            <div
+              Potwierdzenie hasła jest wymagane
+            </label>
+            <label
+              class="text-danger"
               *ngIf="
-                signupForm.controls['email'].invalid &&
-                (signupForm.controls['email'].dirty ||
-                  signupForm.controls['email'].touched)
+                signupForm.controls['confirmPassword'].hasError(
+                  'NoPasswordMatch'
+                )
               "
             >
-              <label
-                class="text-danger"
-                *ngIf="signupForm.controls['email'].hasError('required')"
-              >
-                E-mail jest wymagany
-              </label>
-              <label
-                class="text-danger"
-                *ngIf="signupForm.controls['email'].hasError('email')"
-              >
-                E-mail jest niepoprawny
-              </label>
-            </div>
+              Hasła muszą być takie same
+            </label>
           </div>
-          <br />
-          <!-- Pole wprowadzania hasła -->
-          <div class="form-group">
-            <input
-              id="password"
-              formControlName="password"
-              type="password"
-              class="form-control"
-              placeholder="Wpisz hasło"
-            />
-            <!-- Komunikaty błędów dla niepoprawnego wprowadzenia hasła -->
-            <div
-              *ngIf="
-                signupForm.controls['password'].invalid &&
-                (signupForm.controls['password'].dirty ||
-                  signupForm.controls['password'].touched)
-              "
-            >
-              <div
-                *ngIf="
-                  signupForm.controls['password'].hasError('required') ||
-                  signupForm.controls['password'].hasError('minlength')
-                "
-              >
-                <label class="text-danger">
-                  Musi zawierać co najmniej 8 znaków!
-                </label>
-              </div>
-              <div
-                *ngIf="
-                  signupForm.controls['password'].hasError('required') ||
-                  signupForm.controls['password'].hasError('hasNumber')
-                "
-              >
-                <label class="text-danger">
-                  Musi zawierać co najmniej 1 cyfrę!
-                </label>
-              </div>
-              <div
-                *ngIf="
-                  signupForm.controls['password'].hasError('required') ||
-                  signupForm.controls['password'].hasError('hasCapitalCase')
-                "
-              >
-                <label class="text-danger">
-                  Musi zawierać co najmniej 1 wielką literę!
-                </label>
-              </div>
-              <div
-                *ngIf="
-                  signupForm.controls['password'].hasError('required') ||
-                  signupForm.controls['password'].hasError('hasSmallCase')
-                "
-              >
-                <label class="text-danger">
-                  Musi zawierać co najmniej 1 małą literę!
-                </label>
-              </div>
-            </div>
-          </div>
-          <br />
-          <!-- Pole wprowadzania potwierdzenia hasła -->
-          <div class="form-group">
-            <input
-              id="confirmPassword"
-              formControlName="confirmPassword"
-              type="password"
-              class="form-control"
-              placeholder="Potwierdź hasło"
-            />
-            <!-- Komunikaty błędów dla niepoprawnego wprowadzenia potwierdzenia hasła -->
-            <div
-              *ngIf="
-                signupForm.controls['confirmPassword'].invalid &&
-                (signupForm.controls['confirmPassword'].dirty ||
-                  signupForm.controls['confirmPassword'].touched)
-              "
-            >
-              <label
-                class="text-danger"
-                *ngIf="
-                  signupForm.controls['confirmPassword'].hasError('required')
-                "
-              >
-                Potwierdzenie hasła jest wymagane
-              </label>
-              <label
-                class="text-danger"
-                *ngIf="
-                  signupForm.controls['confirmPassword'].hasError(
-                    'NoPasswordMatch'
-                  )
-                "
-              >
-                Hasła muszą być takie same
-              </label>
-            </div>
-          </div>
-          <br />
-          <!-- Przycisk wysyłający formularz -->
-          <div class="form-group">
-            <button
-              type="submit"
-              class="btn btn-primary btn-block"
-              [disabled]="!signupForm.valid"
-            >
-              Zarejestruj się
-            </button>
-          </div>
-          <br />
-          <p>Masz już konto? <a (click)="toggleForm()">Zaloguj się!</a></p>
-        </form>
-      </div>
+        </div>
+        <br />
+        <!-- Przycisk wysyłający formularz -->
+        <div class="form-group">
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            [disabled]="!signupForm.valid"
+          >
+            Zarejestruj się
+          </button>
+        </div>
+        <br />
+        <p>Masz już konto? <a (click)="toggleForm()">Zaloguj się!</a></p>
+      </form>
     </div>
   </div>
 </div>

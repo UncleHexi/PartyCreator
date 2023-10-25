@@ -29,6 +29,6 @@ export class SigninComponent implements OnInit {
   }
 
   submit() {
-    this.loginComponent.toggleForm('signup'); // przełączenie formularza na rejestrację
+    this.signinForm.reset(); // resetowanie formularza po jego złożeniu
   }
 }
