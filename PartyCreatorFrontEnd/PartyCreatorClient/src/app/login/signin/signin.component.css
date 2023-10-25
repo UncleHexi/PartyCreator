@@ -1,7 +1,10 @@
 .card {
   width: 380px;
+  margin-top: 27vh;
 }
 
 a {
   cursor: pointer;
+  text-decoration: underline !important;
+  color: #0366d6 !important;
 }
