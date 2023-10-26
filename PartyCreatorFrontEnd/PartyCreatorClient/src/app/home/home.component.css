@@ -26,13 +26,20 @@
   grid-area: 2 / 1 / 3 / 2;
   text-align:center;
   color: black; 
-  top: 90%;
-  left:22%;
+  top: 94%;
+  left:30%;
 }
 
 .div1 p, .div2 p{
   margin-top:5%;
 }
+
+.btnregister{
+  margin-top:2%;
+  font-size: 24px;
+  padding: 15px 15px;
+}
+
 .background {
 position: fixed;
 top: 0;
@@ -73,22 +80,55 @@ z-index: 9999; /* Ustaw z-index na wartość większą niż wszystkie inne eleme
 transition: top 0.3s; /* Dodaj płynne przejście, aby było mniej gwałtowne */
 display: grid;
 grid-template-columns: repeat(2, 1fr);
-grid-template-rows: repeat(5, 1fr);
+grid-template-rows: repeat(4, 1fr);
 grid-column-gap: 200px; /* Dodaj odstęp między kolumnami */
-grid-row-gap: 110px; /* Dodaj odstęp między wierszami */
+grid-row-gap: 165px; /* Dodaj odstęp między wierszami */
 font-size:22px;
-padding: 160px;
-}
-.parent2 h3 {
-  color: rgb(90, 170, 255);
-  text-align: center; /* Wyśrodkowanie poziome */
-}
-.parent2 p{
-  font-size:18px;
+padding: 120px;
 }
 
 .div1Functions, .div1Functions, .div2Functions, .div3Functions, .div4Functions, .div5Functions, .div6Functions, .div7Functions, .div8Functions{
   grid-area:auto;
+  background-color:pink;
+  margin: auto;
+  width: 100%;
+  height:100%;
+  padding-top:5%;
+  padding-left:5%;
+  padding-right:5%;
+  border-radius:1%;
+}
+.div1Functions{
+  background-color:#99cc33;
+}
+.div2Functions{
+  background-color:#8fcffd;
+}
+.div3Functions{
+  background-color:#996666;
+}
+.div4Functions{
+  background-color:#c08cbd;
+}
+.div5Functions{
+  background-color:#a79e63;
+}
+.div6Functions{
+  background-color:#974949;
+}
+.div7Functions{
+  background-color:#7f5992;
+}
+.div8Functions{
+  background-color:#4b67a0;
+}
+.parent2 h3 {
+  color: black;
+  text-align: center; 
+  font-weight:bold;
+}
+.parent2 p{
+  font-size:24px;
 }
 
 @media (max-width: 768px) {
