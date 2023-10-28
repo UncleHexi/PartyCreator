@@ -1,0 +1,91 @@
+body {
+  background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
+color: aliceblue;
+}
+.container {  
+    padding-top:3%;
+    padding-bottom:1%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "upcomingEvents upcomingEvents calendar"
+      "yourEvents yourEvents calendar";
+  }
+  
+  .upcomingEvents { 
+    grid-area: upcomingEvents; }
+  
+  .yourEvents {
+     grid-area: yourEvents;
+     }
+  
+  .calendar { 
+    grid-area: calendar;
+    padding:0px; 
+}
+.container2 {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.25fr 1fr 1fr 0.5fr;
+    gap: 15px 15px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
+      "Event1 Event2 Event3"
+      "Event4 Event5 Event6"
+      "MoreEventsText MoreEventsText MoreEventsText";
+  }
+  
+  .UpcomingEventsText {
+     grid-area: UpcomingEventsText; 
+    text-align: center;
+}
+
+  .MoreEventsText { 
+    grid-area: MoreEventsText;
+    text-align: right;
+    margin-right:5%;
+}
+
+  .Event2 {  background-color:#2d394c; }
+  
+
+  .Event1, .Event2,.Event3,.Event4,.Event5,.Event6{
+    grid-area:auto;
+    padding:4%;
+    border-radius:3%;
+    background-color:#3c4859;
+}
+.Event1 h4, .Event2 h4,.Event3 h4,.Event4 h4,.Event5 h4,.Event6 h4{
+        text-align:center;
+    }
+.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button{
+    float:right;
+}
+.container3 {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 0.25fr 1fr;
+    gap: 15px 15px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
+      "YourEvent1 YourEvent2 YourEvent3";
+  }
+  
+  .UpcomingEventsText { grid-area: UpcomingEventsText; }
+  
+  .YourEvent1 { grid-area: YourEvent1; }
+  
+  .YourEvent2 { grid-area: YourEvent2; }
+  
+  .YourEvent3 { grid-area: YourEvent3; }
+  
+  .YourEvent1, .YourEvent2, .YourEvent3{
+    grid-area:auto;
+    padding:4%;
+    border-radius:3%;
+    background-color:#3c4859;
+  }
+  
