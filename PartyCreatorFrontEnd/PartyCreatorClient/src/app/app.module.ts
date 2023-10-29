@@ -14,6 +14,7 @@ import { SigninComponent } from './login/signin/signin.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MainComponent } from './main/main.component';
 import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
     SigninComponent,
     MainComponent,
     NavMenuMainComponent,
+    NotificationsComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
   providers: [],

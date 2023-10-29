@@ -22,8 +22,16 @@
                 [routerLinkActiveOptions]="{ exact: true }">
               <a class="nav-link text-white" [routerLink]="">Home</a>
             </li>
-            <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-white" [routerLink]="['/counter']"> <fa-icon [icon]="faBell" style="color:white;" size="lg"></fa-icon></a>
+            <li class="nav-item">
+              <a class="nav-link text-white">
+                
+                  <fa-icon [icon]="faBell" 
+                    style="color:white;" 
+                    size="lg" 
+                    (click)="showNotifications()">
+                  </fa-icon>
+
+              </a>
             </li>
             <li class="nav-item" [routerLinkActive]="['/']">
               <a class="nav-link text-white" [routerLink]="">Po logowaniu</a>
@@ -36,7 +44,6 @@
       </div>
     </nav>
 </header>
-  
-  
-  
-  
+<body>
+  <app-notifications *ngIf="isNotificationVisible"></app-notifications>
+</body>
