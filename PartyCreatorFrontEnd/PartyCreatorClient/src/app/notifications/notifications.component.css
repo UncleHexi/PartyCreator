@@ -1,0 +1,12 @@
+body {
+    background-color:#79e1f1;
+    position: absolute;
+    top: 60px;
+    left:60%;
+    right: 5%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+    z-index: 999; 
+    padding:100px;
+    text-align:center;
+    font-weight:bold;
+  }

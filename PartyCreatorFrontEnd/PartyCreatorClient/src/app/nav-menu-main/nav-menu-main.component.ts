@@ -23,4 +23,10 @@ export class  NavMenuMainComponent{
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+
+  public isNotificationVisible: boolean = false;
+
+  public showNotifications() {
+    this.isNotificationVisible = true;
+  }
 }
