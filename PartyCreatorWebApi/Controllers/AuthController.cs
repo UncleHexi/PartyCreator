@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PartyCreatorWebApi.Dtos;
+using PartyCreatorWebApi.Entities;
+using PartyCreatorWebApi.Repositories.Contracts;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -15,10 +17,12 @@ namespace PartyCreatorWebApi.Controllers
     {
         public static UserTemp user = new UserTemp();
         private readonly IConfiguration _configuration;
+        private readonly IUsersRepository _usersRepository;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration, IUsersRepository usersRepository)
         {
             _configuration = configuration;
+            _usersRepository = usersRepository;
         }
 
         [HttpPost("register")]
@@ -27,11 +31,22 @@ namespace PartyCreatorWebApi.Controllers
             CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             //tutaj zamiast tego bedzie wpisywanie tego do bazy danych
-            user.Email = request.Email;
+            /*user.Email = request.Email;
             user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            user.PasswordSalt = passwordSalt;*/
 
-            return Ok(user);
+            User dupauser = new User
+            {
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Description = request.Description,
+                Birthday = request.Birthday,
+                Email = request.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = passwordSalt
+            };
+
+            return Ok(await _usersRepository.AddUser(dupauser));
         }
 
         [HttpGet("test"), Authorize]
