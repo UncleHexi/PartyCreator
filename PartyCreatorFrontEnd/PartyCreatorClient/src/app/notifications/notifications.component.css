@@ -1,12 +1,41 @@
-body {
-    background-color:#79e1f1;
-    position: absolute;
-    top: 60px;
-    left:60%;
-    right: 5%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-    z-index: 999; 
-    padding:100px;
-    text-align:center;
-    font-weight:bold;
-  }
+body{
+  background-color:#ffffff;
+  position: absolute;
+  top: 60px;
+  left:60%;
+  right: 5%;
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.2); 
+  z-index: 999; 
+  height:25%;
+  border-radius:2%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px; 
+}
+.notificationsName{
+   background-color:#acacac;
+  font-weight:bold;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: 2px solid black;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px; 
+}
+.notificationsName p {
+  padding-top:5px;
+  font-size:20px;
+  margin-bottom:5px;;
+}
+
+.notificationsAll{
+  padding:10%;
+  font-weight:bold;
+  text-align:center;
+  font-size:18px;
+}
+.quitButton {
+position: absolute;
+top: 0;
+right: 0;
+padding: 10px
+}
