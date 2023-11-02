@@ -1,5 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
+import { EventEmitter, Output } from '@angular/core';
 
 //icons
 import { faBell } from '@fortawesome/free-solid-svg-icons';
@@ -11,22 +12,20 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 })
 
 export class  NavMenuMainComponent{
-
   faBell = faBell;
-
   isExpanded = false;
-
-  collapse() {
-    this.isExpanded = false;
-  }
+  isNotificationVisible: boolean = false;
+  @Output() hideNotificationsEvent = new EventEmitter<void>();
 
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
 
-  public isNotificationVisible: boolean = false;
-
-  public showNotifications() {
+  showNotifications() {
     this.isNotificationVisible = true;
+  }
+
+  hideNotifications() {
+    this.isNotificationVisible = false;
   }
 }

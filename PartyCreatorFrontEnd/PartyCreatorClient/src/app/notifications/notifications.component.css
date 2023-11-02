@@ -1,8 +1,8 @@
 body{
-  background-color:#ffffff;
+  background-color:#222222;
   position: absolute;
   top: 60px;
-  left:60%;
+  left:62%;
   right: 5%;
   box-shadow: 0 0 100px rgba(0, 0, 0, 0.2); 
   z-index: 999; 
@@ -12,7 +12,7 @@ body{
   border-top-right-radius: 10px; 
 }
 .notificationsName{
-   background-color:#acacac;
+   background-color:#222222;
   font-weight:bold;
   display: flex;
   justify-content: center;
@@ -24,7 +24,8 @@ body{
 .notificationsName p {
   padding-top:5px;
   font-size:20px;
-  margin-bottom:5px;;
+  margin-bottom:5px;
+  color:white;
 }
 
 .notificationsAll{
@@ -32,10 +33,11 @@ body{
   font-weight:bold;
   text-align:center;
   font-size:18px;
+   color:white;
 }
 .quitButton {
 position: absolute;
 top: 0;
 right: 0;
-padding: 10px
+padding: 10px;
 }
