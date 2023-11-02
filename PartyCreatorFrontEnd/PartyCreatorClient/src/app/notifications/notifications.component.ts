@@ -7,4 +7,10 @@ import { faX } from '@fortawesome/free-solid-svg-icons';
 })
 export class NotificationsComponent {
   faX = faX;
+  
+  isVisible: boolean = true;
+
+  hideNotifications() {
+    this.isVisible = false;
+  }
 }
