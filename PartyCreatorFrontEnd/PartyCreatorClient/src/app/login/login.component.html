@@ -1,8 +1,6 @@
 <body>
   <app-nav-menu></app-nav-menu>
 
-  <div class="container">
-    <app-signin *ngIf="showSignInForm"></app-signin>
-    <app-signup *ngIf="showSignUpForm"></app-signup>
-  </div>
+  <app-signin *ngIf="showSignInForm"></app-signin>
+  <app-signup *ngIf="showSignUpForm"></app-signup>
 </body>

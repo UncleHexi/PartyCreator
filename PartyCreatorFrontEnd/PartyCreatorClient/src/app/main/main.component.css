@@ -1,6 +1,6 @@
 body {
   background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
-color: aliceblue;
+  color: aliceblue;
 }
 .container {  
     padding-top:3%;
@@ -16,7 +16,8 @@ color: aliceblue;
   }
   
   .upcomingEvents { 
-    grid-area: upcomingEvents; }
+    grid-area: upcomingEvents; 
+  }
   
   .yourEvents {
      grid-area: yourEvents;
@@ -52,16 +53,18 @@ color: aliceblue;
   .Event2 {  background-color:#2d394c; }
   
 
-  .Event1, .Event2,.Event3,.Event4,.Event5,.Event6{
+  .Event1, .Event2,.Event3,.Event4,.Event5,.Event6, .YourEvent1, .YourEvent2, .YourEvent3{
+    color: black;
     grid-area:auto;
     padding:4%;
     border-radius:3%;
-    background-color:#3c4859;
+    background-color:#70bded;
 }
 .Event1 h4, .Event2 h4,.Event3 h4,.Event4 h4,.Event5 h4,.Event6 h4{
         text-align:center;
+        font-weight:bold;
     }
-.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button{
+.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button, .YourEvent1, .YourEvent2, .YourEvent3 {
     float:right;
 }
 .container3 {  display: grid;
@@ -81,11 +84,4 @@ color: aliceblue;
   .YourEvent2 { grid-area: YourEvent2; }
   
   .YourEvent3 { grid-area: YourEvent3; }
-  
-  .YourEvent1, .YourEvent2, .YourEvent3{
-    grid-area:auto;
-    padding:4%;
-    border-radius:3%;
-    background-color:#3c4859;
-  }
   
