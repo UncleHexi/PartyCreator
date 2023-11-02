@@ -31,4 +31,19 @@ export class SigninComponent implements OnInit {
   submit() {
     this.signinForm.reset(); // resetowanie formularza po jego złożeniu
   }
+
+  eyeIcon = 'fa-eye-slash'; // ikona ukrywania hasła
+
+  hideShowPass() {
+    // pokazywanie/ukrywanie hasła
+
+    var x = document.getElementById('password');
+    if (x!.getAttribute('type') == 'password') {
+      x!.setAttribute('type', 'text');
+      this.eyeIcon = 'fa-eye';
+    } else {
+      x!.setAttribute('type', 'password');
+      this.eyeIcon = 'fa-eye-slash';
+    }
+  }
 }
