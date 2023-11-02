@@ -75,7 +75,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginDto request)
+        public async Task<ActionResult<TempDto>> Login(LoginDto request)
         {
             var result = await _usersRepository.GetUserByEmail(request.Email);
 
@@ -90,7 +90,24 @@ namespace PartyCreatorWebApi.Controllers
             }
 
             string token = _authRepository.CreateToken(result);
-            return Ok(token);
+
+            UserDto userDto = new UserDto
+            {
+                Id = 5,
+                FirstName = token,
+                LastName = "test",
+                Description = "test",
+                Birthday = "test",
+                Email = "test"
+            };
+
+            TempDto tempDto = new TempDto
+            {
+                tokenDto = token,
+                message = "test"
+            };
+
+            return Ok(tempDto);
         }
     }
 }

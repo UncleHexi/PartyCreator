@@ -1,18 +1,21 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginComponent } from '../login.component';
+import { LoginDto } from 'src/app/interfaces/login-dto';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.css'],
 })
-export class SigninComponent implements OnInit {
-  ngOnInit(): void {}
-
+export class SigninComponent {
   public signinForm: FormGroup; // formularz logowania
+  credentials: LoginDto = {email:'', password:''};
 
-  constructor(private fb: FormBuilder, private loginComponent: LoginComponent) {
+  constructor(private fb: FormBuilder, private loginComponent: LoginComponent, private auth: AuthService, private router: Router) {
     this.signinForm = this.createSigninForm();
   }
 
@@ -29,7 +32,22 @@ export class SigninComponent implements OnInit {
   }
 
   submit() {
-    this.signinForm.reset(); // resetowanie formularza po jego złożeniu
+    this.credentials.email=this.signinForm.value.email;
+    this.credentials.password=this.signinForm.value.password;
+    console.log("before subscribe");
+    this.auth.signIn(this.credentials)
+    .subscribe({
+      next: (res) => {
+        console.log("test czy dziala"); //test
+        console.log(res.token);
+        this.signinForm.reset(); // resetowanie formularza po jego złożeniu
+        this.router.navigate(['main']);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.error("HTTP Status Code", err.status); //test
+      }
+    })
+    console.log("after subscribe");
   }
 
   eyeIcon = 'fa-eye-slash'; // ikona ukrywania hasła

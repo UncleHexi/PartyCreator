@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { CustomValidators } from '../custom-validators';
 import { LoginComponent } from '../login.component';
+import { RegisterDto } from 'src/app/interfaces/register-dto';
+import { AuthService } from 'src/app/services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-signup',
@@ -11,8 +14,9 @@ import { LoginComponent } from '../login.component';
 })
 export class SignupComponent {
   public signupForm: FormGroup; // formularz rejestracji
+  credentials: RegisterDto= {firstName:'',lastName:'',email:'',password:''}
 
-  constructor(private fb: FormBuilder, private loginComponent: LoginComponent) {
+  constructor(private fb: FormBuilder, private loginComponent: LoginComponent, private auth: AuthService) {
     this.signupForm = this.createSingupForm();
   }
 
@@ -62,6 +66,24 @@ export class SignupComponent {
   }
 
   submit() {
-    this.signupForm.reset(); // resetowanie formularza po jego złożeniu
+    this.credentials.firstName=this.signupForm.value.firstName;
+    this.credentials.lastName=this.signupForm.value.lastName;
+    this.credentials.email=this.signupForm.value.email;
+    this.credentials.password=this.signupForm.value.password;
+
+    this.auth.signUp(this.credentials)
+    .subscribe({
+      next: (res) => {
+        console.log(res.id); //test
+        console.log(res.firstName); //test
+        console.log(res.lastName); //test
+        console.log(res.email); //test
+        this.signupForm.reset(); //resetowanie formularza po jego złożeniu
+        this.toggleForm(); //zmiana formularza z rejestracji na logowanie
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err?.error.message);
+      }
+    })
   }
 }

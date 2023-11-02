@@ -15,6 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MainComponent } from './main/main.component';
 import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,14 @@ import { NotificationsComponent } from './notifications/notifications.component'
     NavMenuMainComponent,
     NotificationsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
