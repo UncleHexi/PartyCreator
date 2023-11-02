@@ -25,16 +25,16 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserTemp>> Register(UserDto request)
-        {
-            _authRepository.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            
+        public async Task<ActionResult<UserDto>> Register(RegisterDto request)
+        {   
             var result = await _usersRepository.GetUserByEmail(request.Email);
 
             if (result != null)
             {
                 return BadRequest("Użytkownik o takim email już istnieje");
             }
+
+            _authRepository.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User user = new User
             {
@@ -47,13 +47,31 @@ namespace PartyCreatorWebApi.Controllers
                 PasswordSalt = passwordSalt
             };
 
-            return Ok(await _usersRepository.AddUser(user));
+            var addedUser = await _usersRepository.AddUser(user);
+
+            if(addedUser==null)
+            {
+                return BadRequest("Wystapil problem, nie udalo sie zarejestrowac");
+            }
+
+            UserDto userDto = new UserDto
+            {
+                Id = addedUser.Id,
+                FirstName = addedUser.FirstName,
+                LastName = addedUser.LastName,
+                Description = addedUser.Description,
+                Birthday = addedUser.Birthday,
+                Email = addedUser.Email
+            };
+
+            return Ok(userDto);
         }
 
-        [HttpGet("test"), Authorize]
-        public async Task<ActionResult<UserTemp>> GetUser()
+        [HttpGet, Authorize]
+        public ActionResult<string> GetMe()
         {
-            return Ok();
+            var userId = _usersRepository.GetUserIdFromContext();
+            return Ok(userId);
         }
 
         [HttpPost("login")]
