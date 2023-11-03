@@ -15,27 +15,28 @@ namespace PartyCreatorWebApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static UserTemp user = new UserTemp();
-        private readonly IConfiguration _configuration;
+        private readonly IAuthRepository _authRepository;
         private readonly IUsersRepository _usersRepository;
 
-        public AuthController(IConfiguration configuration, IUsersRepository usersRepository)
+        public AuthController(IAuthRepository authRepository ,IUsersRepository usersRepository)
         {
-            _configuration = configuration;
+            _authRepository = authRepository;
             _usersRepository = usersRepository;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserTemp>> Register(UserDto request)
-        {
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        public async Task<ActionResult<UserDto>> Register(RegisterDto request)
+        {   
+            var result = await _usersRepository.GetUserByEmail(request.Email);
 
-            //tutaj zamiast tego bedzie wpisywanie tego do bazy danych
-            /*user.Email = request.Email;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;*/
+            if (result != null)
+            {
+                return BadRequest("Użytkownik o takim email już istnieje");
+            }
 
-            User dupauser = new User
+            _authRepository.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            User user = new User
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -46,72 +47,67 @@ namespace PartyCreatorWebApi.Controllers
                 PasswordSalt = passwordSalt
             };
 
-            return Ok(await _usersRepository.AddUser(dupauser));
+            var addedUser = await _usersRepository.AddUser(user);
+
+            if(addedUser==null)
+            {
+                return BadRequest("Wystapil problem, nie udalo sie zarejestrowac");
+            }
+
+            UserDto userDto = new UserDto
+            {
+                Id = addedUser.Id,
+                FirstName = addedUser.FirstName,
+                LastName = addedUser.LastName,
+                Description = addedUser.Description,
+                Birthday = addedUser.Birthday,
+                Email = addedUser.Email
+            };
+
+            return Ok(userDto);
         }
 
-        [HttpGet("test"), Authorize]
-        public async Task<ActionResult<UserTemp>> GetUser()
+        [HttpGet, Authorize]
+        public ActionResult<string> GetMe()
         {
-            return Ok(user);
+            var userId = _usersRepository.GetUserIdFromContext();
+            return Ok(userId);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto request)
+        public async Task<ActionResult<TempDto>> Login(LoginDto request)
         {
-            if(user.Email != request.Email)
+            var result = await _usersRepository.GetUserByEmail(request.Email);
+
+            if(result == null)
             {
-                return BadRequest("Nie znaleziono uzytkownika");
+                return BadRequest("Nie znaleziono użytkownika");
             }
 
-            if(!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt)) //tutaj hash i salt z bazy
+            if(!_authRepository.VerifyPasswordHash(request.Password, result.PasswordHash, result.PasswordSalt))
             {
                 return BadRequest("Podane haslo sie nie zgadza");
             }
 
-            string token = CreateToken(user);
-            return Ok(token);
-        }
+            string token = _authRepository.CreateToken(result);
 
-        private string CreateToken(UserTemp user)
-        {
-            List<Claim> claims = new List<Claim>
+            UserDto userDto = new UserDto
             {
-                new Claim(ClaimTypes.Name, user.Email) //tutaj zmienic
+                Id = 5,
+                FirstName = token,
+                LastName = "test",
+                Description = "test",
+                Birthday = "test",
+                Email = "test"
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-                _configuration.GetSection("AppSettings:Token").Value));
-
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.Now.AddDays(1),
-                signingCredentials: creds
-                );
-
-            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return jwt;
-        }
-
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512())
+            TempDto tempDto = new TempDto
             {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-            }
-        }
+                tokenDto = token,
+                message = "test"
+            };
 
-        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
-        {
-            using (var hmac = new HMACSHA512(passwordSalt)) 
-            {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-
-                return computedHash.SequenceEqual(passwordHash);
-            }
+            return Ok(tempDto);
         }
     }
 }

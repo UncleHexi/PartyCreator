@@ -25,5 +25,7 @@ namespace PartyCreatorWebApi.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }
