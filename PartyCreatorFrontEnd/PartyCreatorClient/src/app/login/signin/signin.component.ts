@@ -34,7 +34,7 @@ export class SigninComponent {
   submit() {
     this.credentials.email=this.signinForm.value.email;
     this.credentials.password=this.signinForm.value.password;
-    console.log("before subscribe");
+    
     this.auth.signIn(this.credentials)
     .subscribe({
       next: (res) => {
@@ -47,7 +47,7 @@ export class SigninComponent {
         console.error("HTTP Status Code", err.status); //test
       }
     })
-    console.log("after subscribe");
+    
   }
 
   eyeIcon = 'fa-eye-slash'; // ikona ukrywania hasła

@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
 
 namespace PartyCreatorWebApi.Controllers
 {
@@ -75,7 +70,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<TempDto>> Login(LoginDto request)
+        public async Task<ActionResult<LoginResponseDto>> Login(LoginDto request)
         {
             var result = await _usersRepository.GetUserByEmail(request.Email);
 
@@ -91,23 +86,12 @@ namespace PartyCreatorWebApi.Controllers
 
             string token = _authRepository.CreateToken(result);
 
-            UserDto userDto = new UserDto
+            LoginResponseDto loginResponseDto = new LoginResponseDto
             {
-                Id = 5,
-                FirstName = token,
-                LastName = "test",
-                Description = "test",
-                Birthday = "test",
-                Email = "test"
+                Token = token
             };
 
-            TempDto tempDto = new TempDto
-            {
-                tokenDto = token,
-                message = "test"
-            };
-
-            return Ok(tempDto);
+            return Ok(loginResponseDto);
         }
     }
 }
