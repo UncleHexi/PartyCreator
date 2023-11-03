@@ -16,6 +16,7 @@ import { MainComponent } from './main/main.component';
 import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    NgToastModule
   ],
   providers: [],
   bootstrap: [AppComponent],

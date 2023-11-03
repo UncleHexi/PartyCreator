@@ -22,6 +22,7 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto request)
         {   
+            //sprawdz czy email juz istnieje
             var result = await _usersRepository.GetUserByEmail(request.Email);
 
             if (result != null)
@@ -29,6 +30,8 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Użytkownik o takim email już istnieje");
             }
 
+            //mozna jeszcze sprawdzic czy haslo jest o podanych wytycznych
+            //utworz password hash i salt
             _authRepository.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             User user = new User
@@ -41,7 +44,8 @@ namespace PartyCreatorWebApi.Controllers
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };
-
+            
+            //dodaj uzytkownika do bazy
             var addedUser = await _usersRepository.AddUser(user);
 
             if(addedUser==null)

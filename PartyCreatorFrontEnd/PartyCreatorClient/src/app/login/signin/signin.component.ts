@@ -5,6 +5,7 @@ import { LoginDto } from 'src/app/interfaces/login-dto';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-signin',
@@ -15,7 +16,13 @@ export class SigninComponent {
   public signinForm: FormGroup; // formularz logowania
   credentials: LoginDto = {email:'', password:''};
 
-  constructor(private fb: FormBuilder, private loginComponent: LoginComponent, private auth: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private loginComponent: LoginComponent,
+    private auth: AuthService,
+    private router: Router,
+    private toast: NgToastService
+    ) {
     this.signinForm = this.createSigninForm();
   }
 
@@ -38,13 +45,13 @@ export class SigninComponent {
     this.auth.signIn(this.credentials)
     .subscribe({
       next: (res) => {
-        console.log("test czy dziala"); //test
-        console.log(res.token);
+        this.auth.storeToken(res.token)
+        this.toast.success({detail:"SUCCESS", summary:"Udało się zalogować!",duration:5000});
         this.signinForm.reset(); // resetowanie formularza po jego złożeniu
         this.router.navigate(['main']);
       },
       error: (err: HttpErrorResponse) => {
-        console.error("HTTP Status Code", err.status); //test
+        this.toast.error({detail:"ERROR", summary:err.error, duration:5000});
       }
     })
     

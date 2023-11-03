@@ -6,6 +6,7 @@ import { LoginComponent } from '../login.component';
 import { RegisterDto } from 'src/app/interfaces/register-dto';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +17,12 @@ export class SignupComponent {
   public signupForm: FormGroup; // formularz rejestracji
   credentials: RegisterDto= {firstName:'',lastName:'',email:'',password:''}
 
-  constructor(private fb: FormBuilder, private loginComponent: LoginComponent, private auth: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private loginComponent: LoginComponent,
+    private auth: AuthService,
+    private toast: NgToastService
+    ) {
     this.signupForm = this.createSingupForm();
   }
 
@@ -74,15 +80,12 @@ export class SignupComponent {
     this.auth.signUp(this.credentials)
     .subscribe({
       next: (res) => {
-        console.log(res.id); //test
-        console.log(res.firstName); //test
-        console.log(res.lastName); //test
-        console.log(res.email); //test
+        this.toast.success({detail:"SUCCESS", summary:"Udało się stworzyć konto!",duration:5000});
         this.signupForm.reset(); //resetowanie formularza po jego złożeniu
         this.toggleForm(); //zmiana formularza z rejestracji na logowanie
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err?.error.message);
+        this.toast.error({detail:"ERROR", summary:err.error, duration:5000});
       }
     })
   }

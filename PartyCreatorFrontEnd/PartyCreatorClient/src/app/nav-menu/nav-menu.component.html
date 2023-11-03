@@ -22,15 +22,22 @@
               [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link text-white" [routerLink]="['/']">Home</a>
           </li>
+          <!--
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-white" [routerLink]="['/counter']">Wydarzenia</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-white" [routerLink]="['/main']">Po logowaniu</a>
           </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/logowanie']">Zaloguj się</a>
+          -->
+          <li *ngIf="isLoggedIn; else elseBlock" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-light" [routerLink]="['/main']">Przejdź do strony</a>
           </li>
+          <ng-template #elseBlock>
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link text-light" [routerLink]="['/logowanie']">Zaloguj się</a>
+            </li>
+          </ng-template>
         </ul>
       </div>
     </div>
