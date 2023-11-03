@@ -15,6 +15,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MainComponent } from './main/main.component';
 import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
 import { NotificationsComponent } from './notifications/notifications.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCardModule } from '@angular/material/card';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgToastModule } from 'ng-angular-popup';
 
@@ -31,16 +36,23 @@ import { NgToastModule } from 'ng-angular-popup';
     NavMenuMainComponent,
     NotificationsComponent,
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatCardModule,
+    MatNativeDateModule,
     HttpClientModule,
     NgToastModule
   ],
-  providers: [],
+  providers: [
+          {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'}],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

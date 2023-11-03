@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
-import { EventEmitter, Output } from '@angular/core';
 
 //icons
 import { faBell } from '@fortawesome/free-solid-svg-icons';
@@ -13,26 +12,27 @@ import { AuthService } from '../services/auth.service';
 })
 
 export class  NavMenuMainComponent{
+
   faBell = faBell;
+
   isExpanded = false;
-  isNotificationVisible: boolean = false;
 
   constructor(private auth: AuthService){
 
   }
 
-  @Output() hideNotificationsEvent = new EventEmitter<void>();
+  collapse() {
+    this.isExpanded = false;
+  }
 
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
 
-  showNotifications() {
-    this.isNotificationVisible = true;
-  }
+  public isNotificationVisible: boolean = false;
 
-  hideNotifications() {
-    this.isNotificationVisible = false;
+  public showNotifications() {
+    this.isNotificationVisible = true;
   }
 
   logOut(){

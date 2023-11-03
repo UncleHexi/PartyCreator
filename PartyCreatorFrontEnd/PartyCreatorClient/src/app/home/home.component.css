@@ -97,12 +97,13 @@ padding: 120px;
   padding-left:5%;
   padding-right:5%;
   border-radius:1%;
+  box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.5);
 }
 .div1Functions{
   background-color:#99cc33;
 }
 .div2Functions{
-  background-color:#8fcffd;
+  background-color:#5eb0eb;
 }
 .div3Functions{
   background-color:#996666;
@@ -163,6 +164,7 @@ padding: 120px;
     grid-row-gap: 10px; 
     font-size: 18px; 
     padding: 20px;
+    
   }
   .parent2 h3 {
     font-size: 24px; 
