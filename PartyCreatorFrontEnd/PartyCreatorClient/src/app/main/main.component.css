@@ -5,9 +5,10 @@ body, html {
 body {
   background: linear-gradient(-150deg, #222222 15%, #373737 70%, #3c4859 94%);
   color: aliceblue;
+  
 }
-.container {  
-    padding-top:3%;
+.container {  /*glowna siatka strony, podzielenie jej na wszystkie wydarzenia, swoje i kalendarz */
+    padding-top:4%;
     padding-bottom:1%;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -32,10 +33,11 @@ body {
     padding:100px; 
     
 }
-.container2 {  display: grid;
+.container2 {   /*Nadchodzace wydarzenia */
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 0.25fr 1fr 1fr ;
-    gap: 20px 20px;
+    gap: 40px 50px;
     grid-auto-flow: row;
     grid-template-areas:
       "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
@@ -56,6 +58,8 @@ body {
     grid-area:auto;
     font-size:22px;
     padding:4%;
+    width:250px;
+    height:170px;
     border-radius:3%;
     background-color:#515354;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
@@ -63,17 +67,18 @@ body {
 }
 .Event1 h4, .Event2 h4,.Event3 h4,.Event4 h4,.Event5 h4,.Event6 h4{
        color: white;
-        text-align:center;
-        font-weight:bold;
+       font-weight:bold;
     }
-.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button, .YourEvent1, .YourEvent2, .YourEvent3 {
-    float:right;
+.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button, .YourEvent1 button, .YourEvent2 button, .YourEvent3 button{
+    float:right;   
 }
-.container3 {  display: grid;
+
+.container3 { /*Twoje wydarzenia*/
+    display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 0.25fr 1fr;
-    gap: 20px 20px;
-    padding-top:5%;
+    gap: 40px 50px;
+    padding-top:20px;
     grid-auto-flow: row;
     grid-template-areas:
       "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
@@ -88,7 +93,10 @@ body {
   
   .YourEvent3 { grid-area: YourEvent3; }
   
-  .demo-inline-calendar-card {
+  .calendar{
+    padding-left:900px;
+  }
+  .calendarView {
     width: 400px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
   }
@@ -96,11 +104,11 @@ body {
   .buttonCreateEvent {
     background-color: rgb(88, 181, 23);
     border-color: rgb(88, 181, 23);
-    margin-top:10%;
     width:400px;
     height:100px;
     font-size:32px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+    margin-top:10px;
   }
 
   .btnToDetails{
@@ -109,3 +117,71 @@ body {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 
   }
+  
+  p{
+    color:white;
+    margin:5px;
+  }
+
+
+.yourEvents {
+  margin-top: 20px; 
+}
+.CreateEvent {
+  position: absolute;
+  right: 310px;
+  bottom: 170px;
+}
+
+
+/* Dodaj media query dla urządzeń o szerokości maksymalnie 768px */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr; /* Zmień na jeden kolumnę na urządzeniach mobilnych */
+    grid-template-rows: auto; /* Usuń to ograniczenie */
+    grid-template-areas:
+      "upcomingEvents"
+      "yourEvents"
+      "calendar";
+  }
+
+  .upcomingEvents, .yourEvents, .calendar {
+    padding: 45px; /* Zmniejsz wcięcie */
+  }
+  .UpcomingEventsText{
+  padding-top:5px;
+  text-align:center;
+  justify-content:center;
+  
+  }
+  .container2, .container3 {
+    display: inline-block;
+  }
+  .container3{
+    margin-top:-150px;
+  }
+  .Event1, .Event2, .Event3,  .YourEvent1, .YourEvent2, .YourEvent3 {
+    width: 100%; /* Rozciągnij elementy na całą szerokość */
+    margin-bottom: 20px; /* Dodaj odstęp między elementami */
+  }
+  .Event4, .Event5, .Event6, .YourEvent1, .YourEvent2, .YourEvent3, .calendar, .UpcomingEventsText2 {
+    display:none;
+  }
+  .calendar {
+    padding-left: 0; /* Usuń wcięcie */
+    text-align: center; /* Wyśrodkuj kalendarz */
+  }
+
+  .calendarView {
+    width: 100%; /* Rozciągnij kalendarz na całą szerokość */
+  }
+
+  .CreateEvent {
+    margin-top:-160px;
+    position: static; /* Usuń pozycjonowanie absolutne */
+    text-align: center; /* Wyśrodkuj przycisk */
+  }
+  .buttonCreateEvent{
+  width:350px;
+  }
+}
