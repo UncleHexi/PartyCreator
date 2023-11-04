@@ -102,6 +102,7 @@ padding: 120px;
 }
 .div1Functions{
   background-color:#99cc33;
+  
 }
 .div2Functions{
   background-color:#5eb0eb;
@@ -131,6 +132,14 @@ padding: 120px;
 }
 .parent2 p{
   font-size:24px;
+}
+
+app-nav-menu {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10; /* Możesz dostosować wartość z-index według potrzeb */
 }
 
 @media (max-width: 768px) {
@@ -173,4 +182,6 @@ padding: 120px;
   .parent2 > * {
     margin: 50px 0; 
   }
+
 }
+
