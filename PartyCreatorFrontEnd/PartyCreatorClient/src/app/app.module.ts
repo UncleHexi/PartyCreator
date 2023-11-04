@@ -20,8 +20,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgToastModule } from 'ng-angular-popup';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,9 @@ import { NgToastModule } from 'ng-angular-popup';
     NgToastModule
   ],
   providers: [
-          {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'}],
+    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
+    {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi: true}
+  ],
 
   bootstrap: [AppComponent],
 })

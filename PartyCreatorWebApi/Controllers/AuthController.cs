@@ -66,7 +66,7 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(userDto);
         }
 
-        [HttpGet, Authorize]
+        [HttpGet("getme"), Authorize]
         public ActionResult<string> GetMe()
         {
             var userId = _usersRepository.GetUserIdFromContext();
