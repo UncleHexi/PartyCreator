@@ -39,7 +39,8 @@ namespace PartyCreatorWebApi.Repositories
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1), //token ma waznosc 1 dzien
+                //expires: DateTime.Now.AddDays(1), //token ma waznosc 1 dzien
+                expires: DateTime.Now.AddSeconds(10), //token ma waznosc 10sekund
                 signingCredentials: creds
                 );
 
