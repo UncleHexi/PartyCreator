@@ -1,8 +1,54 @@
-<div class="dialog">
-  
-  
-  <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Zamknij</button>
-    <button mat-button mat-dialog-close cdkFocusInitial>Zapisz</button>
-  </mat-dialog-actions>
+<div style="background: linear-gradient(30deg, #222222 15%, #373737 70%, #2d323a 98%)">
+  <form (ngSubmit)="onSubmit()" #myForm="ngForm" class="eventForm">
+    <h1 class="text-center" style="padding-bottom: 10px;">Tworzenie Wydarzenia</h1>
+    <div class="form-group row" style="padding: 10px;">
+      <label for="title" class="col-3 col-form-label">Tytul</label> 
+      <div class="col-9">
+        <div class="input-group">
+          <input [(ngModel)]="eventData.title" id="title" name="title" type="text" required="required" class="form-control" placeholder="Tytul">
+        </div>
+      </div>
+    </div>
+    <div class="form-group row" style="padding: 10px;">
+      <label class="col-3 col-form-label" for="description">Opis wydarzenia</label> 
+      <div class="col-9">
+        <textarea [(ngModel)]="eventData.description" id="description" name="description" cols="40" rows="4" required="required" class="form-control" placeholder="Opis" style="resize: none;"></textarea>
+      </div>
+    </div>
+    <div class="form-group row" style="padding: 10px;">
+      <label class="col-3 col-form-label">Dodatkowe opcje wydarzenia</label> 
+      <div class="col-9">
+        <div class="custom-controls-stacked">
+          <div class="form-check form-switch">
+            <input [(ngModel)]="eventData.playlist" class="form-check-input" type="checkbox" name="checkbox" id="checkbox_0" value="true" style="margin-right: 10px;">
+            <label class="form-check-label" for="checkbox_0">Dodaj Playliste Spotify</label>
+          </div>
+        </div>
+        <div class="custom-controls-stacked">
+          <div class="form-check form-switch">
+            <input [(ngModel)]="eventData.shoppingList" class="form-check-input" type="checkbox" name="checkbox" id="checkbox_1" value="true" style="margin-right: 10px;">
+            <label class="form-check-label" for="checkbox_1">Dodaj Liste Zakupów</label>
+          </div>
+        </div>
+        <div class="custom-controls-stacked">
+          <div class="form-check form-switch">
+            <input [(ngModel)]="eventData.receipt" class="form-check-input" type="checkbox" name="checkbox" id="checkbox_2" value="true" style="margin-right: 10px;">
+            <label class="form-check-label" for="checkbox_2">Dodaj Dzielenie Się Rachunkiem</label>
+          </div>
+        </div>
+        
+      </div>
+    </div> 
+    <div class="form-group row">
+      <div class="offset-3 col-9">
+        <mat-dialog-actions align="end">
+          <button mat-button mat-dialog-close>Zamknij</button>
+          <button name="submit" type="submit" [disabled]="myForm.invalid" class="buttonCreateEvent" mat-button [mat-dialog-close]="true">Zapisz</button>
+        </mat-dialog-actions>
+      </div>
+    </div>
+  </form>
 </div>
+
+
+

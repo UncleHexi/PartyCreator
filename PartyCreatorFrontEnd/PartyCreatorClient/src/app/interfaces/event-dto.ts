@@ -2,7 +2,7 @@ export interface EventDto {
     id: number
     creatorId: number
     title: string
-    descritpion: string
+    description: string
     dateTime: Date
     city: string
     zip: string

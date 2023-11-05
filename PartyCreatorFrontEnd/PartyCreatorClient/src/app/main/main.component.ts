@@ -17,7 +17,7 @@ export class MainComponent implements OnInit {
   faArrowRight = faArrowRight;
   selected: Date | null;
   myEvents: EventDto[] = [];
-
+  
   constructor(private event: EventService, public dialog: MatDialog) {
     this.selected = null;
   }
@@ -27,11 +27,19 @@ export class MainComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(EventModalComponent, {
-      width: '70%',
+    const dialogRef = this.dialog.open(EventModalComponent, {
+      width: '50%',
       minWidth: '700px',
     });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if(!!res)
+      {
+        this.getMyEvents();
+      }
+    })
   }
+
 
   test(){
     this.event.getMe()

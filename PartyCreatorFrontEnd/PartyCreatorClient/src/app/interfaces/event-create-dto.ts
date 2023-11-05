@@ -1,6 +1,6 @@
 export interface EventCreateDto {
     title: string
-    descritpion: string
+    description: string
     dateTime: Date
     city: string
     zip: string
