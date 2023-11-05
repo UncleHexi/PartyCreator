@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 export type LoginType = 'signin' | 'signup';
 
@@ -9,9 +10,17 @@ export type LoginType = 'signin' | 'signup';
 })
 
 // wybór między logowaniem a rejestracją
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   //ustawianie domyślnego formularza
-  login: LoginType = 'signin';
+  login: string = '';
+
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.authService.currentLoginType.subscribe((type) => {
+      this.login = type;
+    });
+  }
 
   get showSignInForm() {
     return this.login === 'signin';

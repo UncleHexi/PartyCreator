@@ -2,15 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 //icons
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
-import { faAnglesDown, faCalendarPlus, faPhotoFilm, faMoneyBillTransfer, faUserPlus, faSquarePollVertical, faPersonCircleQuestion, faListCheck, faComments } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAnglesDown,
+  faCalendarPlus,
+  faPhotoFilm,
+  faMoneyBillTransfer,
+  faUserPlus,
+  faSquarePollVertical,
+  faPersonCircleQuestion,
+  faListCheck,
+  faComments,
+} from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 //icons
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
   title = 'PartyCreatorClient';
   //icons
@@ -31,7 +40,7 @@ export class HomeComponent implements OnInit {
   messages: { user: string; text: string }[] = [];
   isLoggedIn = false;
 
-  constructor(private auth:AuthService) {}
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -44,7 +53,7 @@ export class HomeComponent implements OnInit {
       this.messages.push({ user, text });
     });
 
-    this.isLoggedIn=this.auth.isLoggedIn();
+    this.isLoggedIn = this.auth.isLoggedIn();
   }
 
   sendMessage() {
@@ -54,10 +63,16 @@ export class HomeComponent implements OnInit {
     this.message = '';
   }
 
-scrollToElement($element: HTMLElement): void {
-  console.log($element);
-  $element.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
-}
+  scrollToElement($element: HTMLElement): void {
+    console.log($element);
+    $element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
+  }
 
+  changeLoginType() {
+    this.auth.changeLoginType('signup');
+  }
 }
-
