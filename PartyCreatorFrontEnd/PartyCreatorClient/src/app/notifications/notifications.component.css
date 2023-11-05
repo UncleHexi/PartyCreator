@@ -44,3 +44,21 @@ top: 0;
 right: 0;
 padding: 10px;
 }
+
+
+@media (max-width: 768px) {
+  body{
+    background-color:#222222;
+    position: absolute;
+    top: 21%;
+    left:0%;
+    right: 5%;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.2); 
+    z-index: 999; 
+    height:25%;
+    border-radius:2%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px; 
+  }
+  
+}

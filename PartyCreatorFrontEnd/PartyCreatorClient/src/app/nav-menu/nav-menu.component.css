@@ -19,7 +19,7 @@ a.navbar-brand {
   }
   
   .navbar-nav .nav-item.link-active a {
-    color: red !important;
+    color: white !important;
     font-weight:bolder;
   }
   

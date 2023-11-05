@@ -8,61 +8,64 @@
                 <div class="UpcomingEventsText">
                     <h1>Nadchodzące wydarzenia</h1>
                 </div>
-
                 <div class="Event1">
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight" size="lg"></fa-icon></button>
                 </div>
 
                 <div class="Event2">
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight" size="lg"></fa-icon></button>
                 </div>
 
                 <div class="Event3">
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight" size="lg"></fa-icon></button>
                 </div>
 
                 <div class="Event4">
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight" size="lg"></fa-icon></button>
                 </div>
 
                 <div class="Event5">
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btnToDetails btn btn-light"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button type="button" class="btnToDetails btn btn-light"><fa-icon [icon]="faArrowRight" size="lg" ></fa-icon></button>
                 </div>
                 
                 <div class="Event6">
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight" size="lg" ></fa-icon></button>
                 </div>
+               
               </div>
         </div>
+
         <div class="yourEvents">
-            <div class="container3">
-            <div class="UpcomingEventsText UpcomingEventsText2"><h1>Twoje wydarzenia</h1></div>
-            <div *ngFor="let myEvent of myEvents" class="YourEvent">
-                <h4>{{myEvent.title}}</h4>
-                <p>{{myEvent.dateTime | date:'H:mm'}}</p>
-                <p>{{myEvent.dateTime | date:'d/M/yy'}}</p>
-                <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+            <div class="UpcomingEventsText2">
+                <h1>Twoje wydarzenia</h1>
             </div>
-            
-          </div></div>
+            <div class="container3"> 
+                <div *ngFor="let myEvent of myEvents" class="YourEvent">
+                    <h4>{{myEvent.title}}</h4>
+                    <p>{{myEvent.dateTime | date:'H:mm'}}</p>
+                    <p>{{myEvent.dateTime | date:'d/M/yy'}}</p>
+                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                </div>
+            </div>
+        </div>
         <div class="calendar">
             <mat-card class="calendarView">
                 <mat-calendar [(selected)]="selected"></mat-calendar>
@@ -71,7 +74,8 @@
               <div class="CreateEvent">
                 <button type="button" class="buttonCreateEvent btn btn-primary btn-lg" (click)="openDialog()">Utwórz wydarzenie</button>
              </div>
-            </div>
+        </div>
 
-      </div>
+
+    </div>
 </body>

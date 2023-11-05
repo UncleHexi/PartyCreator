@@ -3,22 +3,22 @@
     padding: 20px;
 }
 .buttonCreateEvent {
-    background-color: rgb(88, 181, 23);
-    border-color: rgb(88, 181, 23);
+    background-color: #F0CF65;
+    border-color: #F0CF65;
 }
 .form-check-input:focus {
     border-color: none !important;
     box-shadow: none !important;
 }
 .form-check-input:checked {
-    border-color: rgb(88, 181, 23) !important;
-    background-color: rgb(88, 181, 23) !important;
+    border-color: #F0CF65 !important;
+    background-color: #F0CF65 !important;
 }
 .form-check-input:active {
-    background-color: rgb(88, 181, 23) !important;
+    background-color: #F0CF65 !important;
     border-color: none !important;
 }
 
 .form-check-input:focus:not(:checked) {
-    border-color: rgb(88, 181, 23) !important;
+    border-color: #F0CF65 !important;
 }
