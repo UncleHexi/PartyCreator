@@ -4,18 +4,16 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+  styleUrls: ['./nav-menu.component.css'],
 })
-export class NavMenuComponent implements OnInit{
+export class NavMenuComponent implements OnInit {
   isExpanded = false;
   isLoggedIn = false;
 
-  constructor(private auth:AuthService){
-
-  }
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.isLoggedIn=this.auth.isLoggedIn();
+    this.isLoggedIn = this.auth.isLoggedIn();
   }
 
   collapse() {
@@ -24,5 +22,8 @@ export class NavMenuComponent implements OnInit{
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+  changeLoginType() {
+    this.auth.changeLoginType('signin');
   }
 }

@@ -3,13 +3,14 @@
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">PartyCreator</a>
       <button
-       class="navbar-toggler" 
-       type="button" 
-       data-toggle="collapse" 
-       data-target="#navbarNavDropdown"
-       aria-label="Toggle navigation"
-       [attr.aria-expanded]="isExpanded"
-       (click)="toggle()">
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavDropdown"
+        aria-label="Toggle navigation"
+        [attr.aria-expanded]="isExpanded"
+        (click)="toggle()"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div
@@ -17,9 +18,11 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
             <a class="nav-link text-white" [routerLink]="['/']">Home</a>
           </li>
           <!--
@@ -30,12 +33,23 @@
             <a class="nav-link text-white" [routerLink]="['/main']">Po logowaniu</a>
           </li>
           -->
-          <li *ngIf="isLoggedIn; else elseBlock" class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/main']">Przejdź do strony</a>
+          <li
+            *ngIf="isLoggedIn; else elseBlock"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
+            <a class="nav-link text-light" [routerLink]="['/main']"
+              >Przejdź do strony</a
+            >
           </li>
           <ng-template #elseBlock>
             <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-light" [routerLink]="['/logowanie']">Zaloguj się</a>
+              <a
+                class="nav-link text-light"
+                (click)="changeLoginType()"
+                [routerLink]="['/logowanie']"
+                >Zaloguj się</a
+              >
             </li>
           </ng-template>
         </ul>
@@ -43,4 +57,3 @@
     </div>
   </nav>
 </header>
-
