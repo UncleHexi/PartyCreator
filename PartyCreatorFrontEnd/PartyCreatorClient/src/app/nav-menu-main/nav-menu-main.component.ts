@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 
 //icons
 import { faBell } from '@fortawesome/free-solid-svg-icons';
@@ -17,25 +17,19 @@ export class  NavMenuMainComponent{
 
   isExpanded = false;
 
-  constructor(private auth: AuthService){
+  isNotificationVisible: boolean = false;
 
-  }
-
-  collapse() {
-    this.isExpanded = false;
-  }
+  constructor(private auth: AuthService) {}
 
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
 
-  public isNotificationVisible: boolean = false;
-
-  public showNotifications() {
-    this.isNotificationVisible = true;
+  logOut() {
+    this.auth.signOut();
   }
 
-  logOut(){
-    this.auth.signOut();
+  toggleNotifications() {
+    this.isNotificationVisible = !this.isNotificationVisible;
   }
 }
