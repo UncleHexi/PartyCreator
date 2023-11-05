@@ -58,7 +58,7 @@ body {
   .Event2 {  background-color:#2d394c; }
   
 
-  .Event1, .Event2,.Event3,.Event4,.Event5,.Event6, .YourEvent1, .YourEvent2, .YourEvent3{
+  .Event1, .Event2,.Event3,.Event4,.Event5,.Event6, .YourEvent1, .YourEvent2, .YourEvent3, .YourEvent{
     color: white;
     grid-area:auto;
     font-size:22px;
@@ -74,7 +74,7 @@ body {
        color: white;
        font-weight:bold;
     }
-.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button, .YourEvent1 button, .YourEvent2 button, .YourEvent3 button{
+.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button, .YourEvent1 button, .YourEvent2 button, .YourEvent3 button, .YourEvent button{
     float:right;   
 }
 
@@ -87,7 +87,7 @@ body {
     grid-auto-flow: row;
     grid-template-areas:
       "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
-      "YourEvent1 YourEvent2 YourEvent3";
+      "YourEvent YourEvent YourEvent";
   }
   
   .UpcomingEventsText { grid-area: UpcomingEventsText; }

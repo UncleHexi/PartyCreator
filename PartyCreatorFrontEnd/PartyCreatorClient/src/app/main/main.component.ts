@@ -4,28 +4,47 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatNativeDateModule } from '@angular/material/core';
 import { EventService } from '../services/event.service';
+import { EventDto } from '../interfaces/event-dto';
+import { EventModalComponent } from '../event-modal/event-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css'],
+  styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
   faArrowRight = faArrowRight;
   selected: Date | null;
+  myEvents: EventDto[] = [];
 
-  constructor(private event: EventService) {
+  constructor(private event: EventService, public dialog: MatDialog) {
     this.selected = null;
   }
   
   ngOnInit(): void {
-    
+    this.getMyEvents();
+  }
+
+  openDialog() {
+    this.dialog.open(EventModalComponent, {
+      width: '70%',
+      minWidth: '700px',
+    });
   }
 
   test(){
     this.event.getMe()
     .subscribe(res=>{
       console.log(res)
+    })
+  }
+
+  getMyEvents()
+  {
+    this.event.getOfCreator()
+    .subscribe(res=>{
+      this.myEvents=res;
     })
   }
 

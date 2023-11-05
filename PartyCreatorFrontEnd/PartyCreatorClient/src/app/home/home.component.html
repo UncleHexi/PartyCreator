@@ -6,7 +6,10 @@
       <h1>Najprostszy sposób organizowania wydarzeń</h1>
       <p>PartyCreator pomoże Ci stworzyć wydarzenie, dokładnie zaplanować przebieg oraz zapisać wszystkie te niezapomniane chwile spędzone razem ze znajomymi</p>
       <h2>Wszystko w jednym miejscu</h2>
-      <button type="button" class="btn btn-primary btn-lg btnregister"  mdbRipple [routerLink]="['/logowanie']">Stwórz konto ></button>
+      <button *ngIf="isLoggedIn; else elseBlock" type="button" class="btn btn-primary btn-lg btnregister"  mdbRipple [routerLink]="['/main']">Przejdź do strony</button>
+      <ng-template #elseBlock>
+        <button type="button" class="btn btn-primary btn-lg btnregister"  mdbRipple [routerLink]="['/logowanie']">Stwórz konto ></button>
+      </ng-template>
     </div>
     <div class="div2">
       <h1>Poznaj funkcje, których na pewno potrzebujesz 

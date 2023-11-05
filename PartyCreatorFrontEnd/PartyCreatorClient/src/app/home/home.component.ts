@@ -3,6 +3,7 @@ import * as signalR from '@microsoft/signalr';
 //icons
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import { faAnglesDown, faCalendarPlus, faPhotoFilm, faMoneyBillTransfer, faUserPlus, faSquarePollVertical, faPersonCircleQuestion, faListCheck, faComments } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../services/auth.service';
 //icons
 @Component({
   selector: 'app-home',
@@ -28,8 +29,9 @@ export class HomeComponent implements OnInit {
   user = '';
   message = '';
   messages: { user: string; text: string }[] = [];
+  isLoggedIn = false;
 
-  constructor() {}
+  constructor(private auth:AuthService) {}
 
   ngOnInit(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -41,6 +43,8 @@ export class HomeComponent implements OnInit {
     this.hubConnection.on('ReceiveMessage', (user: string, text: string) => {
       this.messages.push({ user, text });
     });
+
+    this.isLoggedIn=this.auth.isLoggedIn();
   }
 
   sendMessage() {

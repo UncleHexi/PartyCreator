@@ -23,6 +23,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgToastModule } from 'ng-angular-popup';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { EventModalComponent } from './event-modal/event-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     MainComponent,
     NavMenuMainComponent,
     NotificationsComponent,
+    EventModalComponent,
   ],
 
   imports: [
@@ -49,7 +53,9 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     MatCardModule,
     MatNativeDateModule,
     HttpClientModule,
-    NgToastModule
+    NgToastModule,
+    MatButtonModule,
+    MatDialogModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},

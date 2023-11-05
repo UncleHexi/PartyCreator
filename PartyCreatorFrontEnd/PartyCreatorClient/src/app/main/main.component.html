@@ -46,24 +46,13 @@
         <div class="yourEvents">
             <div class="container3">
             <div class="UpcomingEventsText UpcomingEventsText2"><h1>Twoje wydarzenia</h1></div>
-            <div class="YourEvent1">
-                <h4>Wydarzenie</h4>
-                <p>Godzina</p>
-                <p>Data</p>
+            <div *ngFor="let myEvent of myEvents" class="YourEvent">
+                <h4>{{myEvent.title}}</h4>
+                <p>{{myEvent.dateTime | date:'H:mm'}}</p>
+                <p>{{myEvent.dateTime | date:'d/M/yy'}}</p>
                 <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
             </div>
-            <div class="YourEvent2">
-                <h4>Wydarzenie</h4>
-                <p>Godzina</p>
-                <p>Data</p>
-                <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
-            </div>
-            <div class="YourEvent3">
-                <h4>Wydarzenie</h4>
-                <p>Godzina</p>
-                <p>Data</p>
-                <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
-            </div>
+            
           </div></div>
         <div class="calendar">
             <mat-card class="calendarView">
@@ -72,10 +61,9 @@
         
               <!-- <p>Selected date: {{selected}}</p> -->
               <div class="CreateEvent">
-                <button type="button" class="buttonCreateEvent btn btn-primary btn-lg" (click)="test()">Utwórz wydarzenie</button>
+                <button type="button" class="buttonCreateEvent btn btn-primary btn-lg" (click)="openDialog()">Utwórz wydarzenie</button>
              </div>
             </div>
 
       </div>
 </body>
-
