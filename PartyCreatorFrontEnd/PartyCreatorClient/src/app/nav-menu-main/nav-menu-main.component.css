@@ -24,9 +24,19 @@ a.navbar-brand {
   }
   
   .navbar {
+    background-color: #191919; 
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: inset;
     z-index:1000;
     position: fixed;
     top: 0;
     width: 100%;
   }
   
+  .nav-link.text-white:hover {
+    cursor: pointer;
+  }
+  
+  .nav-link.text-white{
+    margin-left:20px;
+  }
