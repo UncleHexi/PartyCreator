@@ -1,43 +1,52 @@
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" [routerLink]="['/']">PartyCreator</a>
-        <button
-         class="navbar-toggler" 
-         type="button" 
-         data-toggle="collapse" 
-         data-target="#navbarNavDropdown"
-         aria-label="Toggle navigation"
-         [attr.aria-expanded]="isExpanded"
-         (click)="toggle()">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-          [ngClass]="{ show: isExpanded }"
-        >
-          <ul class="navbar-nav flex-grow">
-            <li class="nav-item"
-                [routerLinkActive]="['link-active']"
-                [routerLinkActiveOptions]="{ exact: true }">
-              <a class="nav-link text-white" [routerLink]="['/main']">Wydarzenia</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" (click)="toggleNotifications()">
-                <fa-icon [icon]="faBell" style="color:white;" size="lg"></fa-icon>
-              </a>
-            </li>
-            <li class="nav-item" [routerLinkActive]="['/']">
-              <a class="nav-link text-white menu-link" [routerLink]="">Profil</a>
-            </li>
-            
-            <li class="nav-item" [routerLinkActive]="['link-active']">
-              <a class="nav-link text-white menu-link" (click)="logOut()" >Wyloguj się</a>
-            </li>
-          </ul>
-        </div>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/']">PartyCreator</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavDropdown"
+        aria-label="Toggle navigation"
+        [attr.aria-expanded]="isExpanded"
+        (click)="toggle()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
+        [ngClass]="{ show: isExpanded }"
+      >
+        <ul class="navbar-nav flex-grow">
+          <li
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a class="nav-link text-white" [routerLink]="['/main']"
+              >Wydarzenia</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" (click)="toggleNotifications()">
+              <fa-icon [icon]="faBell" style="color: white" size="lg"></fa-icon>
+            </a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['/']">
+            <a class="nav-link text-white menu-link" [routerLink]="['/profil']"
+              >Profil</a
+            >
+          </li>
+
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-white menu-link" (click)="logOut()"
+              >Wyloguj się</a
+            >
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 </header>
 <body>
   <app-notifications *ngIf="isNotificationVisible"></app-notifications>
