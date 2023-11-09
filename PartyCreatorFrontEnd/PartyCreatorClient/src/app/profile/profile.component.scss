@@ -8,7 +8,7 @@ body {
   $special-primary: mat.define-palette(mat.$green-palette, 500, 100, 900);
   $special-accent: mat.define-palette(mat.$red-palette, 500, 100, 900);
   $special-warn: mat.define-palette(mat.$yellow-palette, 500, 100, 900);
-  $special-theme: mat.define-light-theme(
+  $special-theme: mat.define-dark-theme(
     (
       color: (
         primary: $special-primary,
@@ -25,11 +25,13 @@ body {
 }
 
 .card {
-  background-color: #515354;
+  background-color: #3d3d3d;
   border-radius: 20px;
   width: 60vw;
   height: 70vh;
   box-shadow: rgb(39, 39, 39) 0px 0px 10px 0px;
+  display: flex;
+  color: #ffffff99 !important;
 }
 
 mat-tab-group {

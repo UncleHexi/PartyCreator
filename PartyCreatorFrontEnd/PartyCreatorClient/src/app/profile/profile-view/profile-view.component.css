@@ -1,0 +1,38 @@
+.parent {
+  padding-top: 10vh;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-picture {
+  flex: 1 0 100px; /* Grow, don't shrink, base width */
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 8em;
+}
+
+.profile-picture img {
+  width: 200px;
+  height: auto;
+}
+
+.user-info {
+  flex: 2 0 200px; /* Grow, don't shrink, base width */
+  padding-left: 8em;
+}
+
+@media (max-width: 600px) {
+  .parent {
+    flex-direction: column;
+  }
+
+  .profile-picture,
+  .user-info {
+    flex: 1 0 auto; /* Reset flex properties for small screens */
+    margin-right: 0;
+  }
+}
