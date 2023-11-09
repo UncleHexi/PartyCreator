@@ -1,0 +1,39 @@
+<header>
+  <app-nav-menu-main></app-nav-menu-main>
+</header>
+<body>
+  <div class="my-section">
+    <div class="card">
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>account_circle</mat-icon>
+            <span>&nbsp;Profil</span>
+          </ng-template>
+          <app-profile-view></app-profile-view>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>edit</mat-icon>
+            <span>&nbsp;Edycja</span>
+          </ng-template>
+          <app-profile-edit></app-profile-edit>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>lock</mat-icon>
+            <span>&nbsp;Resetuj hasło</span>
+          </ng-template>
+          <app-profile-reset-password></app-profile-reset-password>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>contacts</mat-icon>
+            <span>&nbsp;Lista kontaktów</span>
+          </ng-template>
+          Test
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</body>
