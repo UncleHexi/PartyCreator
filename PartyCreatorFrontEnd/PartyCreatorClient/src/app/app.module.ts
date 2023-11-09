@@ -29,6 +29,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
+import { ProfileResetPasswordComponent } from './profile/profile-reset-password/profile-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import { MatIconModule } from '@angular/material/icon';
     NotificationsComponent,
     EventModalComponent,
     ProfileComponent,
+    ProfileViewComponent,
+    ProfileEditComponent,
+    ProfileResetPasswordComponent,
   ],
 
   imports: [
