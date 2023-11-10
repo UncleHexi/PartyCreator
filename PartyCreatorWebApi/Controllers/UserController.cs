@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
@@ -27,5 +28,14 @@ namespace PartyCreatorWebApi.Controllers
         {
             return Ok(await _usersRepository.GetUserByEmail(email));
         }
+
+        [HttpGet("GetUserById"), Authorize]
+        public async Task<ActionResult<User>> GetUserById()
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            var result = await _usersRepository.GetUserById(creatorId);
+            return Ok(result);
+        }
+
     }
 }
