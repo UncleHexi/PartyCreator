@@ -26,6 +26,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { EventModalComponent } from './event-modal/event-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { EventViewComponent } from './event-view/event-view.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { MatButtonModule } from '@angular/material/button';
     NavMenuMainComponent,
     NotificationsComponent,
     EventModalComponent,
+    EventViewComponent,
   ],
 
   imports: [
