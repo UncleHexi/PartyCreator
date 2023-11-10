@@ -5,7 +5,7 @@ body {
 }
 
 .my-section {
-  $special-primary: mat.define-palette(mat.$green-palette, 500, 100, 900);
+  $special-primary: mat.define-palette(mat.$blue-palette, 500, 100, 900);
   $special-accent: mat.define-palette(mat.$red-palette, 500, 100, 900);
   $special-warn: mat.define-palette(mat.$yellow-palette, 500, 100, 900);
   $special-theme: mat.define-dark-theme(

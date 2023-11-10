@@ -28,6 +28,12 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
+        public async Task<User> GetUserById(int id)
+        {
+            var result = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
+        }
+
         public string GetUserIdFromContext()
         {
             var result = string.Empty;
@@ -35,6 +41,7 @@ namespace PartyCreatorWebApi.Repositories
             {
                 result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             }
+
             return result;
         }
 
