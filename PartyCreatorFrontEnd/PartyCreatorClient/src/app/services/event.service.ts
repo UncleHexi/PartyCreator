@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EventDto } from '../interfaces/event-dto';
 import { EventCreateDto } from '../interfaces/event-create-dto';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class EventService {
 
   getMe() {
     return this.http.get<string>(`${this.baseUrl}getme`);
+  }
+
+  getEventDetails(id: string): Observable<any> {
+    return this.http.get(`https://localhost:7241/api/Event/${id}`);
   }
 
   getOfCreator() {

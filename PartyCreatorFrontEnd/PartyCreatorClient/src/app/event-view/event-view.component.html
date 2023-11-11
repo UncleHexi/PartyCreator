@@ -1,6 +1,34 @@
 <body>
-<p>event-view works!</p>
-<p>ID: {{id}}</p>
-<p>Nazwa wydarzenia: {{title}}</p>
-<p>Data: {{dateTime | date:'d/M/yyng '}}</p>
+    <div class="mainLayout">
+        <div class="details">
+            <div *ngIf="eventDetails" class="Details">
+                <h1>{{ eventDetails!.title }}</h1>
+                <p>{{ eventDetails!.description }}</p>
+                <p><fa-icon [icon]="faLocationDot" style="color: white"> </fa-icon> Lokalizacaja</p>
+                <p>Godzina:</p>
+                <p>Data:</p>
+            </div>
+        </div>
+        <div class="thingsToBring">
+            <h5>Rzeczy do przyniesienia</h5>
+            <p>-jedna rzecz</p>
+            <p>-druga rzecz</p>
+            <p>-trzecia rzecz</p>
+            <p>-czwarta rzecz</p>
+            <p>-piąta rzecz</p>
+        </div>
+        <div class="spotifyPlaylist">
+            playlista spotify
+        </div>
+        <div class="chat">
+            czat
+        </div>
+        <div class="photos">
+            zdjecia
+        </div>
+        <div class="inviteList">
+            <h5>Lista uczestników</h5>
+        </div>
+      </div>
 </body>
+
