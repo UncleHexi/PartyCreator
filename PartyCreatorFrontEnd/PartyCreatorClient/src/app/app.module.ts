@@ -27,6 +27,13 @@ import { EventModalComponent } from './event-modal/event-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { EventViewComponent } from './event-view/event-view.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
+import { ProfileResetPasswordComponent } from './profile/profile-reset-password/profile-reset-password.component';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +49,10 @@ import { EventViewComponent } from './event-view/event-view.component';
     NotificationsComponent,
     EventModalComponent,
     EventViewComponent,
+    ProfileComponent,
+    ProfileViewComponent,
+    ProfileEditComponent,
+    ProfileResetPasswordComponent,
   ],
 
   imports: [
@@ -57,11 +68,13 @@ import { EventViewComponent } from './event-view/event-view.component';
     HttpClientModule,
     NgToastModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule,
+    MatIconModule,
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'pl-PL'},
-    {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi: true}
+    { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
 
   bootstrap: [AppComponent],
