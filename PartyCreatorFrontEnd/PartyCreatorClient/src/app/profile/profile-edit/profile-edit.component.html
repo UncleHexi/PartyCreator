@@ -1,1 +1,31 @@
-<p>profile-edit works!</p>
+<div class="parent">
+    <div class="profile-picture">
+      <img src="assets/profile-avatars/avatar1.png" alt="User Profile Picture" />
+    </div>
+    <div class="user-info">
+        <form [formGroup]="profileForm" (ngSubmit)="editProfile()">
+            <label>
+              First Name:
+              <input type="text" formControlName="firstName">
+            </label>
+            <label>
+              Last Name:
+              <input type="text" formControlName="lastName">
+            </label>
+            <label>
+              Email:
+              <input type="text" formControlName="email">
+            </label>
+            <label>
+              Birthday:
+              <input type="text" formControlName="birthday">
+            </label>
+            <label>
+              Description:
+              <input type="text" formControlName="description">
+            </label>
+            <button type="submit">Submit</button>
+          </form>
+    </div>
+  </div>
+  

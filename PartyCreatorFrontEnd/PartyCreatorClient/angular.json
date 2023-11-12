@@ -20,7 +20,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "@angular/material/prebuilt-themes/purple-green.css",
+              "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.css",
               "src/app/nav-menu/nav-menu.component.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"

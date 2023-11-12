@@ -53,6 +53,7 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Wystapil problem, nie udalo sie zarejestrowac");
             }
 
+
             UserDto userDto = new UserDto
             {
                 Id = addedUser.Id,
