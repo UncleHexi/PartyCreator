@@ -1,0 +1,46 @@
+<header>
+    <app-nav-menu-main></app-nav-menu-main>
+</header>
+<body>
+    <div class="mainLayout">
+        <div class="details">
+            <div *ngIf="eventDetails" class="Details">
+                <h1>{{ eventDetails!.title }}</h1>
+                <p>{{ eventDetails!.description }}</p>
+                <p><fa-icon [icon]="faLocationDot" style="color: white"> </fa-icon> Lokalizacaja</p>
+                <p>Godzina:</p>
+                <p>Data:</p>
+            </div>
+        </div>
+
+        <div class="thingsToBring">
+            <div class="thingsToBringTitle" [ngClass]="{'rounded-bottom': isThingsToBringVisible}">
+                <h5 class="titleBringThings">Rzeczy do przyniesienia</h5>
+                <div class="toggle-arrow" [@pulse]="arrowAnimationState"  (click)="toggleThingsToBringVisibility()">
+                    <span *ngIf="isThingsToBringVisible">&#9650;</span>
+                    <span *ngIf="!isThingsToBringVisible">&#9660;</span>
+                </div>
+            </div>
+            <div class="thingsToBringList" [@slideDown]  *ngIf="isThingsToBringVisible">
+                <p>Napój gazowany<button>PRZYNIEŚ</button></p>
+                <p>Chrupki <button>PRZYNIEŚ</button></p>
+                <p><del>Przekąski słone  </del><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
+                <p>Cytryna <button>PRZYNIEŚ</button></p>
+                <p><s>Pieczywo  </s><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
+            </div>
+        </div>
+        <div class="spotifyPlaylist">
+            playlista spotify
+        </div>
+        <div class="chat">
+            czat
+        </div>
+        <div class="photos">
+            zdjecia
+        </div>
+        <div class="inviteList">
+            <h5>Lista uczestników</h5>
+        </div>
+      </div>
+</body>
+

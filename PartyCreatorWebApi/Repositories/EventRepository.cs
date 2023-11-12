@@ -29,5 +29,11 @@ namespace PartyCreatorWebApi.Repositories
             var result = await _dataContext.Events.Where(x=> x.CreatorId == creatorId).ToListAsync();
             return result;
         }
+
+        public async Task<Event> GetEventDetails(int id)
+        {
+            var eventDetails = await _dataContext.Events.FirstOrDefaultAsync(e => e.Id == id);
+            return eventDetails;
+        }
     }
 }

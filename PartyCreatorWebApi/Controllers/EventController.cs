@@ -59,5 +59,18 @@ namespace PartyCreatorWebApi.Controllers
 
             return Ok(addedEvent);
         }
+        [HttpGet("{id}"), Authorize]
+        public async Task<ActionResult<Event>> GetEventDetails(int id)
+        {
+            var eventDetails = await _eventRepository.GetEventDetails(id);
+
+            if (eventDetails == null)
+            {
+                return NotFound("Nie znaleziono wydarzenia o podanym ID");
+            }
+
+            return Ok(eventDetails);
+        }
+
     }
 }
