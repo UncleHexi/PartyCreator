@@ -22,6 +22,13 @@ namespace PartyCreatorWebApi.Repositories
             return result.Result.Entity;
         }
 
+        public async Task<User> EditUser(User user)
+        {
+            var result = _dataContext.Users.Update(user);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             var result = await _dataContext.Users.FirstOrDefaultAsync(x => x.Email == email);
