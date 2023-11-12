@@ -25,6 +25,7 @@ import { NgToastModule } from 'ng-angular-popup';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { EventViewComponent } from './event-view/event-view.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,6 +46,7 @@ import { ProfileResetPasswordComponent } from './profile/profile-reset-password/
     MainComponent,
     NavMenuMainComponent,
     NotificationsComponent,
+    EventViewComponent,
     ProfileComponent,
     ProfileViewComponent,
     ProfileEditComponent,

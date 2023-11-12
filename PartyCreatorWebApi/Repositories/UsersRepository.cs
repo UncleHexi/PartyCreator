@@ -22,9 +22,22 @@ namespace PartyCreatorWebApi.Repositories
             return result.Result.Entity;
         }
 
+        public async Task<User> EditUser(User user)
+        {
+            var result = _dataContext.Users.Update(user);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             var result = await _dataContext.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return result;
+        }
+
+        public async Task<User> GetUserById(int id)
+        {
+            var result = await _dataContext.Users.FirstOrDefaultAsync(x => x.Id == id);
             return result;
         }
 
@@ -35,6 +48,7 @@ namespace PartyCreatorWebApi.Repositories
             {
                 result = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             }
+
             return result;
         }
 

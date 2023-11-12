@@ -9,6 +9,7 @@ namespace PartyCreatorWebApi.Entities
         public string LastName { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Birthday { get; set; } = string.Empty;
+        
         public string Description { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = new byte[256];
         public byte[] PasswordSalt { get; set; } = new byte[256];

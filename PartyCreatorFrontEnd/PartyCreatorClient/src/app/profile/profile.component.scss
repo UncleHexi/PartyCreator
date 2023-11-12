@@ -1,11 +1,12 @@
 @use "node_modules/@angular/material" as mat;
 
-body {
+body, html{
   background-color: #2d2d2d;
+  min-height: 100%;
 }
 
 .my-section {
-  $special-primary: mat.define-palette(mat.$green-palette, 500, 100, 900);
+  $special-primary: mat.define-palette(mat.$blue-palette, 500, 100, 900);
   $special-accent: mat.define-palette(mat.$red-palette, 500, 100, 900);
   $special-warn: mat.define-palette(mat.$yellow-palette, 500, 100, 900);
   $special-theme: mat.define-dark-theme(
@@ -21,14 +22,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100%;
 }
 
 .card {
   background-color: #3d3d3d;
   border-radius: 20px;
   width: 60vw;
-  height: 70vh;
+  min-height: 70vh;
   box-shadow: rgb(39, 39, 39) 0px 0px 10px 0px;
   display: flex;
   color: #ffffff99 !important;
@@ -36,4 +37,18 @@ body {
 
 mat-tab-group {
   margin-top: 1em;
+}
+
+@media (max-width: 600px) {
+  
+  .card {
+    border: none;
+    box-shadow: none;
+    border-radius: 0%;
+    height: 100;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    padding-top: 40px;
+  }
 }
