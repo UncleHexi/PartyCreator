@@ -12,7 +12,7 @@
                     <h4>Wydarzenie</h4>
                     <p>Godzina</p>
                     <p>Data</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight" size="lg"></fa-icon></button>
+                    <button type="button" class="btn btn-light btnToDetails" [routerLink]="['/eventView']"><fa-icon [icon]="faArrowRight" size="lg"></fa-icon></button>
                 </div>
 
                 <div class="Event2">
@@ -62,7 +62,13 @@
                     <h4>{{myEvent.title}}</h4>
                     <p>{{myEvent.dateTime | date:'H:mm'}}</p>
                     <p>{{myEvent.dateTime | date:'d/M/yy'}}</p>
-                    <button type="button" class="btn btn-light btnToDetails"><fa-icon [icon]="faArrowRight"></fa-icon></button>
+                    <button 
+                        type="button"
+                         class="btn btn-light btnToDetails"
+                        [routerLink]="['/wydarzenie', myEvent.id]">
+                        <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
+                    </button>
+
                 </div>
             </div>
         </div>

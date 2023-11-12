@@ -7,6 +7,8 @@ import { EventService } from '../services/event.service';
 import { EventDto } from '../interfaces/event-dto';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-main',
@@ -24,6 +26,7 @@ export class MainComponent implements OnInit {
   
   ngOnInit(): void {
     this.getMyEvents();
+    this.sortMyEvents();
   }
 
   openDialog() {
@@ -41,13 +44,6 @@ export class MainComponent implements OnInit {
   }
 
 
-  test(){
-    this.event.getMe()
-    .subscribe(res=>{
-      console.log(res)
-    })
-  }
-
   getMyEvents()
   {
     this.event.getOfCreator()
@@ -56,4 +52,8 @@ export class MainComponent implements OnInit {
     })
   }
 
+  sortMyEvents()
+  {
+    //sortowanie
+  }
 }
