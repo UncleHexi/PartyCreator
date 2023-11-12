@@ -28,8 +28,7 @@ export class MainComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      width: '50%',
-      minWidth: '700px',
+      panelClass: 'testDialog',
     });
 
     dialogRef.afterClosed().subscribe(res => {

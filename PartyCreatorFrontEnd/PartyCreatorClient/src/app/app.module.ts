@@ -23,7 +23,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgToastModule } from 'ng-angular-popup';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { EventModalComponent } from './event-modal/event-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
@@ -32,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { ProfileResetPasswordComponent } from './profile/profile-reset-password/profile-reset-password.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +45,6 @@ import { ProfileResetPasswordComponent } from './profile/profile-reset-password/
     MainComponent,
     NavMenuMainComponent,
     NotificationsComponent,
-    EventModalComponent,
     ProfileComponent,
     ProfileViewComponent,
     ProfileEditComponent,

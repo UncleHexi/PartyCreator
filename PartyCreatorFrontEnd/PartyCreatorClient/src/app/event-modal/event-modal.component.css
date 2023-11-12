@@ -2,6 +2,19 @@
     color: white;
     padding: 20px;
 }
+.desktop-calendar {
+    display: none;
+}
+.mobile-calendar {
+    
+}
+.row-class {
+    padding-bottom: 10px;
+}
+.row-class-opcje {
+    padding-top: 10px;
+}
+
 .buttonCreateEvent {
     background-color: #F0CF65;
     border-color: #F0CF65;

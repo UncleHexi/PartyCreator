@@ -1,52 +1,119 @@
 <div style="background: linear-gradient(30deg, #222222 15%, #373737 70%, #2d323a 98%)">
-  <form (ngSubmit)="onSubmit()" #myForm="ngForm" class="eventForm">
+  <form (ngSubmit)="onSubmit()" [formGroup]="eventOptions" class="eventForm">
     <h1 class="text-center" style="padding-bottom: 10px;">Tworzenie Wydarzenia</h1>
-    <div class="form-group row" style="padding: 10px;">
-      <label for="title" class="col-3 col-form-label">Tytul</label> 
-      <div class="col-9">
-        <div class="input-group">
-          <input [(ngModel)]="eventData.title" id="title" name="title" type="text" required="required" class="form-control" placeholder="Tytul">
-        </div>
+    <div class="row row-class">
+      <div class="col-2 label-class">
+        <label>Tytuł</label>
+      </div>
+      <div class="col-10">
+        <mat-form-field appearance="outline" color="accent" style="width: 100%">
+          <mat-label>Tytuł</mat-label>
+          <input matInput maxlength="20" formControlName="title" required>
+        </mat-form-field>
+      </div>
+    </div>    
+    <div class="row row-class">
+      <div class="col-2 label-class">
+        <label>Opis</label>
+      </div>
+      <div class="col-10">
+        <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+          <mat-label>Opis</mat-label>
+          <textarea matInput maxlength="100" formControlName="description" required cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="6"></textarea>
+        </mat-form-field>
       </div>
     </div>
-    <div class="form-group row" style="padding: 10px;">
-      <label class="col-3 col-form-label" for="description">Opis wydarzenia</label> 
-      <div class="col-9">
-        <textarea [(ngModel)]="eventData.description" id="description" name="description" cols="40" rows="4" required="required" class="form-control" placeholder="Opis" style="resize: none;"></textarea>
+    <div class="row row-class">
+      <div class="col-2 label-class">
+        <label>Adres</label>
       </div>
+      <div class="col-10">
+        <div class="row row-class">
+          <div class="col-8">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+              <mat-label>Ulica</mat-label>
+              <input matInput maxlength="20" formControlName="address" required>
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+              <mat-label>Numer Domu</mat-label>
+              <input matInput maxlength="6" formControlName="zip" required>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row row-class">
+          <div class="col">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+              <mat-label>Kraj</mat-label>
+              <input matInput maxlength="24" formControlName="country" required>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+              <mat-label>Miasto</mat-label>
+              <input matInput maxlength="24" formControlName="city" required>
+            </mat-form-field>
+          </div>
+        </div>    
+      </div>
+    </div>    
+    <div class="row row-class">
+      <div class="col-2">
+
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" style="width: 100%">
+          <mat-label>Godzina</mat-label>
+          <input matInput formControlName="time" maxlength="5" required pattern="^(?:[01]\d|2[0-3]):[0-5]\d$">
+          <mat-hint>Format hh:mm</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="outline" color="accent" style="width: 100%;" class="mobile-calendar">
+          <mat-label style="color: #a6a6a6;">Data</mat-label>
+          <input matInput [min]="minDate" readonly [matDatepicker]="picker1" formControlName="dateTime" style="color: white;">
+          <mat-hint>Format DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker1 ></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="accent" style="width: 100%;" class="desktop-calendar">
+          <mat-label style="color: #a6a6a6;">Data</mat-label>
+          <input matInput [min]="minDate" readonly [matDatepicker]="picker2" formControlName="dateTime" style="color: white;">
+          <mat-hint>Format DD/MM/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 ></mat-datepicker>
+        </mat-form-field>
+      </div>
+      
     </div>
-    <div class="form-group row" style="padding: 10px;">
-      <label class="col-3 col-form-label">Dodatkowe opcje wydarzenia</label> 
-      <div class="col-9">
-        <div class="custom-controls-stacked">
-          <div class="form-check form-switch">
-            <input [(ngModel)]="eventData.playlist" class="form-check-input" type="checkbox" name="checkbox" id="checkbox_0" value="true" style="margin-right: 10px;">
-            <label class="form-check-label" for="checkbox_0">Dodaj Playliste Spotify</label>
-          </div>
+    
+    <div class="row row-class-opcje">
+      <div class="col-2 label-class">
+        <label>Dodatkowe opcje wydarzenia</label>
+      </div>
+      <div class="col-10">
+        <div class="row row-class">
+          <mat-slide-toggle formControlName="playlist">Dodaj Playliste Spotify</mat-slide-toggle>
         </div>
-        <div class="custom-controls-stacked">
-          <div class="form-check form-switch">
-            <input [(ngModel)]="eventData.shoppingList" class="form-check-input" type="checkbox" name="checkbox" id="checkbox_1" value="true" style="margin-right: 10px;">
-            <label class="form-check-label" for="checkbox_1">Dodaj Liste Zakupów</label>
-          </div>
+        <div class="row row-class">
+          <mat-slide-toggle formControlName="shoppingLis">Dodaj Liste Zakupów</mat-slide-toggle>
         </div>
-        <div class="custom-controls-stacked">
-          <div class="form-check form-switch">
-            <input [(ngModel)]="eventData.receipt" class="form-check-input" type="checkbox" name="checkbox" id="checkbox_2" value="true" style="margin-right: 10px;">
-            <label class="form-check-label" for="checkbox_2">Dodaj Dzielenie Się Rachunkiem</label>
-          </div>
+        <div class="row row-class">
+          <mat-slide-toggle color="accent" formControlName="receipt">Dodaj Dzielenie Się Rachunkiem</mat-slide-toggle>
         </div>
+      </div>
+    </div>  
+    
+    <div class="row row-class">
+      <mat-dialog-actions align="end">
+        <button mat-raised-button mat-dialog-close>Zamknij</button>
+        <button type="submit" [disabled]="!eventOptions.valid" mat-raised-button color="accent" [mat-dialog-close]="true">Zapisz</button>
         
-      </div>
-    </div> 
-    <div class="form-group row">
-      <div class="offset-3 col-9">
-        <mat-dialog-actions align="end">
-          <button mat-button mat-dialog-close>Zamknij</button>
-          <button name="submit" type="submit" [disabled]="myForm.invalid" class="buttonCreateEvent" mat-button [mat-dialog-close]="true">Zapisz</button>
-        </mat-dialog-actions>
-      </div>
+      </mat-dialog-actions>
     </div>
+      
   </form>
 </div>
 

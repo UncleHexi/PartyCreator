@@ -17,3 +17,22 @@ code {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.testDialog {
+  
+  @media (min-width: 769px) {
+    width: 50%;
+    min-width: 700px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+
+    .col-2 {
+      display: none;
+    }
+  }
+}
+
+
+
