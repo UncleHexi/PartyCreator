@@ -1,3 +1,6 @@
+<header>
+    <app-nav-menu-main></app-nav-menu-main>
+</header>
 <body>
     <div class="mainLayout">
         <div class="details">
@@ -9,13 +12,22 @@
                 <p>Data:</p>
             </div>
         </div>
+
         <div class="thingsToBring">
-            <h5>Rzeczy do przyniesienia</h5>
-            <p>-jedna rzecz</p>
-            <p>-druga rzecz</p>
-            <p>-trzecia rzecz</p>
-            <p>-czwarta rzecz</p>
-            <p>-piąta rzecz</p>
+            <div class="thingsToBringTitle" [ngClass]="{'rounded-bottom': isThingsToBringVisible}">
+                <h5 class="titleBringThings">Rzeczy do przyniesienia</h5>
+                <div class="toggle-arrow" [@pulse]="arrowAnimationState"  (click)="toggleThingsToBringVisibility()">
+                    <span *ngIf="isThingsToBringVisible">&#9650;</span>
+                    <span *ngIf="!isThingsToBringVisible">&#9660;</span>
+                </div>
+            </div>
+            <div class="thingsToBringList" [@slideDown]  *ngIf="isThingsToBringVisible">
+                <p>Napój gazowany<button>PRZYNIEŚ</button></p>
+                <p>Chrupki <button>PRZYNIEŚ</button></p>
+                <p><del>Przekąski słone  </del><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
+                <p>Cytryna <button>PRZYNIEŚ</button></p>
+                <p><s>Pieczywo  </s><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
+            </div>
         </div>
         <div class="spotifyPlaylist">
             playlista spotify

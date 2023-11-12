@@ -2,12 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { EventDto } from '../interfaces/event-dto';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
-  styleUrls: ['./event-view.component.css']
+  styleUrls: ['./event-view.component.css'],
+  animations: [
+    trigger('slideDown', [
+      state('void', style({ height: '0', opacity: '0' })),
+      state('*', style({ height: '*', opacity: '1' })),
+      transition('void <=> *', animate('500ms ease-in-out')),
+    ]),
+    trigger('pulse', [
+      state('rest', style({ transform: 'scale(1)' })),
+      state('pulse', style({ transform: 'scale(1.2)' })),
+      transition('rest <=> pulse', animate('500ms ease-in-out')),
+    ]),
+  ]
 })
 export class EventViewComponent implements OnInit {
   faArrowRight: any; // Dostosuj typ, jeśli to konieczne
@@ -15,6 +28,11 @@ export class EventViewComponent implements OnInit {
   eventDetails: EventDto | null;
 
   faLocationDot = faLocationDot;
+  faCheck = faCheck;
+  isThingsToBringVisible: boolean = false; // Added property for visibility
+
+  arrowAnimationState: string = 'rest';
+
   constructor(private route: ActivatedRoute, private eventService: EventService) {
     this.selected = null;
     this.eventDetails = null;
@@ -42,5 +60,12 @@ export class EventViewComponent implements OnInit {
     } else {
       console.error('ID wydarzenia jest nullem lub niezdefiniowane');
     }
+  }
+
+  // Added function to toggle visibility
+  toggleThingsToBringVisibility(): void {
+    this.isThingsToBringVisible = !this.isThingsToBringVisible;
+    this.arrowAnimationState = this.isThingsToBringVisible ? 'pulse' : 'rest';
+
   }
 }
