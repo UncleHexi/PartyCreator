@@ -5,24 +5,25 @@
 
 @include mat.core();
 
-  $special-primary: mat.define-palette(mat.$green-palette, 500, 100, 900);
-  $special-accent: mat.define-palette(mat.$yellow-palette, 500, 100, 900);
-  $special-warn: mat.define-palette(mat.$red-palette, 500, 100, 900);
-  $special-theme: mat.define-dark-theme(
-    (
-      color: (
-        primary: $special-primary,
-        accent: $special-accent,
-        warn: $special-warn,
-      ),
-      typography: mat.define-typography-config(
-       
-      ),
-      density: 0,
-    )
-  );
-  @include mat.all-component-themes($special-theme);
+$special-primary: mat.define-palette(mat.$green-palette, 500, 100, 900);
+$special-accent: mat.define-palette(mat.$yellow-palette, 500, 100, 900);
+$special-warn: mat.define-palette(mat.$red-palette, 500, 100, 900);
+$special-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $special-primary,
+      accent: $special-accent,
+      warn: $special-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+@include mat.all-component-themes($special-theme);
 
+html {
+  background-color: #2d2d2d;
+}
 
 a {
   color: #0366d6;
@@ -38,8 +39,14 @@ code {
   border-color: #1861ac;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .testDialog {
   @media (min-width: 769px) {
@@ -53,6 +60,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     }
   }
 }
-
-
-
