@@ -5,18 +5,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {
-  FormsModule,
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
+import {MatChipsModule} from '@angular/material/chips';
 
 @Component({
   selector: 'app-event-modal',
@@ -33,6 +29,7 @@ import { DatePipe } from '@angular/common';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
+    MatChipsModule
   ],
   providers: [DatePipe],
 })

@@ -1,12 +1,10 @@
-<div style="background: linear-gradient(30deg, #222222 15%, #373737 70%, #2d323a 98%)">
+<div style="background: #2D2D2D;">
   <form (ngSubmit)="onSubmit()" [formGroup]="eventOptions" class="eventForm">
-    <h1 class="text-center" style="padding-bottom: 10px;">Tworzenie Wydarzenia</h1>
+    <h1 class="text-center" style="padding-bottom: 40px;">Tworzenie Wydarzenia</h1>
     <div class="row row-class">
-      <div class="col-2 label-class">
-        
-      </div>
+      
       <div class="col">
-        <mat-form-field appearance="outline" color="accent" style="width: 100%">
+        <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Tytuł</mat-label>
           <input matInput #title maxlength="20" formControlName="title" required>
           <mat-hint align="end">{{title.value.length}}/20</mat-hint>
@@ -14,11 +12,9 @@
       </div>
     </div>    
     <div class="row row-class">
-      <div class="col-2 label-class">
-        <label>Opis</label>
-      </div>
+      
       <div class="col">
-        <mat-form-field appearance="outline" color="accent" style="width: 100%;">
+        <mat-form-field appearance="outline" style="width: 100%;">
           <mat-label>Opis</mat-label>
           <textarea matInput #description maxlength="100" formControlName="description" required cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="6"></textarea>
           <mat-hint align="end">{{description.value.length}}/100</mat-hint>
@@ -26,12 +22,10 @@
       </div>
     </div>
     <div class="row row-class">
-      <div class="col-2 label-class">
-        <label>Adres</label>
-      </div>
+      
       <div class="col">
         <div class="row row-class">
-          <mat-form-field appearance="outline" color="accent" style="width: 100%">
+          <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Adres</mat-label>
             <input matInput #address maxlength="30" formControlName="address" required>
             <mat-hint align="end">{{address.value.length}}/30</mat-hint>
@@ -39,34 +33,33 @@
         </div>
         <div class="row row-class">
           <div class="col">
-            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+            <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Kraj</mat-label>
-              <input matInput maxlength="24" formControlName="country" required>
+              <input matInput #country maxlength="30" formControlName="country" required>
+              <mat-hint align="end">{{country.value.length}}/30</mat-hint>
             </mat-form-field>
           </div>
           <div class="col">
-            <mat-form-field appearance="outline" color="accent" style="width: 100%">
+            <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Miasto</mat-label>
-              <input matInput #city maxlength="24" formControlName="city" required>
-              <mat-hint align="end">{{city.value.length}}/24</mat-hint>
+              <input matInput #city maxlength="30" formControlName="city" required>
+              <mat-hint align="end">{{city.value.length}}/30</mat-hint>
             </mat-form-field>
           </div>
         </div>    
       </div>
     </div>    
     <div class="row row-class">
-      <div class="col-2">
-
-      </div>
+      
       <div class="col">
-        <mat-form-field appearance="outline" color="accent" style="width: 100%">
+        <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Godzina</mat-label>
           <input matInput formControlName="time" maxlength="5" required pattern="^(?:[01]\d|2[0-3]):[0-5]\d$">
           <mat-hint>Format hh:mm</mat-hint>
         </mat-form-field>
       </div>
       <div class="col">
-        <mat-form-field appearance="outline" color="accent" style="width: 100%;" class="mobile-calendar">
+        <mat-form-field appearance="outline" style="width: 100%;" class="mobile-calendar">
           <mat-label style="color: #a6a6a6;">Data</mat-label>
           <input matInput [min]="minDate" readonly [matDatepicker]="picker1" formControlName="dateTime" style="color: white;">
           <mat-hint>Format DD/MM/YYYY</mat-hint>
@@ -74,7 +67,7 @@
           <mat-datepicker touchUi #picker1 ></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" color="accent" style="width: 100%;" class="desktop-calendar">
+        <mat-form-field appearance="outline" style="width: 100%;" class="desktop-calendar">
           <mat-label style="color: #a6a6a6;">Data</mat-label>
           <input matInput [min]="minDate" readonly [matDatepicker]="picker2" formControlName="dateTime" style="color: white;">
           <mat-hint>Format DD/MM/YYYY</mat-hint>
@@ -86,26 +79,25 @@
     </div>
     
     <div class="row row-class-opcje">
-      <div class="col-2 label-class">
-        <label>Dodatkowe opcje wydarzenia</label>
+      <div class="col col-slider">
+        <mat-slide-toggle formControlName="playlist" color="primary">Dodaj Playliste Spotify</mat-slide-toggle>
       </div>
-      <div class="col-10">
-        <div class="row row-class">
-          <mat-slide-toggle formControlName="playlist">Dodaj Playliste Spotify</mat-slide-toggle>
-        </div>
-        <div class="row row-class">
-          <mat-slide-toggle formControlName="shoppingLis">Dodaj Liste Zakupów</mat-slide-toggle>
-        </div>
-        <div class="row row-class">
-          <mat-slide-toggle color="accent" formControlName="receipt">Dodaj Dzielenie Się Rachunkiem</mat-slide-toggle>
-        </div>
+      <div class="row row-slider">
+      </div>
+      <div class="col col-slider">
+        <mat-slide-toggle formControlName="receipt" color="primary">Dodaj Dzielenie Się Rachunkiem</mat-slide-toggle>
+      </div>
+      <div class="row row-slider">
+      </div>
+      <div class="col col-slider">
+        <mat-slide-toggle formControlName="shoppingLis" color="primary">Dodaj Liste Zakupów</mat-slide-toggle>
       </div>
     </div>  
     
     <div class="row row-class">
       <mat-dialog-actions align="end">
         <button mat-raised-button mat-dialog-close>Zamknij</button>
-        <button type="submit" [disabled]="!eventOptions.valid" mat-raised-button color="accent" [mat-dialog-close]="true">Zapisz</button>
+        <button type="submit" [disabled]="!eventOptions.valid" color="primary" style="color: white;" mat-raised-button [mat-dialog-close]="true">Zapisz</button>
         
       </mat-dialog-actions>
     </div>

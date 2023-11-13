@@ -6,17 +6,30 @@
     padding-bottom: 10px;
 }
 .row-class-opcje {
-    padding-top: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 @media (min-width: 769px) {
     .mobile-calendar {
         display: none;
     }
+    .row-slider {
+        display: none;
+    }
+    
 }
 
 @media (max-width: 768px) {
     .desktop-calendar {
         display: none;
     }
+    .row-class-opcje {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .col-slider {
+        display: list-item;
+    }
+
 }
