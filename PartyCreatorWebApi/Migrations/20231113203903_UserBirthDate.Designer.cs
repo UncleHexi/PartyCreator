@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PartyCreatorWebApi.Data;
 
@@ -11,9 +12,11 @@ using PartyCreatorWebApi.Data;
 namespace PartyCreatorWebApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231113203903_UserBirthDate")]
+    partial class UserBirthDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatMessages", (string)null);
+                    b.ToTable("ChatMessages");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.Choice", b =>
@@ -68,7 +71,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Choices", (string)null);
+                    b.ToTable("Choices");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.Event", b =>
@@ -127,7 +130,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events", (string)null);
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.Gallery", b =>
@@ -150,7 +153,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Galleries", (string)null);
+                    b.ToTable("Galleries");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.GuestList", b =>
@@ -169,7 +172,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GuestLists", (string)null);
+                    b.ToTable("GuestLists");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.InviteList", b =>
@@ -188,7 +191,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InviteLists", (string)null);
+                    b.ToTable("InviteLists");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.Notification", b =>
@@ -212,7 +215,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications", (string)null);
+                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.ReceiptItem", b =>
@@ -238,7 +241,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReceiptItems", (string)null);
+                    b.ToTable("ReceiptItems");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.ShoppingListItem", b =>
@@ -267,7 +270,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShoppingListItems", (string)null);
+                    b.ToTable("ShoppingListItems");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.Song", b =>
@@ -302,7 +305,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Songs", (string)null);
+                    b.ToTable("Songs");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.Survey", b =>
@@ -322,7 +325,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Surveys", (string)null);
+                    b.ToTable("Surveys");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.SurveyVote", b =>
@@ -344,7 +347,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SurveyVotes", (string)null);
+                    b.ToTable("SurveyVotes");
                 });
 
             modelBuilder.Entity("PartyCreatorWebApi.Entities.User", b =>
@@ -384,7 +387,7 @@ namespace PartyCreatorWebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

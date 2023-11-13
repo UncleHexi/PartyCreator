@@ -42,8 +42,15 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("EditMyProfile"), Authorize]
         public async Task<ActionResult<UserDto>> EditUser(UserDto userDto)
         {
+            
+
+
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             var result = await _usersRepository.GetUserById(creatorId);
+            if(result.FirstName == userDto.FirstName && result.LastName == userDto.LastName && result.Birthday == userDto.Birthday && result.Description == userDto.Description)
+            {
+                return BadRequest("Nie wprowadzono zadnych zmian");
+            }
             result.FirstName = userDto.FirstName;
             result.LastName = userDto.LastName;
             result.Birthday = userDto.Birthday;
