@@ -33,7 +33,6 @@ import { ProfileViewComponent } from './profile/profile-view/profile-view.compon
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { ProfileResetPasswordComponent } from './profile/profile-reset-password/profile-reset-password.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +48,6 @@ import { ProfileResetPasswordComponent } from './profile/profile-reset-password/
     EventViewComponent,
     ProfileComponent,
     ProfileViewComponent,
-    ProfileEditComponent,
     ProfileResetPasswordComponent,
   ],
 
@@ -69,6 +67,7 @@ import { ProfileResetPasswordComponent } from './profile/profile-reset-password/
     MatDialogModule,
     MatTabsModule,
     MatIconModule,
+    ProfileEditComponent,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
