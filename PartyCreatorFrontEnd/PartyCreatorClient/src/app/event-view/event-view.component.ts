@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { EventDto } from '../interfaces/event-dto';
-import { faLocationDot, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faLocationDot, faCheck, faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
   styleUrls: ['./event-view.component.css'],
+  
   animations: [
     trigger('slideDown', [
       state('void', style({ height: '0', opacity: '0' })),
@@ -21,12 +23,15 @@ import { trigger, state, style, animate, transition, keyframes } from '@angular/
       transition('rest <=> pulse', animate('500ms ease-in-out')),
     ]),
   ]
+  
 })
 export class EventViewComponent implements OnInit {
   faArrowRight: any; // Dostosuj typ, jeśli to konieczne
   selected: Date | null;
   eventDetails: EventDto | null;
-
+  
+  faClock = faClock;
+  faCalendar = faCalendar;
   faLocationDot = faLocationDot;
   faCheck = faCheck;
   isThingsToBringVisible: boolean = false; // Added property for visibility

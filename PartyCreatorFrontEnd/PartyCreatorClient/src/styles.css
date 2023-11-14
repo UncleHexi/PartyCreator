@@ -34,5 +34,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+::-webkit-scrollbar {
+  width: 12px; /* szerokość paska przewijania */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:  #1f2328;/* ciemnoniebieski kolor paska przewijania */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #2d3238; /* ciemnoszare tło paska przewijania */
+}
 
 
