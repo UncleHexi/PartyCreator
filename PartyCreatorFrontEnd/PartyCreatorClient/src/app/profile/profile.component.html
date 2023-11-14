@@ -1,5 +1,4 @@
 <html>
-
   <header>
     <app-nav-menu-main></app-nav-menu-main>
   </header>
@@ -20,17 +19,16 @@
               <span>&nbsp;Edycja</span>
             </ng-template>
             <app-profile-edit></app-profile-edit>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon>contacts</mat-icon>
-            <span>&nbsp;Lista kontaktów</span>
-          </ng-template>
-          <span>Test</span>
-        </mat-tab>
-      </mat-tab-group>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>contacts</mat-icon>
+              <span>&nbsp;Lista kontaktów</span>
+            </ng-template>
+            <app-profile-contacts></app-profile-contacts>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>

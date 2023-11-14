@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
+import { NgToastService } from 'ng-angular-popup';
 
 @Component({
   selector: 'app-profile-edit',
@@ -15,13 +19,16 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
+  providers: [DatePipe],
 })
 export class ProfileEditComponent implements OnInit {
   public userData: any;
   public profileForm!: FormGroup;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private toast: NgToastService) {
     this.profileForm = new FormGroup({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
@@ -30,6 +37,11 @@ export class ProfileEditComponent implements OnInit {
       description: new FormControl(''),
     });
   }
+  maxDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate()
+  );
 
   ngOnInit(): void {
     this.userService.getMyProfileData().subscribe((data) => {
@@ -55,6 +67,23 @@ export class ProfileEditComponent implements OnInit {
   }
 
   public editProfile(): void {
-    this.userService.editMyProfileData(this.profileForm.value).subscribe();
+    this.userService.editMyProfileData(this.profileForm.value).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.userService.profileUpdated.next();
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się edytować profil!',
+          duration: 5000,
+        });
+      },
+      error: (err) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 5000,
+        });
+      },
+    });
   }
 }

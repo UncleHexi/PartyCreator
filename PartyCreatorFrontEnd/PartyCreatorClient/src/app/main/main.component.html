@@ -64,7 +64,7 @@
                     <p>{{myEvent.dateTime+'Z' | date:'d/M/yy'}}</p>
                     <button 
                         type="button"
-                         class="btn btn-light btnToDetails"
+                        class="btn btn-light btnToDetails"
                         [routerLink]="['/wydarzenie', myEvent.id]">
                         <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
                     </button>
@@ -76,12 +76,10 @@
             <mat-card class="calendarView">
                 <mat-calendar [(selected)]="selected"></mat-calendar>
             </mat-card>
-              <!-- <p>Selected date: {{selected}}</p> -->
+              <p>Selected date: {{selected}}</p>
               <div class="CreateEvent">
                 <button type="button" class="buttonCreateEvent btn btn-primary btn-lg" (click)="openDialog()">Utwórz wydarzenie</button>
              </div>
         </div>
-
-
     </div>
 </body>

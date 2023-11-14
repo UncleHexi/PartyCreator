@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -31,8 +31,13 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
-import { ProfileResetPasswordComponent } from './profile/profile-reset-password/profile-reset-password.component';
+import { registerLocaleData } from '@angular/common';
+import localePl from '@angular/common/locales/pl';
+import { ProfileContactsComponent } from './profile/profile-contacts/profile-contacts.component';
+import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
+
+registerLocaleData(localePl);
 
 @NgModule({
   declarations: [
@@ -48,8 +53,6 @@ import { DatePipe } from '@angular/common';
     NotificationsComponent,
     EventViewComponent,
     ProfileComponent,
-    ProfileViewComponent,
-    ProfileResetPasswordComponent,
   ],
 
   imports: [
@@ -69,9 +72,13 @@ import { DatePipe } from '@angular/common';
     MatTabsModule,
     MatIconModule,
     ProfileEditComponent,
-    DatePipe
+    DatePipe,
+    ProfileViewComponent,
+    ProfileContactsComponent,
+    AddContactDialogComponent,
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'pl-PL' },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     [DatePipe]

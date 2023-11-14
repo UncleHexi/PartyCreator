@@ -15,6 +15,7 @@ namespace PartyCreatorWebApi.Repositories
             _httpContextAccessor = httpContextAccessor;
         }
 
+
         public async Task<User> AddUser(User user)
         {
             var result = _dataContext.Users.AddAsync(user);
@@ -55,6 +56,19 @@ namespace PartyCreatorWebApi.Repositories
         public async Task<List<User>> GetUsers()
         {
             return await _dataContext.Users.ToListAsync();
+        }
+
+        public async Task<UserContact> AddContact(UserContact userContact)
+        {
+            var result = _dataContext.UserContacts.AddAsync(userContact);
+            await _dataContext.SaveChangesAsync();
+            return result.Result.Entity;
+        }
+        public async Task<List<UserContact>> ShowContacts(int userId)
+        {
+            //return a list of contacts for user with userId
+            var result = _dataContext.UserContacts.Where(x => x.UserId == userId).ToListAsync();
+            return await result;
         }
     }
 }
