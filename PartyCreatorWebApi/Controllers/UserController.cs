@@ -59,5 +59,26 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(DtoConversions.UserToDto(editedUser));
         }
 
+        [HttpPost("AddContact"), Authorize]
+        public async Task<ActionResult<UserContact>> AddContact(UserContact request)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            UserContact userContact = new UserContact
+            {
+                UserId = creatorId,
+                Name = request.Name,
+                Email = request.Email,
+            };
+            var result = await _usersRepository.AddContact(userContact);
+            return Ok(result);
+        }
+
+        [HttpGet("GetMyContacts"), Authorize]
+        public async Task<ActionResult<UserContact>> ShowContacts()
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            var result = await _usersRepository.ShowContacts(creatorId);
+            return Ok(result);
+        }
     }
 }
