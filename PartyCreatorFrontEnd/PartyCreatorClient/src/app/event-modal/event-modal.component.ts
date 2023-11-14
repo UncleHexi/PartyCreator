@@ -91,10 +91,13 @@ export class EventModalComponent {
   }
 
   onSubmit() {
-    //this.createEvent();
-    // this.eventData.playlist=String(this.eventOptions.value.playlist);
-    // this.eventData.shoppingList=String(this.eventOptions.value.shoppingLis);
-    // this.eventData.receipt=String(this.eventOptions.value.receipt);
+    this.addTimeToDate();
+    this.convertFormToData()
+    this.createEvent();
+    console.log(this.eventData)
+  }
+
+  addTimeToDate() {
     const datePart = this.datePipe.transform(
       this.eventOptions.value.dateTime,
       'yyyy-MM-dd',
@@ -102,9 +105,44 @@ export class EventModalComponent {
     );
     const timePart = this.eventOptions.value.time;
     const combinedDateTimeString = `${datePart}T${timePart}`;
+    console.log(combinedDateTimeString);
     const combinedDateTime = new Date(combinedDateTimeString);
-
     console.log(combinedDateTime);
-    console.log(this.eventOptions.value);
+
+    this.eventOptions.value.dateTime=combinedDateTime;
+  }
+
+  convertFormToData() {
+    this.eventData.title=this.eventOptions.value.title!;
+    this.eventData.description=this.eventOptions.value.description!;
+    this.eventData.dateTime=this.eventOptions.value.dateTime!;
+    this.eventData.city=this.eventOptions.value.city!;
+    this.eventData.address=this.eventOptions.value.address!;
+    this.eventData.country=this.eventOptions.value.country!;
+    //dodanie 
+    if(this.eventOptions.value.playlist) {
+      this.eventData.playlist="Title";
+    }
+    else {
+      this.eventData.playlist="";
+    }
+
+    if(this.eventOptions.value.shoppingLis) {
+      this.eventData.shoppingList="Title";
+    }
+    else {
+      this.eventData.shoppingList="";
+    }
+
+    if(this.eventOptions.value.receipt) {
+      this.eventData.receipt="Title";
+    }
+    else {
+      this.eventData.receipt="";
+    }
+
+    //do usuniecia?
+    this.eventData.zip = "";
+    this.eventData.color = "";
   }
 }

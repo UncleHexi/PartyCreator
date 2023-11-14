@@ -32,6 +32,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ProfileViewComponent } from './profile/profile-view/profile-view.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { ProfileResetPasswordComponent } from './profile/profile-reset-password/profile-reset-password.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -68,10 +69,12 @@ import { ProfileResetPasswordComponent } from './profile/profile-reset-password/
     MatTabsModule,
     MatIconModule,
     ProfileEditComponent,
+    DatePipe
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    [DatePipe]
   ],
 
   bootstrap: [AppComponent],

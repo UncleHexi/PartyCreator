@@ -8,6 +8,7 @@ import { EventDto } from '../interfaces/event-dto';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common'
 
 
 @Component({
@@ -20,7 +21,7 @@ export class MainComponent implements OnInit {
   selected: Date | null;
   myEvents: EventDto[] = [];
   
-  constructor(private event: EventService, public dialog: MatDialog) {
+  constructor(private event: EventService, public dialog: MatDialog, private datePipe: DatePipe) {
     this.selected = null;
   }
   
@@ -48,7 +49,9 @@ export class MainComponent implements OnInit {
     this.event.getOfCreator()
     .subscribe(res=>{
       this.myEvents=res;
+      console.log(this.myEvents)
     })
+
   }
 
   sortMyEvents()
