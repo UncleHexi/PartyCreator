@@ -1,1 +1,48 @@
-<p>profile-contacts works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card" style="margin-top: 20px">
+        <div class="card-header">
+          <h4 class="card-title">Lista kontaktów</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Nazwa</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Akcje</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let contact of contacts">
+                  <td>{{ contact.name }}</td>
+                  <td>{{ contact.email }}</td>
+                  <td class="action-column">
+                    <button mat-raised-button color="primary">
+                      <mat-icon>edit</mat-icon>
+                      <span>&nbsp;Edytuj</span>
+                    </button>
+                    <button mat-raised-button color="warn">
+                      <mat-icon>delete</mat-icon>
+                      <span>&nbsp;Usuń</span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="openAddContactDialog()"
+            >
+              <mat-icon>add</mat-icon>
+              <span>&nbsp;Dodaj</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

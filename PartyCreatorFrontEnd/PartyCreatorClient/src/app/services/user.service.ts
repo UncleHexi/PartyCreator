@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { UserDto } from '../interfaces/user-dto';
+import { ContactDto } from '../interfaces/contact-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,19 @@ export class UserService {
     return this.http.post<UserDto>(
       'https://localhost:7241/api/User/EditMyProfile',
       userData
+    );
+  }
+
+  getMyContacts(): Observable<ContactDto[]> {
+    return this.http.get<ContactDto[]>(
+      'https://localhost:7241/api/User/GetMyContacts'
+    );
+  }
+
+  addContact(contactData: ContactDto): Observable<ContactDto[]> {
+    return this.http.post<ContactDto[]>(
+      'https://localhost:7241/api/User/AddContact',
+      contactData
     );
   }
 }

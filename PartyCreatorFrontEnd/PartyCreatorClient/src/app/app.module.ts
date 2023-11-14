@@ -34,6 +34,7 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { ProfileContactsComponent } from './profile/profile-contacts/profile-contacts.component';
+import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 
 registerLocaleData(localePl);
 
@@ -51,7 +52,6 @@ registerLocaleData(localePl);
     NotificationsComponent,
     EventViewComponent,
     ProfileComponent,
-    ProfileContactsComponent,
   ],
 
   imports: [
@@ -72,6 +72,8 @@ registerLocaleData(localePl);
     MatIconModule,
     ProfileEditComponent,
     ProfileViewComponent,
+    ProfileContactsComponent,
+    AddContactDialogComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

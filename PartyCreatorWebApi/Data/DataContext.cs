@@ -20,6 +20,7 @@ namespace PartyCreatorWebApi.Data
         public DbSet<SurveyVote> SurveyVotes { get; set; }
         public DbSet<Choice> Choices { get; set; }
         public DbSet<ReceiptItem> ReceiptItems { get; set; }
+        public DbSet<UserContact> UserContacts { get; set; }
 
 
     }
