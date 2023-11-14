@@ -2,36 +2,34 @@
     color: white;
     padding: 20px;
 }
-.desktop-calendar {
-    display: none;
-}
-.mobile-calendar {
-    
-}
 .row-class {
     padding-bottom: 10px;
 }
 .row-class-opcje {
-    padding-top: 10px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
-.buttonCreateEvent {
-    background-color: #F0CF65;
-    border-color: #F0CF65;
-}
-.form-check-input:focus {
-    border-color: none !important;
-    box-shadow: none !important;
-}
-.form-check-input:checked {
-    border-color: #F0CF65 !important;
-    background-color: #F0CF65 !important;
-}
-.form-check-input:active {
-    background-color: #F0CF65 !important;
-    border-color: none !important;
+@media (min-width: 769px) {
+    .mobile-calendar {
+        display: none;
+    }
+    .row-slider {
+        display: none;
+    }
+    
 }
 
-.form-check-input:focus:not(:checked) {
-    border-color: #F0CF65 !important;
+@media (max-width: 768px) {
+    .desktop-calendar {
+        display: none;
+    }
+    .row-class-opcje {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .col-slider {
+        display: list-item;
+    }
+
 }
