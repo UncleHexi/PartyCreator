@@ -42,4 +42,17 @@ export class UserService {
       contactData
     );
   }
+
+  editContact(contactData: ContactDto): Observable<any> {
+    return this.http.post<ContactDto>(
+      'https://localhost:7241/api/User/EditContact',
+      contactData
+    );
+  }
+
+  deleteContact(contactId: string): Observable<any> {
+    return this.http.delete(
+      `https://localhost:7241/api/User/DeleteContact/${contactId}`
+    );
+  }
 }

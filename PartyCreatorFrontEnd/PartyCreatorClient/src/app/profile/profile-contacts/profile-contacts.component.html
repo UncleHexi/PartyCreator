@@ -20,11 +20,19 @@
                   <td>{{ contact.name }}</td>
                   <td>{{ contact.email }}</td>
                   <td class="action-column">
-                    <button mat-raised-button color="primary">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="editContact(contact)"
+                    >
                       <mat-icon>edit</mat-icon>
                       <span>&nbsp;Edytuj</span>
                     </button>
-                    <button mat-raised-button color="warn">
+                    <button
+                      mat-raised-button
+                      color="warn"
+                      (click)="deleteContact(contact.id)"
+                    >
                       <mat-icon>delete</mat-icon>
                       <span>&nbsp;Usuń</span>
                     </button>

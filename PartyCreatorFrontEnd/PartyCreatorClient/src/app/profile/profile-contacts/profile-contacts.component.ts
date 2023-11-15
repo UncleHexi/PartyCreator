@@ -49,4 +49,36 @@ export class ProfileContactsComponent {
       }
     });
   }
+
+  editContact(contact: any): void {
+    const dialogRef = this.dialog.open(AddContactDialogComponent, {
+      data: contact,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.userService.editContact(result).subscribe({
+          next: () => {
+            this.refreshContacts();
+          },
+          error: (error) => {
+            console.log(error);
+          },
+        });
+      }
+    });
+  }
+
+  deleteContact(contactId: string): void {
+    console.log(contactId);
+    this.userService.deleteContact(contactId.toString()).subscribe({
+      next: () => {
+        this.refreshContacts();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 }
