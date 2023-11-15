@@ -37,17 +37,16 @@ namespace PartyCreatorWebApi.Controllers
             Event _event = new Event
             {
                 CreatorId = creatorId,
+                PlaylistTitle = request.PlaylistTitle,
+                ShoppingListTitle = request.ShoppingListTitle,
+                ReceiptTitle = request.ReceiptTitle,
                 Title = request.Title,
                 Description = request.Description,
                 DateTime = request.DateTime,
                 City = request.City,
-                Zip = request.Zip,
                 Address = request.Address,
                 Country = request.Country,
-                Color = request.Color,
-                PlaylistTitle = request.PlaylistTitle,
-                ShoppingListTitle = request.ShoppingListTitle,
-                ReceiptTitle = request.ReceiptTitle
+                Color = request.Color
             };
 
             var addedEvent = await _eventRepository.CreateEvent(_event);

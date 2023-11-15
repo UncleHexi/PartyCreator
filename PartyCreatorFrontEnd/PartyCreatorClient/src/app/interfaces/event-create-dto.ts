@@ -3,11 +3,10 @@ export interface EventCreateDto {
     description: string
     dateTime: Date
     city: string
-    zip: string
     address: string
     country: string
     color: string
-    playlist: string
-    shoppingList: string
-    receipt: string
+    playlistTitle: string
+    shoppingListTitle: string
+    receiptTitle: string
 }

@@ -49,16 +49,16 @@
         </div>    
       </div>
     </div>    
-    <div class="row row-class">
+    <div class="row">
       
-      <div class="col">
+      <div class="col col-class">
         <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Godzina</mat-label>
           <input matInput formControlName="time" maxlength="5" required pattern="^(?:[01]\d|2[0-3]):[0-5]\d$">
           <mat-hint>Format hh:mm</mat-hint>
         </mat-form-field>
       </div>
-      <div class="col">
+      <div class="col col-class">
         <mat-form-field appearance="outline" style="width: 100%;" class="mobile-calendar">
           <mat-label style="color: #a6a6a6;">Data</mat-label>
           <input matInput [min]="minDate" readonly [matDatepicker]="picker1" formControlName="dateTime" style="color: white;">

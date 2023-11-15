@@ -39,13 +39,12 @@ export class EventModalComponent {
     description: '',
     dateTime: new Date(),
     city: '',
-    zip: '',
     address: '',
     country: '',
     color: '',
-    playlist: '',
-    shoppingList: '',
-    receipt: '',
+    playlistTitle: '',
+    shoppingListTitle: '',
+    receiptTitle: '',
   };
   eventOptions = this.fb.group({
     title: '',
@@ -53,10 +52,8 @@ export class EventModalComponent {
     time: '',
     dateTime: new Date(),
     city: '',
-    zip: '',
     address: '',
     country: '',
-    color: '',
     playlist: false,
     shoppingLis: false,
     receipt: false,
@@ -94,7 +91,6 @@ export class EventModalComponent {
     this.addTimeToDate();
     this.convertFormToData()
     this.createEvent();
-    console.log(this.eventData)
   }
 
   addTimeToDate() {
@@ -105,9 +101,7 @@ export class EventModalComponent {
     );
     const timePart = this.eventOptions.value.time;
     const combinedDateTimeString = `${datePart}T${timePart}`;
-    console.log(combinedDateTimeString);
     const combinedDateTime = new Date(combinedDateTimeString);
-    console.log(combinedDateTime);
 
     this.eventOptions.value.dateTime=combinedDateTime;
   }
@@ -121,28 +115,27 @@ export class EventModalComponent {
     this.eventData.country=this.eventOptions.value.country!;
     //dodanie 
     if(this.eventOptions.value.playlist) {
-      this.eventData.playlist="Title";
+      this.eventData.playlistTitle="Title";
     }
     else {
-      this.eventData.playlist="";
+      this.eventData.playlistTitle="";
     }
 
     if(this.eventOptions.value.shoppingLis) {
-      this.eventData.shoppingList="Title";
+      this.eventData.shoppingListTitle="Title";
     }
     else {
-      this.eventData.shoppingList="";
+      this.eventData.shoppingListTitle="";
     }
 
     if(this.eventOptions.value.receipt) {
-      this.eventData.receipt="Title";
+      this.eventData.receiptTitle="Title";
     }
     else {
-      this.eventData.receipt="";
+      this.eventData.receiptTitle="";
     }
-
+    
     //do usuniecia?
-    this.eventData.zip = "";
     this.eventData.color = "";
   }
 }

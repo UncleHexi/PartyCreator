@@ -51,6 +51,7 @@ body {
 }
 
 .testDialog {
+  overflow-y: auto;
   @media (min-width: 769px) {
     width: 700px;
 
