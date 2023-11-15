@@ -74,14 +74,14 @@ export class ProfileEditComponent implements OnInit {
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Udało się edytować profil!',
-          duration: 5000,
+          duration: 3000,
         });
       },
       error: (err) => {
         this.toast.error({
           detail: 'ERROR',
           summary: err.error,
-          duration: 5000,
+          duration: 3000,
         });
       },
     });

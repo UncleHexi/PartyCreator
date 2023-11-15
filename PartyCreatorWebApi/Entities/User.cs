@@ -10,6 +10,7 @@ namespace PartyCreatorWebApi.Entities
         public string Email { get; set; } = string.Empty;
         public DateTime Birthday { get; set; }
         public string Description { get; set; } = string.Empty;
+        public string Image { get; set; } = "avatar1.png";
         public byte[] PasswordHash { get; set; } = new byte[256];
         public byte[] PasswordSalt { get; set; } = new byte[256];
 

@@ -1,6 +1,6 @@
 <div class="parent">
   <div class="profile-picture">
-    <img src="assets/profile-avatars/avatar3.png" alt="User Profile Picture" />
+    <img [src]="profilePicture" alt="User Profile Picture" />
   </div>
   <div class="user-info" *ngIf="userData">
     <h2>{{ userData.firstName }} {{ userData.lastName }}</h2>

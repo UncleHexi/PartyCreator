@@ -89,5 +89,11 @@ namespace PartyCreatorWebApi.Repositories
             return result.Entity;
             
         }
+
+        public async Task<UserContact> GetContactById(int id)
+        {
+            var result = await _dataContext.UserContacts.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
+        }
     }
 }
