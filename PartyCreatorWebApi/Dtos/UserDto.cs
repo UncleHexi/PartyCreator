@@ -8,5 +8,6 @@
         public string Email { get; set; } = string.Empty;
         public DateTime Birthday { get; set; }
         public string Description { get; set; } = string.Empty;
+        public string Image { get; set; } = "avatar1.png";
     }
 }

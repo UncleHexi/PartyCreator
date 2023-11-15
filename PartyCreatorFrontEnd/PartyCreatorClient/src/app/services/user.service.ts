@@ -43,9 +43,9 @@ export class UserService {
     );
   }
 
-  editContact(contactData: ContactDto): Observable<any> {
-    return this.http.post<ContactDto>(
-      'https://localhost:7241/api/User/EditContact',
+  editContact(contactId: string, contactData: ContactDto): Observable<any> {
+    return this.http.put<ContactDto>(
+      `https://localhost:7241/api/User/EditContact/${contactId}`,
       contactData
     );
   }

@@ -14,7 +14,8 @@ namespace PartyCreatorWebApi.Extensions
                 LastName = user.LastName,
                 Email = user.Email,
                 Birthday = user.Birthday,
-                Description = user.Description
+                Description = user.Description,
+                Image = user.Image
             };
         }
     }

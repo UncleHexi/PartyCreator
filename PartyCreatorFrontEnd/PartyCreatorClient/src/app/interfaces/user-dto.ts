@@ -5,4 +5,5 @@ export interface UserDto {
   email: string;
   birthday: string;
   description: string;
+  image: string;
 }

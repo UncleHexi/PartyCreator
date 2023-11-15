@@ -47,7 +47,7 @@ namespace PartyCreatorWebApi.Controllers
 
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             var result = await _usersRepository.GetUserById(creatorId);
-            if(result.FirstName == userDto.FirstName && result.LastName == userDto.LastName && result.Birthday == userDto.Birthday && result.Description == userDto.Description)
+            if(result.FirstName == userDto.FirstName && result.LastName == userDto.LastName && result.Birthday == userDto.Birthday && result.Description == userDto.Description && result.Image == userDto.Image)
             {
                 return BadRequest("Nie wprowadzono zadnych zmian");
             }
@@ -55,6 +55,7 @@ namespace PartyCreatorWebApi.Controllers
             result.LastName = userDto.LastName;
             result.Birthday = userDto.Birthday;
             result.Description = userDto.Description;
+            result.Image = userDto.Image;
             var editedUser = await _usersRepository.EditUser(result);
             return Ok(DtoConversions.UserToDto(editedUser));
         }
@@ -81,24 +82,51 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("EditContact"), Authorize]
-        public async Task<ActionResult<UserContact>> EditContact(UserContact request)
+        [HttpGet("GetContactById/{id:int}"), Authorize]
+        public async Task<ActionResult<UserContact>> GetContactById(int id)
+        {
+            var result = await _usersRepository.GetContactById(id);
+
+            if(result == null)
+            {
+                return BadRequest("Nie znaleziono kontaktu");
+            }
+            return Ok(result);
+        }
+
+        [HttpPut("EditContact/{id:int}"), Authorize]
+        public async Task<ActionResult<UserContact>> EditContact(int id, UserContact request)
         {
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
-            if(request.UserId != creatorId)
+            var contact = await _usersRepository.GetContactById(id);
+
+            if(contact == null)
+            {
+                return BadRequest("Nie znaleziono kontaktu");
+            }
+
+            if(contact.UserId != creatorId)
             {
                 return BadRequest("Nie masz uprawnien do edycji tego kontaktu");
             }
 
-            UserContact userContact = new UserContact
+            if(request.Name == "" || request.Email == "")
             {
-                Id = request.Id,
-                UserId = creatorId,
-                Name = request.Name,
-                Email = request.Email,
-            };
-            var result = await _usersRepository.EditContact(userContact);
+                return BadRequest("Proszę podać wszystkie dane");
+            }
+
+            if(id != contact.Id)
+            {
+                return BadRequest("Id kontaktu nie zgadza sie z id w adresie url");
+            }
+
+            contact.Id = id;
+            contact.UserId = creatorId;
+            contact.Name = request.Name;
+            contact.Email = request.Email;
+
+            var result = await _usersRepository.EditContact(contact);
             return Ok(result);
         }
 
