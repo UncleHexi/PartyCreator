@@ -80,5 +80,34 @@ namespace PartyCreatorWebApi.Controllers
             var result = await _usersRepository.ShowContacts(creatorId);
             return Ok(result);
         }
+
+        [HttpPost("EditContact"), Authorize]
+        public async Task<ActionResult<UserContact>> EditContact(UserContact request)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            if(request.UserId != creatorId)
+            {
+                return BadRequest("Nie masz uprawnien do edycji tego kontaktu");
+            }
+
+            UserContact userContact = new UserContact
+            {
+                Id = request.Id,
+                UserId = creatorId,
+                Name = request.Name,
+                Email = request.Email,
+            };
+            var result = await _usersRepository.EditContact(userContact);
+            return Ok(result);
+        }
+
+        [HttpDelete("DeleteContact/{id:int}"), Authorize]
+        public async Task<ActionResult<UserContact>> DeleteContact(int id)
+        {
+            var result = await _usersRepository.DeleteContact(id);
+            return Ok(result);
+        }
+
     }
 }
