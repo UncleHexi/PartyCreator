@@ -5,11 +5,16 @@
     <div class="mainLayout">
         <div class="details">
             <div *ngIf="eventDetails" class="Details">
-                <h1>{{ eventDetails!.title }}</h1>
+                <h1 style="color:white">{{ eventDetails!.title }}</h1>
                 <p>{{ eventDetails!.description }}</p>
-                <p><fa-icon [icon]="faLocationDot" style="color: white"> </fa-icon> Lokalizacaja</p>
-                <p>Godzina:</p>
-                <p>Data:</p>
+                <p>Organizator:</p>
+                <p><fa-icon [icon]="faLocationDot" style="color: white" size="2xl"> </fa-icon> 
+                    {{ eventDetails!.address }}
+                    {{ eventDetails!.zip }}
+                    {{ eventDetails!.city }}
+                </p>
+                <p><fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>  {{ eventDetails!.dateTime | date:'dd-MM-yyyy' }}</p>
+                <p><fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon> {{ eventDetails!.dateTime | date:'HH:mm' }}</p>
             </div>
         </div>
 
@@ -26,11 +31,8 @@
                 <p>Chrupki <button>PRZYNIEŚ</button></p>
                 <p><del>Przekąski słone  </del><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
                 <p>Cytryna <button>PRZYNIEŚ</button></p>
-                <p><s>Pieczywo  </s><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
+                <p><s>Pieczywo</s><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
             </div>
-        </div>
-        <div class="spotifyPlaylist">
-            playlista spotify
         </div>
         <div class="chat">
             czat
@@ -42,5 +44,20 @@
             <h5>Lista uczestników</h5>
         </div>
       </div>
+      <div class="extraFunctions">
+        <div class="spotifyPlaylist"> playlista spotify</div>
+        <div class="shareReceipt">dzielenie się rachunkiem</div>
+      </div>
+
 </body>
+<!-- event-view.component.html -->
+<div *ngIf="eventDetails" class="Details">
+    <!-- ... inne elementy ... -->
+    <p><fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>  
+        <input matInput [matDatepicker]="picker" placeholder="Wybierz datę" [(ngModel)]="selected">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </p>
+    <!-- ... inne elementy ... -->
+</div>
 

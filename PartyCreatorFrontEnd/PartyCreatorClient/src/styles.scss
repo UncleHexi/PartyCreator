@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* Provide sufficient contrast against white background */
+
 @use "node_modules/@angular/material" as mat;
 
 @include mat.core();
@@ -39,6 +40,7 @@ code {
   border-color: #1861ac;
 }
 
+
 html,
 body {
   height: 100%;
@@ -51,12 +53,28 @@ body {
 .testDialog {
   @media (min-width: 769px) {
     width: 700px;
+
   }
 
   @media (max-width: 768px) {
     width: 100%;
+
     .col-2 {
       display: none;
     }
   }
 }
+
+
+::-webkit-scrollbar {
+  width: 12px; /* szerokość paska przewijania */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:  #1f2328;/* ciemnoniebieski kolor paska przewijania */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #2d3238; /* ciemnoszare tło paska przewijania */
+}
+
