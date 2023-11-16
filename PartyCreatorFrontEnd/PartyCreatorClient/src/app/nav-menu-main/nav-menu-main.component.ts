@@ -4,6 +4,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 //icons
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +18,7 @@ import { EventService } from '../services/event.service';
   templateUrl: './nav-menu-main.component.html',
   styleUrls: ['./nav-menu-main.component.css'],
   standalone: true,
-  imports: [RouterModule, CommonModule, MatMenuModule],
+  imports: [RouterModule, CommonModule, MatMenuModule, MatIconModule],
 })
 export class NavMenuMainComponent implements OnInit {
   faBell = faBell;
@@ -26,9 +27,12 @@ export class NavMenuMainComponent implements OnInit {
   isNotificationVisible: boolean = false;
   notifications: NotificationDto[] = [];
 
-
-  constructor(private auth: AuthService, private notificationService: NotificationService, private eventService: EventService, private toast: NgToastService) {}
-
+  constructor(
+    private auth: AuthService,
+    private notificationService: NotificationService,
+    private eventService: EventService,
+    private toast: NgToastService
+  ) {}
 
   toggle() {
     this.isExpanded = !this.isExpanded;
@@ -54,11 +58,9 @@ export class NavMenuMainComponent implements OnInit {
   getNotifications() {
     this.notificationService.getAllOfUser().subscribe({
       next: (res) => {
-
         console.log(res);
 
         this.notifications = res;
-
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
@@ -70,18 +72,14 @@ export class NavMenuMainComponent implements OnInit {
     });
   }
 
-}
-
-
-  acceptInvite(invite: NotificationDto)
-  {
+  acceptInvite(invite: NotificationDto) {
     this.eventService.acceptInvite(invite).subscribe({
       next: (res) => {
-        this.notifications.splice(this.notifications.indexOf(invite),1);
+        this.notifications.splice(this.notifications.indexOf(invite), 1);
         console.log(res);
         this.toast.success({
           detail: 'SUCCESS',
-          summary: "Udało się dołączyć do wydarzenia",
+          summary: 'Udało się dołączyć do wydarzenia',
           duration: 3000,
         });
       },
@@ -91,19 +89,18 @@ export class NavMenuMainComponent implements OnInit {
           summary: err.error,
           duration: 3000,
         });
-      }
-    })
+      },
+    });
   }
 
-  declineInvite(invite: NotificationDto)
-  {
+  declineInvite(invite: NotificationDto) {
     this.eventService.declineInvite(invite).subscribe({
       next: (res) => {
-        this.notifications.splice(this.notifications.indexOf(invite),1);
+        this.notifications.splice(this.notifications.indexOf(invite), 1);
         console.log(res);
         this.toast.success({
           detail: 'SUCCESS',
-          summary: "Odrzuciłeś zaproszenie do wydarzenia",
+          summary: 'Odrzuciłeś zaproszenie do wydarzenia',
           duration: 3000,
         });
       },
@@ -113,8 +110,7 @@ export class NavMenuMainComponent implements OnInit {
           summary: err.error,
           duration: 3000,
         });
-      }
-    })
+      },
+    });
   }
 }
-
