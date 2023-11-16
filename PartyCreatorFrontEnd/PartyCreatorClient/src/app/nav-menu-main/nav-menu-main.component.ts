@@ -1,8 +1,9 @@
-import { NgClass } from '@angular/common';
-import { Component, ViewChild, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
-
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
 
 //icons
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
@@ -13,17 +14,21 @@ import { NotificationService } from '../services/notification.service';
   selector: 'app-nav-menu-main',
   templateUrl: './nav-menu-main.component.html',
   styleUrls: ['./nav-menu-main.component.css'],
+  standalone: true,
+  imports: [RouterModule, CommonModule, MatMenuModule],
 })
-
-export class  NavMenuMainComponent implements OnInit{
-
+export class NavMenuMainComponent implements OnInit {
   faBell = faBell;
   faX = faX;
   isExpanded = false;
 
   isNotificationVisible: boolean = false;
 
-  constructor(private auth: AuthService, private notificationService: NotificationService, private toast: NgToastService) {}
+  constructor(
+    private auth: AuthService,
+    private notificationService: NotificationService,
+    private toast: NgToastService
+  ) {}
 
   toggle() {
     this.isExpanded = !this.isExpanded;
@@ -37,7 +42,7 @@ export class  NavMenuMainComponent implements OnInit{
     this.isNotificationVisible = !this.isNotificationVisible;
   }
 
-  doSomething($event:any){
+  doSomething($event: any) {
     $event.stopPropagation();
     //Another instructions
   }
@@ -46,12 +51,10 @@ export class  NavMenuMainComponent implements OnInit{
     this.getNotifications();
   }
 
-  getNotifications()
-  {
+  getNotifications() {
     this.notificationService.getAllOfUser().subscribe({
       next: (res) => {
         console.log(res);
-        
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({

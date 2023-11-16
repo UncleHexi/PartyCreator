@@ -1,4 +1,25 @@
-body, html {
+.card {
+  background-color: #3d3d3d;
+  height: 80%;
+  width: 85%;
+  border: none;
+}
+
+body {
+  background-color: #2d2d2d;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: aliceblue;
+}
+
+body,
+html {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -7,16 +28,15 @@ body, html {
 }
 
 body {
-  background: #2D2D2D;
-  background-size: cover; 
+  background: #2d2d2d;
+  background-size: cover;
   color: aliceblue;
   margin: 0;
   padding: 0;
 }
 
-.container {  /*glowna siatka strony, podzielenie jej na wszystkie wydarzenia, swoje i kalendarz */
-  padding-top:4%;
-  padding-bottom:1%;
+.container {
+  /*glowna siatka strony, podzielenie jej na wszystkie wydarzenia, swoje i kalendarz */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 0.5fr;
@@ -26,25 +46,26 @@ body {
     "upcomingEvents upcomingEvents calendar"
     "yourEvents yourEvents calendar";
 }
-  
-.upcomingEvents { 
-  grid-area: upcomingEvents; 
+
+.upcomingEvents {
+  grid-area: upcomingEvents;
 }
-  
+
 .yourEvents {
   grid-area: yourEvents;
 }
-  
-.calendar { 
-  grid-area: calendar; 
+
+.calendar {
+  grid-area: calendar;
   padding-top: 98px;
-  padding-left:50px; 
+  padding-left: 50px;
 }
 
-.container2 {   /*Nadchodzace wydarzenia */
+.container2 {
+  /*Nadchodzace wydarzenia */
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.25fr 1fr 1fr ;
+  grid-template-rows: 0.25fr 1fr 1fr;
   gap: 40px 50px;
   grid-auto-flow: row;
   grid-template-areas:
@@ -52,109 +73,134 @@ body {
     "Event1 Event2 Event3"
     "Event4 Event5 Event6";
 }
-  
+
 .UpcomingEventsText {
-  grid-area: UpcomingEventsText; 
+  grid-area: UpcomingEventsText;
   text-align: center;
 }
 
-.UpcomingEventsText2{
-  text-align:center;
-  justify-content:center;
+.UpcomingEventsText2 {
+  text-align: center;
+  justify-content: center;
 }
 
-.Event1, .Event2,.Event3,.Event4,.Event5,.Event6, .YourEvent1, .YourEvent2, .YourEvent3, .YourEvent{
+.Event1,
+.Event2,
+.Event3,
+.Event4,
+.Event5,
+.Event6,
+.YourEvent1,
+.YourEvent2,
+.YourEvent3,
+.YourEvent {
   color: white;
-  grid-area:auto;
-  font-size:22px;
-  padding:4%;
-  width:250px;
-  height:170px;
-  border-radius:3%;
-  background-color:#515354;
+  grid-area: auto;
+  font-size: 22px;
+  padding: 4%;
+  width: 250px;
+  height: 170px;
+  border-radius: 3%;
+  background-color: #515354;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
-.Event1 h4, .Event2 h4,.Event3 h4,.Event4 h4,.Event5 h4,.Event6 h4{
-       color: white;
-       font-weight:bold;
-    }
-.Event1 button, .Event2 button,.Event3 button,.Event4 button,.Event5 button, .Event6 button, .YourEvent1 button, .YourEvent2 button, .YourEvent3 button, .YourEvent button{
-    float:right;   
+.Event1 h4,
+.Event2 h4,
+.Event3 h4,
+.Event4 h4,
+.Event5 h4,
+.Event6 h4 {
+  color: white;
+  font-weight: bold;
+}
+.Event1 button,
+.Event2 button,
+.Event3 button,
+.Event4 button,
+.Event5 button,
+.Event6 button,
+.YourEvent1 button,
+.YourEvent2 button,
+.YourEvent3 button,
+.YourEvent button {
+  float: right;
 }
 
-.container3 { /*Twoje wydarzenia*/
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 0.25fr 1fr;
-    gap: 40px 50px;
-    padding-top:20px;
-    grid-auto-flow: row;
-    grid-template-areas:
-      "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
-      "YourEvent YourEvent YourEvent";
-  }
-  .UpcomingEventsText{
-    justify-self: center; 
-  }
+.container3 {
+  /*Twoje wydarzenia*/
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 0.25fr 1fr;
+  gap: 40px 50px;
+  padding-top: 20px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "UpcomingEventsText UpcomingEventsText UpcomingEventsText"
+    "YourEvent YourEvent YourEvent";
+}
+.UpcomingEventsText {
+  justify-self: center;
+}
 
-.UpcomingEventsText { 
+.UpcomingEventsText {
   grid-area: UpcomingEventsText;
 }
-  
-.YourEvent1 { 
-  grid-area: YourEvent1; 
+
+.YourEvent1 {
+  grid-area: YourEvent1;
 }
-  
-.YourEvent2 { 
-  grid-area: YourEvent2; 
+
+.YourEvent2 {
+  grid-area: YourEvent2;
 }
-  
-.YourEvent3 { 
-  grid-area: YourEvent3; 
+
+.YourEvent3 {
+  grid-area: YourEvent3;
 }
 
 .calendarView {
-  background-color: #6A8D73;
+  background-color: #6a8d73;
   width: 400px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
-  
+
 .buttonCreateEvent {
-  background-color: #9E4770;
-  border-color: #9E4770;
-  width:400px;
-  height:100px;
-  font-size:32px;
+  background-color: #9e4770;
+  border-color: #9e4770;
+  width: 400px;
+  height: 100px;
+  font-size: 32px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  margin-top:10px;
+  margin-top: 10px;
 }
 
-.btnToDetails{
-  background-color:#F0CF65;
-  border-color: #F0CF65;
-  width:50px;
+.btnToDetails {
+  background-color: #f0cf65;
+  border-color: #f0cf65;
+  width: 50px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
-  
-p{
-  color:white;
-  margin:5px;
+
+p {
+  color: white;
+  margin: 5px;
 }
 
 .yourEvents {
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
-.CreateEvent { /* umiejscowienie przycisku */
-  text-align: center; 
+.CreateEvent {
+  /* umiejscowienie przycisku */
+  text-align: center;
 }
-
 
 @media (max-width: 1400px) {
-  .container {  /*glowna siatka strony, podzielenie jej na wszystkie wydarzenia, swoje i kalendarz */
-    padding-top:7%;
-    padding-bottom:1%;
+  .container {
+    /*glowna siatka strony, podzielenie jej na wszystkie wydarzenia, swoje i kalendarz */
+    padding-top: 7%;
+    padding-bottom: 1%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 0.5fr;
@@ -163,13 +209,13 @@ p{
     grid-template-areas:
       "upcomingEvents upcomingEvents"
       "yourEvents yourEvents "
-      "calendar calendar"; 
-      
+      "calendar calendar";
   }
-  .container2 {   /*Nadchodzace wydarzenia */
+  .container2 {
+    /*Nadchodzace wydarzenia */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 0.25fr 1fr 1fr ;
+    grid-template-rows: 0.25fr 1fr 1fr;
     gap: 25px 15px;
 
     grid-template-areas:
@@ -177,21 +223,19 @@ p{
       "Event1 Event2 Event3"
       "Event4 Event5 Event6";
   }
-  .container3{
+  .container3 {
     gap: 25px 15px;
   }
-  .calendar{
+  .calendar {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding-top:50px;
-    padding-left:0;
+    padding-top: 50px;
+    padding-left: 0;
   }
-  .buttonCreateEvent{
-    margin-top:100px;
+  .buttonCreateEvent {
+    margin-top: 100px;
   }
-
 }
-
 
 @media (max-width: 768px) {
   .container {
@@ -206,41 +250,47 @@ p{
     text-align: center;
   }
 
-  .container2, .container3 {
+  .container2,
+  .container3 {
     display: inline-block;
   }
-  .container3{
-    margin-bottom:55px;
+  .container3 {
+    margin-bottom: 55px;
   }
-  .Event1, .Event2, .Event3, .Event4, .Event5, .Event6 {
+  .Event1,
+  .Event2,
+  .Event3,
+  .Event4,
+  .Event5,
+  .Event6 {
     width: 100%;
-    margin-bottom:20px;
+    margin-bottom: 20px;
   }
 
   .YourEvent {
     width: 320px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
   }
 
   .calendarView {
-    display: none; 
+    display: none;
   }
   .calendar {
-    padding-left: 0; 
-    text-align: center; 
+    padding-left: 0;
+    text-align: center;
   }
 
   .calendarView {
-    width: 100%; 
+    width: 100%;
   }
 
   .CreateEvent {
     text-align: center;
-    position: fixed; 
-    bottom: 15px; 
-    left: 1%; 
-    right: 0; 
+    position: fixed;
+    bottom: 15px;
+    left: 1%;
+    right: 0;
     z-index: 999;
-    margin-right:10px;
+    margin-right: 10px;
   }
 }
