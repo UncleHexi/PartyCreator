@@ -51,7 +51,7 @@ export class UserService {
   }
 
   deleteContact(contactId: string): Observable<any> {
-    return this.http.delete(
+    return this.http.delete<ContactDto>(
       `https://localhost:7241/api/User/DeleteContact/${contactId}`
     );
   }

@@ -46,8 +46,8 @@ export class ProfileContactsComponent {
       console.log(`Dialog result: ${result}`);
       if (result) {
         this.userService.addContact(result).subscribe({
-          next: () => {
-            this.contacts.push(result);
+          next: (res) => {
+            this.contacts.push(res);
             this.toast.success({
               detail: 'SUCCESS',
               summary: 'Udało się dodać kontakt!',
@@ -104,8 +104,8 @@ export class ProfileContactsComponent {
   deleteContact(contactId: string): void {
     console.log(contactId);
     this.userService.deleteContact(contactId.toString()).subscribe({
-      next: () => {
-        this.refreshContacts();
+      next: (res) => {
+        this.contacts.splice(this.contacts.indexOf(res), 1);
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Kontakt został usunięty!',

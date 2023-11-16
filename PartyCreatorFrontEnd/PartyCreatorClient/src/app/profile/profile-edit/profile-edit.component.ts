@@ -8,6 +8,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
 import { NgToastService } from 'ng-angular-popup';
+import { ProfileEditAvatarComponent } from './profile-edit-avatar/profile-edit-avatar.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-profile-edit',
@@ -27,8 +29,13 @@ import { NgToastService } from 'ng-angular-popup';
 export class ProfileEditComponent implements OnInit {
   public userData: any;
   public profileForm!: FormGroup;
+  public profilePicture: string = '';
 
-  constructor(private userService: UserService, private toast: NgToastService) {
+  constructor(
+    private userService: UserService,
+    private toast: NgToastService,
+    private dialog: MatDialog
+  ) {
     this.profileForm = new FormGroup({
       firstName: new FormControl(''),
       lastName: new FormControl(''),
@@ -47,6 +54,7 @@ export class ProfileEditComponent implements OnInit {
     this.userService.getMyProfileData().subscribe((data) => {
       if (data) {
         this.userData = data;
+        this.profilePicture = `assets/profile-avatars/${this.userData.image}`;
         this.profileForm = new FormGroup({
           firstName: new FormControl(
             this.userData ? this.userData.firstName : ''
@@ -62,6 +70,18 @@ export class ProfileEditComponent implements OnInit {
             this.userData ? this.userData.description : ''
           ),
         });
+      }
+    });
+  }
+
+  changeProfilePicture(): void {
+    const dialogRef = this.dialog.open(ProfileEditAvatarComponent);
+
+    dialogRef.afterClosed().subscribe((selectedAvatar) => {
+      if (selectedAvatar) {
+        console.log(selectedAvatar);
+        this.profilePicture = `assets/profile-avatars/${selectedAvatar}`;
+        this.profileForm.value.image = selectedAvatar;
       }
     });
   }
