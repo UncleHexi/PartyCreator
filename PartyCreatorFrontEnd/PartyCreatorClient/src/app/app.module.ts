@@ -36,6 +36,7 @@ import localePl from '@angular/common/locales/pl';
 import { ProfileContactsComponent } from './profile/profile-contacts/profile-contacts.component';
 import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
+import { ProfileEditAvatarComponent } from './profile/profile-edit/profile-edit-avatar/profile-edit-avatar.component';
 
 registerLocaleData(localePl);
 
@@ -76,12 +77,13 @@ registerLocaleData(localePl);
     ProfileViewComponent,
     ProfileContactsComponent,
     AddContactDialogComponent,
+    ProfileEditAvatarComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    [DatePipe]
+    [DatePipe],
   ],
 
   bootstrap: [AppComponent],
