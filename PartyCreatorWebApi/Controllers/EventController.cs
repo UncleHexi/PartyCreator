@@ -13,11 +13,13 @@ namespace PartyCreatorWebApi.Controllers
     {
         private readonly IEventRepository _eventRepository;
         private readonly IUsersRepository _usersRepository;
+        private readonly INotificationRepository _notificationRepository;
 
-        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository)
+        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository)
         {
             _eventRepository = eventRepository;
             _usersRepository = usersRepository;
+            _notificationRepository = notificationRepository;
         }
 
         [HttpGet("getOfCreator"), Authorize]
@@ -71,5 +73,127 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(eventDetails);
         }
 
+        [HttpPost("invite"), Authorize]
+        public async Task<ActionResult<InviteList>> InviteToEvent(InviteList request)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            if(request.UserId == creatorId)
+            {
+                return BadRequest("Nie możesz zaprosić samego siebie do wydarzenia");
+            }
+
+            var user = await _usersRepository.GetUserById(request.UserId);
+            if(user == null)
+            {
+                return BadRequest("Nie znaleziono takiego użytkownika");
+            }
+
+            var _event = await _eventRepository.GetEventDetails(request.EventId);
+            if(_event == null)
+            {
+                return BadRequest("Nie znaleziono takiego wydarzenia");
+            }
+
+            if(creatorId != _event.CreatorId)
+            {
+                return BadRequest("Musisz być twórcą wydarzenia aby móc do niego zapraszać");
+            }
+
+            var invitedUser = await _eventRepository.GetInviteList(request);
+            if(invitedUser != null)
+            {
+                return BadRequest("Użytkownik jest już zaproszony do wydarzenia");
+            }
+
+            var guestList = new GuestList
+            {
+                UserId = request.UserId,
+                EventId = request.EventId
+            };
+            var guestUser = await _eventRepository.GetGuestList(guestList);
+            if(guestUser != null)
+            {
+                return BadRequest("Uzytkownik już uczestniczy w wydarzeniu");
+            }
+
+            var result = await _eventRepository.InviteToEvent(request);
+            if(result == null)
+            {
+                return BadRequest("Wystąpił błąd podczas zapraszania");
+            }
+
+            var notification = new Notification
+            {
+                UserId = request.UserId,
+                Description = "Zaproszenie do wydarzenia",
+                Type = "Zaproszenie",
+                IsRead = false,
+                EventId = request.EventId
+            };
+            await _notificationRepository.CreateNotification(notification);
+
+            return Ok(result);
+        }
+
+        [HttpPost("accept"), Authorize]
+        public async Task<ActionResult<GuestList>> AcceptInvite(Notification request) //tu mozna zmienic notification
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            if(request.UserId != creatorId)
+            {
+                return BadRequest("Możesz akceptować tylko twoje wydarzenia");
+            }
+
+            var _event = await _eventRepository.GetEventDetails(request.EventId);
+            if(_event == null)
+            {
+                return BadRequest("Nie można znaleźć wydarzenia");
+            }
+
+            //usun invite
+            var invite = await _eventRepository.GetInviteList(new InviteList { UserId = request.UserId, EventId = request.EventId });
+            if(invite == null)
+            {
+                return BadRequest("Nie masz zaproszenia");
+            }
+            await _eventRepository.DeleteInvite(invite.Id);
+            //dodaj do guest
+            var guest = await _eventRepository.AddToGuestList(new GuestList { UserId=request.UserId, EventId = request.EventId });
+            if(guest == null)
+            {
+                return BadRequest("Nie udało się dodać do wydarzenia");
+            }
+            //usun powiadomienie
+            await _notificationRepository.DeleteNotification(request.Id);
+            return Ok(guest);
+        }
+
+        [HttpPost("decline"), Authorize]
+        public async Task<ActionResult<InviteList>> DeclineIvite(Notification request)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            if (request.UserId != creatorId)
+            {
+                return BadRequest("Możesz akceptować tylko twoje wydarzenia");
+            }
+
+            var _event = await _eventRepository.GetEventDetails(request.EventId);
+            if (_event == null)
+            {
+                return BadRequest("Nie można znaleźć wydarzenia");
+            }
+
+            //usun invite
+            var invite = await _eventRepository.GetInviteList(new InviteList { UserId = request.UserId, EventId = request.EventId });
+            if (invite == null)
+            {
+                return BadRequest("Nie masz zaproszenia");
+            }
+            var result = await _eventRepository.DeleteInvite(invite.Id);
+            
+            //usun powiadomienie
+            await _notificationRepository.DeleteNotification(request.Id);
+            return Ok(result);
+        }
     }
 }

@@ -78,4 +78,9 @@ body {
 ::-webkit-scrollbar-track {
   background-color: #2d3238; /* ciemnoszare tło paska przewijania */
 }
-
+ /*panel powiadomien*/
+.cdk-overlay-pane {
+  div.mat-mdc-menu-panel {
+    max-width: none;
+  }
+}

@@ -14,7 +14,6 @@ import { SigninComponent } from './login/signin/signin.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MainComponent } from './main/main.component';
 import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
@@ -36,6 +35,8 @@ import localePl from '@angular/common/locales/pl';
 import { ProfileContactsComponent } from './profile/profile-contacts/profile-contacts.component';
 import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
+import {MatMenuModule} from '@angular/material/menu';
+
 
 registerLocaleData(localePl);
 
@@ -50,7 +51,6 @@ registerLocaleData(localePl);
     SigninComponent,
     MainComponent,
     NavMenuMainComponent,
-    NotificationsComponent,
     EventViewComponent,
     ProfileComponent,
   ],
@@ -76,6 +76,7 @@ registerLocaleData(localePl);
     ProfileViewComponent,
     ProfileContactsComponent,
     AddContactDialogComponent,
+    MatMenuModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },
