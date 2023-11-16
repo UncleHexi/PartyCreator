@@ -16,6 +16,7 @@ export class ProfileViewComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   public userData: any;
+  public profilePicture: string = '';
 
   ngOnInit(): void {
     this.refreshUserData();
@@ -29,6 +30,7 @@ export class ProfileViewComponent implements OnInit {
     this.userService.getMyProfileData().subscribe({
       next: (data) => {
         this.userData = data;
+        this.profilePicture = `assets/profile-avatars/${this.userData.image}`;
       },
       error: (error) => {
         console.log(error);

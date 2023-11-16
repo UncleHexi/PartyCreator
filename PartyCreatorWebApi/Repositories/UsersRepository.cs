@@ -70,5 +70,30 @@ namespace PartyCreatorWebApi.Repositories
             var result = _dataContext.UserContacts.Where(x => x.UserId == userId).ToListAsync();
             return await result;
         }
+
+        public async Task<UserContact> EditContact(UserContact userContact)
+        {
+            var result = _dataContext.UserContacts.Update(userContact);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+        }
+
+        public async Task<UserContact> DeleteContact(int id)
+        {
+            UserContact userContact = new UserContact
+            {
+                Id = id
+            };
+            var result = _dataContext.UserContacts.Remove(userContact);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+            
+        }
+
+        public async Task<UserContact> GetContactById(int id)
+        {
+            var result = await _dataContext.UserContacts.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
+        }
     }
 }

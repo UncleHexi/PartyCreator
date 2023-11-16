@@ -11,6 +11,9 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<User> EditUser(User user);
         Task<UserContact> AddContact(UserContact userContact);
         Task<List<UserContact>> ShowContacts(int userId);
+        Task<UserContact> GetContactById(int id);
+        Task<UserContact> EditContact(UserContact userContact);
+        Task<UserContact> DeleteContact(int id);
         string GetUserIdFromContext();
 
     }

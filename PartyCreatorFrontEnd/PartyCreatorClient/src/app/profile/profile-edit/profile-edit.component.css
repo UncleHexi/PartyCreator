@@ -4,6 +4,7 @@
   height: 100%;
   display: flex;
   flex-wrap: wrap;
+  padding-top: 5em;
 }
 
 .mobile-calendar {
@@ -11,12 +12,15 @@
 }
 
 .profile-picture {
-  flex: 1 0 100px; /* Grow, don't shrink, base width */
-  margin-right: 20px;
+  flex: 1 0; /* Grow, don't shrink, base width */
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding-left: 8em;
+  justify-content: flex-start;
+}
+
+.profile-picture img:hover {
+  cursor: pointer;
 }
 
 .profile-picture img {
@@ -25,46 +29,21 @@
 }
 
 .user-info {
-  flex: 2 0 200px; /* Grow, don't shrink, base width */
-  padding-left: 8em;
+  flex: 2 0; /* Grow, don't shrink, base width */
   padding-bottom: 20px;
+  display: flex;
+  width: 80%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .profileForm {
   padding-right: 2em;
+  width: 80%;
 }
 
-@media (max-width: 1346px) {
-  .parent {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 2em;
-    background-color: #3d3d3d;
-    height: 100%;
-  }
-
-  .profile-picture,
-  .user-info {
-    flex: 1 0 auto; /* Reset flex properties for small screens */
-    margin: 0;
-    padding: 0;
-  }
-  .user-info {
-    padding-top: 2em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 20px;
-  }
-
-  .profileForm {
-    padding: 3em;
-  }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .desktop-calendar {
     display: none;
   }
@@ -72,12 +51,13 @@
     display: block;
   }
   .parent {
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-top: 2em;
-    background-color: #3d3d3d;
     height: 100%;
+    width: 100%;
   }
   .user-info {
     padding-top: 2em;
@@ -86,6 +66,15 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 20px;
+  }
+
+  .profile-picture {
+    display: none;
+  }
+
+  .profile-picture img {
+    width: 150px;
+    height: auto;
   }
 
   .profileForm {
