@@ -79,5 +79,11 @@ body {
 .cdk-overlay-pane {
   div.mat-mdc-menu-panel {
     max-width: none;
+    overflow: unset;
+    margin: 0px;
   }
+}
+
+.mdc-tooltip__surface {
+  background-color: #3d3d3d !important;
 }

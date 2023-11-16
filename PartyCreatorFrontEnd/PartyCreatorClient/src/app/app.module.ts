@@ -37,6 +37,7 @@ import { AddContactDialogComponent } from './profile/add-contact-dialog/add-cont
 import { DatePipe } from '@angular/common';
 import {MatMenuModule} from '@angular/material/menu';
 import { ProfileEditAvatarComponent } from './profile/profile-edit/profile-edit-avatar/profile-edit-avatar.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 registerLocaleData(localePl);
 
@@ -78,6 +79,7 @@ registerLocaleData(localePl);
     AddContactDialogComponent,
     MatMenuModule,
     ProfileEditAvatarComponent,
+    MatTooltipModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

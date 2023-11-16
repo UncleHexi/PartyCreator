@@ -8,6 +8,8 @@ import { NgToastService } from 'ng-angular-popup';
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
+import { NotificationDto } from '../interfaces/notification-dto';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-nav-menu-main',
@@ -20,10 +22,10 @@ export class  NavMenuMainComponent implements OnInit{
   faBell = faBell;
   faX = faX;
   isExpanded = false;
-
   isNotificationVisible: boolean = false;
+  notifications: NotificationDto[] = [];
 
-  constructor(private auth: AuthService, private notificationService: NotificationService, private toast: NgToastService) {}
+  constructor(private auth: AuthService, private notificationService: NotificationService, private eventService: EventService, private toast: NgToastService) {}
 
   toggle() {
     this.isExpanded = !this.isExpanded;
@@ -50,8 +52,7 @@ export class  NavMenuMainComponent implements OnInit{
   {
     this.notificationService.getAllOfUser().subscribe({
       next: (res) => {
-        console.log(res);
-        
+        this.notifications = res;
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
@@ -61,5 +62,49 @@ export class  NavMenuMainComponent implements OnInit{
         });
       },
     });
+  }
+
+  acceptInvite(invite: NotificationDto)
+  {
+    this.eventService.acceptInvite(invite).subscribe({
+      next: (res) => {
+        this.notifications.splice(this.notifications.indexOf(invite),1);
+        console.log(res);
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: "Udało się dołączyć do wydarzenia",
+          duration: 3000,
+        });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      }
+    })
+  }
+
+  declineInvite(invite: NotificationDto)
+  {
+    this.eventService.declineInvite(invite).subscribe({
+      next: (res) => {
+        this.notifications.splice(this.notifications.indexOf(invite),1);
+        console.log(res);
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: "Odrzuciłeś zaproszenie do wydarzenia",
+          duration: 3000,
+        });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      }
+    })
   }
 }

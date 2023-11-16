@@ -34,39 +34,8 @@
           </li> -->
           <li class="nav-item">
             <button [matMenuTriggerFor]="Menu" class="nav-link text-white">
-              test
+              <fa-icon [icon]="faBell" style="color: white" size="lg"></fa-icon>
             </button>
-            <mat-menu #Menu="matMenu" xPosition="before">
-              <div style="width: 400px; height: 400px;">
-                
-                <div class="d-flex flex-row-reverse" style="width: 100%; height: 40px; margin: 0px;">
-                  <div style="padding-right: 12px; padding-top: 8px;">
-                    <fa-icon [icon]="faX" style="color:white;" fa-xl></fa-icon>
-                  </div>
-                </div>
-
-                <div (click)="doSomething($event);" class="reszta" style="overflow-y: auto;">
-                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
-                    <p>Powiadomienie 2</p>
-                  </div>
-                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
-                    <p>Powiadomienie 2</p>
-                  </div>
-                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
-                    <p>Powiadomienie 2</p>
-                  </div>
-                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
-                    <p>Powiadomienie 2</p>
-                  </div>
-                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
-                    <p>Powiadomienie 2</p>
-                  </div>
-                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
-                    <p>Powiadomienie 2</p>
-                  </div>
-                </div>
-              </div>
-            </mat-menu>
           </li>
           
           <li class="nav-item" [routerLinkActive]="['/']">
@@ -86,3 +55,38 @@
   </nav>
 </header>
 
+<mat-menu #Menu="matMenu" xPosition="before">
+  <div style="width: 400px; max-height: 400px;">
+
+    <div class="d-flex justify-content-center" style="height: 40px; color: white;">
+      <p>Powiadomienia</p>
+    </div>
+
+    <div (click)="doSomething($event);" class="reszta" style="overflow-y: auto; max-height: 320px; padding-left: 10px; padding-right: 10px;">
+      
+      
+        
+        <div *ngFor="let notification of notifications" class="row notification">
+          <div class="col-9">
+            {{notification.description +" "+ notification.eventId}}
+          </div>
+          <div class="col-3 d-flex justify-content-end align-items-center" style="padding: 0px;">
+
+            <button mat-mini-fab color="accent" matTooltip="Zaakceptuj zaproszenie" (click)="acceptInvite(notification)" style="transform: scale(0.8);">
+              <mat-icon style="color: white;">check</mat-icon>
+            </button>
+
+            <button mat-mini-fab color="warn" matTooltip="Odrzuć zaproszenie" (click)="declineInvite(notification)" style="transform: scale(0.8);">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>      
+     
+    </div>
+
+    <div class="d-flex justify-content-center" style="height: 40px; margin: 0px; color: white; padding-top: 10px;">
+      <p>Koniec</p>
+    </div>
+
+  </div>
+</mat-menu>
