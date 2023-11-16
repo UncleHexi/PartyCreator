@@ -36,8 +36,9 @@
             <button [matMenuTriggerFor]="Menu" class="nav-link text-white">
               <fa-icon [icon]="faBell" style="color: white" size="lg"></fa-icon>
             </button>
+
           </li>
-          
+
           <li class="nav-item" [routerLinkActive]="['/']">
             <a class="nav-link text-white menu-link" [routerLink]="['/profil']"
               >Profil</a
@@ -54,6 +55,7 @@
     </div>
   </nav>
 </header>
+
 
 <mat-menu #Menu="matMenu" xPosition="before">
   <div style="width: 400px; max-height: 400px;">
@@ -90,3 +92,4 @@
 
   </div>
 </mat-menu>
+
