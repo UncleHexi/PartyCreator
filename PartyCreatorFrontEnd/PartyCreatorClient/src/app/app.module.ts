@@ -40,6 +40,8 @@ import { ProfileEditAvatarComponent } from './profile/profile-edit/profile-edit-
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MainCalendarComponent } from './main/main-calendar/main-calendar.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
 
 registerLocaleData(localePl);
 
@@ -86,6 +88,8 @@ registerLocaleData(localePl);
       useFactory: adapterFactory,
     }),
     MainCalendarComponent,
+    MatTooltipModule,
+
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

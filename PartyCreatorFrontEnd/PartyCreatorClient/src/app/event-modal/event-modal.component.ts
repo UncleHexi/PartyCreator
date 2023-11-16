@@ -74,14 +74,14 @@ export class EventModalComponent {
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Udało się stworzyć wydarzenie!',
-          duration: 5000,
+          duration: 3000,
         });
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
           detail: 'ERROR',
           summary: err.error,
-          duration: 5000,
+          duration: 3000,
         });
       },
     });
