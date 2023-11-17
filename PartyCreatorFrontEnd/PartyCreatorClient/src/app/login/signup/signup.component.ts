@@ -80,12 +80,12 @@ export class SignupComponent {
     this.auth.signUp(this.credentials)
     .subscribe({
       next: (res) => {
-        this.toast.success({detail:"SUCCESS", summary:"Udało się stworzyć konto!",duration:5000});
+        this.toast.success({detail:"SUCCESS", summary:"Udało się stworzyć konto!",duration:3000});
         this.signupForm.reset(); //resetowanie formularza po jego złożeniu
         this.toggleForm(); //zmiana formularza z rejestracji na logowanie
       },
       error: (err: HttpErrorResponse) => {
-        this.toast.error({detail:"ERROR", summary:err.error, duration:5000});
+        this.toast.error({detail:"ERROR", summary:err.error, duration:3000});
       }
     })
   }

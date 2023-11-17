@@ -69,15 +69,21 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #1f2328; /* ciemnoniebieski kolor paska przewijania */
+  background-color: #191919; /* ciemnoniebieski kolor paska przewijania */
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #2d3238; /* ciemnoszare tło paska przewijania */
+  background-color: #3d3d3d; /* ciemnoszare tło paska przewijania */
 }
- /*panel powiadomien*/
+/*panel powiadomien*/
 .cdk-overlay-pane {
   div.mat-mdc-menu-panel {
     max-width: none;
+    overflow: unset;
+    margin: 0px;
   }
+}
+
+.mdc-tooltip__surface {
+  background-color: #3d3d3d !important;
 }

@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
 import { EventService } from '../services/event.service';
 import { EventDto } from '../interfaces/event-dto';
 import { EventModalComponent } from '../event-modal/event-modal.component';
@@ -10,22 +6,39 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common'
 import { forkJoin } from 'rxjs';
-
+import { DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { NavMenuMainComponent } from '../nav-menu-main/nav-menu-main.component';
+import { MainCalendarComponent } from '../main/main-calendar/main-calendar.component';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  styleUrls: ['./main.component.css'],
+  standalone: true,
+  imports: [
+    RouterModule,
+    NavMenuMainComponent,
+    MatTabsModule,
+    MatIconModule,
+    DatePipe,
+    CommonModule,
+    MainCalendarComponent,
+  ],
 })
 export class MainComponent implements OnInit {
-  faArrowRight = faArrowRight;
   selected: Date | null;
   myEvents: EventDto[] = [];
+
   upcomingEvents: EventDto[] = [];
   constructor(private event: EventService, public dialog: MatDialog, private datePipe: DatePipe) {
+
     this.selected = null;
   }
-  
+
   ngOnInit(): void {
     forkJoin({
       myEvents: this.event.getOfCreator(),
@@ -46,12 +59,11 @@ export class MainComponent implements OnInit {
       panelClass: 'testDialog',
     });
 
-    dialogRef.afterClosed().subscribe(res => {
-      if(!!res)
-      {
+    dialogRef.afterClosed().subscribe((res) => {
+      if (!!res) {
         this.getMyEvents();
       }
-    })
+    });
   }
 
 
@@ -110,5 +122,6 @@ getUpcomingEvents() {
       return dateA - dateB;
     });
     console.log('After sorting my events:', this.myEvents);
+
   }
 }

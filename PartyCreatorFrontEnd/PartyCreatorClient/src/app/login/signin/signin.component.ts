@@ -46,12 +46,12 @@ export class SigninComponent {
     .subscribe({
       next: (res) => {
         this.auth.storeToken(res.token)
-        this.toast.success({detail:"SUCCESS", summary:"Udało się zalogować!",duration:5000});
+        this.toast.success({detail:"SUCCESS", summary:"Udało się zalogować!",duration:3000});
         this.signinForm.reset(); // resetowanie formularza po jego złożeniu
         this.router.navigate(['main']);
       },
       error: (err: HttpErrorResponse) => {
-        this.toast.error({detail:"ERROR", summary:err.error, duration:5000});
+        this.toast.error({detail:"ERROR", summary:err.error, duration:3000});
       }
     })
     
