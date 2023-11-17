@@ -236,6 +236,28 @@ namespace PartyCreatorWebApi.Controllers
             }
             return Ok(new MessageDto { Id = creatorId, Role = "Guest" });
         }
+
+        [HttpGet("GetAllGuests/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetAllGuests(int id)
+        {
+            var result = await _eventRepository.GetAllGuestsList(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetGuestsUsers/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetGuestsUsers(int id)
+        {
+            var result = await _eventRepository.GetGuestsUsers(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetInvitesUsers/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetInvitesUsers(int id)
+        {
+            var result = await _eventRepository.GetInvitedUsers(id);
+            return Ok(result);
+        }
+
     }
 
 }

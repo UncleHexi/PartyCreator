@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,7 +41,8 @@ export class NavMenuMainComponent implements OnInit {
     private auth: AuthService,
     private notificationService: NotificationService,
     private eventService: EventService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private router: Router
   ) {}
 
   toggle() {
@@ -69,7 +70,6 @@ export class NavMenuMainComponent implements OnInit {
     this.notificationService.getAllOfUser().subscribe({
       next: (res) => {
         console.log(res);
-
         this.notifications = res.reverse();
       },
       error: (err: HttpErrorResponse) => {
@@ -86,6 +86,7 @@ export class NavMenuMainComponent implements OnInit {
     this.eventService.acceptInvite(invite).subscribe({
       next: (res) => {
         this.notifications.splice(this.notifications.indexOf(invite), 1);
+        this.router.navigate([`wydarzenie/${invite.eventId}`]);
         console.log(res);
         this.toast.success({
           detail: 'SUCCESS',

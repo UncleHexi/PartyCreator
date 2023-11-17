@@ -9,12 +9,12 @@ import { GuestListDto } from '../interfaces/guest-list-dto';
 import { MessageDto } from '../interfaces/message-dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
-  private baseUrl: string = "https://localhost:7241/api/Auth/"
-  private baseUrl2: string = "https://localhost:7241/api/Event/"
-  constructor(private http: HttpClient) { }
+  private baseUrl: string = 'https://localhost:7241/api/Auth/';
+  private baseUrl2: string = 'https://localhost:7241/api/Event/';
+  constructor(private http: HttpClient) {}
 
   getMe() {
     return this.http.get<string>(`${this.baseUrl}getme`);
@@ -29,13 +29,13 @@ export class EventService {
   }
 
   createEvent(eventObj: EventCreateDto) {
-    return this.http.post<EventDto>(`${this.baseUrl2}create`,eventObj);
+    return this.http.post<EventDto>(`${this.baseUrl2}create`, eventObj);
   }
 
   getUpcomingEvents(): Observable<EventDto[]> {
     return this.http.get<EventDto[]>(`${this.baseUrl2}getUpcoming`);
   }
-  
+
   inviteToEvent(inviteList: InviteListDto) {
     return this.http.post<InviteListDto>(`${this.baseUrl2}invite`, inviteList);
   }
@@ -45,7 +45,22 @@ export class EventService {
   }
 
   declineInvite(notification: NotificationDto) {
-    return this.http.post<InviteListDto>(`${this.baseUrl2}decline`, notification);
+    return this.http.post<InviteListDto>(
+      `${this.baseUrl2}decline`,
+      notification
+    );
+  }
+
+  getGuestsUsers(id: string): Observable<GuestListDto[]> {
+    return this.http.get<GuestListDto[]>(
+      `${this.baseUrl2}getGuestsUsers/${id}`
+    );
+  }
+
+  getInvitesUsers(id: string): Observable<GuestListDto[]> {
+    return this.http.get<InviteListDto[]>(
+      `${this.baseUrl2}getInvitesUsers/${id}`
+    );
   }
 
   getAccess(contactId: string) {
