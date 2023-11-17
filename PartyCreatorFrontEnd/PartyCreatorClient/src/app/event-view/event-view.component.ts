@@ -5,6 +5,9 @@ import { EventDto } from '../interfaces/event-dto';
 import { faLocationDot, faCheck, faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
 import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgToastService } from 'ng-angular-popup';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-view',
@@ -42,12 +45,13 @@ export class EventViewComponent implements OnInit {
 
 
 
-  constructor(private route: ActivatedRoute, private eventService: EventService) {
+  constructor(private route: ActivatedRoute, private eventService: EventService, private toast: NgToastService, private router: Router) {
     this.selected = null;
     this.eventDetails = null;
   }
 
   ngOnInit(): void {
+    this.authorization();
     this.loadEventDetails();
   }
 
@@ -79,5 +83,22 @@ export class EventViewComponent implements OnInit {
 
   toggleMapVisibility(): void{
     this.isMapVisible = !this.isMapVisible;
+  }
+
+  authorization() {
+    const eventId: string | null = this.route.snapshot.paramMap.get('id');
+    this.eventService.getAccess(eventId!).subscribe({
+      next: (res) => {
+        
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+        this.router.navigate(['main']);
+      }
+    })
   }
 }

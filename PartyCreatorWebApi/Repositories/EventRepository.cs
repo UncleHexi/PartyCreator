@@ -7,8 +7,6 @@ namespace PartyCreatorWebApi.Repositories
     public class EventRepository : IEventRepository
     {
         private readonly DataContext _dataContext;
-        private readonly IEventRepository _eventRepository;
-        private readonly IUsersRepository _usersRepository;
 
         public EventRepository(DataContext dataContext)
         {
@@ -51,13 +49,13 @@ namespace PartyCreatorWebApi.Repositories
             return result.Result.Entity;
         }
 
-        public async Task<InviteList> GetInviteList(InviteList inviteList)
+        public async Task<InviteList> CheckInviteList(InviteList inviteList)
         {
             var result = await _dataContext.InviteLists.Where(i=> i.UserId == inviteList.UserId && i.EventId == inviteList.EventId).FirstOrDefaultAsync();
             return result;
         }
 
-        public async Task<GuestList> GetGuestList(GuestList guestList)
+        public async Task<GuestList> CheckGuestList(GuestList guestList)
         {
             var result = await _dataContext.GuestLists.Where(i => i.UserId == guestList.UserId && i.EventId == guestList.EventId).FirstOrDefaultAsync();
             return result;
@@ -80,6 +78,12 @@ namespace PartyCreatorWebApi.Repositories
             var result = await _dataContext.GuestLists.AddAsync(guestList);
             await _dataContext.SaveChangesAsync();
             return result.Entity;
+        }
+
+        public async Task<List<GuestList>> GetGuestsFromEvent(int id)
+        {
+            var result = await _dataContext.GuestLists.Where(x => x.EventId==id).ToListAsync();
+            return result;
         }
     }
 }

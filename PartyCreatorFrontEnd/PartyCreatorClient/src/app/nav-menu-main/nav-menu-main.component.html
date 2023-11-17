@@ -27,14 +27,13 @@
               >Wydarzenia</a
             >
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link text-white" (click)="toggleNotifications()">
-              <fa-icon [icon]="faBell" style="color: white" size="lg"></fa-icon>
-            </a>
-          </li> -->
+        
           <li class="nav-item">
             <button [matMenuTriggerFor]="Menu" class="nav-link text-white">
-              <mat-icon>notifications</mat-icon>
+              <mat-icon *ngIf="countRead()!=0; else elseBlock" matBadge="{{countRead()}}" matBadgeColor="warn" matBadgeSize="medium">notifications</mat-icon>
+              <ng-template #elseBlock>
+                <mat-icon>notifications</mat-icon>
+              </ng-template>
             </button>
           </li>
 
@@ -74,13 +73,16 @@
         padding-right: 10px;
       "
     >
-      <div *ngFor="let notification of notifications" class="row notification">
-        <div class="col-9">
+      <div *ngFor="let notification of notifications" class="row notification" (click)="toggleRead(notification)">
+        <div class="col d-flex align-items-center" style="padding: 0px; max-width: 25px;">
+          <mat-icon *ngIf="!notification.isRead" color="accent" style="transform: scale(0.6);">fiber_manual_record</mat-icon>
+        </div>
+        <div class="col d-flex align-items-center" style="padding: 0px; max-width: 275px;">
           {{ notification.description + " " + notification.eventId }}
         </div>
         <div
-          class="col-3 d-flex justify-content-end align-items-center"
-          style="padding: 0px"
+          class="col d-flex justify-content-end align-items-center"
+          style="padding: 0px; max-width: 80px;"
         >
           <button
             mat-mini-fab

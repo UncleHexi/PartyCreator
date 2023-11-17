@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { InviteListDto } from '../interfaces/invite-list-dto';
 import { NotificationDto } from '../interfaces/notification-dto';
 import { GuestListDto } from '../interfaces/guest-list-dto';
+import { MessageDto } from '../interfaces/message-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -45,5 +46,9 @@ export class EventService {
 
   declineInvite(notification: NotificationDto) {
     return this.http.post<InviteListDto>(`${this.baseUrl2}decline`, notification);
+  }
+
+  getAccess(contactId: string) {
+    return this.http.get<MessageDto>(`${this.baseUrl2}getAccess/${contactId}`);
   }
 }
