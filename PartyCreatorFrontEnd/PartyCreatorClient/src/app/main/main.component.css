@@ -35,32 +35,6 @@ body {
   padding: 0;
 }
 
-.container {
-  /*glowna siatka strony, podzielenie jej na wszystkie wydarzenia, swoje i kalendarz */
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 0.5fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "upcomingEvents upcomingEvents calendar"
-    "yourEvents yourEvents calendar";
-}
-
-.upcomingEvents {
-  grid-area: upcomingEvents;
-}
-
-.yourEvents {
-  grid-area: yourEvents;
-}
-
-.calendar {
-  grid-area: calendar;
-  padding-top: 98px;
-  padding-left: 50px;
-}
-
 .container2 {
   /*Nadchodzace wydarzenia */
   display: grid;

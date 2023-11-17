@@ -2,65 +2,30 @@
   <app-nav-menu-main></app-nav-menu-main>
 </header>
 <body>
-    <div class="container"> 
+  <div class="card">
+    <mat-tab-group>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>event_available</mat-icon>
+          <span>&nbsp;Nadchodzące wydarzenia</span>
+        </ng-template>
         <div class="upcomingEvents">
-            <div class="container2">
-                <div class="UpcomingEventsText">
-                    <h1>Nadchodzące wydarzenia</h1>
-                </div>
-                <div *ngFor="let event of upcomingEvents; let i = index" class="Event{{ i + 1 }}">
-                    <h4>{{ event.title }}</h4>
-                    <p>Godzina: {{ event.dateTime | date:'H:mm' }}</p>
-                    <p>Data: {{ event.dateTime | date:'d/M/yy' }}</p>
-                    <button type="button" class="btn btn-light btnToDetails" [routerLink]="['/wydarzenie', event.id]">
-                      <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
-                    </button>              
-               </div>
-              </div>
-        </div>
-
-
-            <div class="Event2">
-              <h4>Wydarzenie</h4>
-              <p>Godzina</p>
-              <p>Data</p>
-              <button type="button" class="btn btn-light btnToDetails">
-                <mat-icon>arrow_right</mat-icon>
-              </button>
+          <div class="container2">
+            <div class="UpcomingEventsText">
+              <h1>Nadchodzące wydarzenia</h1>
             </div>
-
-            <div class="Event3">
-              <h4>Wydarzenie</h4>
-              <p>Godzina</p>
-              <p>Data</p>
-              <button type="button" class="btn btn-light btnToDetails">
-                <mat-icon>arrow_right</mat-icon>
-              </button>
-            </div>
-
-            <div class="Event4">
-              <h4>Wydarzenie</h4>
-              <p>Godzina</p>
-              <p>Data</p>
-              <button type="button" class="btn btn-light btnToDetails">
-                <mat-icon>arrow_right</mat-icon>
-              </button>
-            </div>
-
-            <div class="Event5">
-              <h4>Wydarzenie</h4>
-              <p>Godzina</p>
-              <p>Data</p>
-              <button type="button" class="btnToDetails btn btn-light">
-                <mat-icon>arrow_right</mat-icon>
-              </button>
-            </div>
-
-            <div class="Event6">
-              <h4>Wydarzenie</h4>
-              <p>Godzina</p>
-              <p>Data</p>
-              <button type="button" class="btn btn-light btnToDetails">
+            <div
+              *ngFor="let event of upcomingEvents; let i = index"
+              class="Event{{ i + 1 }}"
+            >
+              <h4>{{ event.title }}</h4>
+              <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
+              <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
+              <button
+                type="button"
+                class="btn btn-light btnToDetails"
+                [routerLink]="['/wydarzenie', event.id]"
+              >
                 <mat-icon>arrow_right</mat-icon>
               </button>
             </div>
