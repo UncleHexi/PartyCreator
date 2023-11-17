@@ -211,6 +211,28 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
 
         }
+
+        [HttpGet("GetAllGuests/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetAllGuests(int id)
+        {
+            var result = await _eventRepository.GetAllGuestsList(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetGuestsUsers/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetGuestsUsers(int id)
+        {
+            var result = await _eventRepository.GetGuestsUsers(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetInvitesUsers/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetInvitesUsers(int id)
+        {
+            var result = await _eventRepository.GetInvitesUsers(id);
+            return Ok(result);
+        }
+
     }
 
 }
