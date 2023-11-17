@@ -26,7 +26,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
   
 })
 export class EventViewComponent implements OnInit {
-  faArrowRight: any; // Dostosuj typ, jeśli to konieczne
+  faArrowRight: any;
   selected: Date | null;
   eventDetails: EventDto | null;
   
@@ -34,9 +34,13 @@ export class EventViewComponent implements OnInit {
   faCalendar = faCalendar;
   faLocationDot = faLocationDot;
   faCheck = faCheck;
-  isThingsToBringVisible: boolean = false; // Added property for visibility
+  isThingsToBringVisible: boolean = false; 
+  isMapVisible: boolean = false;
 
   arrowAnimationState: string = 'rest';
+
+
+
 
   constructor(private route: ActivatedRoute, private eventService: EventService) {
     this.selected = null;
@@ -71,6 +75,9 @@ export class EventViewComponent implements OnInit {
   toggleThingsToBringVisibility(): void {
     this.isThingsToBringVisible = !this.isThingsToBringVisible;
     this.arrowAnimationState = this.isThingsToBringVisible ? 'pulse' : 'rest';
+  }
 
+  toggleMapVisibility(): void{
+    this.isMapVisible = !this.isMapVisible;
   }
 }

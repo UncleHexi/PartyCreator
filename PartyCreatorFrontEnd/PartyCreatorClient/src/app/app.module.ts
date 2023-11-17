@@ -35,7 +35,8 @@ import localePl from '@angular/common/locales/pl';
 import { ProfileContactsComponent } from './profile/profile-contacts/profile-contacts.component';
 import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
-import { MatMenuModule } from '@angular/material/menu';
+import { MapComponent } from './map/map.component';
+import {MatMenuModule} from '@angular/material/menu';
 import { ProfileEditAvatarComponent } from './profile/profile-edit/profile-edit-avatar/profile-edit-avatar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -56,6 +57,7 @@ registerLocaleData(localePl);
     SigninComponent,
     EventViewComponent,
     ProfileComponent,
+    MapComponent,
   ],
 
   imports: [

@@ -8,12 +8,12 @@
                 <h1 style="color:white">{{ eventDetails!.title }}</h1>
                 <p>{{ eventDetails!.description }}</p>
                 <p>Organizator:</p>
-                <p><fa-icon [icon]="faLocationDot" style="color: white" size="2xl"> </fa-icon> 
+                <p (click)="toggleMapVisibility()"> <fa-icon [icon]="faLocationDot" style="color: white" size="2xl"> </fa-icon> 
                     {{ eventDetails!.address }}
                     {{ eventDetails!.city }}
                 </p>
-                <p><fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>  {{ eventDetails!.dateTime | date:'dd-MM-yyyy' }}</p>
-                <p><fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon> {{ eventDetails!.dateTime | date:'HH:mm' }}</p>
+                <p><fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>  {{ eventDetails!.dateTime +"z" | date:'dd-MM-yyyy' }}</p>
+                <p><fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon> {{ eventDetails!.dateTime +"z" | date:'HH:mm' }}</p>
             </div>
         </div>
 
@@ -33,10 +33,10 @@
                 <p><s>Pieczywo</s><fa-icon [icon]="faCheck" style="color: greenyellow; margin-left:10px;"> </fa-icon></p>
             </div>
         </div>
-        <div class="chat">
-            czat
+        <div class="chat" >
+            <app-map [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city"></app-map>
         </div>
-        <div class="photos">
+       <div class="photos">
             zdjecia
         </div>
         <div class="inviteList">

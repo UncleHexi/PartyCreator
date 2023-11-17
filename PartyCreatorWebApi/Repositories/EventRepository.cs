@@ -1,4 +1,5 @@
-﻿using PartyCreatorWebApi.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Repositories
@@ -6,10 +7,13 @@ namespace PartyCreatorWebApi.Repositories
     public class EventRepository : IEventRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IEventRepository _eventRepository;
+        private readonly IUsersRepository _usersRepository;
 
         public EventRepository(DataContext dataContext)
         {
             _dataContext = dataContext;
+
         }
 
         public async Task<Event> CreateEvent(Event _event)
@@ -19,9 +23,13 @@ namespace PartyCreatorWebApi.Repositories
             return result.Result.Entity;
         }
 
-        public Task<List<Event>> ListEventsJoinedByUser()
+        public async Task<List<Event>> ListEventsJoinedByUser(int userId)
         {
-            throw new NotImplementedException();
+            var events = await _dataContext.Events
+               .Where(e => _dataContext.GuestLists.Any(gl => gl.UserId == userId && gl.EventId == e.Id))
+               .ToListAsync();
+
+            return events;
         }
 
         public async Task<List<Event>> ListEventsMadeByUser(int creatorId)
