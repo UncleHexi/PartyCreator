@@ -2,15 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { EventDto } from '../interfaces/event-dto';
-import { faLocationDot, faCheck, faCalendar, faClock } from '@fortawesome/free-solid-svg-icons';
-import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
+import {
+  faLocationDot,
+  faCheck,
+  faCalendar,
+  faClock,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes,
+} from '@angular/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
   styleUrls: ['./event-view.component.css'],
-  
+
   animations: [
     trigger('slideDown', [
       state('void', style({ height: '0', opacity: '0' })),
@@ -22,27 +34,29 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
       state('pulse', style({ transform: 'scale(1.2)' })),
       transition('rest <=> pulse', animate('500ms ease-in-out')),
     ]),
-  ]
-  
+  ],
 })
 export class EventViewComponent implements OnInit {
   faArrowRight: any;
   selected: Date | null;
   eventDetails: EventDto | null;
-  
+
   faClock = faClock;
   faCalendar = faCalendar;
   faLocationDot = faLocationDot;
   faCheck = faCheck;
-  isThingsToBringVisible: boolean = false; 
+  isThingsToBringVisible: boolean = false;
   isMapVisible: boolean = false;
 
   arrowAnimationState: string = 'rest';
 
+  guestsUsers: any[] = [];
+  invitesUsers: any[] = [];
 
-
-
-  constructor(private route: ActivatedRoute, private eventService: EventService) {
+  constructor(
+    private route: ActivatedRoute,
+    private eventService: EventService
+  ) {
     this.selected = null;
     this.eventDetails = null;
   }
@@ -58,12 +72,21 @@ export class EventViewComponent implements OnInit {
         (data: EventDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
+            this.eventService
+              .getGuestsUsers(data.id.toString())
+              .subscribe((users) => (this.guestsUsers = users));
+            this.eventService
+              .getInvitesUsers(data.id.toString())
+              .subscribe((users) => (this.invitesUsers = users));
           } else {
             console.error('Otrzymano nullowe dane z serwera');
           }
         },
         (error: any) => {
-          console.error('Wystąpił błąd podczas pobierania szczegółów wydarzenia', error);
+          console.error(
+            'Wystąpił błąd podczas pobierania szczegółów wydarzenia',
+            error
+          );
         }
       );
     } else {
@@ -77,7 +100,7 @@ export class EventViewComponent implements OnInit {
     this.arrowAnimationState = this.isThingsToBringVisible ? 'pulse' : 'rest';
   }
 
-  toggleMapVisibility(): void{
+  toggleMapVisibility(): void {
     this.isMapVisible = !this.isMapVisible;
   }
 }

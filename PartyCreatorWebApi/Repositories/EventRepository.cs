@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
+using System.Transactions;
 
 namespace PartyCreatorWebApi.Repositories
 {
@@ -80,6 +82,34 @@ namespace PartyCreatorWebApi.Repositories
             var result = await _dataContext.GuestLists.AddAsync(guestList);
             await _dataContext.SaveChangesAsync();
             return result.Entity;
+        }
+
+        public async Task<List<AllGuestList>> GetAllGuestsList(int eventId)
+        {
+            var guestIdList = await _dataContext.GuestLists.Where(g => g.EventId == eventId).Select(g => g.UserId).ToListAsync();
+            var inviteIdList = await _dataContext.InviteLists.Where(i => i.EventId == eventId).Select(i => i.UserId).ToListAsync();
+            var guestList = await _dataContext.Users.Where(u => guestIdList.Contains(u.Id)).Select(u => new AllGuestList { Id = u.Id, FirstName = u.FirstName, LastName = u.LastName}).ToListAsync();
+            var sortedGuestList = guestList.OrderBy(g => g.LastName).ToList();
+            var inviteList = await _dataContext.Users.Where(u => inviteIdList.Contains(u.Id)).Select(u => new AllGuestList { Id = u.Id, FirstName = u.FirstName, LastName = u.LastName }).ToListAsync();
+            var sortedInviteList = inviteList.OrderBy(g => g.LastName).ToList();
+            sortedGuestList.AddRange(sortedInviteList);
+            return sortedGuestList;
+        }
+
+        public async Task<List<AllGuestList>> GetGuestsUsers(int eventId)
+        {
+            var guestIdList = await _dataContext.GuestLists.Where(g => g.EventId == eventId).Select(g => g.UserId).ToListAsync();
+            var guestList = await _dataContext.Users.Where(u => guestIdList.Contains(u.Id)).Select(u => new AllGuestList { Id = u.Id ,FirstName = u.FirstName, LastName = u.LastName }).ToListAsync();
+            var sortedGuestList = guestList.OrderBy(g => g.LastName).ToList();
+            return sortedGuestList;
+        }
+
+        public async Task<List<AllGuestList>> GetInvitesUsers(int eventId)
+        {
+            var inviteIdList = await _dataContext.InviteLists.Where(i => i.EventId == eventId).Select(i => i.UserId).ToListAsync();
+            var inviteList = await _dataContext.Users.Where(u => inviteIdList.Contains(u.Id)).Select(u => new AllGuestList { Id = u.Id, FirstName = u.FirstName, LastName = u.LastName }).ToListAsync();
+            var sortedInviteList = inviteList.OrderBy(g => g.LastName).ToList();
+            return sortedInviteList;
         }
     }
 }

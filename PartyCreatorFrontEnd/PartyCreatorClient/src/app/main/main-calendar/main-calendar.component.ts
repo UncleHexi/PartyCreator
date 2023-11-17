@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { NgModule } from '@angular/core';
+import { Subject, forkJoin } from 'rxjs';
 import { isSameDay, isSameMonth } from 'date-fns';
 import {
   CalendarEvent,
   CalendarModule,
   CalendarView,
-  DateAdapter,
+  DAYS_OF_WEEK,
 } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { EventService } from '../../services/event.service';
 import { CommonModule } from '@angular/common';
 
@@ -20,10 +20,11 @@ import { CommonModule } from '@angular/common';
 })
 export class MainCalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
-  CalendarView = CalendarView;
   viewDate: Date = new Date();
   calendarEvents: CalendarEvent[] = [];
   refresh = new Subject<void>();
+  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
+  CalendarView = CalendarView;
 
   constructor(private event: EventService) {}
 
@@ -34,8 +35,11 @@ export class MainCalendarComponent implements OnInit {
   }
 
   getMyEvents() {
-    this.event.getOfCreator().subscribe((res) => {
-      this.myEvents = res;
+    forkJoin({
+      creatorEvents: this.event.getOfCreator(),
+      upcomingEvents: this.event.getUpcomingEvents(),
+    }).subscribe(({ creatorEvents, upcomingEvents }) => {
+      this.myEvents = [...creatorEvents, ...upcomingEvents];
       this.calendarEvents = this.myEvents.map((event) => {
         return {
           start: new Date(event.dateTime),
@@ -58,10 +62,6 @@ export class MainCalendarComponent implements OnInit {
       }
       this.viewDate = date;
     }
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
   }
 
   closeOpenMonthViewDay() {

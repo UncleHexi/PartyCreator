@@ -36,13 +36,12 @@ import { ProfileContactsComponent } from './profile/profile-contacts/profile-con
 import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './map/map.component';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { ProfileEditAvatarComponent } from './profile/profile-edit/profile-edit-avatar/profile-edit-avatar.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MainCalendarComponent } from './main/main-calendar/main-calendar.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 registerLocaleData(localePl);
 
@@ -91,7 +90,6 @@ registerLocaleData(localePl);
     }),
     MainCalendarComponent,
     MatTooltipModule,
-
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },
