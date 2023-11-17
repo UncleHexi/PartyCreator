@@ -36,6 +36,7 @@ import localePl from '@angular/common/locales/pl';
 import { ProfileContactsComponent } from './profile/profile-contacts/profile-contacts.component';
 import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
+import { MapComponent } from './map/map.component';
 
 registerLocaleData(localePl);
 
@@ -53,6 +54,7 @@ registerLocaleData(localePl);
     NotificationsComponent,
     EventViewComponent,
     ProfileComponent,
+    MapComponent,
   ],
 
   imports: [

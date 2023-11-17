@@ -27,4 +27,9 @@ export class EventService {
   createEvent(eventObj: EventCreateDto) {
     return this.http.post<EventDto>(`${this.baseUrl2}create`,eventObj);
   }
+
+  getUpcomingEvents(): Observable<EventDto[]> {
+    return this.http.get<EventDto[]>(`${this.baseUrl2}getUpcoming`);
+
+  }
 }

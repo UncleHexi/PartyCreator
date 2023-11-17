@@ -70,6 +70,22 @@ namespace PartyCreatorWebApi.Controllers
 
             return Ok(eventDetails);
         }
+        [HttpGet("getUpcoming"), Authorize]
+        public async Task<ActionResult<List<Event>>> GetUpcomingEvents()
+        {
+            try
+            {
+                int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
+                var upcomingEvents = await _eventRepository.ListEventsJoinedByUser(userId);
+                return Ok(upcomingEvents);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
     }
+
 }
+

@@ -7,7 +7,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
     {
         Task<Event> CreateEvent(Event _event);
         Task<List<Event>> ListEventsMadeByUser(int creatorId);
-        Task<List<Event>> ListEventsJoinedByUser();
+        Task<List<Event>> ListEventsJoinedByUser(int userId);
         Task<Event> GetEventDetails(int id);
 
 
