@@ -137,5 +137,13 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetUsersEmailContains"), Authorize]
+        public async Task<ActionResult<UserContactDto>> GetUsersEmailContains(string request)
+        {
+            var result = await _usersRepository.GetUsersEmailContains(request.ToLower());
+
+            return Ok(DtoConversions.UserToUserContactDto(result));
+        }
+
     }
 }

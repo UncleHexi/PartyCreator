@@ -40,7 +40,7 @@ namespace PartyCreatorWebApi.Controllers
                 LastName = request.LastName,
                 Description = request.Description,
                 Birthday = request.Birthday,
-                Email = request.Email,
+                Email = request.Email.ToLower(),
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt
             };

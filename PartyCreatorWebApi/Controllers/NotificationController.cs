@@ -27,10 +27,10 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("toggleRead"), Authorize]
-        public async Task<ActionResult<Notification>> ToggleRead(Notification request)
+        [HttpPut("toggleRead/{id}"), Authorize]
+        public async Task<ActionResult<Notification>> ToggleRead(int id)
         {
-            var notification = await _notificationRepository.GetNotification(request.Id);
+            var notification = await _notificationRepository.GetNotification(id);
             if (notification == null)
             {
                 return BadRequest("Nie ma takiego powiadomienia");

@@ -127,7 +127,7 @@ export class NavMenuMainComponent implements OnInit {
   toggleRead(notification: NotificationDto) {
     if(!notification.isRead) {
       console.log(notification.id);
-      this.notificationService.toggleRead(notification).subscribe({
+      this.notificationService.toggleRead(notification.id.toString()).subscribe({
         next: () => {
           this.notifications[this.notifications.indexOf(notification)].isRead=true;
           this.countRead();

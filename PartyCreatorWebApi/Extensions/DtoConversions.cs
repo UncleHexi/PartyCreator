@@ -18,5 +18,15 @@ namespace PartyCreatorWebApi.Extensions
                 Image = user.Image
             };
         }
+
+        public static List<UserContactDto> UserToUserContactDto(List<User> users)
+        {
+            return (from user in users select new UserContactDto
+            {
+                UserId = user.Id,
+                Name = user.FirstName + " " + user.LastName,
+                Email = user.Email
+            }).ToList();
+        }
     }
 }

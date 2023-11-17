@@ -14,7 +14,7 @@ export class NotificationService {
     return this.http.get<NotificationDto[]>("https://localhost:7241/api/Notification/getAllOfUser");
   }
 
-  toggleRead(notification: NotificationDto) {
-    return this.http.put<NotificationDto>("https://localhost:7241/api/Notification/toggleRead", notification );
+  toggleRead(id: string) {
+    return this.http.put<NotificationDto>(`https://localhost:7241/api/Notification/toggleRead/${id}`,id);
   }
 }

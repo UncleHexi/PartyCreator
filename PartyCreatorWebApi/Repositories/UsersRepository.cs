@@ -1,4 +1,5 @@
-﻿using PartyCreatorWebApi.Entities;
+﻿using PartyCreatorWebApi.Dtos;
+using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 using System.Security.Claims;
 
@@ -93,6 +94,12 @@ namespace PartyCreatorWebApi.Repositories
         public async Task<UserContact> GetContactById(int id)
         {
             var result = await _dataContext.UserContacts.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
+        }
+
+        public async Task<List<User>> GetUsersEmailContains(string email)
+        {
+            var result = await _dataContext.Users.Where(u => u.Email.Contains(email)).ToListAsync();
             return result;
         }
     }

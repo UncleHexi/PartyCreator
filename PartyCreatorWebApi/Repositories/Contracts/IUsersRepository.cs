@@ -1,4 +1,5 @@
-﻿using PartyCreatorWebApi.Entities;
+﻿using PartyCreatorWebApi.Dtos;
+using PartyCreatorWebApi.Entities;
 
 namespace PartyCreatorWebApi.Repositories.Contracts
 {
@@ -15,6 +16,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<UserContact> EditContact(UserContact userContact);
         Task<UserContact> DeleteContact(int id);
         string GetUserIdFromContext();
+        Task<List<User>> GetUsersEmailContains(string email);
 
     }
 }
