@@ -6,7 +6,7 @@
     <mat-tab-group>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>event_available</mat-icon>
+          <mat-icon>event_note</mat-icon>
           <span>&nbsp;Nadchodzące wydarzenia</span>
         </ng-template>
         <div class="upcomingEvents">
@@ -19,6 +19,7 @@
               class="Event{{ i + 1 }}"
             >
               <h4>{{ event.title }}</h4>
+              <p> Organizator:</p>
               <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
               <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
               <button
@@ -34,7 +35,7 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon>event_available</mat-icon>
+          <mat-icon>person</mat-icon>
           <span>&nbsp;Twoje wydarzenia</span>
         </ng-template>
         <div class="yourEvents">
@@ -62,7 +63,29 @@
           <mat-icon>event_busy</mat-icon>
           <span>&nbsp;Zakończone wydarzenia</span>
         </ng-template>
+        <div class="upcomingEvents">
+          <div class="container2">
+            <div class="UpcomingEventsText">
+              <h1>Zakończone wydarzenia</h1>
+            </div>
+            <div *ngFor="let event of finishedEvents; let i = index" class="Event{{ i + 1 }}">
+
+              <h4>{{ event.title }}</h4>
+              <p> Organizator:</p>
+              <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
+              <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
+              <button
+                type="button"
+                class="btn btn-light btnToDetails"
+                [routerLink]="['/wydarzenie', event.id]"
+              >
+                <mat-icon>arrow_right</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
       </mat-tab>
+
       <mat-tab>
         <ng-template mat-tab-label>
           <mat-icon>calendar_today</mat-icon>
@@ -72,5 +95,5 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <button (click)="openDialog()">Nowe wydarzenie</button>
+  <button (click)="openDialog()" class="buttonCreateEvent">Nowe wydarzenie</button>
 </body>

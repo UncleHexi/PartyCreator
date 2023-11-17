@@ -212,6 +212,22 @@ namespace PartyCreatorWebApi.Controllers
 
         }
 
+        [HttpGet("getFinished"), Authorize]
+        public async Task<ActionResult<List<Event>>> GetFinishedEvents()
+        {
+            try
+            {
+                int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+                var finishedEvents = await _eventRepository.ListFinishedEvents(userId);
+                return Ok(finishedEvents);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
         [HttpGet("getAccess/{id}"), Authorize]
         public async Task<ActionResult<MessageDto>> GetAccess(int id)
         {

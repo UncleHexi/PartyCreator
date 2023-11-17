@@ -7,7 +7,7 @@
       <div *ngIf="eventDetails" class="Details">
         <h1 style="color: white">{{ eventDetails!.title }}</h1>
         <p>{{ eventDetails!.description }}</p>
-        <p>Organizator:</p>
+        <p>Organizator: {{ creatorFirstName }} {{creatorLastName}}</p>
         <p (click)="toggleMapVisibility()">
           <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
           </fa-icon>
@@ -74,7 +74,8 @@
     </div>
     <div class="photos">zdjecia</div>
     <div class="inviteList">
-      <h5>Lista uczestników</h5>
+      <h3>Lista uczestników</h3>
+      <div class="creator">{{creatorFirstName}} {{creatorLastName}}</div>
       <div class="guests" *ngFor="let user of guestsUsers">
         {{ user.firstName }} {{ user.lastName }}
       </div>

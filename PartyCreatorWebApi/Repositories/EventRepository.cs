@@ -82,6 +82,17 @@ namespace PartyCreatorWebApi.Repositories
             return result.Entity;
         }
 
+
+        public async Task<List<Event>> ListFinishedEvents(int userId)
+        {
+            var finishedEvents = await _dataContext.Events
+              .Where(e => e.CreatorId == userId && e.DateTime < DateTime.Now)
+              .ToListAsync();
+
+            return finishedEvents;
+        }
+
+
         public async Task<List<GuestList>> GetGuestsFromEvent(int id)
         {
             var result = await _dataContext.GuestLists.Where(x => x.EventId == id).ToListAsync();
