@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 //icons
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +19,13 @@ import { EventService } from '../services/event.service';
   templateUrl: './nav-menu-main.component.html',
   styleUrls: ['./nav-menu-main.component.css'],
   standalone: true,
-  imports: [RouterModule, CommonModule, MatMenuModule, MatIconModule],
+  imports: [
+    RouterModule,
+    CommonModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
 export class NavMenuMainComponent implements OnInit {
   faBell = faBell;

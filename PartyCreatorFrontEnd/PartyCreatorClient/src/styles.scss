@@ -22,6 +22,11 @@ $special-theme: mat.define-dark-theme(
 );
 @include mat.all-component-themes($special-theme);
 
+:root {
+  --special-primary: #{mat.get-color-from-palette($special-primary, 500)};
+  --special-accent: #{mat.get-color-from-palette($special-accent, 500)};
+}
+
 html {
   background-color: #2d2d2d;
 }
