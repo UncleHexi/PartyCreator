@@ -23,7 +23,7 @@ namespace PartyCreatorWebApi.Controllers
         public async Task<ActionResult<UserDto>> Register(RegisterDto request)
         {   
             //sprawdz czy email juz istnieje
-            var result = await _usersRepository.GetUserByEmail(request.Email);
+            var result = await _usersRepository.GetUserByEmail(request.Email.ToLower());
 
             if (result != null)
             {

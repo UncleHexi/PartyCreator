@@ -105,6 +105,9 @@
           </button>
         </div>
       </div>
+      <div *ngIf="notifications.length==0" class="col d-flex align-items-center justify-content-center notification" style="color: white; margin-bottom: 0px;">
+        <p>Nie masz żadnych powiadomień</p>
+      </div>
     </div>
 
     <div
