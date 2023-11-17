@@ -51,7 +51,7 @@ body {
 
 .details {
   grid-area: details;
-  background-color: #6a8d73;
+  background-color: var(--special-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +87,7 @@ body {
 }
 
 .thingsToBringTitle {
-  background-color: #6a8d73;
+  background-color: var(--special-accent);
   padding-top: 10px;
   padding-bottom: 35px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -174,10 +174,17 @@ body {
   height: 830px;
 }
 
-.guests {
+.creator {
   font-weight: bold;
+  color: var(--special-accent);
+  font-size: 1.5rem;
+}
+
+.guests {
+  font-size: 1.5rem;
 }
 
 .invited {
   opacity: 0.5;
+  font-size: 1.2rem;
 }

@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-event-view',
@@ -55,10 +56,12 @@ export class EventViewComponent implements OnInit {
 
   guestsUsers: any[] = [];
   invitesUsers: any[] = [];
+  creatorFirstName: string = '';
+  creatorLastName: string = '';
 
 
 
-  constructor(private route: ActivatedRoute, private eventService: EventService, private toast: NgToastService, private router: Router) {
+  constructor(private route: ActivatedRoute, private eventService: EventService, private toast: NgToastService, private router: Router, private userService: UserService) {
     this.selected = null;
     this.eventDetails = null;
   }
@@ -74,6 +77,11 @@ export class EventViewComponent implements OnInit {
         (data: EventDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
+            console.log(this.eventDetails);
+            console.log(this.eventDetails.creatorId);
+            this.userService
+              .getUserData(this.eventDetails.creatorId.toString())
+              .subscribe((user) => (this.creatorFirstName = user.firstName, this.creatorLastName = user.lastName));
             this.eventService
               .getGuestsUsers(data.id.toString())
               .subscribe((users) => (this.guestsUsers = users));
