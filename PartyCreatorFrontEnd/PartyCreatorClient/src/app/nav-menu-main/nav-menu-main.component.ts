@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatBadgeModule } from '@angular/material/badge';
 
 //icons
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +26,7 @@ import { EventService } from '../services/event.service';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
+    MatBadgeModule
   ],
 })
 export class NavMenuMainComponent implements OnInit {
@@ -33,12 +35,14 @@ export class NavMenuMainComponent implements OnInit {
   isExpanded = false;
   isNotificationVisible: boolean = false;
   notifications: NotificationDto[] = [];
+  counter = 0;
 
   constructor(
     private auth: AuthService,
     private notificationService: NotificationService,
     private eventService: EventService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private router: Router
   ) {}
 
   toggle() {
@@ -66,14 +70,13 @@ export class NavMenuMainComponent implements OnInit {
     this.notificationService.getAllOfUser().subscribe({
       next: (res) => {
         console.log(res);
-
-        this.notifications = res;
+        this.notifications = res.reverse();
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
           detail: 'ERROR',
           summary: err.error,
-          duration: 5000,
+          duration: 3000,
         });
       },
     });
@@ -83,6 +86,7 @@ export class NavMenuMainComponent implements OnInit {
     this.eventService.acceptInvite(invite).subscribe({
       next: (res) => {
         this.notifications.splice(this.notifications.indexOf(invite), 1);
+        this.router.navigate([`wydarzenie/${invite.eventId}`]);
         console.log(res);
         this.toast.success({
           detail: 'SUCCESS',
@@ -119,5 +123,32 @@ export class NavMenuMainComponent implements OnInit {
         });
       },
     });
+  }
+  toggleRead(notification: NotificationDto) {
+    if(!notification.isRead) {
+      console.log(notification.id);
+      this.notificationService.toggleRead(notification).subscribe({
+        next: () => {
+          this.notifications[this.notifications.indexOf(notification)].isRead=true;
+          this.countRead();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toast.error({
+            detail: 'ERROR',
+            summary: err.error,
+            duration: 3000,
+          });
+        },
+      });
+    }
+  }
+  countRead() {
+    this.counter=0;
+    this.notifications.forEach(item => {
+      if(!item.isRead) {
+        this.counter++;
+      }
+    })
+    return this.counter;
   }
 }

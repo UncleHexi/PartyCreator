@@ -13,7 +13,7 @@ export class UserService {
 
   getUserData(userId: string): Observable<any> {
     return this.http.get(
-      'https://localhost:7241/api/User/GetUserById/${userId}'
+      `https://localhost:7241/api/User/GetUserById/${userId}`
     );
   }
 

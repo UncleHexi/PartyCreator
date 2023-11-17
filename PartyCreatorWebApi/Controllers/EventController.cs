@@ -114,7 +114,7 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Musisz być twórcą wydarzenia aby móc do niego zapraszać");
             }
 
-            var invitedUser = await _eventRepository.GetInviteList(request);
+            var invitedUser = await _eventRepository.CheckInviteList(request);
             if(invitedUser != null)
             {
                 return BadRequest("Użytkownik jest już zaproszony do wydarzenia");
@@ -125,7 +125,7 @@ namespace PartyCreatorWebApi.Controllers
                 UserId = request.UserId,
                 EventId = request.EventId
             };
-            var guestUser = await _eventRepository.GetGuestList(guestList);
+            var guestUser = await _eventRepository.CheckGuestList(guestList);
             if(guestUser != null)
             {
                 return BadRequest("Uzytkownik już uczestniczy w wydarzeniu");
@@ -166,7 +166,7 @@ namespace PartyCreatorWebApi.Controllers
             }
 
             //usun invite
-            var invite = await _eventRepository.GetInviteList(new InviteList { UserId = request.UserId, EventId = request.EventId });
+            var invite = await _eventRepository.CheckInviteList(new InviteList { UserId = request.UserId, EventId = request.EventId });
             if(invite == null)
             {
                 return BadRequest("Nie masz zaproszenia");
@@ -199,7 +199,7 @@ namespace PartyCreatorWebApi.Controllers
             }
 
             //usun invite
-            var invite = await _eventRepository.GetInviteList(new InviteList { UserId = request.UserId, EventId = request.EventId });
+            var invite = await _eventRepository.CheckInviteList(new InviteList { UserId = request.UserId, EventId = request.EventId });
             if (invite == null)
             {
                 return BadRequest("Nie masz zaproszenia");
@@ -227,6 +227,53 @@ namespace PartyCreatorWebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpGet("getAccess/{id}"), Authorize]
+        public async Task<ActionResult<MessageDto>> GetAccess(int id)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var _event = await _eventRepository.GetEventDetails(id);
+            if(_event==null)
+            {
+                return BadRequest("Nie ma takiego wydarzenia");
+            }
+
+            if(creatorId == _event.CreatorId)
+            {
+                return Ok(new MessageDto { Id = creatorId, Role = "Admin" });
+            }
+
+            var guests = await _eventRepository.GetGuestsFromEvent(id);
+            var user = guests.Where(x => x.UserId == creatorId).FirstOrDefault();
+            if (user == null)
+            {
+                return BadRequest("Nie jesteś na liście wydarzenia");
+            }
+            return Ok(new MessageDto { Id = creatorId, Role = "Guest" });
+        }
+
+        [HttpGet("GetAllGuests/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetAllGuests(int id)
+        {
+            var result = await _eventRepository.GetAllGuestsList(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetGuestsUsers/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetGuestsUsers(int id)
+        {
+            var result = await _eventRepository.GetGuestsUsers(id);
+            return Ok(result);
+        }
+
+        [HttpGet("GetInvitesUsers/{id:int}"), Authorize]
+        public async Task<ActionResult<List<AllGuestList>>> GetInvitesUsers(int id)
+        {
+            var result = await _eventRepository.GetInvitedUsers(id);
+            return Ok(result);
+        }
+
     }
 
 }

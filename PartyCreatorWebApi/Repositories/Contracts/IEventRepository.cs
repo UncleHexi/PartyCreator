@@ -10,11 +10,16 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<List<Event>> ListEventsJoinedByUser(int userId);
         Task<Event> GetEventDetails(int id);
         Task<InviteList> InviteToEvent(InviteList invitetList);
-        Task<InviteList> GetInviteList(InviteList inviteList);
-        Task<GuestList> GetGuestList(GuestList guestList);
+        Task<InviteList> CheckInviteList(InviteList inviteList);
+        Task<GuestList> CheckGuestList(GuestList guestList);
         Task<InviteList> DeleteInvite(int id);
         Task<GuestList> AddToGuestList(GuestList guestList);
         Task<List<Event>> ListFinishedEvents(int userId);
+        Task<List<GuestList>> GetGuestsFromEvent(int id);
+        Task<List<AllGuestList>> GetGuestsUsers(int eventId);
+        Task<List<AllGuestList>> GetInvitedUsers(int eventId);
+        Task<List<AllGuestList>> GetAllGuestsList(int eventId);
+
 
     }
 }

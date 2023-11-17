@@ -28,9 +28,23 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPut("toggleRead"), Authorize]
-        public async Task<ActionResult<Notification>> ToggleRead()
+        public async Task<ActionResult<Notification>> ToggleRead(Notification request)
         {
-            return Ok();
+            var notification = await _notificationRepository.GetNotification(request.Id);
+            if (notification == null)
+            {
+                return BadRequest("Nie ma takiego powiadomienia");
+            }
+
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            if(notification.UserId !=  creatorId)
+            {
+                return BadRequest("Nie masz dostępu do tego powiadomienia");
+            }
+
+
+            var result = await _notificationRepository.ToggleRead(notification);
+            return Ok(result);
         }
     }
 }

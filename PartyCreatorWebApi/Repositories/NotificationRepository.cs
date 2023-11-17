@@ -35,5 +35,20 @@ namespace PartyCreatorWebApi.Repositories
             var result = _dataContext.Notifications.Where(n => n.UserId == id).ToListAsync();
             return result;
         }
+
+        public async Task<Notification> GetNotification(int id)
+        {
+            var result = await _dataContext.Notifications.FirstOrDefaultAsync(x => x.Id == id);
+            return result;
+        }
+
+        public async Task<Notification> ToggleRead(Notification request)
+        {
+            request.IsRead = !request.IsRead;
+
+            var result = _dataContext.Notifications.Update(request);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+        }
     }
 }
