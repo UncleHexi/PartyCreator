@@ -35,6 +35,11 @@ export class EventService {
     return this.http.get<EventDto[]>(`${this.baseUrl2}getUpcoming`);
   }
   
+  getFinishedEvents(): Observable<EventDto[]> {
+    return this.http.get<EventDto[]>(`${this.baseUrl2}getFinished`);
+
+  }
+
   inviteToEvent(inviteList: InviteListDto) {
     return this.http.post<InviteListDto>(`${this.baseUrl2}invite`, inviteList);
   }

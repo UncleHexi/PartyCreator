@@ -81,5 +81,15 @@ namespace PartyCreatorWebApi.Repositories
             await _dataContext.SaveChangesAsync();
             return result.Entity;
         }
+
+        public async Task<List<Event>> ListFinishedEvents(int userId)
+        {
+            var finishedEvents = await _dataContext.Events
+              .Where(e => e.CreatorId == userId && e.DateTime < DateTime.Now)
+              .ToListAsync();
+
+            return finishedEvents;
+        }
+
     }
 }

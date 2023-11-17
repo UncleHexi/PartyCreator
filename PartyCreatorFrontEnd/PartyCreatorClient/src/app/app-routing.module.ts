@@ -18,7 +18,7 @@ const routes: Routes = [
   },
   { path: 'main', component: MainComponent , canActivate:[authGuard]},
   { path: 'profil', component: ProfileComponent, canActivate: [authGuard] },
-  { path: 'wydarzenie/:id', component: EventViewComponent},
+  { path: 'wydarzenie/:id', component: EventViewComponent, canActivate: [authGuard] },
 
 ];
 

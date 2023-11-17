@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="chat" >
-            <app-map [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city"></app-map>
+            <app-map [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city" *ngIf="isMapVisible"></app-map>
         </div>
        <div class="photos">
             zdjecia

@@ -32,6 +32,9 @@ export class MainComponent implements OnInit {
   myEvents: EventDto[] = [];
 
   upcomingEvents: EventDto[] = [];
+
+  finishedEvents: EventDto[] = [];
+
   constructor(
     private event: EventService,
     public dialog: MatDialog,
@@ -44,6 +47,7 @@ export class MainComponent implements OnInit {
     forkJoin({
       myEvents: this.event.getOfCreator(),
       upcomingEvents: this.event.getUpcomingEvents(),
+      finishedEvents: this.event.getFinishedEvents(),
     }).subscribe((data) => {
       this.myEvents = data.myEvents;
       this.filterPastEvents();
@@ -52,6 +56,8 @@ export class MainComponent implements OnInit {
       this.upcomingEvents = data.upcomingEvents;
       this.filterPastEventsInUpcoming();
       this.sortUpcomingEvents();
+      this.finishedEvents = data.finishedEvents; 
+      this.sortFinishedEvents(); 
     });
   }
 
@@ -118,5 +124,16 @@ export class MainComponent implements OnInit {
       return dateA - dateB;
     });
     console.log('After sorting my events:', this.myEvents);
+  }
+
+  sortFinishedEvents() {
+    console.log('Przed sortowaniem zakończonych wydarzeń:', this.finishedEvents);
+    // Sortuj zakończone wydarzenia od najnowszej daty do najstarszej
+    this.finishedEvents.sort((a, b) => {
+      const dateA = new Date(a.dateTime).getTime();
+      const dateB = new Date(b.dateTime).getTime();
+      return dateB - dateA;
+    });
+    console.log('Po sortowaniu zakończonych wydarzeń:', this.finishedEvents);
   }
 }
