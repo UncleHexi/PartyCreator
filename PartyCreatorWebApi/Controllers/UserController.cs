@@ -31,6 +31,12 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(await _usersRepository.GetUserByEmail(email));
         }
 
+        [HttpGet("GetUserById/{id:int}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            return Ok(await _usersRepository.GetUserById(id));
+        }
+
         [HttpGet("GetMyProfile"), Authorize]
         public async Task<ActionResult<UserDto>> GetMyProfile()
         {
