@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { EventDto } from '../interfaces/event-dto';
 import { EventCreateDto } from '../interfaces/event-create-dto';
 import { Observable } from 'rxjs';
+import { InviteListDto } from '../interfaces/invite-list-dto';
+import { NotificationDto } from '../interfaces/notification-dto';
+import { GuestListDto } from '../interfaces/guest-list-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +33,17 @@ export class EventService {
 
   getUpcomingEvents(): Observable<EventDto[]> {
     return this.http.get<EventDto[]>(`${this.baseUrl2}getUpcoming`);
+  }
+  
+  inviteToEvent(inviteList: InviteListDto) {
+    return this.http.post<InviteListDto>(`${this.baseUrl2}invite`, inviteList);
+  }
 
+  acceptInvite(notification: NotificationDto) {
+    return this.http.post<GuestListDto>(`${this.baseUrl2}accept`, notification);
+  }
+
+  declineInvite(notification: NotificationDto) {
+    return this.http.post<InviteListDto>(`${this.baseUrl2}decline`, notification);
   }
 }

@@ -1,6 +1,6 @@
 <div class="parent">
-  <div class="profile-picture">
-    <img src="assets/profile-avatars/avatar1.png" alt="User Profile Picture" />
+  <div class="profile-picture" (click)="changeProfilePicture()">
+    <img [src]="profilePicture" alt="User Profile Picture" />
   </div>
   <div class="user-info">
     <form

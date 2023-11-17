@@ -14,7 +14,6 @@ import { SigninComponent } from './login/signin/signin.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MainComponent } from './main/main.component';
 import { NavMenuMainComponent } from './nav-menu-main/nav-menu-main.component';
-import { NotificationsComponent } from './notifications/notifications.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
@@ -37,6 +36,8 @@ import { ProfileContactsComponent } from './profile/profile-contacts/profile-con
 import { AddContactDialogComponent } from './profile/add-contact-dialog/add-contact-dialog.component';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './map/map.component';
+import {MatMenuModule} from '@angular/material/menu';
+import { ProfileEditAvatarComponent } from './profile/profile-edit/profile-edit-avatar/profile-edit-avatar.component';
 
 registerLocaleData(localePl);
 
@@ -51,7 +52,6 @@ registerLocaleData(localePl);
     SigninComponent,
     MainComponent,
     NavMenuMainComponent,
-    NotificationsComponent,
     EventViewComponent,
     ProfileComponent,
     MapComponent,
@@ -78,12 +78,14 @@ registerLocaleData(localePl);
     ProfileViewComponent,
     ProfileContactsComponent,
     AddContactDialogComponent,
+    MatMenuModule,
+    ProfileEditAvatarComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    [DatePipe]
+    [DatePipe],
   ],
 
   bootstrap: [AppComponent],

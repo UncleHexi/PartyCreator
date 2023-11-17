@@ -27,11 +27,48 @@
               >Wydarzenia</a
             >
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link text-white" (click)="toggleNotifications()">
               <fa-icon [icon]="faBell" style="color: white" size="lg"></fa-icon>
             </a>
+          </li> -->
+          <li class="nav-item">
+            <button [matMenuTriggerFor]="Menu" class="nav-link text-white">
+              test
+            </button>
+            <mat-menu #Menu="matMenu" xPosition="before">
+              <div style="width: 400px; height: 400px;">
+                
+                <div class="d-flex flex-row-reverse" style="width: 100%; height: 40px; margin: 0px;">
+                  <div style="padding-right: 12px; padding-top: 8px;">
+                    <fa-icon [icon]="faX" style="color:white;" fa-xl></fa-icon>
+                  </div>
+                </div>
+
+                <div (click)="doSomething($event);" class="reszta" style="overflow-y: auto;">
+                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
+                    <p>Powiadomienie 2</p>
+                  </div>
+                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
+                    <p>Powiadomienie 2</p>
+                  </div>
+                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
+                    <p>Powiadomienie 2</p>
+                  </div>
+                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
+                    <p>Powiadomienie 2</p>
+                  </div>
+                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
+                    <p>Powiadomienie 2</p>
+                  </div>
+                  <div class="row" style="width: 100%; height: 60px; background-color: forestgreen; margin: 0px; margin-top: 5px;">
+                    <p>Powiadomienie 2</p>
+                  </div>
+                </div>
+              </div>
+            </mat-menu>
           </li>
+          
           <li class="nav-item" [routerLinkActive]="['/']">
             <a class="nav-link text-white menu-link" [routerLink]="['/profil']"
               >Profil</a
@@ -48,6 +85,4 @@
     </div>
   </nav>
 </header>
-<body>
-  <app-notifications *ngIf="isNotificationVisible"></app-notifications>
-</body>
+
