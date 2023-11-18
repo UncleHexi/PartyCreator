@@ -20,8 +20,8 @@
             >
               <h4>{{ event.title }}</h4>
               <p> Organizator:</p>
-              <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
-              <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
+              <p>Godzina: {{ event.dateTime + "Z"  | date : "H:mm" }}</p>
+              <p>Data: {{ event.dateTime+ "Z"  | date : "d/M/yy" }}</p>
               <button
                 type="button"
                 class="btn btn-light btnToDetails"

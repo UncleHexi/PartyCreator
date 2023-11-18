@@ -67,9 +67,9 @@
         </p>
       </div>
     </div>
-    <div class="chat" *ngIf="!isMapVisible">
+    <div class="chat" >
       <app-map
-        [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city"
+        [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city" *ngIf="isMapVisible"
       ></app-map>
     </div>
     <div class="photos">zdjecia</div>
