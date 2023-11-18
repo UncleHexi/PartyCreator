@@ -9,7 +9,18 @@ import * as leafletGeosearch from 'leaflet-geosearch';
 })
 export class MapComponent implements OnInit, OnChanges {
   @Input() eventAddress: string = '';
-  private map: L.Map | undefined; // Dodajemy zmienną do przechowywania instancji mapy
+  private map: L.Map | undefined;
+  private mapVisible: boolean = true;
+
+  private markerIcon = new L.Icon({
+    iconUrl: 'assets/myMarker/marker-icon.png',
+    shadowUrl: 'assets/myMarker/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+    shadowSize: [41, 41],
+  });
 
   ngOnInit() {
     this.initMap();
@@ -19,6 +30,22 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes['eventAddress'] && !changes['eventAddress'].firstChange) {
       this.updateMap();
     }
+    if (changes['mapVisible'] && !changes['mapVisible'].firstChange) {
+      if (this.mapVisible) {
+        this.initMap();
+        this.updateMap();
+      } else {
+        if (this.map) {
+          this.map.remove();
+        }
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.initMap();
+    }, 0);
   }
 
   private initMap(): void {
@@ -30,31 +57,32 @@ export class MapComponent implements OnInit, OnChanges {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
   }
+
   private updateMap(): void {
     if (this.map) {
       const provider = new leafletGeosearch.OpenStreetMapProvider();
   
-      // Usuwamy poprzednie markery
+      // Usuwamy tylko warstwy markerów
       this.map.eachLayer(layer => {
         if (layer instanceof L.Marker) {
           layer.remove();
         }
       });
-  
-      // Jeśli masz adres, użyj geokodera, aby znaleźć współrzędne
+
       if (this.eventAddress) {
         provider.search({ query: this.eventAddress })
           .then((result: any) => {
             console.log('Geocoding Result:', result);
-  
+
             if (result.length > 0) {
               const { x, y } = result[0];
-              const marker = L.marker([y, x]);
-              
-              // Dodajemy marker do mapy tylko jeśli mapa istnieje
+              const marker = L.marker([y, x], { icon: this.markerIcon });
+
               if (this.map) {
                 marker.addTo(this.map);
                 this.map.setView([y, x], 15);
+
+                marker.bindPopup(this.eventAddress).openPopup();
               } else {
                 console.error('Map is undefined');
               }

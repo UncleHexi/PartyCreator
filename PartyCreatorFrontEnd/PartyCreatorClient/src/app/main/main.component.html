@@ -15,8 +15,8 @@
               <h1>Nadchodzące wydarzenia</h1>
             </div>
             <div
-              *ngFor="let event of upcomingEvents; let i = index"
-              class="Event{{ i + 1 }}"
+              *ngFor="let event of upcomingEvents"
+              class="Event"
             >
               <h4>{{ event.title }}</h4>
               <p> Organizator:</p>
@@ -27,7 +27,7 @@
                 class="btn btn-light btnToDetails"
                 [routerLink]="['/wydarzenie', event.id]"
               >
-                <mat-icon>arrow_right</mat-icon>
+              <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
               </button>
             </div>
           </div>
@@ -39,12 +39,13 @@
           <span>&nbsp;Twoje wydarzenia</span>
         </ng-template>
         <div class="yourEvents">
-          <div class="UpcomingEventsText2">
-            <h1>Twoje wydarzenia</h1>
-          </div>
-          <div class="container3">
+          <div class="container2">
+            <div class="UpcomingEventsText">
+              <h1>Twoje wydarzenia</h1>
+            </div>
             <div *ngFor="let myEvent of myEvents" class="YourEvent">
               <h4>{{ myEvent.title }}</h4>
+              <p> Organizator:</p>
               <p>{{ myEvent.dateTime + "Z" | date : "H:mm" }}</p>
               <p>{{ myEvent.dateTime + "Z" | date : "d/M/yy" }}</p>
               <button
@@ -52,7 +53,7 @@
                 class="btn btn-light btnToDetails"
                 [routerLink]="['/wydarzenie', myEvent.id]"
               >
-                <mat-icon>arrow_right</mat-icon>
+              <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
               </button>
             </div>
           </div>
@@ -68,7 +69,7 @@
             <div class="UpcomingEventsText">
               <h1>Zakończone wydarzenia</h1>
             </div>
-            <div *ngFor="let event of finishedEvents; let i = index" class="Event{{ i + 1 }}">
+            <div *ngFor="let event of finishedEvents; let i = index" [ngClass]="'Event'">
 
               <h4>{{ event.title }}</h4>
               <p> Organizator:</p>
@@ -79,8 +80,8 @@
                 class="btn btn-light btnToDetails"
                 [routerLink]="['/wydarzenie', event.id]"
               >
-                <mat-icon>arrow_right</mat-icon>
-              </button>
+              <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
+            </button>
             </div>
           </div>
         </div>
