@@ -11,6 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { NavMenuMainComponent } from '../nav-menu-main/nav-menu-main.component';
 import { MainCalendarComponent } from '../main/main-calendar/main-calendar.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-main',
@@ -25,10 +27,15 @@ import { MainCalendarComponent } from '../main/main-calendar/main-calendar.compo
     DatePipe,
     CommonModule,
     MainCalendarComponent,
+    FontAwesomeModule
   ],
 })
 export class MainComponent implements OnInit {
+  faArrowRight = faArrowRight;
+
   selected: Date | null;
+
+
   myEvents: EventDto[] = [];
 
   upcomingEvents: EventDto[] = [];
