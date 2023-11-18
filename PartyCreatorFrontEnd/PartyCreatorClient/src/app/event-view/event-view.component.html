@@ -5,9 +5,9 @@
   <div class="mainLayout">
     <div class="details">
       <div *ngIf="eventDetails" class="Details">
-        <h1 style="color: white">{{ eventDetails!.title }}</h1>
+        <h2 style="color: white; font-weight:bold;">{{ eventDetails!.title }}</h2>
+        <p style="font-weight:bold;">Organizator: {{ creatorFirstName }} {{creatorLastName}}</p>
         <p>{{ eventDetails!.description }}</p>
-        <p>Organizator: {{ creatorFirstName }} {{creatorLastName}}</p>
         <p (click)="toggleMapVisibility()">
           <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
           </fa-icon>
@@ -67,7 +67,7 @@
         </p>
       </div>
     </div>
-    <div class="chat">
+    <div class="chat" *ngIf="!isMapVisible">
       <app-map
         [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city"
       ></app-map>

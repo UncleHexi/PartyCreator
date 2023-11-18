@@ -113,10 +113,6 @@ export class EventViewComponent implements OnInit {
     this.arrowAnimationState = this.isThingsToBringVisible ? 'pulse' : 'rest';
   }
 
-  toggleMapVisibility(): void {
-    this.isMapVisible = !this.isMapVisible;
-  }
-
   authorization() {
     const eventId: string | null = this.route.snapshot.paramMap.get('id');
     this.eventService.getAccess(eventId!).subscribe({
@@ -145,5 +141,9 @@ export class EventViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
       
     });
+  }
+
+  toggleMapVisibility(): void{
+    this.isMapVisible = !this.isMapVisible;
   }
 }
