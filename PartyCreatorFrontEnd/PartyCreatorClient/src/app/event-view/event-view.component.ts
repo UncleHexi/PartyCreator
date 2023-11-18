@@ -22,8 +22,10 @@ import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import * as leafletGeosearch from 'leaflet-geosearch';
-import { NgToastModule } from 'ng-angular-popup';
-
+import { RoleDto } from '../interfaces/role-dto';
+import { MatDialog } from '@angular/material/dialog';
+import { InviteModalComponent } from '../invite-modal/invite-modal.component';
+import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 
 @Component({
   selector: 'app-event-view',
@@ -56,14 +58,13 @@ export class EventViewComponent implements OnInit {
 
   arrowAnimationState: string = 'rest';
 
-  guestsUsers: any[] = [];
-  invitesUsers: any[] = [];
+  guestsUsers: AllGuestsListDto[] = [];
+  invitesUsers: AllGuestsListDto[] = [];
   creatorFirstName: string = '';
   creatorLastName: string = '';
+  userRole: RoleDto = {id: 0, role: ""};
 
-
-
-  constructor(private route: ActivatedRoute, private eventService: EventService, private toast: NgToastService, private router: Router, private userService: UserService) {
+  constructor(private route: ActivatedRoute, private eventService: EventService, private toast: NgToastService, private router: Router, private userService: UserService, public dialog: MatDialog) {
     this.selected = null;
     this.eventDetails = null;
   }
@@ -117,6 +118,8 @@ export class EventViewComponent implements OnInit {
     this.eventService.getAccess(eventId!).subscribe({
       next: (res) => {
         this.loadEventDetails();
+        this.userRole=res;
+        console.log(this.userRole);
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
@@ -126,7 +129,18 @@ export class EventViewComponent implements OnInit {
         });
         this.router.navigate(['main']);
       }
-    })
+    });
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(InviteModalComponent, {
+      data: this.guestsUsers,
+      panelClass: 'testDialog2',
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+      
+    });
   }
 
   toggleMapVisibility(): void {

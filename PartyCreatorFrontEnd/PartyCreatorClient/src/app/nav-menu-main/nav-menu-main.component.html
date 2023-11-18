@@ -29,7 +29,7 @@
           </li>
         
           <li class="nav-item">
-            <button [matMenuTriggerFor]="Menu" class="nav-link text-white">
+            <button [matMenuTriggerFor]="Menu" class="nav-link text-white" style="height: 40px;">
               <mat-icon *ngIf="countRead()!=0; else elseBlock" matBadge="{{countRead()}}" matBadgeColor="warn" matBadgeSize="medium">notifications</mat-icon>
               <ng-template #elseBlock>
                 <mat-icon>notifications</mat-icon>

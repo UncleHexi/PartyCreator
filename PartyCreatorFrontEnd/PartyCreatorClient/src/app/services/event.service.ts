@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { InviteListDto } from '../interfaces/invite-list-dto';
 import { NotificationDto } from '../interfaces/notification-dto';
 import { GuestListDto } from '../interfaces/guest-list-dto';
-import { MessageDto } from '../interfaces/message-dto';
+import { RoleDto } from '../interfaces/role-dto';
+import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -56,19 +57,19 @@ export class EventService {
     );
   }
 
-  getGuestsUsers(id: string): Observable<GuestListDto[]> {
-    return this.http.get<GuestListDto[]>(
+  getGuestsUsers(id: string): Observable<AllGuestsListDto[]> {
+    return this.http.get<AllGuestsListDto[]>(
       `${this.baseUrl2}getGuestsUsers/${id}`
     );
   }
 
-  getInvitesUsers(id: string): Observable<GuestListDto[]> {
-    return this.http.get<InviteListDto[]>(
+  getInvitesUsers(id: string): Observable<AllGuestsListDto[]> {
+    return this.http.get<AllGuestsListDto[]>(
       `${this.baseUrl2}getInvitesUsers/${id}`
     );
   }
 
   getAccess(contactId: string) {
-    return this.http.get<MessageDto>(`${this.baseUrl2}getAccess/${contactId}`);
+    return this.http.get<RoleDto>(`${this.baseUrl2}getAccess/${contactId}`);
   }
 }

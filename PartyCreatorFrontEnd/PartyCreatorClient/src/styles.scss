@@ -99,3 +99,18 @@ body {
 .mdc-tooltip__surface {
   background-color: #3d3d3d !important;
 }
+
+.testDialog2 {
+  overflow-y: auto;
+  @media (min-width: 769px) {
+    width: 800px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+
+    .col-2 {
+      display: none;
+    }
+  }
+}

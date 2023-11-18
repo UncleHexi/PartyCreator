@@ -82,6 +82,7 @@
       <div class="invited" *ngFor="let user of invitesUsers">
         {{ user.firstName }} {{ user.lastName }}
       </div>
+      <button *ngIf="userRole.role=='Admin' " (click)="openDialog()">Zapros do wydarzenia</button>
     </div>
   </div>
   <div class="extraFunctions">

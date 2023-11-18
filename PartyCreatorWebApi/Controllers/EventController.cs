@@ -229,7 +229,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpGet("getAccess/{id}"), Authorize]
-        public async Task<ActionResult<MessageDto>> GetAccess(int id)
+        public async Task<ActionResult<RoleDto>> GetAccess(int id)
         {
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
@@ -241,7 +241,7 @@ namespace PartyCreatorWebApi.Controllers
 
             if(creatorId == _event.CreatorId)
             {
-                return Ok(new MessageDto { Id = creatorId, Role = "Admin" });
+                return Ok(new RoleDto { Id = creatorId, Role = "Admin" });
             }
 
             var guests = await _eventRepository.GetGuestsFromEvent(id);
@@ -250,7 +250,7 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Nie jesteś na liście wydarzenia");
             }
-            return Ok(new MessageDto { Id = creatorId, Role = "Guest" });
+            return Ok(new RoleDto { Id = creatorId, Role = "Guest" });
         }
 
         [HttpGet("GetAllGuests/{id:int}"), Authorize]
