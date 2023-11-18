@@ -1,8 +1,10 @@
 .eventForm {
     color: white;
-    padding: 20px;
+    padding: 15px;
+    
 }
 .row-class {
+    padding: 0px;
     padding-bottom: 10px;
 }
 .row-class-opcje {
@@ -11,6 +13,9 @@
 }
 .col-class {
     padding-bottom: 10px;
+}
+.col-slider {
+    padding-bottom: 5px;
 }
 
 @media (min-width: 769px) {
@@ -30,9 +35,6 @@
     .row-class-opcje {
         padding-top: 10px;
         padding-bottom: 10px;
-    }
-    .col-slider {
-        display: list-item;
     }
 
 }

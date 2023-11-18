@@ -135,7 +135,8 @@ export class EventViewComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(InviteModalComponent, {
       data: this.guestsUsers,
-      panelClass: 'testDialog2',
+      panelClass: 'inviteDialog',
+      backdropClass: 'dialogBackgroundClass',
     });
 
     dialogRef.afterClosed().subscribe((res) => {

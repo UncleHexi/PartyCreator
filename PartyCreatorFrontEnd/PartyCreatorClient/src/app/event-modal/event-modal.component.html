@@ -2,55 +2,45 @@
   <form (ngSubmit)="onSubmit()" [formGroup]="eventOptions" class="eventForm">
     <h1 class="text-center" style="padding-bottom: 40px;">Tworzenie Wydarzenia</h1>
     <div class="row row-class">
-      
-      <div class="col">
-        <mat-form-field appearance="outline" style="width: 100%">
-          <mat-label>Tytuł</mat-label>
-          <input matInput #title maxlength="20" formControlName="title" required>
-          <mat-hint align="end">{{title.value.length}}/20</mat-hint>
-        </mat-form-field>
-      </div>
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Tytuł</mat-label>
+        <input matInput #title maxlength="20" formControlName="title" required>
+        <mat-hint align="end">{{title.value.length}}/20</mat-hint>
+      </mat-form-field>
     </div>    
     <div class="row row-class">
-      
-      <div class="col">
-        <mat-form-field appearance="outline" style="width: 100%;">
-          <mat-label>Opis</mat-label>
-          <textarea matInput #description maxlength="100" formControlName="description" required cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="6"></textarea>
-          <mat-hint align="end">{{description.value.length}}/100</mat-hint>
-        </mat-form-field>
-      </div>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Opis</mat-label>
+        <textarea matInput #description maxlength="100" formControlName="description" required cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="3" cdkAutosizeMaxRows="6"></textarea>
+        <mat-hint align="end">{{description.value.length}}/100</mat-hint>
+      </mat-form-field>
     </div>
     <div class="row row-class">
-      
-      <div class="col">
-        <div class="row row-class">
+      <div class="row row-class">
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Adres</mat-label>
+          <input matInput #address maxlength="30" formControlName="address" required>
+          <mat-hint align="end">{{address.value.length}}/30</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="row row-class">
+        <div class="col">
           <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Adres</mat-label>
-            <input matInput #address maxlength="30" formControlName="address" required>
-            <mat-hint align="end">{{address.value.length}}/30</mat-hint>
+            <mat-label>Kraj</mat-label>
+            <input matInput #country maxlength="30" formControlName="country" required>
+            <mat-hint align="end">{{country.value.length}}/30</mat-hint>
           </mat-form-field>
         </div>
-        <div class="row row-class">
-          <div class="col">
-            <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Kraj</mat-label>
-              <input matInput #country maxlength="30" formControlName="country" required>
-              <mat-hint align="end">{{country.value.length}}/30</mat-hint>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Miasto</mat-label>
-              <input matInput #city maxlength="30" formControlName="city" required>
-              <mat-hint align="end">{{city.value.length}}/30</mat-hint>
-            </mat-form-field>
-          </div>
-        </div>    
-      </div>
+        <div class="col">
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Miasto</mat-label>
+            <input matInput #city maxlength="30" formControlName="city" required>
+            <mat-hint align="end">{{city.value.length}}/30</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>    
     </div>    
     <div class="row">
-      
       <div class="col col-class">
         <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Godzina</mat-label>
