@@ -21,6 +21,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
+import * as leafletGeosearch from 'leaflet-geosearch';
 import { RoleDto } from '../interfaces/role-dto';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteModalComponent } from '../invite-modal/invite-modal.component';
@@ -30,7 +31,6 @@ import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
   styleUrls: ['./event-view.component.css'],
-
   animations: [
     trigger('slideDown', [
       state('void', style({ height: '0', opacity: '0' })),
@@ -143,7 +143,43 @@ export class EventViewComponent implements OnInit {
     });
   }
 
-  toggleMapVisibility(): void{
-    this.isMapVisible = !this.isMapVisible;
+  toggleMapVisibility(): void {
+    if (this.isMapVisible) {
+      this.isMapVisible = false;
+    } else {
+      // Wyszukiwanie koordynatów tylko, gdy mapa jest ustawiona na widoczność
+      this.findMapCoordinates();
+    }
   }
-}
+  
+  private findMapCoordinates(): void {
+    const addressToGeocode = this.eventDetails?.address + ', ' + this.eventDetails?.city;
+  
+    if (addressToGeocode) {
+      const provider = new leafletGeosearch.OpenStreetMapProvider();
+      
+      provider.search({ query: addressToGeocode })
+        .then((result: any) => {
+          if (result.length > 0) {
+            this.isMapVisible = true;
+          } else {
+            this.toast.error({
+              detail: 'Mapa nie potrafiła znaleźć tego adresu.',
+              duration: 3000,
+            });
+            // Dodaj odpowiedni kod, aby wyświetlić komunikat o błędzie (np. Angular Material Snackbar)
+            console.error('Mapa nie potrafiła znaleźć tego adresu.');
+          }
+        })
+        .catch((error: any) => {
+          // Dodaj odpowiedni kod, aby wyświetlić komunikat o błędzie (np. Angular Material Snackbar)
+          console.error('Błąd podczas geokodowania:', error);
+          console.error('Mapa nie potrafiła znaleźć tego adresu.');
+          this.toast.error({
+            detail: 'Mapa nie potrafiła znaleźć tego adresu.',
+            duration: 3000,
+          });
+        });
+    }
+  }
+}  

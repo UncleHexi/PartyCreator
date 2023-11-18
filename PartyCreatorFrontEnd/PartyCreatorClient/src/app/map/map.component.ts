@@ -26,8 +26,8 @@ export class MapComponent implements OnInit, OnChanges {
     this.initMap();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['eventAddress'] && !changes['eventAddress'].firstChange) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['eventAddress'] && !changes['eventAddress'].isFirstChange()) {
       this.updateMap();
     }
     if (changes['mapVisible'] && !changes['mapVisible'].firstChange) {
@@ -45,8 +45,10 @@ export class MapComponent implements OnInit, OnChanges {
   ngAfterViewInit() {
     setTimeout(() => {
       this.initMap();
+      this.updateMap();
     }, 0);
   }
+
 
   private initMap(): void {
     if (this.map) {
@@ -57,10 +59,12 @@ export class MapComponent implements OnInit, OnChanges {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
   }
-
   private updateMap(): void {
     if (this.map) {
       const provider = new leafletGeosearch.OpenStreetMapProvider();
+  
+      // Zapamiętaj wartość eventAddress przed rozpoczęciem geokodowania
+      const currentEventAddress = this.eventAddress;
   
       // Usuwamy tylko warstwy markerów
       this.map.eachLayer(layer => {
@@ -68,32 +72,43 @@ export class MapComponent implements OnInit, OnChanges {
           layer.remove();
         }
       });
-
-      if (this.eventAddress) {
-        provider.search({ query: this.eventAddress })
+  
+      if (currentEventAddress) {
+        provider.search({ query: currentEventAddress })
           .then((result: any) => {
-            console.log('Geocoding Result:', result);
-
-            if (result.length > 0) {
-              const { x, y } = result[0];
-              const marker = L.marker([y, x], { icon: this.markerIcon });
-
-              if (this.map) {
-                marker.addTo(this.map);
-                this.map.setView([y, x], 15);
-
-                marker.bindPopup(this.eventAddress).openPopup();
+            // Sprawdź, czy eventAddress się nie zmienił
+            if (this.eventAddress === currentEventAddress) {
+              console.log('Geocoding Result:', result);
+  
+              if (result.length > 0) {
+                const { x, y } = result[0];
+                const marker = L.marker([y, x], { icon: this.markerIcon });
+  
+                if (this.map) {
+                  this.map.setView([y, x], 15);
+  
+                  marker.addTo(this.map);
+                  marker.bindPopup(currentEventAddress).openPopup();
+                } else {
+                  console.error('Map is undefined');
+                }
               } else {
-                console.error('Map is undefined');
+                console.error('Failed to find coordinates for address:', currentEventAddress);
+                // Dodaj odpowiedni kod, aby wyświetlić komunikat o błędzie (np. Angular Material Dialog)
+                console.log('Mapa nie potrafila znalezc tego adresu.');
               }
             } else {
-              console.error('Failed to find coordinates for address:', this.eventAddress);
+              console.log('Event address changed during geocoding. Ignoring results.');
             }
           })
           .catch((error: any) => {
             console.error('Error during geocoding:', error);
+            // Dodaj odpowiedni kod, aby wyświetlić komunikat o błędzie (np. Angular Material Dialog)
+            console.log('Mapa nie potrafila znalezc tego adresu.');
           });
       }
+    } else {
+      console.error('Map is undefined');
     }
   }
-}
+}  
