@@ -1,0 +1,29 @@
+<div style="background: #2D2D2D; color: white;">
+    <div class="row" style="width: 100%;">
+        <div class="col-9">
+            <mat-tab-group mat-stretch-tabs="true" style="padding: 0px;">
+                <mat-tab label="Szukaj">
+                    <div style="background-color: red; height: 400px; padding: 40px;">
+                        
+                    </div>
+                </mat-tab>
+                <mat-tab label="Lista Kontaktów">
+                    <div style="background-color: blue; height: 400px; padding: 40px;">
+                        <div *ngFor="let guest of data">
+                            <p>{{guest.firstName}}</p>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="col-3" style="padding: 0px;">
+            <div class="d-flex align-items-center justify-content-center" style="height: 48px;">
+                Lista uczestników
+            </div>
+            <div style="background-color: red; height: 400px; padding: 40px;">
+
+            </div>
+        </div>
+    </div>
+    
+</div>
