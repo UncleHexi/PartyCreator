@@ -16,6 +16,9 @@ html {
 .navbar-nav .nav-item.link-active a {
   color: white !important;
   font-weight: bolder;
+  text-decoration-line: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 19px;
 }
 
 .navbar {
