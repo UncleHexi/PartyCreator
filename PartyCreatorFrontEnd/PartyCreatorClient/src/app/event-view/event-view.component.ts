@@ -48,7 +48,7 @@ import { EventUserDto } from '../interfaces/event-user-dto';
 export class EventViewComponent implements OnInit {
   faArrowRight: any;
   selected: Date | null;
-  eventDetails: EventUserDto | null;
+  eventDetails: EventUserDto;
 
   faClock = faClock;
   faCalendar = faCalendar;
@@ -72,7 +72,21 @@ export class EventViewComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.selected = null;
-    this.eventDetails = null;
+    this.eventDetails = {
+      id: 0,
+      creatorId: 0,
+      creatorName: '',
+      title: '',
+      description: '',
+      dateTime: new Date(),
+      city: '',
+      address: '',
+      country: '',
+      color: '',
+      playlistTitle: '',
+      shoppingListTitle: '',
+      receiptTitle: '',
+    };
   }
 
   ngOnInit(): void {

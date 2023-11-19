@@ -6,26 +6,26 @@
     <div class="details">
       <div *ngIf="eventDetails" class="Details">
         <h2 style="color: white; font-weight: bold">
-          {{ eventDetails!.title }}
+          {{ eventDetails.title }}
         </h2>
         <p style="font-weight: bold">
-          Organizator: {{ eventDetails!.creatorName }}
+          Organizator: {{ eventDetails.creatorName }}
         </p>
-        <p>{{ eventDetails!.description }}</p>
+        <p>{{ eventDetails.description }}</p>
         <p (click)="toggleMapVisibility()">
           <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
           </fa-icon>
-          {{ eventDetails!.address }}
-          {{ eventDetails!.city }}
+          {{ eventDetails.address }}
+          {{ eventDetails.city }}
         </p>
         <p>
           <fa-icon [icon]="faCalendar" style="color: white" size="2xl">
           </fa-icon>
-          {{ eventDetails!.dateTime + "z" | date : "dd-MM-yyyy" }}
+          {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }}
         </p>
         <p>
           <fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon>
-          {{ eventDetails!.dateTime + "z" | date : "HH:mm" }}
+          {{ eventDetails.dateTime + "z" | date : "HH:mm" }}
         </p>
       </div>
     </div>
@@ -73,14 +73,14 @@
     </div>
     <div class="chat">
       <app-map
-        [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city"
+        [eventAddress]="eventDetails.address + ', ' + eventDetails.city"
         *ngIf="isMapVisible"
       ></app-map>
     </div>
     <div class="photos">zdjecia</div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
-      <div class="creator">{{ eventDetails!.creatorName }}</div>
+      <div class="creator">{{ eventDetails.creatorName }}</div>
       <div class="guests" *ngFor="let user of guestsUsers">
         {{ user.firstName }} {{ user.lastName }}
       </div>
