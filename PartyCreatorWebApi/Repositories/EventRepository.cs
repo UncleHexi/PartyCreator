@@ -23,18 +23,59 @@ namespace PartyCreatorWebApi.Repositories
             return result.Result.Entity;
         }
 
-        public async Task<List<Event>> ListEventsJoinedByUser(int userId)
+        public async Task<List<EventUserDto>> ListEventsJoinedByUser(int userId)
         {
-            var events = await _dataContext.Events
-               .Where(e => _dataContext.GuestLists.Any(gl => gl.UserId == userId && gl.EventId == e.Id))
-               .ToListAsync();
+            var result = await _dataContext.Events
+                .Where(e => _dataContext.GuestLists.Any(gl => gl.UserId == userId && gl.EventId == e.Id))
+                .Select(e => new EventUserDto
+                {
+                    Id = e.Id,
+                    CreatorId = e.CreatorId,
+                    CreatorName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .FirstOrDefault(),
+                    Title = e.Title,
+                    Description = e.Description,
+                    DateTime = e.DateTime,
+                    City = e.City,
+                    Address = e.Address,
+                    Country = e.Country,
+                    Color = e.Color,
+                    PlaylistTitle = e.PlaylistTitle,
+                    ShoppingListTitle = e.ShoppingListTitle,
+                    ReceiptTitle = e.ReceiptTitle
+                })
+                .ToListAsync();
 
-            return events;
+            return result;
         }
 
-        public async Task<List<Event>> ListEventsMadeByUser(int creatorId)
+        public async Task<List<EventUserDto>> ListEventsMadeByUser(int creatorId)
         {
-            var result = await _dataContext.Events.Where(x=> x.CreatorId == creatorId).ToListAsync();
+            var result = await _dataContext.Events
+            .Where(x=> x.CreatorId == creatorId)
+            .Select(e => new EventUserDto
+            {
+                Id = e.Id,
+                CreatorId = e.CreatorId,
+                CreatorName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .FirstOrDefault(),
+                Title = e.Title,
+                Description = e.Description,
+                DateTime = e.DateTime,
+                City = e.City,
+                Address = e.Address,
+                Country = e.Country,
+                Color = e.Color,
+                PlaylistTitle = e.PlaylistTitle,
+                ShoppingListTitle = e.ShoppingListTitle,
+                ReceiptTitle = e.ReceiptTitle
+            })
+            .ToListAsync();
+
             return result;
         }
 
@@ -82,15 +123,55 @@ namespace PartyCreatorWebApi.Repositories
             return result.Entity;
         }
 
-        public async Task<List<Event>> ListFinishedEvents(int userId)
+        public async Task<List<EventUserDto>> ListFinishedEvents(int userId)
         {
             var finishedEventsCreatedByUser = await _dataContext.Events
                 .Where(e => e.CreatorId == userId && e.DateTime < DateTime.Now)
+                .Select(e => new EventUserDto
+                {
+                    Id = e.Id,
+                    CreatorId = e.CreatorId,
+                    CreatorName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .FirstOrDefault(),
+                    Title = e.Title,
+                    Description = e.Description,
+                    DateTime = e.DateTime,
+                    City = e.City,
+                    Address = e.Address,
+                    Country = e.Country,
+                    Color = e.Color,
+                    PlaylistTitle = e.PlaylistTitle,
+                    ShoppingListTitle = e.ShoppingListTitle,
+                    ReceiptTitle = e.ReceiptTitle
+                })
                 .ToListAsync();
+
 
             var finishedEventsAsGuest = await _dataContext.Events
                 .Where(e => _dataContext.GuestLists.Any(gl => gl.UserId == userId && gl.EventId == e.Id) && e.DateTime < DateTime.Now)
+                .Select(e => new EventUserDto
+                {
+                    Id = e.Id,
+                    CreatorId = e.CreatorId,
+                    CreatorName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .FirstOrDefault(),
+                    Title = e.Title,
+                    Description = e.Description,
+                    DateTime = e.DateTime,
+                    City = e.City,
+                    Address = e.Address,
+                    Country = e.Country,
+                    Color = e.Color,
+                    PlaylistTitle = e.PlaylistTitle,
+                    ShoppingListTitle = e.ShoppingListTitle,
+                    ReceiptTitle = e.ReceiptTitle
+                })
                 .ToListAsync();
+
 
             var allFinishedEvents = finishedEventsCreatedByUser.Concat(finishedEventsAsGuest).ToList();
 

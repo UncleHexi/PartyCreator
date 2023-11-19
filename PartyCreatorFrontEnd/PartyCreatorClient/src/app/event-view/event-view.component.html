@@ -5,23 +5,27 @@
   <div class="mainLayout">
     <div class="details">
       <div *ngIf="eventDetails" class="Details">
-        <h2 style="color: white; font-weight:bold;">{{ eventDetails!.title }}</h2>
-        <p style="font-weight:bold;">Organizator: {{ creatorFirstName }} {{creatorLastName}}</p>
-        <p>{{ eventDetails!.description }}</p>
+        <h2 style="color: white; font-weight: bold">
+          {{ eventDetails.title }}
+        </h2>
+        <p style="font-weight: bold">
+          Organizator: {{ eventDetails.creatorName }}
+        </p>
+        <p>{{ eventDetails.description }}</p>
         <p (click)="toggleMapVisibility()">
           <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
           </fa-icon>
-          {{ eventDetails!.address }}
-          {{ eventDetails!.city }}
+          {{ eventDetails.address }}
+          {{ eventDetails.city }}
         </p>
         <p>
           <fa-icon [icon]="faCalendar" style="color: white" size="2xl">
           </fa-icon>
-          {{ eventDetails!.dateTime + "z" | date : "dd-MM-yyyy" }}
+          {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }}
         </p>
         <p>
           <fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon>
-          {{ eventDetails!.dateTime + "z" | date : "HH:mm" }}
+          {{ eventDetails.dateTime + "z" | date : "HH:mm" }}
         </p>
       </div>
     </div>
@@ -67,15 +71,16 @@
         </p>
       </div>
     </div>
-    <div class="chat" >
+    <div class="chat">
       <app-map
-        [eventAddress]="eventDetails?.address + ', ' + eventDetails?.city" *ngIf="isMapVisible"
+        [eventAddress]="eventDetails.address + ', ' + eventDetails.city"
+        *ngIf="isMapVisible"
       ></app-map>
     </div>
     <div class="photos">zdjecia</div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
-      <div class="creator">{{creatorFirstName}} {{creatorLastName}}</div>
+      <div class="creator">{{ eventDetails.creatorName }}</div>
       <div class="guests" *ngFor="let user of guestsUsers">
         {{ user.firstName }} {{ user.lastName }}
       </div>
@@ -83,7 +88,9 @@
         {{ user.firstName }} {{ user.lastName }}
       </div>
       <div>
-       <button *ngIf="userRole.role=='Admin' " (click)="openDialog()">Zaproś do wydarzenia</button>
+        <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
+          Zaproś do wydarzenia
+        </button>
       </div>
     </div>
   </div>
@@ -92,4 +99,3 @@
     <div class="shareReceipt">dzielenie się rachunkiem</div>
   </div>
 </body>
-

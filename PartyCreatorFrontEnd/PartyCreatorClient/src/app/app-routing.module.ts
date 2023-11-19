@@ -12,14 +12,18 @@ import { ProfileComponent } from './profile/profile.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'test/:id', component: TestComponent },
-  { path: 'logowanie', 
-  component: LoginComponent , 
-  canActivate:[loggedinGuard]
+  {
+    path: 'logowanie',
+    component: LoginComponent,
+    canActivate: [loggedinGuard],
   },
-  { path: 'main', component: MainComponent , canActivate:[authGuard]},
+  { path: 'wydarzenia', component: MainComponent, canActivate: [authGuard] },
   { path: 'profil', component: ProfileComponent, canActivate: [authGuard] },
-  { path: 'wydarzenie/:id', component: EventViewComponent, canActivate: [authGuard] },
-
+  {
+    path: 'wydarzenie/:id',
+    component: EventViewComponent,
+    canActivate: [authGuard],
+  },
 ];
 
 @NgModule({

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
+using PartyCreatorWebApi.Extensions;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -61,7 +62,7 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(addedEvent);
         }
         [HttpGet("{id}"), Authorize]
-        public async Task<ActionResult<Event>> GetEventDetails(int id)
+        public async Task<ActionResult<EventUserDto>> GetEventDetails(int id)
         {
             var eventDetails = await _eventRepository.GetEventDetails(id);
 
@@ -69,11 +70,13 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return NotFound("Nie znaleziono wydarzenia o podanym ID");
             }
+            var user = await _usersRepository.GetUserById(eventDetails.CreatorId);
+            
 
-            return Ok(eventDetails);
+            return Ok(DtoConversions.EventToDto(eventDetails, user));
         }
         [HttpGet("getUpcoming"), Authorize]
-        public async Task<ActionResult<List<Event>>> GetUpcomingEvents()
+        public async Task<ActionResult<List<EventUserDto>>> GetUpcomingEvents()
         {
             try
             {
