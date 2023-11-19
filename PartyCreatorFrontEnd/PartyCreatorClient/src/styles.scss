@@ -6,8 +6,8 @@
 
 @include mat.core();
 
-$special-primary: mat.define-palette(mat.$blue-palette, 500, 300, 900);
-$special-accent: mat.define-palette(mat.$green-palette, 500, 200, 900);
+$special-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 800);
+$special-accent: mat.define-palette(mat.$orange-palette, 300, 200, 900);
 $special-warn: mat.define-palette(mat.$red-palette, 500, 200, 900);
 $special-theme: mat.define-dark-theme(
   (
@@ -23,10 +23,10 @@ $special-theme: mat.define-dark-theme(
 @include mat.all-component-themes($special-theme);
 
 :root {
-  --special-primary: #{mat.get-color-from-palette($special-primary, 500)};
+  --special-primary: #{mat.get-color-from-palette($special-primary, 600)};
   --special-primary-300: #{mat.get-color-from-palette($special-primary, 300)};
-  --special-primary-900: #{mat.get-color-from-palette($special-primary, 900)};
-  --special-accent: #{mat.get-color-from-palette($special-accent, 500)};
+  --special-primary-800: #{mat.get-color-from-palette($special-primary, 800)};
+  --special-accent: #{mat.get-color-from-palette($special-accent, 300)};
   --special-accent-200: #{mat.get-color-from-palette($special-accent, 200)};
   --special-accent-900: #{mat.get-color-from-palette($special-accent, 900)};
   --special-warn: #{mat.get-color-from-palette($special-warn, 500)};
@@ -66,7 +66,6 @@ body {
   margin-right: 0px !important;
 }
 
-
 .eventDialog {
   overflow-y: auto;
   max-width: 100% !important;
@@ -74,19 +73,14 @@ body {
   width: 700px;
 
   @media (min-width: 769px) {
-    
   }
 
   @media (max-width: 768px) {
-    
-    
   }
   @media (max-width: 576px) {
     width: 100%;
     height: 100%;
-    
   }
-  
 }
 
 ::-webkit-scrollbar {
@@ -117,7 +111,6 @@ body {
   overflow-y: auto;
   @media (min-width: 769px) {
     width: 900px;
-    
   }
 
   @media (max-width: 768px) {
