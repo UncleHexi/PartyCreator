@@ -26,7 +26,7 @@ body {
   gap: 0 35px;
   grid-auto-flow: row;
   grid-template-areas: "spotifyPlaylist shareReceipt";
-  padding:20px;
+  padding: 20px;
 }
 
 .spotifyPlaylist {
@@ -49,7 +49,7 @@ body {
 }
 .details {
   grid-area: details;
-  background-color: var(--special-accent);
+  background-color: var(--special-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,14 +59,18 @@ body {
   position: relative; /* Dodane, aby umożliwić pozycjonowanie absolutne pseudoelementu */
 }
 
-.details::before  {
+.details::before {
   content: "";
   position: absolute; /* Pozycjonowanie absolutne */
   top: 0; /* Pozycja od góry */
   left: 0; /* Pozycja od lewej */
   right: 0; /* Pozycja od prawej */
   bottom: 0; /* Pozycja od dołu */
-  background: linear-gradient(to left top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+  background: linear-gradient(
+    to left top,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.2)
+  );
   z-index: 0;
   pointer-events: none;
 }
@@ -78,18 +82,17 @@ body {
 }
 .Details {
   text-align: center;
-
 }
 .Details p {
-  text-align:center;
+  text-align: center;
   font-size: 20px;
   max-width: 380px; /* or adjust as needed */
   word-wrap: break-word;
   margin: 0 auto;
-  padding:5px;
+  padding: 5px;
 }
 
-.eventAddress:hover{
+.eventAddress:hover {
   cursor: pointer;
 }
 .thingsToBring {
@@ -108,6 +111,7 @@ body {
 
 .thingsToBringTitle {
   background-color: var(--special-accent);
+  color: black;
   padding-top: 10px;
   padding-bottom: 35px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -137,7 +141,7 @@ body {
 
 /* Kolor samego paska przewijania */
 .thingsToBringList::-webkit-scrollbar-thumb {
-  background-color: #6a8d73;
+  background-color: var(--special-primary);
 }
 
 /* Kolor obszaru, który nie jest pokryty przez pasek przewijania */
@@ -152,10 +156,10 @@ body {
 }
 .thingsToBringList button {
   margin-left: 10px;
-  background-color: #6a8d73;
+  background-color: var(--special-primary);
   color: white;
   border-radius: 8px;
-  border-color: #6a8d73;
+  border-color: var(--special-primary);
 }
 .rounded-bottom {
   border-bottom-left-radius: 0;
@@ -164,16 +168,14 @@ body {
 
 .spotifyPlaylist {
   grid-area: spotifyPlaylist;
-  background-color: #6a8d73;
+  background-color: var(--special-primary);
   height: 160px;
-
 }
 
 .shareReceipt {
   grid-area: shareReceipt;
-  background-color: #6a8d73;
+  background-color: var(--special-primary);
   height: 160px;
-
 }
 .chat {
   grid-area: chat;
@@ -186,8 +188,6 @@ body {
   background-color: #545454;
   height: 250px;
 }
-
-
 
 .creator {
   font-weight: bold;
@@ -214,17 +214,17 @@ body {
 }
 
 .inviteList button {
-  background-color: var(--special-accent);
+  background-color: var(--special-primary);
   font-weight: bold;
   color: white;
   position: absolute;
   bottom: 10px; /* Adjust the distance from the bottom as needed */
   left: 50%; /* Center the button horizontally */
   transform: translateX(-50%); /* Center the button horizontally */
-  width:95%;
-  padding:20px;
+  width: 95%;
+  padding: 20px;
   font-size: 28px;
-  border-radius:15px;
+  border-radius: 15px;
 }
 
 @media (max-width: 1400px) {
@@ -245,11 +245,12 @@ body {
   .inviteList {
     width: 100%;
   }
-  .details, .inviteList{
+  .details,
+  .inviteList {
     height: 600px;
   }
-  .inviteList{
-    margin-top:38px;
+  .inviteList {
+    margin-top: 38px;
   }
 }
 @media (max-width: 600px) {
@@ -286,4 +287,3 @@ body {
     width: 100%;
   }
 }
-
