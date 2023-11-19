@@ -73,7 +73,8 @@ export class MainComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      panelClass: 'testDialog',
+      panelClass: 'eventDialog',
+      backdropClass: 'dialogBackgroundClass'
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -87,7 +88,7 @@ export class MainComponent implements OnInit {
     this.event.getOfCreator().subscribe((res) => {
       this.myEvents = res;
       this.filterPastEvents();
-      console.log(this.myEvents);
+      //console.log(this.myEvents);
     });
   }
   
@@ -100,11 +101,11 @@ export class MainComponent implements OnInit {
 
   getUpcomingEvents() {
     this.event.getUpcomingEvents().subscribe((res) => {
-      console.log('Received upcoming events from service:', res);
+      //console.log('Received upcoming events from service:', res);
       this.upcomingEvents = res;
       this.filterPastEventsInUpcoming();
       this.sortUpcomingEvents();
-      console.log('Upcoming events after sorting:', this.upcomingEvents);
+     // console.log('Upcoming events after sorting:', this.upcomingEvents);
     });
   }
 
@@ -116,34 +117,34 @@ export class MainComponent implements OnInit {
     });
   }
   sortUpcomingEvents() {
-    console.log('Before sorting:', this.upcomingEvents);
+    //console.log('Before sorting:', this.upcomingEvents);
     // Sortuj wydarzenia od najbliższej daty do najdalszej
     this.upcomingEvents.sort((a, b) => {
       const dateA = new Date(a.dateTime).getTime();
       const dateB = new Date(b.dateTime).getTime();
       return dateA - dateB;
     });
-    console.log('After sorting:', this.upcomingEvents);
+    //console.log('After sorting:', this.upcomingEvents);
   }
   sortMyEvents() {
-    console.log('Before sorting:', this.myEvents);
+    //console.log('Before sorting:', this.myEvents);
     // Sortuj wydarzenia od najbliższej daty do najdalszej
     this.myEvents.sort((a, b) => {
       const dateA = new Date(a.dateTime).getTime();
       const dateB = new Date(b.dateTime).getTime();
       return dateA - dateB;
     });
-    console.log('After sorting my events:', this.myEvents);
+    //console.log('After sorting my events:', this.myEvents);
   }
 
   sortFinishedEvents() {
-    console.log('Przed sortowaniem zakończonych wydarzeń:', this.finishedEvents);
+   // console.log('Przed sortowaniem zakończonych wydarzeń:', this.finishedEvents);
     // Sortuj zakończone wydarzenia od najnowszej daty do najstarszej
     this.finishedEvents.sort((a, b) => {
       const dateA = new Date(a.dateTime).getTime();
       const dateB = new Date(b.dateTime).getTime();
       return dateB - dateA;
     });
-    console.log('Po sortowaniu zakończonych wydarzeń:', this.finishedEvents);
+   // console.log('Po sortowaniu zakończonych wydarzeń:', this.finishedEvents);
   }
 }
