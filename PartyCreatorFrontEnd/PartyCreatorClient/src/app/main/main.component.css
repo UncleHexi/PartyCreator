@@ -39,6 +39,8 @@ body {
   padding: 0;
 }
 
+
+
 .container2 {
   /*Nadchodzace wydarzenia */
   display: grid;
@@ -63,7 +65,7 @@ body {
   color: white;
   font-size: 22px;
   padding: 4%;
-  width: 345px;
+  width: 390px;
   height: 220px;
   border-radius: 3%;
   background-color: var(--special-primary);
@@ -143,8 +145,8 @@ body {
 }
 
 .buttonCreateEvent {
-  background-color: var(--special-primary);
-  border-color: var(--special-primary);
+  background-color:  var(--special-accent);
+  border-color:  var(--special-accent);
   width: 800px;
   height: 60px;
   font-size: 24px;
@@ -158,8 +160,8 @@ body {
 }
 
 .btnToDetails {
-  background-color: #f0cf65;
-  border-color: #f0cf65;
+  background-color: var(--special-accent);
+  border-color: var(--special-accent);
   width: 50px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }

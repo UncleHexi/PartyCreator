@@ -74,6 +74,7 @@ body {
 .details h1 {
   color: white;
   font-weight: bold;
+  padding: 10px;
 }
 .Details {
   text-align: center;
@@ -88,6 +89,9 @@ body {
   padding:5px;
 }
 
+.eventAddress:hover{
+  cursor: pointer;
+}
 .thingsToBring {
   grid-area: thingsToBring;
   text-align: center;
