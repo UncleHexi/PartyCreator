@@ -39,6 +39,8 @@ body {
   padding: 0;
 }
 
+
+
 .container2 {
   /*Nadchodzace wydarzenia */
   display: grid;
@@ -143,8 +145,8 @@ body {
 }
 
 .buttonCreateEvent {
-  background-color: #9e4770;
-  border-color: #9e4770;
+  background-color:  var(--special-accent);
+  border-color:  var(--special-accent);
   width: 800px;
   height: 60px;
   font-size: 24px;
@@ -158,8 +160,8 @@ body {
 }
 
 .btnToDetails {
-  background-color: #f0cf65;
-  border-color: #f0cf65;
+  background-color: var(--special-accent);
+  border-color: var(--special-accent);
   width: 50px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }

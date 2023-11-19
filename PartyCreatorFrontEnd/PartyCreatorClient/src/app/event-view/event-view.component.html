@@ -8,7 +8,7 @@
         <h2 style="color: white; font-weight:bold;">{{ eventDetails!.title }}</h2>
         <p style="font-weight:bold;">Organizator: {{ creatorFirstName }} {{creatorLastName}}</p>
         <p>{{ eventDetails!.description }}</p>
-        <p (click)="toggleMapVisibility()">
+        <p (click)="toggleMapVisibility()" class="eventAddress">
           <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
           </fa-icon>
           {{ eventDetails!.address }}
