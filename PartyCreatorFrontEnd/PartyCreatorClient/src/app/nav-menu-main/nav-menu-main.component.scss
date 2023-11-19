@@ -1,3 +1,7 @@
+@use "node_modules/@angular/material" as mat;
+
+@include mat.core();
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -57,4 +61,22 @@ html {
 }
 .notification:hover {
   cursor: pointer;
+}
+
+.notificationMenu {
+  $special-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 800);
+  $special-accent: mat.define-palette(mat.$green-palette, 600, 200, 900);
+  $special-warn: mat.define-palette(mat.$red-palette, 500, 200, 900);
+  $special-theme: mat.define-dark-theme(
+    (
+      color: (
+        primary: $special-primary,
+        accent: $special-accent,
+        warn: $special-warn,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    )
+  );
+  @include mat.all-component-themes($special-theme);
 }
