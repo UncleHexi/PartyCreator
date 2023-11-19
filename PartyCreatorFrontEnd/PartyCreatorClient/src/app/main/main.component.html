@@ -19,7 +19,7 @@
               class="Event"
             >
               <h4>{{ event.title }}</h4>
-              <p> Organizator:</p>
+              <p> Organizator: </p>
               <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
               <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
               <button
@@ -45,7 +45,7 @@
             </div>
             <div *ngFor="let myEvent of myEvents" class="YourEvent">
               <h4>{{ myEvent.title }}</h4>
-              <p> Organizator:</p>
+              <p> Organizator: </p>
               <p>{{ myEvent.dateTime + "Z" | date : "H:mm" }}</p>
               <p>{{ myEvent.dateTime + "Z" | date : "d/M/yy" }}</p>
               <button

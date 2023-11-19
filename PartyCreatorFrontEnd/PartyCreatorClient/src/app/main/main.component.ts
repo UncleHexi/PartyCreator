@@ -4,7 +4,7 @@ import { EventDto } from '../interfaces/event-dto';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,8 @@ import { NavMenuMainComponent } from '../nav-menu-main/nav-menu-main.component';
 import { MainCalendarComponent } from '../main/main-calendar/main-calendar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from '../services/user.service';
+import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 
 @Component({
   selector: 'app-main',
@@ -35,15 +37,16 @@ export class MainComponent implements OnInit {
 
   selected: Date | null;
 
-
   myEvents: EventDto[] = [];
 
   upcomingEvents: EventDto[] = [];
 
   finishedEvents: EventDto[] = [];
 
+
   constructor(
     private event: EventService,
+    private userService: UserService,
     public dialog: MatDialog,
     private datePipe: DatePipe
   ) {
@@ -87,7 +90,7 @@ export class MainComponent implements OnInit {
       console.log(this.myEvents);
     });
   }
-
+  
   filterPastEvents() {
     const currentDate = new Date();
     this.myEvents = this.myEvents.filter((event) => {

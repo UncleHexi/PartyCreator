@@ -22,7 +22,7 @@ export class EventService {
   }
 
   getEventDetails(id: string): Observable<any> {
-    return this.http.get(`https://localhost:7241/api/Event/${id}`);
+    return this.http.get<EventDto[]>(`https://localhost:7241/api/Event/${id}`);
   }
 
   getOfCreator() {

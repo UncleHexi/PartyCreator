@@ -7,9 +7,11 @@ import {
   CalendarModule,
   CalendarView,
   DAYS_OF_WEEK,
+  CalendarEventTitleFormatter,
 } from 'angular-calendar';
 import { EventService } from '../../services/event.service';
 import { CommonModule } from '@angular/common';
+import { CustomEventTitleFormatter } from './custom-event-title-formatter.provider';
 
 @Component({
   selector: 'app-main-calendar',
@@ -17,6 +19,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./main-calendar.component.css'],
   standalone: true,
   imports: [CalendarModule, CommonModule],
+  providers: [{
+    provide: CalendarEventTitleFormatter,
+    useClass: CustomEventTitleFormatter,
+  },],
 })
 export class MainCalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
@@ -48,7 +54,7 @@ export class MainCalendarComponent implements OnInit {
       });
     });
   }
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {

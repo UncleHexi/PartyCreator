@@ -141,8 +141,8 @@ body {
 }
 
 .buttonCreateEvent {
-  background-color: #9e4770;
-  border-color: #9e4770;
+  background-color: var(--special-primary);
+  border-color: var(--special-primary);
   width: 800px;
   height: 60px;
   font-size: 24px;
