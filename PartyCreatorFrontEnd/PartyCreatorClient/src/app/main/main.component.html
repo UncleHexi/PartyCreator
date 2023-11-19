@@ -14,20 +14,17 @@
             <div class="UpcomingEventsText">
               <h1>Nadchodzące wydarzenia</h1>
             </div>
-            <div
-              *ngFor="let event of upcomingEvents"
-              class="Event"
-            >
+            <div *ngFor="let event of upcomingEvents" class="Event">
               <h4>{{ event.title }}</h4>
-              <p>Organizator:</p>
-              <p>Godzina: {{ event.dateTime + "Z"  | date : "H:mm" }}</p>
-              <p>Data: {{ event.dateTime+ "Z"  | date : "d/M/yy" }}</p>
+              <p>Organizator: {{ event.creatorName }}</p>
+              <p>Godzina: {{ event.dateTime + "Z" | date : "H:mm" }}</p>
+              <p>Data: {{ event.dateTime + "Z" | date : "d/M/yy" }}</p>
               <button
                 type="button"
                 class="btn btn-light btnToDetails"
                 [routerLink]="['/wydarzenie', event.id]"
               >
-              <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
+                <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
               </button>
             </div>
           </div>
@@ -45,15 +42,15 @@
             </div>
             <div *ngFor="let myEvent of myEvents" class="YourEvent">
               <h4>{{ myEvent.title }}</h4>
-              <p> Organizator:</p>
-              <p>{{ myEvent.dateTime + "Z" | date : "H:mm" }}</p>
-              <p>{{ myEvent.dateTime + "Z" | date : "d/M/yy" }}</p>
+              <div>Organizator: {{ myEvent.creatorName }}</div>
+              <p>Godzina: {{ myEvent.dateTime + "Z" | date : "H:mm" }}</p>
+              <p>Data: {{ myEvent.dateTime + "Z" | date : "d/M/yy" }}</p>
               <button
                 type="button"
                 class="btn btn-light btnToDetails"
                 [routerLink]="['/wydarzenie', myEvent.id]"
               >
-              <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
+                <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
               </button>
             </div>
           </div>
@@ -69,10 +66,12 @@
             <div class="UpcomingEventsText">
               <h1>Zakończone wydarzenia</h1>
             </div>
-            <div *ngFor="let event of finishedEvents; let i = index" [ngClass]="'Event'">
-
+            <div
+              *ngFor="let event of finishedEvents; let i = index"
+              [ngClass]="'Event'"
+            >
               <h4>{{ event.title }}</h4>
-              <p> Organizator:</p>
+              <p>Organizator: {{ event.creatorName }}</p>
               <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
               <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
               <button
@@ -80,8 +79,8 @@
                 class="btn btn-light btnToDetails"
                 [routerLink]="['/wydarzenie', event.id]"
               >
-              <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
-            </button>
+                <fa-icon [icon]="faArrowRight" size="lg"></fa-icon>
+              </button>
             </div>
           </div>
         </div>
@@ -96,5 +95,7 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <button (click)="openDialog()" class="buttonCreateEvent">Nowe wydarzenie</button>
+  <button (click)="openDialog()" class="buttonCreateEvent">
+    Nowe wydarzenie
+  </button>
 </body>

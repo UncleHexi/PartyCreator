@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { UserDto } from '../interfaces/user-dto';
 import { ContactDto } from '../interfaces/contact-dto';
+import { UserContactDto } from '../interfaces/user-contact-dto';
+import { SearchEmailDto } from '../interfaces/search-email-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserData(userId: string): Observable<any> {
-    return this.http.get(
+    return this.http.get<UserDto>(
       `https://localhost:7241/api/User/GetUserById/${userId}`
     );
   }
@@ -53,6 +55,12 @@ export class UserService {
   deleteContact(contactId: string): Observable<any> {
     return this.http.delete<ContactDto>(
       `https://localhost:7241/api/User/DeleteContact/${contactId}`
+    );
+  }
+
+  getUsersEmailContains(request: SearchEmailDto) {
+    return this.http.post<UserContactDto[]>(
+      'https://localhost:7241/api/User/GetUsersEmailContains', request
     );
   }
 }

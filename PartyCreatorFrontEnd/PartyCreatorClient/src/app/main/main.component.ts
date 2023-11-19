@@ -4,15 +4,18 @@ import { EventDto } from '../interfaces/event-dto';
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin, map, of, switchMap, tap } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { NavMenuMainComponent } from '../nav-menu-main/nav-menu-main.component';
 import { MainCalendarComponent } from '../main/main-calendar/main-calendar.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { UserService } from '../services/user.service';
+import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
+import { EventUserDto } from '../interfaces/event-user-dto';
 
 @Component({
   selector: 'app-main',
@@ -27,7 +30,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
     DatePipe,
     CommonModule,
     MainCalendarComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
 })
 export class MainComponent implements OnInit {
@@ -35,18 +38,13 @@ export class MainComponent implements OnInit {
 
   selected: Date | null;
 
+  myEvents: EventUserDto[] = [];
 
-  myEvents: EventDto[] = [];
+  upcomingEvents: EventUserDto[] = [];
 
-  upcomingEvents: EventDto[] = [];
+  finishedEvents: EventUserDto[] = [];
 
-  finishedEvents: EventDto[] = [];
-
-  constructor(
-    private event: EventService,
-    public dialog: MatDialog,
-    private datePipe: DatePipe
-  ) {
+  constructor(private event: EventService, public dialog: MatDialog) {
     this.selected = null;
   }
 
@@ -63,15 +61,15 @@ export class MainComponent implements OnInit {
       this.upcomingEvents = data.upcomingEvents;
       this.filterPastEventsInUpcoming();
       this.sortUpcomingEvents();
-      this.finishedEvents = data.finishedEvents; 
-      this.sortFinishedEvents(); 
+      this.finishedEvents = data.finishedEvents;
+      this.sortFinishedEvents();
     });
   }
 
   openDialog() {
     const dialogRef = this.dialog.open(EventModalComponent, {
       panelClass: 'eventDialog',
-      backdropClass: 'dialogBackgroundClass'
+      backdropClass: 'dialogBackgroundClass',
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -102,7 +100,7 @@ export class MainComponent implements OnInit {
       this.upcomingEvents = res;
       this.filterPastEventsInUpcoming();
       this.sortUpcomingEvents();
-     // console.log('Upcoming events after sorting:', this.upcomingEvents);
+      // console.log('Upcoming events after sorting:', this.upcomingEvents);
     });
   }
 
@@ -135,13 +133,13 @@ export class MainComponent implements OnInit {
   }
 
   sortFinishedEvents() {
-   // console.log('Przed sortowaniem zakończonych wydarzeń:', this.finishedEvents);
+    // console.log('Przed sortowaniem zakończonych wydarzeń:', this.finishedEvents);
     // Sortuj zakończone wydarzenia od najnowszej daty do najstarszej
     this.finishedEvents.sort((a, b) => {
       const dateA = new Date(a.dateTime).getTime();
       const dateB = new Date(b.dateTime).getTime();
       return dateB - dateA;
     });
-   // console.log('Po sortowaniu zakończonych wydarzeń:', this.finishedEvents);
+    // console.log('Po sortowaniu zakończonych wydarzeń:', this.finishedEvents);
   }
 }

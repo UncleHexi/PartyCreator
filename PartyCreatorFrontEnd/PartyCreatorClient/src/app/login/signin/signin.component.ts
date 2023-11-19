@@ -14,7 +14,7 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class SigninComponent {
   public signinForm: FormGroup; // formularz logowania
-  credentials: LoginDto = {email:'', password:''};
+  credentials: LoginDto = { email: '', password: '' };
 
   constructor(
     private fb: FormBuilder,
@@ -22,7 +22,7 @@ export class SigninComponent {
     private auth: AuthService,
     private router: Router,
     private toast: NgToastService
-    ) {
+  ) {
     this.signinForm = this.createSigninForm();
   }
 
@@ -39,22 +39,28 @@ export class SigninComponent {
   }
 
   submit() {
-    this.credentials.email=this.signinForm.value.email;
-    this.credentials.password=this.signinForm.value.password;
-    
-    this.auth.signIn(this.credentials)
-    .subscribe({
+    this.credentials.email = this.signinForm.value.email;
+    this.credentials.password = this.signinForm.value.password;
+
+    this.auth.signIn(this.credentials).subscribe({
       next: (res) => {
-        this.auth.storeToken(res.token)
-        this.toast.success({detail:"SUCCESS", summary:"Udało się zalogować!",duration:3000});
+        this.auth.storeToken(res.token);
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się zalogować!',
+          duration: 3000,
+        });
         this.signinForm.reset(); // resetowanie formularza po jego złożeniu
-        this.router.navigate(['main']);
+        this.router.navigate(['wydarzenia']);
       },
       error: (err: HttpErrorResponse) => {
-        this.toast.error({detail:"ERROR", summary:err.error, duration:3000});
-      }
-    })
-    
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      },
+    });
   }
 
   eyeIcon = 'fa-eye-slash'; // ikona ukrywania hasła

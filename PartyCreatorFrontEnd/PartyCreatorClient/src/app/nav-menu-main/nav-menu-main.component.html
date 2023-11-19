@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">PartyCreator</a>
+      <a class="navbar-brand" [routerLink]="['/wydarzenia']">PartyCreator</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -23,14 +23,25 @@
             [routerLinkActive]="['link-active']"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a class="nav-link text-white" [routerLink]="['/main']"
+            <a class="nav-link text-white" [routerLink]="['/wydarzenia']"
               >Wydarzenia</a
             >
           </li>
-        
+
           <li class="nav-item">
-            <button [matMenuTriggerFor]="Menu" class="nav-link text-white" style="height: 40px;">
-              <mat-icon *ngIf="countRead()!=0; else elseBlock" matBadge="{{countRead()}}" aria-hidden="false" matBadgeColor="warn" matBadgeSize="medium">notifications</mat-icon>
+            <button
+              [matMenuTriggerFor]="Menu"
+              class="nav-link text-white"
+              style="height: 40px"
+            >
+              <mat-icon
+                *ngIf="countRead() != 0; else elseBlock"
+                matBadge="{{ countRead() }}"
+                aria-hidden="false"
+                matBadgeColor="warn"
+                matBadgeSize="medium"
+                >notifications</mat-icon
+              >
               <ng-template #elseBlock>
                 <mat-icon>notifications</mat-icon>
               </ng-template>
@@ -73,16 +84,31 @@
         padding-right: 10px;
       "
     >
-      <div *ngFor="let notification of notifications" class="row notification" (click)="toggleRead(notification)">
-        <div class="col d-flex align-items-center" style="padding: 0px; max-width: 25px;">
-          <mat-icon *ngIf="!notification.isRead" color="accent" style="transform: scale(0.6);">fiber_manual_record</mat-icon>
+      <div
+        *ngFor="let notification of notifications"
+        class="row notification"
+        (click)="toggleRead(notification)"
+      >
+        <div
+          class="col d-flex align-items-center"
+          style="padding: 0px; max-width: 25px"
+        >
+          <mat-icon
+            *ngIf="!notification.isRead"
+            color="accent"
+            style="transform: scale(0.6)"
+            >fiber_manual_record</mat-icon
+          >
         </div>
-        <div class="col d-flex align-items-center" style="padding: 0px; max-width: 275px;">
+        <div
+          class="col d-flex align-items-center"
+          style="padding: 0px; max-width: 275px"
+        >
           {{ notification.description + " " + notification.eventId }}
         </div>
         <div
           class="col d-flex justify-content-end align-items-center"
-          style="padding: 0px; max-width: 80px;"
+          style="padding: 0px; max-width: 80px"
         >
           <button
             mat-mini-fab
@@ -105,7 +131,11 @@
           </button>
         </div>
       </div>
-      <div *ngIf="notifications.length==0" class="col d-flex align-items-center justify-content-center notification" style="color: white; margin-bottom: 0px;">
+      <div
+        *ngIf="notifications.length == 0"
+        class="col d-flex align-items-center justify-content-center notification"
+        style="color: white; margin-bottom: 0px"
+      >
         <p>Nie masz żadnych powiadomień</p>
       </div>
     </div>

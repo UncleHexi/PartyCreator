@@ -17,7 +17,7 @@
   border-right: solid 1px #000;
   border-left: solid 1px #000;
 }
-.container {
+.maincontainer {
   padding-top: 1em;
   display: flex;
   flex-direction: column;
@@ -122,4 +122,5 @@
 .btn-primary {
   background-color: var(--special-primary);
   border-color: var(--special-primary);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
