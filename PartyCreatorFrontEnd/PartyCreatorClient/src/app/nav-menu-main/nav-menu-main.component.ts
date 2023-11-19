@@ -18,7 +18,7 @@ import { EventService } from '../services/event.service';
 @Component({
   selector: 'app-nav-menu-main',
   templateUrl: './nav-menu-main.component.html',
-  styleUrls: ['./nav-menu-main.component.css'],
+  styleUrls: ['./nav-menu-main.component.scss'],
   standalone: true,
   imports: [
     RouterModule,
@@ -26,7 +26,7 @@ import { EventService } from '../services/event.service';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    MatBadgeModule
+    MatBadgeModule,
   ],
 })
 export class NavMenuMainComponent implements OnInit {
@@ -125,30 +125,34 @@ export class NavMenuMainComponent implements OnInit {
     });
   }
   toggleRead(notification: NotificationDto) {
-    if(!notification.isRead) {
+    if (!notification.isRead) {
       console.log(notification.id);
-      this.notificationService.toggleRead(notification.id.toString()).subscribe({
-        next: () => {
-          this.notifications[this.notifications.indexOf(notification)].isRead=true;
-          this.countRead();
-        },
-        error: (err: HttpErrorResponse) => {
-          this.toast.error({
-            detail: 'ERROR',
-            summary: err.error,
-            duration: 3000,
-          });
-        },
-      });
+      this.notificationService
+        .toggleRead(notification.id.toString())
+        .subscribe({
+          next: () => {
+            this.notifications[
+              this.notifications.indexOf(notification)
+            ].isRead = true;
+            this.countRead();
+          },
+          error: (err: HttpErrorResponse) => {
+            this.toast.error({
+              detail: 'ERROR',
+              summary: err.error,
+              duration: 3000,
+            });
+          },
+        });
     }
   }
   countRead() {
-    this.counter=0;
-    this.notifications.forEach(item => {
-      if(!item.isRead) {
+    this.counter = 0;
+    this.notifications.forEach((item) => {
+      if (!item.isRead) {
         this.counter++;
       }
-    })
+    });
     return this.counter;
   }
 }
