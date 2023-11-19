@@ -280,6 +280,22 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("inviteEmail"), Authorize]
+        public async Task<ActionResult<InviteList>> InviteToEventEmail(ContactEventDto request)
+        {
+            var user = await _usersRepository.GetUserByEmail(request.Email);
+            if(user == null)
+            {
+                return BadRequest("Nie ma użytkownika o takim email");
+            }
+            var test = new InviteList
+            {
+                UserId = user.Id,
+                EventId = request.EventId,
+            };
+            
+            return await InviteToEvent(test);
+        }
     }
 
 }

@@ -7,7 +7,7 @@ export const loggedinGuard: CanActivateFn = (route: ActivatedRouteSnapshot, stat
   if(inject(AuthService).isLoggedIn())
   {
     inject(NgToastService).success({detail:"SUCCES",summary:"Jestes już zalogowany!"});
-    inject(Router).navigate(['main']);
+    inject(Router).navigate(['wydarzenia']);
     return false;
   }else {
     return true;

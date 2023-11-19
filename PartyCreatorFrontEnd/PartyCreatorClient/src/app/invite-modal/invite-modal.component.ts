@@ -14,6 +14,8 @@ import { UserService } from '../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchEmailDto } from '../interfaces/search-email-dto';
 import { InviteListDto } from '../interfaces/invite-list-dto';
+import { ContactDto } from '../interfaces/contact-dto';
+import { ContactEventDto } from '../interfaces/contact-event-dto';
 
 @Component({
   selector: 'app-invite-modal',
@@ -34,17 +36,18 @@ import { InviteListDto } from '../interfaces/invite-list-dto';
 export class InviteModalComponent implements OnInit{
   users: UserContactDto[] = [];
   invitedUsers: UserContactDto[] =[];
+  contacts: ContactDto[] =[];
   userSearch = this.fb.group({
     search: ''
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {eventId: string, guests: AllGuestsListDto[], invites: AllGuestsListDto[]}, private eventService: EventService, private toast: NgToastService, private fb: FormBuilder, private userService: UserService) 
   {
-    console.log(data);
+    
   }
 
   ngOnInit(): void {
-    
+    this.getContacts();
   }
 
   onSubmit() {
@@ -69,6 +72,41 @@ export class InviteModalComponent implements OnInit{
     this.eventService.inviteToEvent(invite).subscribe({
       next: (res) => {
         this.invitedUsers.push(userContact);
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Użytkownik został zaproszony do wydarzenia',
+          duration: 3000
+        });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      },
+    });
+  }
+  
+
+  getContacts(){
+    this.userService.getMyContacts().subscribe({
+      next: (contacts) => {
+        this.contacts = contacts;
+        console.log(this.contacts)
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  inviteToEventEmail(contact: ContactDto) {
+    var contactEventDto: ContactEventDto = {id: 0, userId: 0 ,name: contact.name, email: contact.email, eventId: Number(this.data.eventId)}
+    this.eventService.inviteToEventByEmail(contactEventDto).subscribe({
+      next: (res) => {
+        var newUserContact: UserContactDto = {name: contact.name, userId: res.userId, email: contact.email}
+        this.invitedUsers.push(newUserContact);
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Użytkownik został zaproszony do wydarzenia',

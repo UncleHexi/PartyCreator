@@ -9,6 +9,9 @@ import { NotificationDto } from '../interfaces/notification-dto';
 import { GuestListDto } from '../interfaces/guest-list-dto';
 import { RoleDto } from '../interfaces/role-dto';
 import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
+import { UserContactDto } from '../interfaces/user-contact-dto';
+import { ContactDto } from '../interfaces/contact-dto';
+import { ContactEventDto } from '../interfaces/contact-event-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -73,5 +76,9 @@ export class EventService {
 
   getAccess(contactId: string) {
     return this.http.get<RoleDto>(`${this.baseUrl2}getAccess/${contactId}`);
+  }
+
+  inviteToEventByEmail(contactEventDto: ContactEventDto) {
+    return this.http.post<InviteListDto>(`${this.baseUrl2}inviteEmail`, contactEventDto);
   }
 }
