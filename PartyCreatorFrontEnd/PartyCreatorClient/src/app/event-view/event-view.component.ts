@@ -62,13 +62,13 @@ export class EventViewComponent implements OnInit {
   guestsUsers: AllGuestsListDto[] = [];
   invitesUsers: AllGuestsListDto[] = [];
   userRole: RoleDto = { id: 0, role: '' };
+  eventId = '';
 
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
     private toast: NgToastService,
     private router: Router,
-    private userService: UserService,
     public dialog: MatDialog
   ) {
     this.selected = null;
@@ -115,8 +115,8 @@ export class EventViewComponent implements OnInit {
   }
 
   authorization() {
-    const eventId: string | null = this.route.snapshot.paramMap.get('id');
-    this.eventService.getAccess(eventId!).subscribe({
+    this.eventId = this.route.snapshot.paramMap.get('id')!;
+    this.eventService.getAccess(this.eventId).subscribe({
       next: (res) => {
         this.loadEventDetails();
         this.userRole = res;
@@ -135,12 +135,18 @@ export class EventViewComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(InviteModalComponent, {
-      data: this.guestsUsers,
+      data: {
+        eventId: this.eventId,
+        guests: this.guestsUsers,
+        invites: this.invitesUsers,
+      },
       panelClass: 'inviteDialog',
       backdropClass: 'dialogBackgroundClass',
     });
 
-    dialogRef.afterClosed().subscribe((res) => {});
+    dialogRef.afterClosed().subscribe((res) => {
+      this.loadInvitedUsers();
+    });
   }
 
   toggleMapVisibility(): void {
@@ -183,5 +189,11 @@ export class EventViewComponent implements OnInit {
           });
         });
     }
+  }
+
+  loadInvitedUsers() {
+    this.eventService
+      .getInvitesUsers(this.eventDetails!.id.toString())
+      .subscribe((users) => (this.invitesUsers = users));
   }
 }
