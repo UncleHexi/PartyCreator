@@ -70,7 +70,8 @@ export class MainComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      panelClass: 'testDialog',
+      panelClass: 'eventDialog',
+      backdropClass: 'dialogBackgroundClass'
     });
 
     dialogRef.afterClosed().subscribe((res) => {
