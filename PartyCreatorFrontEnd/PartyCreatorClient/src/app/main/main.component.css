@@ -63,21 +63,31 @@ body {
   color: white;
   font-size: 22px;
   padding: 4%;
-  width: 340px;
+  width: 345px;
   height: 220px;
   border-radius: 3%;
-  background-color: #005f8f;
+  background-color: var(--special-primary);
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
   place-self: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.Event::before, .YourEvent::before, .Event1::before  {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+  z-index: 0;
+  pointer-events: none;
 }
 
 .Event h4 {
   color: white;
   font-weight: bold;
-}
-
-.Event button {
-  float: right;
 }
 
 
@@ -90,17 +100,9 @@ body {
   color: white;
   font-weight: bold;
 }
-.Event1 button,
-.Event2 button,
-.Event3 button,
-.Event4 button,
-.Event5 button,
-.Event6 button,
-.YourEvent1 button,
-.YourEvent2 button,
-.YourEvent3 button,
-.YourEvent button {
+.Event button, .Event1 button, .YourEvent button {
   float: right;
+  z-index:500;
 }
 
 .container3 {
@@ -141,8 +143,8 @@ body {
 }
 
 .buttonCreateEvent {
-  background-color: #9e4770;
-  border-color: #9e4770;
+  background-color: var(--special-primary);
+  border-color: var(--special-primary);
   width: 800px;
   height: 60px;
   font-size: 24px;

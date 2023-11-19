@@ -82,16 +82,23 @@ namespace PartyCreatorWebApi.Repositories
             return result.Entity;
         }
 
-
         public async Task<List<Event>> ListFinishedEvents(int userId)
         {
-            var finishedEvents = await _dataContext.Events
-              .Where(e => e.CreatorId == userId && e.DateTime < DateTime.Now)
-              .ToListAsync();
+            var finishedEventsCreatedByUser = await _dataContext.Events
+                .Where(e => e.CreatorId == userId && e.DateTime < DateTime.Now)
+                .ToListAsync();
 
-            return finishedEvents;
+            var finishedEventsAsGuest = await _dataContext.Events
+                .Where(e => _dataContext.GuestLists.Any(gl => gl.UserId == userId && gl.EventId == e.Id) && e.DateTime < DateTime.Now)
+                .ToListAsync();
+
+            var allFinishedEvents = finishedEventsCreatedByUser.Concat(finishedEventsAsGuest).ToList();
+
+            // Sortuj wszystkie zakończone wydarzenia od najnowszego do najstarszego
+            var sortedFinishedEvents = allFinishedEvents.OrderByDescending(e => e.DateTime).ToList();
+
+            return sortedFinishedEvents;
         }
-
 
         public async Task<List<GuestList>> GetGuestsFromEvent(int id)
         {

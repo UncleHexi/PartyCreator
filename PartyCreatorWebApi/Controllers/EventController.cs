@@ -219,7 +219,9 @@ namespace PartyCreatorWebApi.Controllers
             {
                 int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
+                // Pobierz wszystkie zakończone wydarzenia dla danego użytkownika
                 var finishedEvents = await _eventRepository.ListFinishedEvents(userId);
+
                 return Ok(finishedEvents);
             }
             catch (Exception ex)
@@ -227,6 +229,7 @@ namespace PartyCreatorWebApi.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         [HttpGet("getAccess/{id}"), Authorize]
         public async Task<ActionResult<RoleDto>> GetAccess(int id)
