@@ -42,7 +42,6 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MainCalendarComponent } from './main/main-calendar/main-calendar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { InviteModalComponent } from './invite-modal/invite-modal.component';
 
 registerLocaleData(localePl);
 
@@ -58,7 +57,6 @@ registerLocaleData(localePl);
     EventViewComponent,
     ProfileComponent,
     MapComponent,
-    InviteModalComponent,
   ],
 
   imports: [

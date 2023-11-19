@@ -3,8 +3,50 @@
         <div class="col-9" style="padding: 0px;">
             <mat-tab-group mat-stretch-tabs="true" style="padding: 0px; margin: 0px;">
                 <mat-tab label="Szukaj">
-                    <div style="background-color: red; height: 700px; padding: 40px;">
-                        
+                    <div style="background-color: #3d3d3d; height: 700px; padding: 10px;">
+
+                        <form (ngSubmit)="onSubmit()" [formGroup]="userSearch" class="eventForm">
+                            <h2 class="text-center" style="padding-bottom: 30px;">Dodaj użytkowników do wydarzenia</h2>
+                            <div class="row">
+                                <div class="col-10">
+                                    <mat-form-field appearance="outline" style="width: 100%">
+                                        <mat-label>Wpisz email</mat-label>
+                                        <input matInput #search maxlength="30" formControlName="search" required>
+                                        <mat-hint align="end">{{search.value.length}}/30</mat-hint>
+                                      </mat-form-field>
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" [disabled]="!userSearch.valid" color="primary" style="color: white; height: 56px;" mat-raised-button>Szukaj</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row" style="height: 50px;">
+                            <div class="col d-flex align-items-center justify-content-center">
+                                Nazwa
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center">
+                                Email
+                            </div>
+                            <div class="col d-flex align-items-center justify-content-center">
+                                Akcja
+                            </div>
+                            
+                        </div>
+                        <div class="row" style="height: 450px; overflow-y: auto;">
+                            <div *ngFor="let user of users" class="row user-row">
+                                <div class="col d-flex align-items-center justify-content-center">
+                                    {{user.name}}
+                                </div>
+                                <div class="col d-flex align-items-center justify-content-center">
+                                    {{user.email}}
+                                </div>
+                                <div class="col d-flex align-items-center justify-content-center">
+                                    <button (click)="inviteToEvent(user)" mat-raised-button color="accent">Dodaj</button>
+                                </div>
+                            </div>
+                            
+                        </div>
+
                     </div>
                 </mat-tab>
                 <mat-tab label="Lista Kontaktów">
@@ -20,15 +62,25 @@
             </div>
             <div style="background-color: red; height: 700px; padding: 5px;">
                 <div class="row" style="height: 50%; margin: 0px; background-color: green;">
-                    <div *ngFor="let guest of data">
-                        <p>{{guest.firstName}}</p>
+                    <div *ngFor="let guest of data.guests">
+                        <p>{{guest.firstName + " " + guest.lastName}}</p>
                     </div>
                 </div>
                 <div class="row" style="height: 50%; margin: 0px; background-color: blueviolet;">
-
+                    <div *ngFor="let invite of data.invites">
+                        <p>{{invite.firstName + " " + invite.lastName}}</p>
+                    </div>
+                    <div *ngFor="let invitedUser of invitedUsers">
+                        <p>{{invitedUser.name}}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="row" style="background-color: #3d3d3d;">
+        <mat-dialog-actions align="end">
+          <button mat-raised-button mat-dialog-close>Zamknij</button>
+        </mat-dialog-actions>
+      </div>
     
 </div>
