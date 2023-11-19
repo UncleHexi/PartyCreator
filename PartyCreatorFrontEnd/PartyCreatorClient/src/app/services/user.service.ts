@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserData(userId: string): Observable<any> {
-    return this.http.get(
+    return this.http.get<UserDto>(
       `https://localhost:7241/api/User/GetUserById/${userId}`
     );
   }
