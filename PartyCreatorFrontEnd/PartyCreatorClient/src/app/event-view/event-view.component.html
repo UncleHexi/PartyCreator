@@ -82,7 +82,9 @@
       <div class="invited" *ngFor="let user of invitesUsers">
         {{ user.firstName }} {{ user.lastName }}
       </div>
-      <button *ngIf="userRole.role=='Admin' " (click)="openDialog()">Zapros do wydarzenia</button>
+      <div>
+       <button *ngIf="userRole.role=='Admin' " (click)="openDialog()">Zaproś do wydarzenia</button>
+      </div>
     </div>
   </div>
   <div class="extraFunctions">
@@ -90,19 +92,4 @@
     <div class="shareReceipt">dzielenie się rachunkiem</div>
   </div>
 </body>
-<!-- event-view.component.html -->
-<div *ngIf="eventDetails" class="Details">
-  <!-- ... inne elementy ... -->
-  <p>
-    <fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>
-    <input
-      matInput
-      [matDatepicker]="picker"
-      placeholder="Wybierz datę"
-      [(ngModel)]="selected"
-    />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </p>
-  <!-- ... inne elementy ... -->
-</div>
+
