@@ -29,8 +29,37 @@
         </p>
       </div>
     </div>
+    <div class="editDetails">
+      <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
+        Edytuj wydarzenie
+      </button>
+    </div>
 
-    <div class="thingsToBring">
+    <div class="chat">
+      <app-map
+        [eventAddress]="eventDetails.address + ', ' + eventDetails.city"
+        *ngIf="isMapVisible"
+      ></app-map>
+    </div>
+    <div class="photos">zdjecia</div>
+    <div class="inviteList">
+      <h3>Lista uczestników</h3>
+      <div class="creator">{{ eventDetails.creatorName }}</div>
+      <div class="guests" *ngFor="let user of guestsUsers">
+        {{ user.firstName }} {{ user.lastName }}
+      </div>
+      <div class="invited" *ngFor="let user of invitesUsers">
+        {{ user.firstName }} {{ user.lastName }}
+      </div>
+      <div>
+        <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
+          Zaproś do wydarzenia
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="extraFunctions">
+    <div class="thingsToBring" *ngIf="eventDetails.shoppingListTitle === 'Title'">
       <div
         class="thingsToBringTitle"
         [ngClass]="{ 'rounded-bottom': isThingsToBringVisible }"
@@ -71,31 +100,11 @@
         </p>
       </div>
     </div>
-    <div class="chat">
-      <app-map
-        [eventAddress]="eventDetails.address + ', ' + eventDetails.city"
-        *ngIf="isMapVisible"
-      ></app-map>
-    </div>
-    <div class="photos">zdjecia</div>
-    <div class="inviteList">
-      <h3>Lista uczestników</h3>
-      <div class="creator">{{ eventDetails.creatorName }}</div>
-      <div class="guests" *ngFor="let user of guestsUsers">
-        {{ user.firstName }} {{ user.lastName }}
-      </div>
-      <div class="invited" *ngFor="let user of invitesUsers">
-        {{ user.firstName }} {{ user.lastName }}
-      </div>
-      <div>
-        <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
-          Zaproś do wydarzenia
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="extraFunctions">
-    <div class="spotifyPlaylist">playlista spotify</div>
-    <div class="shareReceipt">dzielenie się rachunkiem</div>
+    <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
+      playlista spotify</div>
+    <div class="shareReceipt" *ngIf="eventDetails.receiptTitle === 'Title'">
+      dzielenie się rachunkiem
+     </div>  
+    <div class="surveys">ankiety</div>
   </div>
 </body>

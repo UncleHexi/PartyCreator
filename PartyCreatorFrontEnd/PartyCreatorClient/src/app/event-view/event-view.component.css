@@ -14,18 +14,18 @@ body {
   gap: 15px 30px;
   grid-template-areas:
     "details chat inviteList"
-    "thingsToBring photos inviteList";
+    "editDetails photos inviteList";
   background-color: #2d2d2d;
   margin-left: 20px;
 }
 
 .extraFunctions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   gap: 0 35px;
   grid-auto-flow: row;
-  grid-template-areas: "spotifyPlaylist shareReceipt";
+  grid-template-areas: "thingsToBring spotifyPlaylist shareReceipt surveys";
   padding:20px;
 }
 
@@ -42,7 +42,8 @@ body {
 .inviteList,
 .photos,
 .spotifyPlaylist,
-.shareReceipt {
+.shareReceipt,
+.surveys {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
   padding: 5px;
@@ -92,10 +93,26 @@ body {
 .eventAddress:hover{
   cursor: pointer;
 }
+
+.editDetails {
+  grid-area: editDetails;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+}
+
+.editDetails button {
+  background-color: --var(special-accent);
+  width: 80%;
+  height: 80px;
+  border-radius: 15px;
+}
 .thingsToBring {
   grid-area: thingsToBring;
   text-align: center;
 }
+
 .titleBringThings {
   float: left;
   margin-left: 90px;
@@ -118,8 +135,8 @@ body {
 .thingsToBringList {
   display: flex;
   flex-direction: column; /* Ustawienie, aby elementy układały się w kolumnie */
-  height: 205px;
-  width: 400px;
+  height: 390px;
+  width: 436px;
   background-color: #545454;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -162,19 +179,11 @@ body {
   border-bottom-right-radius: 0;
 }
 
-.spotifyPlaylist {
-  grid-area: spotifyPlaylist;
-  background-color: #6a8d73;
-  height: 160px;
-
+.spotifyPlaylist, .shareReceipt, .surveys{
+  background-color: var(--special-accent);
+  height:436px;
 }
 
-.shareReceipt {
-  grid-area: shareReceipt;
-  background-color: #6a8d73;
-  height: 160px;
-
-}
 .chat {
   grid-area: chat;
   background-color: #545454;

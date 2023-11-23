@@ -163,6 +163,7 @@ export class EventViewComponent implements OnInit {
     });
   }
 
+
   toggleMapVisibility(): void {
     if (this.isMapVisible) {
       this.isMapVisible = false;
