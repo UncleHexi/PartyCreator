@@ -80,11 +80,27 @@
     <div class="photos">zdjecia</div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
-      <div class="creator">{{ eventDetails.creatorName }}</div>
-      <div class="guests" *ngFor="let user of guestsUsers">
+      <div
+        class="creator"
+        (click)="goToUserProfile(eventDetails.creatorId)"
+        style="cursor: pointer"
+      >
+        {{ eventDetails.creatorName }}
+      </div>
+      <div
+        class="guests"
+        *ngFor="let user of guestsUsers"
+        (click)="goToUserProfile(user.id)"
+        style="cursor: pointer"
+      >
         {{ user.firstName }} {{ user.lastName }}
       </div>
-      <div class="invited" *ngFor="let user of invitesUsers">
+      <div
+        class="invited"
+        *ngFor="let user of invitesUsers"
+        (click)="goToUserProfile(user.id)"
+        style="cursor: pointer"
+      >
         {{ user.firstName }} {{ user.lastName }}
       </div>
       <div>
