@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
-import { EventDto } from '../interfaces/event-dto';
 import {
   faLocationDot,
   faCheck,
@@ -16,11 +15,9 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
 import * as leafletGeosearch from 'leaflet-geosearch';
 import { RoleDto } from '../interfaces/role-dto';
 import { MatDialog } from '@angular/material/dialog';
@@ -170,6 +167,10 @@ export class EventViewComponent implements OnInit {
       // Wyszukiwanie koordynatów tylko, gdy mapa jest ustawiona na widoczność
       this.findMapCoordinates();
     }
+  }
+
+  goToUserProfile(userId: number): void {
+    this.router.navigate(['/profil', userId]);
   }
 
   private findMapCoordinates(): void {

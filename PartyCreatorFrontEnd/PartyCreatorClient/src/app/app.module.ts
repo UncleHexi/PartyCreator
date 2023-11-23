@@ -42,6 +42,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MainCalendarComponent } from './main/main-calendar/main-calendar.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 
 registerLocaleData(localePl);
 
@@ -90,6 +91,7 @@ registerLocaleData(localePl);
     }),
     MainCalendarComponent,
     MatTooltipModule,
+    UserProfileComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },
