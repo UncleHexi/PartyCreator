@@ -67,10 +67,10 @@ export class ProfileContactsComponent {
     });
   }
 
-  editContact(contactId: string, contact: any): void {
+  editContact(contact: any): void {
     const dialogRef = this.dialog.open(AddContactDialogComponent, {
       data: {
-        contact: { name: contact.name, email: contact.email },
+        contact: { id: contact.id, name: contact.name, email: contact.email },
         title: 'Edytuj kontakt',
       },
     });
@@ -78,7 +78,7 @@ export class ProfileContactsComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       if (result) {
-        this.userService.editContact(contactId, result).subscribe({
+        this.userService.editContact(result).subscribe({
           next: () => {
             this.refreshContacts();
             // this.contacts.push(result);   pomyśleć nad tym
