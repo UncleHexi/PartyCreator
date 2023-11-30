@@ -280,6 +280,57 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("inviteEmail"), Authorize]
+        public async Task<ActionResult<InviteList>> InviteToEventEmail(ContactEventDto request)
+        {
+            var user = await _usersRepository.GetUserByEmail(request.Email);
+            if(user == null)
+            {
+                return BadRequest("Nie ma użytkownika o takim email");
+            }
+            var test = new InviteList
+            {
+                UserId = user.Id,
+                EventId = request.EventId,
+            };
+            
+            return await InviteToEvent(test);
+        }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Event>> UpdateEvent(int id, EventDto updatedEventDto)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            // Sprawdź, czy użytkownik jest twórcą wydarzenia
+            var existingEvent = await _eventRepository.GetEventDetails(id);
+            if (existingEvent == null)
+            {
+                return NotFound("Nie znaleziono wydarzenia o podanym ID");
+            }
+
+            if (creatorId != existingEvent.CreatorId)
+            {
+                return Unauthorized("Nie jesteś uprawniony do aktualizacji tego wydarzenia");
+            }
+
+            // Tutaj dodaj logikę aktualizacji danych wydarzenia
+            existingEvent.Title = updatedEventDto.Title;
+            existingEvent.Description = updatedEventDto.Description;
+            existingEvent.DateTime = updatedEventDto.DateTime;
+            // Dodaj więcej pól, które chcesz zaktualizować
+
+            var updatedEvent = await _eventRepository.UpdateEvent(existingEvent);
+
+            if (updatedEvent == null)
+            {
+                return BadRequest("Wystąpił problem podczas aktualizacji wydarzenia");
+            }
+             
+            return Ok(updatedEvent);
+        }
+
+
     }
 
 }

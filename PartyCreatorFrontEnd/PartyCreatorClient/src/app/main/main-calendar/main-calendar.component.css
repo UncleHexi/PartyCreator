@@ -61,7 +61,7 @@
 }
 
 ::ng-deep .my-calendar .cal-month-view .cal-day-badge {
-  background-color: var(--special-primary);
+  background-color: var(--special-accent-900);
   color: #fff;
 }
 
@@ -74,11 +74,11 @@
   .cal-month-view
   .cal-day-cell.cal-weekend
   .cal-day-number {
-  color: rgb(202, 95, 95);
+  color: rgb(222, 81, 42);
 }
 
 ::ng-deep .my-calendar .cal-cell.cal-has-events.cal-open {
-  background-color: var(--special-primary);
+  background-color: var(--special-accent);
 }
 
 ::ng-deep .my-calendar .cal-days {
@@ -103,7 +103,7 @@
 }
 
 ::ng-deep .my-calendar .cal-day-cell.cal-has-events {
-  background-color: var(--special-accent);
+  background-color: var(--special-primary);
 }
 
 ::ng-deep .my-calendar .cal-event {

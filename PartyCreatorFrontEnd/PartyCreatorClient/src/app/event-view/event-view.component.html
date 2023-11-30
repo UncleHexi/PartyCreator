@@ -5,34 +5,96 @@
   <div class="mainLayout">
     <div class="details">
       <div *ngIf="eventDetails" class="Details">
-        <h2 style="color: white; font-weight: bold">
-          {{ eventDetails.title }}
-        </h2>
+
+        <!-- tytul -->
+        <div *ngIf="editField !== 'title'; else editForm">
+          <h1>{{ eventDetails.title }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'title'"></i></h1>
+        </div>
+        
+        <ng-template #editForm>
+          <form (ngSubmit)="saveChanges()">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nazwa wydarzenia</mat-label>
+              <input matInput [(ngModel)]="eventDetails.title" #title name="name" maxlength="36">
+              <span>{{title.value.length}}/36</span>
+            </mat-form-field>
+            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+          </form>
+        </ng-template>
+
+          <!-- ogranizator -->
         <p style="font-weight: bold">
           Organizator: {{ eventDetails.creatorName }}
         </p>
-        <p>{{ eventDetails.description }}</p>
+
+          <!-- opis -->
+        <div *ngIf="editField !== 'description'; else editFormDescription">
+          <p>{{ eventDetails.description }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'description'"></i></p>
+        </div>
+        
+        <ng-template #editFormDescription>
+          <form (ngSubmit)="saveChanges()">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Opis</mat-label>
+              <textarea matInput [(ngModel)]="eventDetails.description" #description name="description" rows="5" maxlength="100" style="resize: none;"></textarea>
+              <span>{{description.value.length}}/100</span>
+            </mat-form-field>
+            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+          </form>
+        </ng-template>
+
         <p (click)="toggleMapVisibility()" class="eventAddress">
           <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
           </fa-icon>
           {{ eventDetails.address }}
           {{ eventDetails.city }}
         </p>
-        <p>
-          <fa-icon [icon]="faCalendar" style="color: white" size="2xl">
-          </fa-icon>
-          {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }}
-        </p>
-        <p>
-          <fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon>
-          {{ eventDetails.dateTime + "z" | date : "HH:mm" }}
-        </p>
+
+
+
+
+        <div *ngIf="editField !== 'dateTime'; else editFormDateTime">
+          <p><fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon>
+            {{ eventDetails.dateTime + "z" | date : "HH:mm" }} 
+            <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'dateTime'"></i></p>
+        </div>
+        
+        <ng-template #editFormDateTime>
+          <form (ngSubmit)="saveChanges()">
+            <div>
+              <label>Godzina:</label>
+              <input [(ngModel)]="editedTime" name="editedTime" type="time">
+            </div>
+            <button (click)="saveChanges()">Zapisz</button>
+          </form>
+        </ng-template>
+        
+
+
+  
+        <div *ngIf="editField !== 'dateDate'; else editFormDateDate">
+          <p><fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>
+            {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }} 
+            <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'dateDate'"></i></p>
+        </div>
+
+
+        <ng-template #editFormDateDate>
+          <form (ngSubmit)="saveChanges()">
+            <div>
+              <label>Godzina:</label>
+              <input [(ngModel)]="editedDate" name="editedDate" type="date">
+            </div>
+            <button (click)="saveChanges()">Zapisz</button>
+          </form>
+        </ng-template>
+
       </div>
     </div>
     <div class="editDetails">
-      <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
-        Edytuj wydarzenie
-      </button>
+
+      <button *ngIf="!editMode" (click)="editMode = true">Edytuj wydarzenie</button>
+
     </div>
 
     <div class="chat">
@@ -106,5 +168,8 @@
       dzielenie się rachunkiem
      </div>  
     <div class="surveys">ankiety</div>
+    <div class="addNewContent" *ngIf="eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === ''" >
+      +
+    </div>
   </div>
 </body>

@@ -50,7 +50,7 @@ body {
 }
 .details {
   grid-area: details;
-  background-color: var(--special-accent);
+  background-color: var(--special-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,14 +60,18 @@ body {
   position: relative; /* Dodane, aby umożliwić pozycjonowanie absolutne pseudoelementu */
 }
 
-.details::before  {
+.details::before {
   content: "";
   position: absolute; /* Pozycjonowanie absolutne */
   top: 0; /* Pozycja od góry */
   left: 0; /* Pozycja od lewej */
   right: 0; /* Pozycja od prawej */
   bottom: 0; /* Pozycja od dołu */
-  background: linear-gradient(to left top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+  background: linear-gradient(
+    to left top,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.2)
+  );
   z-index: 0;
   pointer-events: none;
 }
@@ -76,21 +80,21 @@ body {
   color: white;
   font-weight: bold;
   padding: 10px;
+  word-break: break-all;
 }
 .Details {
   text-align: center;
-
 }
 .Details p {
-  text-align:center;
+  text-align: center;
   font-size: 20px;
   max-width: 380px; /* or adjust as needed */
   word-wrap: break-word;
   margin: 0 auto;
-  padding:5px;
+  padding: 5px;
 }
 
-.eventAddress:hover{
+.eventAddress:hover {
   cursor: pointer;
 }
 
@@ -103,10 +107,28 @@ body {
 }
 
 .editDetails button {
-  background-color: --var(special-accent);
+  background-color: var(--special-accent);
   width: 80%;
   height: 80px;
   border-radius: 15px;
+  font-size: 24px;
+  font-weight:bold;
+}
+
+input[name="name"] {
+  font-size: 24px;
+}
+
+input[name="description"] {
+  width: 100%;
+  height: 100px;
+  word-break: break-all;
+}
+
+textarea[name="description"] {
+  width: 100%;
+  word-break: break-all;
+  font-size:24px;
 }
 .thingsToBring {
   grid-area: thingsToBring;
@@ -125,6 +147,7 @@ body {
 
 .thingsToBringTitle {
   background-color: var(--special-accent);
+  color: black;
   padding-top: 10px;
   padding-bottom: 35px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
@@ -154,7 +177,7 @@ body {
 
 /* Kolor samego paska przewijania */
 .thingsToBringList::-webkit-scrollbar-thumb {
-  background-color: #6a8d73;
+  background-color: var(--special-primary);
 }
 
 /* Kolor obszaru, który nie jest pokryty przez pasek przewijania */
@@ -169,10 +192,10 @@ body {
 }
 .thingsToBringList button {
   margin-left: 10px;
-  background-color: #6a8d73;
+  background-color: var(--special-primary);
   color: white;
   border-radius: 8px;
-  border-color: #6a8d73;
+  border-color: var(--special-primary);
 }
 .rounded-bottom {
   border-bottom-left-radius: 0;
@@ -195,8 +218,6 @@ body {
   background-color: #545454;
   height: 250px;
 }
-
-
 
 .creator {
   font-weight: bold;
@@ -223,17 +244,31 @@ body {
 }
 
 .inviteList button {
-  background-color: var(--special-accent);
+  background-color: var(--special-primary);
   font-weight: bold;
   color: white;
   position: absolute;
   bottom: 10px; /* Adjust the distance from the bottom as needed */
   left: 50%; /* Center the button horizontally */
   transform: translateX(-50%); /* Center the button horizontally */
-  width:95%;
-  padding:20px;
+  width: 95%;
+  padding: 20px;
   font-size: 28px;
+  border-radius: 15px;
+}
+
+.addNewContent{
+  font-size:200px;
+  text-align:center;
+  justify-content:center;
+  align-items:center;
+  display:flex;
+  background-color:#343434;
+  border:rgb(168, 168, 168) 4px solid;
   border-radius:15px;
+  padding-bottom:50px;
+  cursor:pointer;
+
 }
 
 @media (max-width: 1400px) {
@@ -254,13 +289,21 @@ body {
   .inviteList {
     width: 100%;
   }
-  .details, .inviteList{
+  .details,
+  .inviteList {
     height: 600px;
   }
-  .inviteList{
-    margin-top:38px;
+  .inviteList {
+    margin-top: 38px;
   }
 }
+
+.details i{
+  font-size:28px;
+  color: var(--special-accent);
+  cursor:pointer;
+}
+
 @media (max-width: 600px) {
   .mainLayout {
     display: flex;

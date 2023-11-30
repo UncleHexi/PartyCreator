@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
-import { EventDto } from '../interfaces/event-dto';
 import {
   faLocationDot,
   faCheck,
@@ -16,17 +15,17 @@ import {
   transition,
   keyframes,
 } from '@angular/animations';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
 import * as leafletGeosearch from 'leaflet-geosearch';
 import { RoleDto } from '../interfaces/role-dto';
 import { MatDialog } from '@angular/material/dialog';
 import { InviteModalComponent } from '../invite-modal/invite-modal.component';
 import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { EventUserDto } from '../interfaces/event-user-dto';
+
+
 
 @Component({
   selector: 'app-event-view',
@@ -63,6 +62,10 @@ export class EventViewComponent implements OnInit {
   invitesUsers: AllGuestsListDto[] = [];
   userRole: RoleDto = { id: 0, role: '' };
   eventId = '';
+  editMode = false;
+  editField: string | null = null;
+  editedTime: string = '';
+  editedDate: string = ''; 
 
   constructor(
     private route: ActivatedRoute,
@@ -173,6 +176,10 @@ export class EventViewComponent implements OnInit {
     }
   }
 
+  goToUserProfile(userId: number): void {
+    this.router.navigate(['/profil', userId]);
+  }
+
   private findMapCoordinates(): void {
     const addressToGeocode =
       this.eventDetails?.address + ', ' + this.eventDetails?.city;
@@ -210,5 +217,48 @@ export class EventViewComponent implements OnInit {
     this.eventService
       .getInvitesUsers(this.eventDetails!.id.toString())
       .subscribe((users) => (this.invitesUsers = users));
+  }
+  saveChanges() { 
+    this.editMode = false;
+    this.editField = null;
+  
+    console.log('Edited Date:', this.editedDate);
+    console.log('Edited Time:', this.editedTime);
+  
+    let dateToUse = this.editedDate;
+    if (!this.editedDate) {
+      dateToUse = new Date(this.eventDetails.dateTime).toISOString().split('T')[0];
+    }
+  
+    let timeToUse = this.editedTime;
+    if (!this.editedTime) {
+      timeToUse = new Date(this.eventDetails.dateTime).toISOString().split('T')[1].substring(0, 5);
+    }
+  
+    if (!dateToUse || !timeToUse) {
+      console.error('Nieprawidłowy format daty lub czasu');
+      return;
+    }
+  
+    if (dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) && timeToUse.match(/^\d{2}:\d{2}$/)) {
+      const updatedDate = new Date(Date.parse(dateToUse));
+      const updatedTime = timeToUse.split(':');
+      updatedDate.setHours(Number(updatedTime[0]));
+      updatedDate.setMinutes(Number(updatedTime[1]));
+  
+      console.log('Updated Date:', updatedDate);
+  
+      this.eventDetails.dateTime = updatedDate;
+  
+      this.eventService.updateEventDetails(this.eventId, this.eventDetails).subscribe(
+        (response) => {
+        },
+        (error) => {
+          console.error('Błąd podczas aktualizacji danych wydarzenia', error);
+        }
+      );
+    } else {
+      console.error('Nieprawidłowy format daty lub czasu');
+    }
   }
 }
