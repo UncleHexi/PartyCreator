@@ -45,9 +45,9 @@ export class UserService {
     );
   }
 
-  editContact(contactId: string, contactData: ContactDto): Observable<any> {
+  editContact(contactData: ContactDto): Observable<any> {
     return this.http.put<ContactDto>(
-      `https://localhost:7241/api/User/EditContact/${contactId}`,
+      `https://localhost:7241/api/User/EditContact/`,
       contactData
     );
   }
@@ -60,7 +60,8 @@ export class UserService {
 
   getUsersEmailContains(request: SearchEmailDto) {
     return this.http.post<UserContactDto[]>(
-      'https://localhost:7241/api/User/GetUsersEmailContains', request
+      'https://localhost:7241/api/User/GetUsersEmailContains',
+      request
     );
   }
 }

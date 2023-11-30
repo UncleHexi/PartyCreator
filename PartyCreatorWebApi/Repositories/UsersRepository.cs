@@ -102,5 +102,11 @@ namespace PartyCreatorWebApi.Repositories
             var result = await _dataContext.Users.Where(u => u.Email.Contains(email)).ToListAsync();
             return result;
         }
+
+        public async Task<UserContact> GetContactByEmail(string email)
+        {
+            var result = await _dataContext.UserContacts.FirstOrDefaultAsync(x => x.Email == email);
+            return result;
+        }
     }
 }
