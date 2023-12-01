@@ -70,12 +70,24 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("AddContact"), Authorize]
         public async Task<ActionResult<UserContact>> AddContact(UserContact request)
         {
+            var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower());
+            if(mailcheck != null)
+            {
+                return BadRequest("Uzytkownik został już dodany");
+            }
+
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            var user = await _usersRepository.GetUserById(creatorId);
+            if(user.Email.ToLower() == request.Email.ToLower())
+            {
+                return BadRequest("Nie możesz dodać samego siebie");
+            }
+
             UserContact userContact = new UserContact
             {
                 UserId = creatorId,
                 Name = request.Name,
-                Email = request.Email,
+                Email = request.Email.ToLower(),
             };
             var result = await _usersRepository.AddContact(userContact);
             return Ok(result);
@@ -101,12 +113,25 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("EditContact/{id:int}"), Authorize]
-        public async Task<ActionResult<UserContact>> EditContact(int id, UserContact request)
+        [HttpPut("EditContact"), Authorize]
+        public async Task<ActionResult<UserContact>> EditContact(UserContact request)
         {
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            var user = await _usersRepository.GetUserById(creatorId);
+            if(user.Email.ToLower() == request.Email.ToLower())
+            {
+                return BadRequest("Nie możesz dodać samego siebie");
+            }
 
-            var contact = await _usersRepository.GetContactById(id);
+
+            var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower());
+            
+            if(mailcheck.Id != request.Id)
+            {
+                return BadRequest("Uzytkownik został już dodany");
+            }
+
+            var contact = await _usersRepository.GetContactById(request.Id);
 
             if(contact == null)
             {
@@ -123,15 +148,15 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Proszę podać wszystkie dane");
             }
 
-            if(id != contact.Id)
+            if(request.Id != contact.Id)
             {
                 return BadRequest("Id kontaktu nie zgadza sie z id w adresie url");
             }
 
-            contact.Id = id;
+            contact.Id = request.Id;
             contact.UserId = creatorId;
             contact.Name = request.Name;
-            contact.Email = request.Email;
+            contact.Email = request.Email.ToLower();
 
             var result = await _usersRepository.EditContact(contact);
             return Ok(result);
