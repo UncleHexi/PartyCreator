@@ -14,7 +14,7 @@ body {
   gap: 15px 30px;
   grid-template-areas:
     "details chat inviteList"
-    "thingsToBring photos inviteList";
+    "editDetails photos inviteList";
   background-color: #2d2d2d;
   margin-left: 20px;
 }
@@ -23,10 +23,11 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
-  gap: 0 35px;
+  gap: 35px 35px;
   grid-auto-flow: row;
-  grid-template-areas: "spotifyPlaylist shareReceipt";
-  padding: 20px;
+  grid-template-areas: "thingsToBring  surveys"
+                       "spotifyPlaylist shareReceipt";
+  padding:20px;
 }
 
 .spotifyPlaylist {
@@ -42,7 +43,8 @@ body {
 .inviteList,
 .photos,
 .spotifyPlaylist,
-.shareReceipt {
+.shareReceipt,
+.surveys {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
   padding: 5px;
@@ -79,6 +81,7 @@ body {
   color: white;
   font-weight: bold;
   padding: 10px;
+  word-break: break-all;
 }
 .Details {
   text-align: center;
@@ -95,13 +98,47 @@ body {
 .eventAddress:hover {
   cursor: pointer;
 }
+
+.editDetails {
+  grid-area: editDetails;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+}
+
+.editDetails button {
+  background-color: var(--special-accent);
+  width: 80%;
+  height: 80px;
+  border-radius: 15px;
+  font-size: 24px;
+  font-weight:bold;
+}
+
+input[name="name"] {
+  font-size: 24px;
+}
+
+input[name="description"] {
+  width: 100%;
+  height: 100px;
+  word-break: break-all;
+}
+
+textarea[name="description"] {
+  width: 100%;
+  word-break: break-all;
+  font-size:24px;
+}
 .thingsToBring {
   grid-area: thingsToBring;
   text-align: center;
 }
+
 .titleBringThings {
   float: left;
-  margin-left: 90px;
+  margin-left: 330px;
 }
 .toggle-arrow {
   cursor: pointer;
@@ -109,21 +146,22 @@ body {
   margin-right: 5px;
 }
 
+
 .thingsToBringTitle {
   background-color: var(--special-accent);
   color: black;
   padding-top: 10px;
   padding-bottom: 35px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
   z-index: 3;
 }
 
 .thingsToBringList {
   display: flex;
   flex-direction: column; /* Ustawienie, aby elementy układały się w kolumnie */
-  height: 205px;
-  width: 400px;
+  height: 360px;
   background-color: #545454;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -166,17 +204,11 @@ body {
   border-bottom-right-radius: 0;
 }
 
-.spotifyPlaylist {
-  grid-area: spotifyPlaylist;
-  background-color: var(--special-primary);
-  height: 160px;
+.spotifyPlaylist, .shareReceipt, .surveys{
+  background-color: var(--special-accent);
+  height:406px;
 }
 
-.shareReceipt {
-  grid-area: shareReceipt;
-  background-color: var(--special-primary);
-  height: 160px;
-}
 .chat {
   grid-area: chat;
   background-color: #545454;
@@ -227,6 +259,52 @@ body {
   border-radius: 15px;
 }
 
+.addNewContent{
+  font-size:200px;
+  text-align:center;
+  justify-content:center;
+  align-items:center;
+  display:flex;
+  background-color:#343434;
+  border:rgb(168, 168, 168) 4px solid;
+  border-radius:15px;
+  padding-bottom:50px;
+  cursor:pointer;
+}
+
+
+table{
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+thead.thead-dark {
+  background-color: #373737;
+}
+
+table td,
+table th {
+  border: 0;
+  padding: 1em 1rem;
+}
+
+table td:first-child,
+table th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+table td:last-child,
+table th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+table tr:nth-child(even) {
+  background: #373737;
+}
+
+
 @media (max-width: 1400px) {
   .mainLayout {
     display: grid;
@@ -253,6 +331,13 @@ body {
     margin-top: 38px;
   }
 }
+
+.details i{
+  font-size:28px;
+  color: var(--special-accent);
+  cursor:pointer;
+}
+
 @media (max-width: 600px) {
   .mainLayout {
     display: flex;
@@ -287,3 +372,4 @@ body {
     width: 100%;
   }
 }
+

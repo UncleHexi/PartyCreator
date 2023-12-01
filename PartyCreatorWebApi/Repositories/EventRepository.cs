@@ -214,5 +214,33 @@ namespace PartyCreatorWebApi.Repositories
             var sortedInviteList = inviteList.OrderBy(g => g.LastName).ToList();
             return sortedInviteList;
         }
+    
+        public async Task<Event> UpdateEvent(Event updatedEvent)
+        {
+            var existingEvent = await _dataContext.Events.FirstOrDefaultAsync(e => e.Id == updatedEvent.Id);
+
+            if (existingEvent != null)
+            {
+                existingEvent.PlaylistTitle = updatedEvent.PlaylistTitle;
+                existingEvent.ShoppingListTitle = updatedEvent.ShoppingListTitle;
+                existingEvent.ReceiptTitle = updatedEvent.ReceiptTitle;
+                existingEvent.Title = updatedEvent.Title;
+                existingEvent.Description = updatedEvent.Description;
+                existingEvent.DateTime = updatedEvent.DateTime;
+                existingEvent.City = updatedEvent.City;
+                existingEvent.Address = updatedEvent.Address;
+                existingEvent.Country = updatedEvent.Country;
+                existingEvent.Color = updatedEvent.Color;
+
+                // Opcjonalnie, w zależności od Twoich potrzeb, możesz dodać obsługę innych pól.
+
+                await _dataContext.SaveChangesAsync();
+
+                return existingEvent;
+            }
+
+            return null; // Zwróć null, jeśli nie udało się znaleźć wydarzenia do zaktualizowania.
+        }
+
     }
 }

@@ -81,4 +81,10 @@ export class EventService {
   inviteToEventByEmail(contactEventDto: ContactEventDto) {
     return this.http.post<InviteListDto>(`${this.baseUrl2}inviteEmail`, contactEventDto);
   }
+
+  updateEventDetails(eventId: string, updatedDetails: any): Observable<any> {
+    const url = `${this.baseUrl2}${eventId}`;
+    return this.http.put(url, updatedDetails);
+  }
+
 }

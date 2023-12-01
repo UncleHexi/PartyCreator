@@ -296,6 +296,39 @@ namespace PartyCreatorWebApi.Controllers
             
             return await InviteToEvent(test);
         }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Event>> UpdateEvent(int id, EventDto updatedEventDto)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            // Sprawdź, czy użytkownik jest twórcą wydarzenia
+            var existingEvent = await _eventRepository.GetEventDetails(id);
+            if (existingEvent == null)
+            {
+                return NotFound("Nie znaleziono wydarzenia o podanym ID");
+            }
+
+            if (creatorId != existingEvent.CreatorId)
+            {
+                return Unauthorized("Nie jesteś uprawniony do aktualizacji tego wydarzenia");
+            }
+
+            existingEvent.Title = updatedEventDto.Title;
+            existingEvent.Description = updatedEventDto.Description;
+            existingEvent.DateTime = updatedEventDto.DateTime;
+
+            var updatedEvent = await _eventRepository.UpdateEvent(existingEvent);
+
+            if (updatedEvent == null)
+            {
+                return BadRequest("Wystąpił problem podczas aktualizacji wydarzenia");
+            }
+             
+            return Ok(updatedEvent);
+        }
+
+
     }
 
 }
