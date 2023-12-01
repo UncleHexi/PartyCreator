@@ -24,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InviteModalComponent } from '../invite-modal/invite-modal.component';
 import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { EventUserDto } from '../interfaces/event-user-dto';
+import { ShoppingListService } from '../services/shopping-list.service';
 
 
 
@@ -67,11 +68,20 @@ export class EventViewComponent implements OnInit {
   editedTime: string = '';
   editedDate: string = ''; 
 
+  shoppingList: {
+    userId: number;
+    id: number;
+    name: string, 
+    quantity: number }[] = [];
+    newItemName: string = '';
+    newItemQuantity: number = 0;
+    
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
     private toast: NgToastService,
     private router: Router,
+    private shoppingListService: ShoppingListService,
     public dialog: MatDialog
   ) {
     this.selected = null;
@@ -94,6 +104,11 @@ export class EventViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.authorization();
+
+    const eventId = Number(this.eventId);
+    this.shoppingListService.getShoppingList(eventId).subscribe(data => {
+      this.shoppingList = data;
+    });
   }
 
   loadEventDetails(): void {
@@ -125,11 +140,6 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-  // Added function to toggle visibility
-  toggleThingsToBringVisibility(): void {
-    this.isThingsToBringVisible = !this.isThingsToBringVisible;
-    this.arrowAnimationState = this.isThingsToBringVisible ? 'pulse' : 'rest';
-  }
 
   authorization() {
     this.eventId = this.route.snapshot.paramMap.get('id')!;
@@ -217,6 +227,51 @@ export class EventViewComponent implements OnInit {
     this.eventService
       .getInvitesUsers(this.eventDetails!.id.toString())
       .subscribe((users) => (this.invitesUsers = users));
+  }
+
+  loadShoppingList() {
+    this.shoppingListService.getShoppingList(this.eventDetails.id).subscribe(
+      shoppingList => {
+        this.shoppingList = shoppingList;
+      },
+      error => {
+        console.error('Wystąpił błąd podczas ładowania listy zakupów', error);
+      }
+    );
+  }
+
+ addItem() {
+  if (this.newItemName && this.newItemQuantity > 0) {
+    const newItem = {
+      id: 0, 
+      userId: 0,
+      eventId: this.eventId, 
+      name: this.newItemName,
+      quantity: this.newItemQuantity
+    };
+
+    this.shoppingListService.addNewItem(Number(this.eventId), newItem).subscribe(
+      () => {
+        this.loadShoppingList();
+        this.newItemName = '';
+        this.newItemQuantity = 0;
+      },
+      error => {
+        console.error('Wystąpił błąd podczas dodawania nowego przedmiotu', error);
+      }
+    );
+  }
+  }
+
+  deleteItem(itemId: number) {
+    this.shoppingListService.deleteItem(Number(this.eventId), itemId).subscribe(
+      () => {
+        this.loadShoppingList(); // odśwież listę po usunięciu przedmiotu
+      },
+      error => {
+        console.error('Wystąpił błąd podczas usuwania przedmiotu', error);
+      }
+    );
   }
   saveChanges() { 
     this.editMode = false;

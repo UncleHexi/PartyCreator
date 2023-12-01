@@ -314,11 +314,9 @@ namespace PartyCreatorWebApi.Controllers
                 return Unauthorized("Nie jesteś uprawniony do aktualizacji tego wydarzenia");
             }
 
-            // Tutaj dodaj logikę aktualizacji danych wydarzenia
             existingEvent.Title = updatedEventDto.Title;
             existingEvent.Description = updatedEventDto.Description;
             existingEvent.DateTime = updatedEventDto.DateTime;
-            // Dodaj więcej pól, które chcesz zaktualizować
 
             var updatedEvent = await _eventRepository.UpdateEvent(existingEvent);
 

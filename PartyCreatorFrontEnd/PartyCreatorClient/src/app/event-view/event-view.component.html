@@ -91,7 +91,7 @@
 
       </div>
     </div>
-    <div class="editDetails">
+    <div class="editDetails" *ngIf="userRole.role == 'Admin'">
 
       <button *ngIf="!editMode" (click)="editMode = true">Edytuj wydarzenie</button>
 
@@ -127,39 +127,49 @@
         [ngClass]="{ 'rounded-bottom': isThingsToBringVisible }"
       >
         <h5 class="titleBringThings">Rzeczy do przyniesienia</h5>
-        <div
-          class="toggle-arrow"
-          [@pulse]="arrowAnimationState"
-          (click)="toggleThingsToBringVisibility()"
-        >
-          <span *ngIf="isThingsToBringVisible">&#9650;</span>
-          <span *ngIf="!isThingsToBringVisible">&#9660;</span>
-        </div>
       </div>
       <div
-        class="thingsToBringList"
-        [@slideDown]
-        *ngIf="isThingsToBringVisible"
-      >
-        <p>Napój gazowany<button>PRZYNIEŚ</button></p>
-        <p>Chrupki <button>PRZYNIEŚ</button></p>
-        <p>
-          <del>Przekąski słone </del
-          ><fa-icon
-            [icon]="faCheck"
-            style="color: greenyellow; margin-left: 10px"
-          >
-          </fa-icon>
-        </p>
-        <p>Cytryna <button>PRZYNIEŚ</button></p>
-        <p>
-          <s>Pieczywo</s
-          ><fa-icon
-            [icon]="faCheck"
-            style="color: greenyellow; margin-left: 10px"
-          >
-          </fa-icon>
-        </p>
+        class="thingsToBringList">
+
+
+        <table>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Przedmiot</th>
+              <th scope="col">Liczba</th>
+              <th scope="col">Kto przyniesie</th>
+              <th scope="col" style="text-align: center">Akcje</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of shoppingList">
+              <td>{{item.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td>{{item.userId}}</td>
+              <td class="action-column">
+                <button
+                  mat-raised-button
+                  color="primary">
+                  <mat-icon>edit</mat-icon>
+                  <span>&nbsp;Przynieś</span>
+                </button>
+                <button mat-raised-button 
+                color="warn" 
+                *ngIf="userRole.role == 'Admin'" 
+                (click)="deleteItem(item.id)">
+                  <mat-icon>delete</mat-icon>
+                  <span>&nbsp;Usuń</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+          <div *ngIf="userRole.role == 'Admin'">
+            <input [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu">
+            <input [(ngModel)]="newItemQuantity" placeholder="Ilość" type="number" class="numberOfItem">
+            <button mat-raised-button (click)="addItem()">Dodaj przedmiot</button>
+          </div>
       </div>
     </div>
     <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
