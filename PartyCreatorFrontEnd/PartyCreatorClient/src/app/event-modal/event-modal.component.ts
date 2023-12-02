@@ -6,7 +6,7 @@ import { NgToastService } from 'ng-angular-popup';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -61,12 +61,15 @@ export class EventModalComponent {
   minDate = new Date();
 
   constructor(
+    private dialogRef: MatDialogRef<EventModalComponent>,
     private eventService: EventService,
     private toast: NgToastService,
     private fb: FormBuilder,
     private datePipe: DatePipe
   ) {}
-
+ close() {
+  this.dialogRef.close({data: "2"});
+ }
   createEvent() {
     this.eventService.createEvent(this.eventData).subscribe({
       next: (res) => {
@@ -76,6 +79,7 @@ export class EventModalComponent {
           summary: 'Udało się stworzyć wydarzenie!',
           duration: 3000,
         });
+        this.dialogRef.close({data: res.id});
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({

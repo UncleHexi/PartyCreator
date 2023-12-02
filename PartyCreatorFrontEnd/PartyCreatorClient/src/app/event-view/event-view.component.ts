@@ -102,13 +102,15 @@ export class EventViewComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
-    this.authorization();
-
-    const eventId = Number(this.eventId);
-    this.shoppingListService.getShoppingList(eventId).subscribe(data => {
-      this.shoppingList = data;
+  ngOnInit() {
+    if(this.authorization())
+    {
+      //to ponizej powinno byc w osobnej funkcji!!!
+      const eventId = Number(this.eventId);
+      this.shoppingListService.getShoppingList(eventId).subscribe(data => {
+        this.shoppingList = data;
     });
+    }
   }
 
   loadEventDetails(): void {
@@ -141,23 +143,26 @@ export class EventViewComponent implements OnInit {
   }
 
 
-  authorization() {
+  authorization(): boolean {
     this.eventId = this.route.snapshot.paramMap.get('id')!;
     this.eventService.getAccess(this.eventId).subscribe({
       next: (res) => {
         this.loadEventDetails();
         this.userRole = res;
         console.log(this.userRole);
+        return true;
       },
       error: (err: HttpErrorResponse) => {
+        this.router.navigate([`wydarzenia`]);
         this.toast.error({
           detail: 'ERROR',
           summary: err.error,
           duration: 3000,
         });
-        this.router.navigate(['main']);
+        return false;
       },
     });
+    return false;
   }
 
   openDialog() {

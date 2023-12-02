@@ -25,6 +25,7 @@ namespace PartyCreatorWebApi.Controllers
         public async Task<ActionResult<List<ShoppingListItem>>> GetShopingList(int eventId)
         {
             var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            //trzeba sprawdzic czy event istnieje
             var creatorId = _eventRepository.GetEventDetails(eventId).Result.CreatorId;
 
             GuestList guestlist = new GuestList

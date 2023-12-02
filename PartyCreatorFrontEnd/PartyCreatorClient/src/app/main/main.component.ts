@@ -5,7 +5,7 @@ import { EventModalComponent } from '../event-modal/event-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { Observable, forkJoin, map, of, switchMap, tap } from 'rxjs';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -43,8 +43,9 @@ export class MainComponent implements OnInit {
   upcomingEvents: EventUserDto[] = [];
 
   finishedEvents: EventUserDto[] = [];
+  createdEventId: string ='1';
 
-  constructor(private event: EventService, public dialog: MatDialog) {
+  constructor(private event: EventService, public dialog: MatDialog, private router: Router) {
     this.selected = null;
   }
 
@@ -68,13 +69,18 @@ export class MainComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(EventModalComponent, {
+      data: {
+        eventId: this.createdEventId
+      },
       panelClass: 'eventDialog',
       backdropClass: 'dialogBackgroundClass',
     });
 
     dialogRef.afterClosed().subscribe((res) => {
       if (!!res) {
-        this.getMyEvents();
+        //this.getMyEvents();
+        console.log(res.data);
+        this.router.navigate([`wydarzenie/${res.data}`])
       }
     });
   }
