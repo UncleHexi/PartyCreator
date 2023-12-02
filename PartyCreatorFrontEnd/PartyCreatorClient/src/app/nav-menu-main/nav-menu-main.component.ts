@@ -7,6 +7,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
+import { UserSearchComponent } from './user-search/user-search.component';
 
 //icons
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +28,7 @@ import { EventService } from '../services/event.service';
     MatIconModule,
     MatButtonModule,
     MatBadgeModule,
+    UserSearchComponent
   ],
 })
 export class NavMenuMainComponent implements OnInit {

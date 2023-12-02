@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
 import { NavMenuMainComponent } from 'src/app/nav-menu-main/nav-menu-main.component';
@@ -7,6 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NgToastService } from 'ng-angular-popup';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-profile',
@@ -30,10 +31,15 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.loadUser();
+  }
+
+  loadUser() {
     this.userId = this.route.snapshot.paramMap.get('id')!;
     this.userService.getUserData(this.userId).subscribe({
       next: (data) => {
@@ -46,8 +52,13 @@ export class UserProfileComponent implements OnInit {
         this.userData = data;
         this.profilePicture = `assets/profile-avatars/${this.userData.image}`;
       },
-      error: (error) => {
-        console.log(error);
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+        this.router.navigate([`wydarzenia`]);
       },
     });
   }
