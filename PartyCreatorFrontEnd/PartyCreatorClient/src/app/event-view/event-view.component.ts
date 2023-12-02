@@ -67,6 +67,7 @@ export class EventViewComponent implements OnInit {
   editField: string | null = null;
   editedTime: string = '';
   editedDate: string = ''; 
+  isSuccess: number = 0;
 
   shoppingList: {
     userId: number;
@@ -103,14 +104,17 @@ export class EventViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.authorization())
-    {
+    this.authorization()
+    //jakims chujem nie dziala
+    //if(this.userRole.id!=0)
+    //{
+      this.loadEventDetails();
       //to ponizej powinno byc w osobnej funkcji!!!
       const eventId = Number(this.eventId);
       this.shoppingListService.getShoppingList(eventId).subscribe(data => {
         this.shoppingList = data;
     });
-    }
+    //}
   }
 
   loadEventDetails(): void {
@@ -143,14 +147,13 @@ export class EventViewComponent implements OnInit {
   }
 
 
-  authorization(): boolean {
+  authorization() {
+    //tutaj naprawic te returny
     this.eventId = this.route.snapshot.paramMap.get('id')!;
     this.eventService.getAccess(this.eventId).subscribe({
       next: (res) => {
-        this.loadEventDetails();
         this.userRole = res;
         console.log(this.userRole);
-        return true;
       },
       error: (err: HttpErrorResponse) => {
         this.router.navigate([`wydarzenia`]);
@@ -159,10 +162,8 @@ export class EventViewComponent implements OnInit {
           summary: err.error,
           duration: 3000,
         });
-        return false;
       },
     });
-    return false;
   }
 
   openDialog() {
