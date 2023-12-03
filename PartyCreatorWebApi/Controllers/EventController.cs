@@ -402,6 +402,9 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Nie ma takiego uczestnika w tym wydarzeniu");
             }
+            //usunac powiadomienie
+            var notification = await _notificationRepository.GetNotificationByUserIdEventId(userId, eventId);
+            await _notificationRepository.DeleteNotification(notification.Id);
 
             var result = await _eventRepository.DeleteInviteList(guestList.Id);
 

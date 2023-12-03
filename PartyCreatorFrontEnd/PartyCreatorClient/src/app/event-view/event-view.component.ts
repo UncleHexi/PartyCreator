@@ -26,10 +26,9 @@ import { InviteModalComponent } from '../invite-modal/invite-modal.component';
 import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { EventUserDto } from '../interfaces/event-user-dto';
 import { ShoppingListService } from '../services/shopping-list.service';
-import { ExtraFunctionsModalComponent } from '../extra-functions-modal/extra-functions-modal.component'; 
+import { ExtraFunctionsModalComponent } from '../extra-functions-modal/extra-functions-modal.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
-
 
 @Component({
   selector: 'app-event-view',
@@ -177,7 +176,7 @@ export class EventViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       this.loadInvitedUsers();
-      this.loadGuestUsers();
+      this.loadGuestsUsers();
     });
   }
 
@@ -247,11 +246,6 @@ export class EventViewComponent implements OnInit {
         this.invitesUsers = users;
       });
   }
-  loadGuestUsers() {
-    this.eventService
-      .getGuestsUsers(this.eventDetails.id.toString())
-      .subscribe((users) => (this.guestsUsers = users));
-  }
 
   loadShoppingList() {
     this.shoppingListService.getShoppingList(this.eventDetails.id).subscribe(
@@ -300,16 +294,20 @@ export class EventViewComponent implements OnInit {
   }
 
   deleteItem(itemId: number) {
-    this.shoppingListService.deleteItem(Number(this.eventDetails.id), itemId).subscribe(
-      response => {
-        console.log('Przedmiot został usunięty', response);
-        // Aktualizacja lokalnej listy przedmiotów - usuń przedmiot z listy
-        this.shoppingList = this.shoppingList.filter(item => item.id !== itemId);
-      },
-      (error) => {
-        console.error('Wystąpił błąd podczas usuwania przedmiotu', error);
-      }
-    );
+    this.shoppingListService
+      .deleteItem(Number(this.eventDetails.id), itemId)
+      .subscribe(
+        (response) => {
+          console.log('Przedmiot został usunięty', response);
+          // Aktualizacja lokalnej listy przedmiotów - usuń przedmiot z listy
+          this.shoppingList = this.shoppingList.filter(
+            (item) => item.id !== itemId
+          );
+        },
+        (error) => {
+          console.error('Wystąpił błąd podczas usuwania przedmiotu', error);
+        }
+      );
   }
 
   signUpForItem(itemId: number) {
@@ -395,9 +393,9 @@ export class EventViewComponent implements OnInit {
   openAddContentModal(): void {
     const dialogRef = this.dialog.open(ExtraFunctionsModalComponent, {
       height: '330px',
-      width: '600px', 
+      width: '600px',
       data: {
-        eventId: this.eventDetails.id, 
+        eventId: this.eventDetails.id,
         hasShoppingList: !!this.eventDetails.shoppingListTitle,
         hasPlaylist: !!this.eventDetails.playlistTitle,
         hasReceipt: !!this.eventDetails.receiptTitle,
@@ -408,6 +406,4 @@ export class EventViewComponent implements OnInit {
       console.log('The dialog was closed with result:', result);
     });
   }
-
-  
 }
