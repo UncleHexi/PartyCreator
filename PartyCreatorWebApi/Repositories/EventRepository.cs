@@ -104,7 +104,7 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
-        public async Task<InviteList> DeleteInvite(int id)
+        public async Task<InviteList> DeleteInviteList(int id)
         {
             var result = await _dataContext.InviteLists.FirstOrDefaultAsync(i => i.Id == id);
             if(result != null)
@@ -242,5 +242,16 @@ namespace PartyCreatorWebApi.Repositories
             return null; // Zwróć null, jeśli nie udało się znaleźć wydarzenia do zaktualizowania.
         }
 
+        public async Task<GuestList> DeleteGuestList(int id)
+        {
+            var result = await _dataContext.GuestLists.FirstOrDefaultAsync(i => i.Id == id);
+            if (result != null)
+            {
+                _dataContext.GuestLists.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return result;
+            }
+            return null;
+        }
     }
 }

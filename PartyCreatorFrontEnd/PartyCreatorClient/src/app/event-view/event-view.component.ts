@@ -26,8 +26,6 @@ import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { EventUserDto } from '../interfaces/event-user-dto';
 import { ShoppingListService } from '../services/shopping-list.service';
 
-
-
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
@@ -66,17 +64,18 @@ export class EventViewComponent implements OnInit {
   editMode = false;
   editField: string | null = null;
   editedTime: string = '';
-  editedDate: string = ''; 
+  editedDate: string = '';
   isSuccess: number = 0;
 
   shoppingList: {
     userId: number;
     id: number;
-    name: string, 
-    quantity: number }[] = [];
-    newItemName: string = '';
-    newItemQuantity: number = 0;
-    
+    name: string;
+    quantity: number;
+  }[] = [];
+  newItemName: string = '';
+  newItemQuantity: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
@@ -85,6 +84,7 @@ export class EventViewComponent implements OnInit {
     private shoppingListService: ShoppingListService,
     public dialog: MatDialog
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
     this.eventDetails = {
       id: 0,
@@ -104,15 +104,15 @@ export class EventViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authorization()
+    this.authorization();
     //jakims chujem nie dziala
     //if(this.userRole.id!=0)
     //{
-      this.loadEventDetails();
-      //to ponizej powinno byc w osobnej funkcji!!!
-      const eventId = Number(this.eventId);
-      this.shoppingListService.getShoppingList(eventId).subscribe(data => {
-        this.shoppingList = data;
+    this.loadEventDetails();
+    //to ponizej powinno byc w osobnej funkcji!!!
+    const eventId = Number(this.eventId);
+    this.shoppingListService.getShoppingList(eventId).subscribe((data) => {
+      this.shoppingList = data;
     });
     //}
   }
@@ -146,7 +146,6 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-
   authorization() {
     //tutaj naprawic te returny
     this.eventId = this.route.snapshot.paramMap.get('id')!;
@@ -179,9 +178,9 @@ export class EventViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       this.loadInvitedUsers();
+      this.loadGuestUsers();
     });
   }
-
 
   toggleMapVisibility(): void {
     if (this.isMapVisible) {
@@ -231,42 +230,52 @@ export class EventViewComponent implements OnInit {
 
   loadInvitedUsers() {
     this.eventService
-      .getInvitesUsers(this.eventDetails!.id.toString())
+      .getInvitesUsers(this.eventDetails.id.toString())
       .subscribe((users) => (this.invitesUsers = users));
+  }
+  loadGuestUsers() {
+    this.eventService
+      .getGuestsUsers(this.eventDetails.id.toString())
+      .subscribe((users) => (this.guestsUsers = users));
   }
 
   loadShoppingList() {
     this.shoppingListService.getShoppingList(this.eventDetails.id).subscribe(
-      shoppingList => {
+      (shoppingList) => {
         this.shoppingList = shoppingList;
       },
-      error => {
+      (error) => {
         console.error('Wystąpił błąd podczas ładowania listy zakupów', error);
       }
     );
   }
 
- addItem() {
-  if (this.newItemName && this.newItemQuantity > 0) {
-    const newItem = {
-      id: 0, 
-      userId: 0,
-      eventId: this.eventId, 
-      name: this.newItemName,
-      quantity: this.newItemQuantity
-    };
+  addItem() {
+    if (this.newItemName && this.newItemQuantity > 0) {
+      const newItem = {
+        id: 0,
+        userId: 0,
+        eventId: this.eventId,
+        name: this.newItemName,
+        quantity: this.newItemQuantity,
+      };
 
-    this.shoppingListService.addNewItem(Number(this.eventId), newItem).subscribe(
-      () => {
-        this.loadShoppingList();
-        this.newItemName = '';
-        this.newItemQuantity = 0;
-      },
-      error => {
-        console.error('Wystąpił błąd podczas dodawania nowego przedmiotu', error);
-      }
-    );
-  }
+      this.shoppingListService
+        .addNewItem(Number(this.eventId), newItem)
+        .subscribe(
+          () => {
+            this.loadShoppingList();
+            this.newItemName = '';
+            this.newItemQuantity = 0;
+          },
+          (error) => {
+            console.error(
+              'Wystąpił błąd podczas dodawania nowego przedmiotu',
+              error
+            );
+          }
+        );
+    }
   }
 
   deleteItem(itemId: number) {
@@ -274,50 +283,59 @@ export class EventViewComponent implements OnInit {
       () => {
         this.loadShoppingList(); // odśwież listę po usunięciu przedmiotu
       },
-      error => {
+      (error) => {
         console.error('Wystąpił błąd podczas usuwania przedmiotu', error);
       }
     );
   }
-  saveChanges() { 
+  saveChanges() {
     this.editMode = false;
     this.editField = null;
-  
+
     console.log('Edited Date:', this.editedDate);
     console.log('Edited Time:', this.editedTime);
-  
+
     let dateToUse = this.editedDate;
     if (!this.editedDate) {
-      dateToUse = new Date(this.eventDetails.dateTime).toISOString().split('T')[0];
+      dateToUse = new Date(this.eventDetails.dateTime)
+        .toISOString()
+        .split('T')[0];
     }
-  
+
     let timeToUse = this.editedTime;
     if (!this.editedTime) {
-      timeToUse = new Date(this.eventDetails.dateTime).toISOString().split('T')[1].substring(0, 5);
+      timeToUse = new Date(this.eventDetails.dateTime)
+        .toISOString()
+        .split('T')[1]
+        .substring(0, 5);
     }
-  
+
     if (!dateToUse || !timeToUse) {
       console.error('Nieprawidłowy format daty lub czasu');
       return;
     }
-  
-    if (dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) && timeToUse.match(/^\d{2}:\d{2}$/)) {
+
+    if (
+      dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) &&
+      timeToUse.match(/^\d{2}:\d{2}$/)
+    ) {
       const updatedDate = new Date(Date.parse(dateToUse));
       const updatedTime = timeToUse.split(':');
       updatedDate.setHours(Number(updatedTime[0]));
       updatedDate.setMinutes(Number(updatedTime[1]));
-  
+
       console.log('Updated Date:', updatedDate);
-  
+
       this.eventDetails.dateTime = updatedDate;
-  
-      this.eventService.updateEventDetails(this.eventId, this.eventDetails).subscribe(
-        (response) => {
-        },
-        (error) => {
-          console.error('Błąd podczas aktualizacji danych wydarzenia', error);
-        }
-      );
+
+      this.eventService
+        .updateEventDetails(this.eventId, this.eventDetails)
+        .subscribe(
+          (response) => {},
+          (error) => {
+            console.error('Błąd podczas aktualizacji danych wydarzenia', error);
+          }
+        );
     } else {
       console.error('Nieprawidłowy format daty lub czasu');
     }

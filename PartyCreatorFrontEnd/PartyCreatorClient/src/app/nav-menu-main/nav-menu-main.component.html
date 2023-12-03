@@ -88,11 +88,7 @@
         padding-right: 10px;
       "
     >
-      <div
-        *ngFor="let notification of notifications"
-        class="row notification"
-        (click)="toggleRead(notification)"
-      >
+      <div *ngFor="let notification of notifications" class="row notification">
         <div
           class="col d-flex align-items-center"
           style="padding: 0px; max-width: 25px"
@@ -104,14 +100,20 @@
             >fiber_manual_record</mat-icon
           >
         </div>
-        <div
-          class="col d-flex align-items-center"
-          style="padding: 0px; max-width: 275px"
-        >
-          {{ notification.description + " " + notification.eventId }}
+        <div class="col" style="padding: 0px; max-width: 275px">
+          <div class="row d-flex align-items-center justify-content-center">
+            {{ notification.description }}
+          </div>
+          <div
+            class="row d-flex align-items-center justify-content-center"
+            style="color: #9c9c9c"
+          >
+            {{ notification.eventTitle }}
+          </div>
         </div>
         <div
-          class="col d-flex justify-content-end align-items-center"
+          *ngIf="notification.type == 'Zaproszenie'; else elseBlock"
+          class="col d-flex justify-content-center align-items-center"
           style="padding: 0px; max-width: 80px"
         >
           <button
@@ -134,7 +136,35 @@
             <mat-icon>close</mat-icon>
           </button>
         </div>
+        <ng-template #elseBlock>
+          <div
+            class="col d-flex justify-content-center align-items-center"
+            style="padding: 0px; max-width: 80px"
+          >
+            <button
+              mat-mini-fab
+              color="primary"
+              matTooltip="Oznacz jako przeczytane"
+              style="transform: scale(0.8)"
+              *ngIf="!notification.isRead"
+              (click)="toggleRead(notification)"
+            >
+              <mat-icon style="color: white">drafts</mat-icon>
+            </button>
+
+            <button
+              mat-mini-fab
+              color="warn"
+              matTooltip="Usuń powiadomienie"
+              style="transform: scale(0.8)"
+              (click)="deleteNotification(notification.id)"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </div>
+        </ng-template>
       </div>
+
       <div
         *ngIf="notifications.length == 0"
         class="col d-flex align-items-center justify-content-center notification"

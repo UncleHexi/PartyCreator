@@ -1,4 +1,6 @@
-﻿using PartyCreatorWebApi.Entities;
+﻿using Azure.Core;
+using PartyCreatorWebApi.Dtos;
+using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Repositories
@@ -18,6 +20,21 @@ namespace PartyCreatorWebApi.Repositories
             return result.Result.Entity;
         }
 
+        public async Task<List<Notification>> CreateNotificationToAllGuests(Notification notification)
+        {
+            var guests = await _dataContext.GuestLists.Where(x => x.EventId == notification.EventId).ToListAsync();
+            List<Notification> results = new List<Notification>();
+
+            foreach(GuestList guest in  guests)
+            {
+                notification.UserId= guest.UserId;
+                await _dataContext.Notifications.AddAsync(notification);
+                results.Add(notification);
+            }
+            await _dataContext.SaveChangesAsync();
+            return results;
+        }
+
         public async Task<Notification> DeleteNotification(int id)
         {
             var result = await _dataContext.Notifications.FirstOrDefaultAsync(x => x.Id == id);
@@ -30,9 +47,20 @@ namespace PartyCreatorWebApi.Repositories
             return null;
         }
 
-        public Task<List<Notification>> GetAllNotificationsOfUser(int id)
+        public Task<List<NotificationDto>> GetAllNotificationsOfUser(int id)
         {
-            var result = _dataContext.Notifications.Where(n => n.UserId == id).ToListAsync();
+            var result = _dataContext.Notifications.Where(n => n.UserId == id)
+                .Select(n=>new NotificationDto
+                {
+                    Id = n.Id,
+                    UserId = n.UserId,
+                    Description = n.Description,
+                    Type = n.Type,
+                    IsRead = n.IsRead,
+                    EventId = n.EventId,
+                    EventTitle = _dataContext.Events.Where(e=>e.Id==n.EventId).Select(u=>u.Title).FirstOrDefault(),
+                }).ToListAsync();
+            
             return result;
         }
 

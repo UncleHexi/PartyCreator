@@ -33,7 +33,9 @@ export class UserProfileComponent implements OnInit {
     private userService: UserService,
     private toast: NgToastService,
     private router: Router
-  ) {}
+  ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
     this.loadUser();
