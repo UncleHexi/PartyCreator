@@ -35,5 +35,18 @@ namespace PartyCreatorWebApi.Repositories
             await _dataContext.SaveChangesAsync();
             return result.Entity;
         }
+        public async Task<bool> RemoveShoppingListItem(int id)
+        {
+            var shoppingListItem = await _dataContext.ShoppingListItems.FindAsync(id);
+
+            if (shoppingListItem != null)
+            {
+                _dataContext.ShoppingListItems.Remove(shoppingListItem);
+                await _dataContext.SaveChangesAsync();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

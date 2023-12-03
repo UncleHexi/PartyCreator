@@ -258,6 +258,20 @@ namespace PartyCreatorWebApi.Repositories
             return null; // Zwróć null, jeśli nie udało się znaleźć wydarzenia do zaktualizowania.
         }
 
+        public async Task AddEventFunctions(int eventId, EventFunctionsDto eventFunctions)
+        {
+            var existingEvent = await _dataContext.Events.FindAsync(eventId);
+
+            if (existingEvent != null)
+            {
+                existingEvent.PlaylistTitle = eventFunctions.PlaylistTitle;
+                existingEvent.ShoppingListTitle = eventFunctions.ShoppingListTitle;
+                existingEvent.ReceiptTitle = eventFunctions.ReceiptTitle;
+
+                await _dataContext.SaveChangesAsync();
+            }
+        }
+
         public async Task<GuestList> DeleteGuestList(int id)
         {
             var result = await _dataContext.GuestLists.FirstOrDefaultAsync(i => i.Id == id);
@@ -271,3 +285,4 @@ namespace PartyCreatorWebApi.Repositories
         }
     }
 }
+

@@ -296,6 +296,7 @@ namespace PartyCreatorWebApi.Controllers
             
             return await InviteToEvent(test);
         }
+
         [HttpPut("update/{id}")]
         [Authorize]
         public async Task<ActionResult<Event>> UpdateEvent(int id, EventDto updatedEventDto)
@@ -343,6 +344,7 @@ namespace PartyCreatorWebApi.Controllers
         {
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
+
             var _event = await _eventRepository.GetEventDetails(eventId);
             if (_event == null)
             {
@@ -363,6 +365,20 @@ namespace PartyCreatorWebApi.Controllers
             var result = await _eventRepository.DeleteGuestList(guestList.Id);
 
             return Ok(result);
+        }
+
+        [HttpPost("{eventId}/addFunctions")]
+        public async Task<IActionResult> AddEventFunctions(int eventId, [FromBody] EventFunctionsDto eventFunctions)
+        {
+            try
+            {
+                await _eventRepository.AddEventFunctions(eventId, eventFunctions);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
         }
 
         [HttpDelete("deleteInvited/{eventId}/{userId}"), Authorize]
@@ -394,4 +410,9 @@ namespace PartyCreatorWebApi.Controllers
     }
 
 }
+
+
+ 
+
+
 

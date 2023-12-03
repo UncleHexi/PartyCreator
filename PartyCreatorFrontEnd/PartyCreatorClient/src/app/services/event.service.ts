@@ -12,6 +12,8 @@ import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { UserContactDto } from '../interfaces/user-contact-dto';
 import { ContactDto } from '../interfaces/contact-dto';
 import { ContactEventDto } from '../interfaces/contact-event-dto';
+import { EventFunctionsDto } from '../interfaces/event-functions-dto';
+
 
 @Injectable({
   providedIn: 'root',
@@ -90,6 +92,10 @@ export class EventService {
     return this.http.put(url, updatedDetails);
   }
 
+  addEventFunctions(eventId: string, functions: EventFunctionsDto): Observable<any> {
+    const url = `${this.baseUrl2}${eventId}/addFunctions`;
+    return this.http.post(url, functions);
+  }
   deleteGuest(eventId: string, userId: string) {
     return this.http.delete<GuestListDto>(
       `${this.baseUrl2}deleteGuest/${eventId}/${userId}`
