@@ -296,6 +296,10 @@ namespace PartyCreatorWebApi.Controllers
             
             return await InviteToEvent(test);
         }
+
+
+
+
         [HttpPut("{id}")]
         [Authorize]
         public async Task<ActionResult<Event>> UpdateEvent(int id, EventDto updatedEventDto)
@@ -324,12 +328,30 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Wystąpił problem podczas aktualizacji wydarzenia");
             }
-             
+
             return Ok(updatedEvent);
         }
 
+        [HttpPost("{eventId}/addFunctions")]
+        public async Task<IActionResult> AddEventFunctions(int eventId, [FromBody] EventFunctionsDto eventFunctions)
+        {
+            try
+            {
+                await _eventRepository.AddEventFunctions(eventId, eventFunctions);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
 
     }
 
 }
+
+
+ 
+
+
 

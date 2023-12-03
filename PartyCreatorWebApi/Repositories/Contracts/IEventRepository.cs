@@ -20,7 +20,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<List<AllGuestList>> GetInvitedUsers(int eventId);
         Task<List<AllGuestList>> GetAllGuestsList(int eventId);
         Task<Event> UpdateEvent(Event updatedEvent);
-
+        Task AddEventFunctions(int eventId, EventFunctionsDto eventFunctions);
 
     }
 }

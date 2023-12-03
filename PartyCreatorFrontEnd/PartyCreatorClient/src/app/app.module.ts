@@ -44,6 +44,7 @@ import { MainCalendarComponent } from './main/main-calendar/main-calendar.compon
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 import { MatInputModule } from '@angular/material/input';
+import { ExtraFunctionsModalComponent } from './extra-functions-modal/extra-functions-modal.component';
 
 registerLocaleData(localePl);
 
@@ -59,7 +60,6 @@ registerLocaleData(localePl);
     EventViewComponent,
     ProfileComponent,
     MapComponent,
-    
   ],
 
   imports: [
@@ -94,7 +94,8 @@ registerLocaleData(localePl);
     MainCalendarComponent,
     MatTooltipModule,
     UserProfileComponent,
-    MatInputModule
+    MatInputModule,
+    ReactiveFormsModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

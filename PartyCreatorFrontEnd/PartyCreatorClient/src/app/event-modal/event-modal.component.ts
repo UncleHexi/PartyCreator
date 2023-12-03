@@ -110,36 +110,21 @@ export class EventModalComponent {
     this.eventOptions.value.dateTime=combinedDateTime;
   }
 
-  convertFormToData() {
-    this.eventData.title=this.eventOptions.value.title!;
-    this.eventData.description=this.eventOptions.value.description!;
-    this.eventData.dateTime=this.eventOptions.value.dateTime!;
-    this.eventData.city=this.eventOptions.value.city!;
-    this.eventData.address=this.eventOptions.value.address!;
-    this.eventData.country=this.eventOptions.value.country!;
-    //dodanie 
-    if(this.eventOptions.value.playlist) {
-      this.eventData.playlistTitle="Title";
-    }
-    else {
-      this.eventData.playlistTitle="";
-    }
+convertFormToData() {
+  this.eventData.title = this.eventOptions.value.title!;
+  this.eventData.description = this.eventOptions.value.description!;
+  this.eventData.dateTime = this.eventOptions.value.dateTime!;
+  this.eventData.city = this.eventOptions.value.city!;
+  this.eventData.address = this.eventOptions.value.address!;
+  this.eventData.country = this.eventOptions.value.country!;
+  
+  // Dodanie
+  this.eventData.playlistTitle = this.eventOptions.value.playlist ? "Title" : "";
+  this.eventData.shoppingListTitle = this.eventOptions.value.shoppingLis ? "Title" : "";
+  this.eventData.receiptTitle = this.eventOptions.value.receipt ? "Title" : "";
+  
+  // Do usunięcia?
+  this.eventData.color = "";
+}
 
-    if(this.eventOptions.value.shoppingLis) {
-      this.eventData.shoppingListTitle="Title";
-    }
-    else {
-      this.eventData.shoppingListTitle="";
-    }
-
-    if(this.eventOptions.value.receipt) {
-      this.eventData.receiptTitle="Title";
-    }
-    else {
-      this.eventData.receiptTitle="";
-    }
-    
-    //do usuniecia?
-    this.eventData.color = "";
-  }
 }

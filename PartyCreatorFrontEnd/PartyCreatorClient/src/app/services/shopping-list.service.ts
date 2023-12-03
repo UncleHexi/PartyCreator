@@ -18,6 +18,6 @@ export class ShoppingListService {
   }
 
   deleteItem(eventId: number, itemId: number): Observable<any> {
-    return this.http.delete(`/api/events/${eventId}/items/${itemId}`);
+    return this.http.delete(`${this.Url}/RemoveShoppingListItem/${eventId}/${itemId}`);
   }
 }
