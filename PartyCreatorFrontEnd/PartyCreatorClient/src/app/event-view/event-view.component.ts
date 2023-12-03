@@ -28,6 +28,7 @@ import { EventUserDto } from '../interfaces/event-user-dto';
 import { ShoppingListService } from '../services/shopping-list.service';
 import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
 
+
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
@@ -88,6 +89,7 @@ export class EventViewComponent implements OnInit {
     private shoppingListService: ShoppingListService,
     public dialog: MatDialog
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
     this.eventDetails = {
       id: 0,
@@ -124,7 +126,6 @@ export class EventViewComponent implements OnInit {
             this.eventDetails = data;
             this.loadGuestsUsers();
             this.loadInvitedUsers();
-
             this.loadShoppingList();
           } else {
             console.error('Otrzymano nullowe dane z serwera');
@@ -174,6 +175,7 @@ export class EventViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       this.loadInvitedUsers();
+      this.loadGuestUsers();
     });
   }
 
@@ -242,6 +244,11 @@ export class EventViewComponent implements OnInit {
       .subscribe((users) => {
         this.invitesUsers = users;
       });
+  }
+  loadGuestUsers() {
+    this.eventService
+      .getGuestsUsers(this.eventDetails.id.toString())
+      .subscribe((users) => (this.guestsUsers = users));
   }
 
   loadShoppingList() {
