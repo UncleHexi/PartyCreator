@@ -187,7 +187,7 @@
       </div>
       <div>
         <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
-          Zaproś do wydarzenia
+          Zarządzaj uczestnikami
         </button>
       </div>
     </div>
@@ -264,16 +264,7 @@
           </tbody>
         </table>
 
-        <div *ngIf="userRole.role == 'Admin'">
-          <input [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu" />
-          <input
-            [(ngModel)]="newItemQuantity"
-            placeholder="Ilość"
-            type="number"
-            class="numberOfItem"
-          />
-          <button mat-raised-button (click)="addItem()">Dodaj przedmiot</button>
-        </div>
+      
       </div>
       <div class="add-item-form" *ngIf="userRole.role == 'Admin'">
         <mat-form-field appearance="outline" class="item-name-field">
