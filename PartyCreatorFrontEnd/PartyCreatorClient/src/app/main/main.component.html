@@ -16,7 +16,10 @@
             </div>
             <div *ngFor="let event of upcomingEvents" class="Event">
               <h4>{{ event.title }}</h4>
-              <p>Organizator: {{ event.creatorName }}</p>
+              <p>
+                Organizator: {{ event.creatorFirstName }}
+                {{ event.creatorLastName }}
+              </p>
               <p>Godzina: {{ event.dateTime + "Z" | date : "H:mm" }}</p>
               <p>Data: {{ event.dateTime + "Z" | date : "d/M/yy" }}</p>
               <button
@@ -42,7 +45,10 @@
             </div>
             <div *ngFor="let myEvent of myEvents" class="YourEvent">
               <h4>{{ myEvent.title }}</h4>
-              <div>Organizator: {{ myEvent.creatorName }}</div>
+              <div>
+                Organizator: {{ myEvent.creatorFirstName }}
+                {{ myEvent.creatorLastName }}
+              </div>
               <p>Godzina: {{ myEvent.dateTime + "Z" | date : "H:mm" }}</p>
               <p>Data: {{ myEvent.dateTime + "Z" | date : "d/M/yy" }}</p>
               <button
@@ -71,7 +77,10 @@
               [ngClass]="'Event'"
             >
               <h4>{{ event.title }}</h4>
-              <p>Organizator: {{ event.creatorName }}</p>
+              <p>
+                Organizator: {{ event.creatorFirstName }}
+                {{ event.creatorLastName }}
+              </p>
               <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
               <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
               <button

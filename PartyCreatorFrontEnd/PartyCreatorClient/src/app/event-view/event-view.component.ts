@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
+import { UserService } from '../services/user.service';
 import {
   faLocationDot,
   faCheck,
@@ -25,6 +26,8 @@ import { InviteModalComponent } from '../invite-modal/invite-modal.component';
 import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { EventUserDto } from '../interfaces/event-user-dto';
 import { ShoppingListService } from '../services/shopping-list.service';
+import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
+
 
 @Component({
   selector: 'app-event-view',
@@ -66,12 +69,13 @@ export class EventViewComponent implements OnInit {
   editedTime: string = '';
   editedDate: string = '';
   isSuccess: number = 0;
-
   shoppingList: {
     userId: number;
     id: number;
     name: string;
     quantity: number;
+    firstName: string;
+    lastName: string;
   }[] = [];
   newItemName: string = '';
   newItemQuantity: number = 0;
@@ -79,6 +83,7 @@ export class EventViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
+    private userService: UserService,
     private toast: NgToastService,
     private router: Router,
     private shoppingListService: ShoppingListService,
@@ -89,7 +94,8 @@ export class EventViewComponent implements OnInit {
     this.eventDetails = {
       id: 0,
       creatorId: 0,
-      creatorName: '',
+      creatorFirstName: '',
+      creatorLastName: '',
       title: '',
       description: '',
       dateTime: new Date(),
@@ -109,12 +115,6 @@ export class EventViewComponent implements OnInit {
     //if(this.userRole.id!=0)
     //{
     this.loadEventDetails();
-    //to ponizej powinno byc w osobnej funkcji!!!
-    const eventId = Number(this.eventId);
-    this.shoppingListService.getShoppingList(eventId).subscribe((data) => {
-      this.shoppingList = data;
-    });
-    //}
   }
 
   loadEventDetails(): void {
@@ -124,12 +124,9 @@ export class EventViewComponent implements OnInit {
         (data: EventUserDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
-            this.eventService
-              .getGuestsUsers(data.id.toString())
-              .subscribe((users) => (this.guestsUsers = users));
-            this.eventService
-              .getInvitesUsers(data.id.toString())
-              .subscribe((users) => (this.invitesUsers = users));
+            this.loadGuestsUsers();
+            this.loadInvitedUsers();
+            this.loadShoppingList();
           } else {
             console.error('Otrzymano nullowe dane z serwera');
           }
@@ -228,10 +225,25 @@ export class EventViewComponent implements OnInit {
     }
   }
 
+  loadGuestsUsers() {
+    this.eventService
+      .getGuestsUsers(this.eventDetails!.id.toString())
+      .subscribe((users) => {
+        this.guestsUsers = users;
+        this.guestsUsers.unshift({
+          id: this.eventDetails.creatorId,
+          firstName: this.eventDetails.creatorFirstName,
+          lastName: this.eventDetails.creatorLastName,
+        });
+      });
+  }
+
   loadInvitedUsers() {
     this.eventService
-      .getInvitesUsers(this.eventDetails.id.toString())
-      .subscribe((users) => (this.invitesUsers = users));
+      .getInvitesUsers(this.eventDetails!.id.toString())
+      .subscribe((users) => {
+        this.invitesUsers = users;
+      });
   }
   loadGuestUsers() {
     this.eventService
@@ -241,8 +253,15 @@ export class EventViewComponent implements OnInit {
 
   loadShoppingList() {
     this.shoppingListService.getShoppingList(this.eventDetails.id).subscribe(
-      (shoppingList) => {
-        this.shoppingList = shoppingList;
+      (shoppingList: ShoppingListItemDto[]) => {
+        this.shoppingList = shoppingList.map((item: ShoppingListItemDto) => {
+          const user = this.guestsUsers.find((user) => user.id === item.userId);
+          return {
+            ...item,
+            firstName: user ? user.firstName : '',
+            lastName: user ? user.lastName : '',
+          };
+        });
       },
       (error) => {
         console.error('Wystąpił błąd podczas ładowania listy zakupów', error);
@@ -288,6 +307,35 @@ export class EventViewComponent implements OnInit {
       }
     );
   }
+
+  signUpForItem(itemId: number) {
+    this.shoppingListService.signUpForItem(itemId).subscribe(
+      () => {
+        this.loadShoppingList(); // odśwież listę po zapisaniu się na przedmiot
+      },
+      (error) => {
+        console.error(
+          'Wystąpił błąd podczas zapisywania się na przedmiot',
+          error
+        );
+      }
+    );
+  }
+
+  signOutFromItem(itemId: number) {
+    this.shoppingListService.signOutFromItem(itemId).subscribe(
+      () => {
+        this.loadShoppingList(); // odśwież listę po wypisaniu się z przedmiotu
+      },
+      (error) => {
+        console.error(
+          'Wystąpił błąd podczas wypisywania się z przedmiotu',
+          error
+        );
+      }
+    );
+  }
+
   saveChanges() {
     this.editMode = false;
     this.editField = null;

@@ -35,6 +35,10 @@ namespace PartyCreatorWebApi.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             var result = await _usersRepository.GetUserById(id);
+            if (result == null)
+            {
+                return BadRequest("Nie znaleziono użytkownika");
+            }
             return Ok(DtoConversions.UserToDto(result));
         }
 
