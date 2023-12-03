@@ -1,7 +1,8 @@
 export interface EventUserDto {
   id: number;
   creatorId: number;
-  creatorName: string;
+  creatorFirstName: string;
+  creatorLastName: string;
   title: string;
   description: string;
   dateTime: Date;

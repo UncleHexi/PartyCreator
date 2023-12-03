@@ -5,39 +5,67 @@
   <div class="mainLayout">
     <div class="details">
       <div *ngIf="eventDetails" class="Details">
-
         <!-- tytul -->
         <div *ngIf="editField !== 'title'; else editForm">
-          <h1>{{ eventDetails.title }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'title'"></i></h1>
+          <h1>
+            {{ eventDetails.title }}
+            <i
+              class="fa fa-pencil"
+              *ngIf="editMode"
+              (click)="editField = 'title'"
+            ></i>
+          </h1>
         </div>
-        
+
         <ng-template #editForm>
           <form (ngSubmit)="saveChanges()">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nazwa wydarzenia</mat-label>
-              <input matInput [(ngModel)]="eventDetails.title" #title name="name" maxlength="36">
-              <span>{{title.value.length}}/36</span>
+              <input
+                matInput
+                [(ngModel)]="eventDetails.title"
+                #title
+                name="name"
+                maxlength="36"
+              />
+              <span>{{ title.value.length }}/36</span>
             </mat-form-field>
             <button mat-raised-button (click)="saveChanges()">Zapisz</button>
           </form>
         </ng-template>
 
-          <!-- ogranizator -->
+        <!-- ogranizator -->
         <p style="font-weight: bold">
-          Organizator: {{ eventDetails.creatorName }}
+          Organizator: {{ eventDetails.creatorFirstName }}
+          {{ eventDetails.creatorLastName }}
         </p>
 
-          <!-- opis -->
+        <!-- opis -->
         <div *ngIf="editField !== 'description'; else editFormDescription">
-          <p>{{ eventDetails.description }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'description'"></i></p>
+          <p>
+            {{ eventDetails.description }}
+            <i
+              class="fa fa-pencil"
+              *ngIf="editMode"
+              (click)="editField = 'description'"
+            ></i>
+          </p>
         </div>
-        
+
         <ng-template #editFormDescription>
           <form (ngSubmit)="saveChanges()">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Opis</mat-label>
-              <textarea matInput [(ngModel)]="eventDetails.description" #description name="description" rows="5" maxlength="100" style="resize: none;"></textarea>
-              <span>{{description.value.length}}/100</span>
+              <textarea
+                matInput
+                [(ngModel)]="eventDetails.description"
+                #description
+                name="description"
+                rows="5"
+                maxlength="100"
+                style="resize: none"
+              ></textarea>
+              <span>{{ description.value.length }}/100</span>
             </mat-form-field>
             <button mat-raised-button (click)="saveChanges()">Zapisz</button>
           </form>
@@ -50,51 +78,57 @@
           {{ eventDetails.city }}
         </p>
 
-
-
-
         <div *ngIf="editField !== 'dateTime'; else editFormDateTime">
-          <p><fa-icon [icon]="faClock" style="color: white" size="2xl"> </fa-icon>
-            {{ eventDetails.dateTime + "z" | date : "HH:mm" }} 
-            <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'dateTime'"></i></p>
+          <p>
+            <fa-icon [icon]="faClock" style="color: white" size="2xl">
+            </fa-icon>
+            {{ eventDetails.dateTime + "z" | date : "HH:mm" }}
+            <i
+              class="fa fa-pencil"
+              *ngIf="editMode"
+              (click)="editField = 'dateTime'"
+            ></i>
+          </p>
         </div>
-        
+
         <ng-template #editFormDateTime>
           <form (ngSubmit)="saveChanges()">
             <div>
               <label>Godzina:</label>
-              <input [(ngModel)]="editedTime" name="editedTime" type="time">
+              <input [(ngModel)]="editedTime" name="editedTime" type="time" />
             </div>
             <button (click)="saveChanges()">Zapisz</button>
           </form>
         </ng-template>
-        
 
-
-  
         <div *ngIf="editField !== 'dateDate'; else editFormDateDate">
-          <p><fa-icon [icon]="faCalendar" style="color: white" size="2xl"> </fa-icon>
-            {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }} 
-            <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'dateDate'"></i></p>
+          <p>
+            <fa-icon [icon]="faCalendar" style="color: white" size="2xl">
+            </fa-icon>
+            {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }}
+            <i
+              class="fa fa-pencil"
+              *ngIf="editMode"
+              (click)="editField = 'dateDate'"
+            ></i>
+          </p>
         </div>
-
 
         <ng-template #editFormDateDate>
           <form (ngSubmit)="saveChanges()">
             <div>
               <label>Godzina:</label>
-              <input [(ngModel)]="editedDate" name="editedDate" type="date">
+              <input [(ngModel)]="editedDate" name="editedDate" type="date" />
             </div>
             <button (click)="saveChanges()">Zapisz</button>
           </form>
         </ng-template>
-
       </div>
     </div>
     <div class="editDetails" *ngIf="userRole.role == 'Admin'">
-
-      <button *ngIf="!editMode" (click)="editMode = true">Edytuj wydarzenie</button>
-
+      <button *ngIf="!editMode" (click)="editMode = true">
+        Edytuj wydarzenie
+      </button>
     </div>
 
     <div class="chat">
@@ -106,11 +140,20 @@
     <div class="photos">zdjecia</div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
-      <div class="creator">{{ eventDetails.creatorName }}</div>
-      <div class="guests" *ngFor="let user of guestsUsers">
+      <div
+        class="guests"
+        *ngFor="let user of guestsUsers"
+        (click)="goToUserProfile(user.id)"
+        style="cursor: pointer"
+      >
         {{ user.firstName }} {{ user.lastName }}
       </div>
-      <div class="invited" *ngFor="let user of invitesUsers">
+      <div
+        class="invited"
+        *ngFor="let user of invitesUsers"
+        (click)="goToUserProfile(user.id)"
+        style="cursor: pointer"
+      >
         {{ user.firstName }} {{ user.lastName }}
       </div>
       <div>
@@ -121,17 +164,17 @@
     </div>
   </div>
   <div class="extraFunctions">
-    <div class="thingsToBring" *ngIf="eventDetails.shoppingListTitle === 'Title'">
+    <div
+      class="thingsToBring"
+      *ngIf="eventDetails.shoppingListTitle === 'Title'"
+    >
       <div
         class="thingsToBringTitle"
         [ngClass]="{ 'rounded-bottom': isThingsToBringVisible }"
       >
-        <h5 class="titleBringThings">Rzeczy do przyniesienia</h5>
+        <h5 class="titleBringThings">Zabierz ze sobą!</h5>
       </div>
-      <div
-        class="thingsToBringList">
-
-
+      <div class="thingsToBringList">
         <table>
           <thead class="thead-dark">
             <tr>
@@ -143,20 +186,47 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of shoppingList">
-              <td>{{item.name}}</td>
-              <td>{{item.quantity}}</td>
-              <td>{{item.userId}}</td>
+              <td>{{ item.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.firstName }} {{ item.lastName }}</td>
               <td class="action-column">
                 <button
                   mat-raised-button
-                  color="primary">
+                  *ngIf="userRole.id == item.userId"
+                  color="primary"
+                  (click)="signOutFromItem(item.id)"
+                >
+                  <mat-icon>edit</mat-icon>
+                  <span>&nbsp;Nie Przynoś</span>
+                </button>
+                <button
+                  mat-raised-button
+                  *ngIf="
+                    userRole.role == 'Admin' &&
+                    item.userId != 0 &&
+                    item.userId != userRole.id
+                  "
+                  color="primary"
+                  (click)="signOutFromItem(item.id)"
+                >
+                  <mat-icon>edit</mat-icon>
+                  <span>&nbsp;Resetuj</span>
+                </button>
+                <button
+                  mat-raised-button
+                  *ngIf="item.userId == 0"
+                  color="primary"
+                  (click)="signUpForItem(item.id)"
+                >
                   <mat-icon>edit</mat-icon>
                   <span>&nbsp;Przynieś</span>
                 </button>
-                <button mat-raised-button 
-                color="warn" 
-                *ngIf="userRole.role == 'Admin'" 
-                (click)="deleteItem(item.id)">
+                <button
+                  mat-raised-button
+                  color="warn"
+                  *ngIf="userRole.role == 'Admin'"
+                  (click)="deleteItem(item.id)"
+                >
                   <mat-icon>delete</mat-icon>
                   <span>&nbsp;Usuń</span>
                 </button>
@@ -165,20 +235,33 @@
           </tbody>
         </table>
 
-          <div *ngIf="userRole.role == 'Admin'">
-            <input [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu">
-            <input [(ngModel)]="newItemQuantity" placeholder="Ilość" type="number" class="numberOfItem">
-            <button mat-raised-button (click)="addItem()">Dodaj przedmiot</button>
-          </div>
+        <div *ngIf="userRole.role == 'Admin'">
+          <input [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu" />
+          <input
+            [(ngModel)]="newItemQuantity"
+            placeholder="Ilość"
+            type="number"
+            class="numberOfItem"
+          />
+          <button mat-raised-button (click)="addItem()">Dodaj przedmiot</button>
+        </div>
       </div>
     </div>
     <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
-      playlista spotify</div>
+      playlista spotify
+    </div>
     <div class="shareReceipt" *ngIf="eventDetails.receiptTitle === 'Title'">
       dzielenie się rachunkiem
-     </div>  
+    </div>
     <div class="surveys">ankiety</div>
-    <div class="addNewContent" *ngIf="eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === ''" >
+    <div
+      class="addNewContent"
+      *ngIf="
+        eventDetails.receiptTitle === '' ||
+        eventDetails.playlistTitle === '' ||
+        eventDetails.shoppingListTitle === ''
+      "
+    >
       +
     </div>
   </div>

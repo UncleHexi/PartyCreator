@@ -50,7 +50,6 @@ html {
   display: flex;
   padding-top: 2em;
   flex-direction: column;
-  overflow: hidden;
 }
 
 .profile-picture {
@@ -80,6 +79,7 @@ html {
   margin-right: 2em;
   border-radius: 10px;
   color: var(--special-primary);
+  min-height: 40px;
 }
 
 table.blueTable {
