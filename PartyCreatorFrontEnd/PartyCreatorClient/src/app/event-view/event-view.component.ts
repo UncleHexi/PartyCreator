@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
+import { UserService } from '../services/user.service';
 import {
   faLocationDot,
   faCheck,
@@ -27,7 +28,7 @@ import { EventUserDto } from '../interfaces/event-user-dto';
 import { ShoppingListService } from '../services/shopping-list.service';
 import { ExtraFunctionsModalComponent } from '../extra-functions-modal/extra-functions-modal.component'; 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
 
 
 @Component({
@@ -68,30 +69,35 @@ export class EventViewComponent implements OnInit {
   editMode = false;
   editField: string | null = null;
   editedTime: string = '';
-  editedDate: string = ''; 
+  editedDate: string = '';
   isSuccess: number = 0;
-
   shoppingList: {
     userId: number;
     id: number;
-    name: string, 
-    quantity: number }[] = [];
-    newItemName: string = '';
-    newItemQuantity: number = 0;
-    
+    name: string;
+    quantity: number;
+    firstName: string;
+    lastName: string;
+  }[] = [];
+  newItemName: string = '';
+  newItemQuantity: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
+    private userService: UserService,
     private toast: NgToastService,
     private router: Router,
     private shoppingListService: ShoppingListService,
     public dialog: MatDialog
   ) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
     this.eventDetails = {
       id: 0,
       creatorId: 0,
-      creatorName: '',
+      creatorFirstName: '',
+      creatorLastName: '',
       title: '',
       description: '',
       dateTime: new Date(),
@@ -106,17 +112,11 @@ export class EventViewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authorization()
+    this.authorization();
     //jakims chujem nie dziala
     //if(this.userRole.id!=0)
     //{
-      this.loadEventDetails();
-      //to ponizej powinno byc w osobnej funkcji!!!
-      const eventId = Number(this.eventId);
-      this.shoppingListService.getShoppingList(eventId).subscribe(data => {
-        this.shoppingList = data;
-    });
-    //}
+    this.loadEventDetails();
   }
 
   loadEventDetails(): void {
@@ -126,12 +126,9 @@ export class EventViewComponent implements OnInit {
         (data: EventUserDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
-            this.eventService
-              .getGuestsUsers(data.id.toString())
-              .subscribe((users) => (this.guestsUsers = users));
-            this.eventService
-              .getInvitesUsers(data.id.toString())
-              .subscribe((users) => (this.invitesUsers = users));
+            this.loadGuestsUsers();
+            this.loadInvitedUsers();
+            this.loadShoppingList();
           } else {
             console.error('Otrzymano nullowe dane z serwera');
           }
@@ -147,7 +144,6 @@ export class EventViewComponent implements OnInit {
       console.error('ID wydarzenia jest nullem lub niezdefiniowane');
     }
   }
-
 
   authorization() {
     //tutaj naprawic te returny
@@ -181,9 +177,9 @@ export class EventViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
       this.loadInvitedUsers();
+      this.loadGuestUsers();
     });
   }
-
 
   toggleMapVisibility(): void {
     if (this.isMapVisible) {
@@ -231,44 +227,76 @@ export class EventViewComponent implements OnInit {
     }
   }
 
+  loadGuestsUsers() {
+    this.eventService
+      .getGuestsUsers(this.eventDetails!.id.toString())
+      .subscribe((users) => {
+        this.guestsUsers = users;
+        this.guestsUsers.unshift({
+          id: this.eventDetails.creatorId,
+          firstName: this.eventDetails.creatorFirstName,
+          lastName: this.eventDetails.creatorLastName,
+        });
+      });
+  }
+
   loadInvitedUsers() {
     this.eventService
       .getInvitesUsers(this.eventDetails!.id.toString())
-      .subscribe((users) => (this.invitesUsers = users));
+      .subscribe((users) => {
+        this.invitesUsers = users;
+      });
+  }
+  loadGuestUsers() {
+    this.eventService
+      .getGuestsUsers(this.eventDetails.id.toString())
+      .subscribe((users) => (this.guestsUsers = users));
   }
 
   loadShoppingList() {
     this.shoppingListService.getShoppingList(this.eventDetails.id).subscribe(
-      shoppingList => {
-        this.shoppingList = shoppingList;
+      (shoppingList: ShoppingListItemDto[]) => {
+        this.shoppingList = shoppingList.map((item: ShoppingListItemDto) => {
+          const user = this.guestsUsers.find((user) => user.id === item.userId);
+          return {
+            ...item,
+            firstName: user ? user.firstName : '',
+            lastName: user ? user.lastName : '',
+          };
+        });
       },
-      error => {
+      (error) => {
         console.error('Wystąpił błąd podczas ładowania listy zakupów', error);
       }
     );
   }
 
- addItem() {
-  if (this.newItemName && this.newItemQuantity > 0) {
-    const newItem = {
-      id: 0, 
-      userId: 0,
-      eventId: this.eventId, 
-      name: this.newItemName,
-      quantity: this.newItemQuantity
-    };
+  addItem() {
+    if (this.newItemName && this.newItemQuantity > 0) {
+      const newItem = {
+        id: 0,
+        userId: 0,
+        eventId: this.eventId,
+        name: this.newItemName,
+        quantity: this.newItemQuantity,
+      };
 
-    this.shoppingListService.addNewItem(Number(this.eventId), newItem).subscribe(
-      () => {
-        this.loadShoppingList();
-        this.newItemName = '';
-        this.newItemQuantity = 0;
-      },
-      error => {
-        console.error('Wystąpił błąd podczas dodawania nowego przedmiotu', error);
-      }
-    );
-  }
+      this.shoppingListService
+        .addNewItem(Number(this.eventId), newItem)
+        .subscribe(
+          () => {
+            this.loadShoppingList();
+            this.newItemName = '';
+            this.newItemQuantity = 0;
+          },
+          (error) => {
+            console.error(
+              'Wystąpił błąd podczas dodawania nowego przedmiotu',
+              error
+            );
+          }
+        );
+    }
   }
 
   deleteItem(itemId: number) {
@@ -278,52 +306,88 @@ export class EventViewComponent implements OnInit {
         // Aktualizacja lokalnej listy przedmiotów - usuń przedmiot z listy
         this.shoppingList = this.shoppingList.filter(item => item.id !== itemId);
       },
-      error => {
-        console.error('Błąd podczas usuwania przedmiotu', error);
-        // Dodaj tutaj kod obsługi błędu (jeśli potrzebujesz)
+      (error) => {
+        console.error('Wystąpił błąd podczas usuwania przedmiotu', error);
       }
     );
   }
-  
-  saveChanges() { 
+
+  signUpForItem(itemId: number) {
+    this.shoppingListService.signUpForItem(itemId).subscribe(
+      () => {
+        this.loadShoppingList(); // odśwież listę po zapisaniu się na przedmiot
+      },
+      (error) => {
+        console.error(
+          'Wystąpił błąd podczas zapisywania się na przedmiot',
+          error
+        );
+      }
+    );
+  }
+
+  signOutFromItem(itemId: number) {
+    this.shoppingListService.signOutFromItem(itemId).subscribe(
+      () => {
+        this.loadShoppingList(); // odśwież listę po wypisaniu się z przedmiotu
+      },
+      (error) => {
+        console.error(
+          'Wystąpił błąd podczas wypisywania się z przedmiotu',
+          error
+        );
+      }
+    );
+  }
+
+  saveChanges() {
     this.editMode = false;
     this.editField = null;
-  
+
     console.log('Edited Date:', this.editedDate);
     console.log('Edited Time:', this.editedTime);
-  
+
     let dateToUse = this.editedDate;
     if (!this.editedDate) {
-      dateToUse = new Date(this.eventDetails.dateTime).toISOString().split('T')[0];
+      dateToUse = new Date(this.eventDetails.dateTime)
+        .toISOString()
+        .split('T')[0];
     }
-  
+
     let timeToUse = this.editedTime;
     if (!this.editedTime) {
-      timeToUse = new Date(this.eventDetails.dateTime).toISOString().split('T')[1].substring(0, 5);
+      timeToUse = new Date(this.eventDetails.dateTime)
+        .toISOString()
+        .split('T')[1]
+        .substring(0, 5);
     }
-  
+
     if (!dateToUse || !timeToUse) {
       console.error('Nieprawidłowy format daty lub czasu');
       return;
     }
-  
-    if (dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) && timeToUse.match(/^\d{2}:\d{2}$/)) {
+
+    if (
+      dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) &&
+      timeToUse.match(/^\d{2}:\d{2}$/)
+    ) {
       const updatedDate = new Date(Date.parse(dateToUse));
       const updatedTime = timeToUse.split(':');
       updatedDate.setHours(Number(updatedTime[0]));
       updatedDate.setMinutes(Number(updatedTime[1]));
-  
+
       console.log('Updated Date:', updatedDate);
-  
+
       this.eventDetails.dateTime = updatedDate;
-  
-      this.eventService.updateEventDetails(this.eventId, this.eventDetails).subscribe(
-        (response) => {
-        },
-        (error) => {
-          console.error('Błąd podczas aktualizacji danych wydarzenia', error);
-        }
-      );
+
+      this.eventService
+        .updateEventDetails(this.eventId, this.eventDetails)
+        .subscribe(
+          (response) => {},
+          (error) => {
+            console.error('Błąd podczas aktualizacji danych wydarzenia', error);
+          }
+        );
     } else {
       console.error('Nieprawidłowy format daty lub czasu');
     }

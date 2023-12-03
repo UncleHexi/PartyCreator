@@ -26,9 +26,14 @@ namespace PartyCreatorWebApi.Controllers
         public async Task<ActionResult<List<ShoppingListItem>>> GetShopingList(int eventId)
         {
             var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
-            //trzeba sprawdzic czy event istnieje
-            var creatorId = _eventRepository.GetEventDetails(eventId).Result.CreatorId;
-
+            var isEvent = await _eventRepository.GetEventDetails(eventId);
+            if (isEvent == null)
+            {
+                return BadRequest("Nie ma takiego wydarzenia");
+            }
+            var creatorId = isEvent.CreatorId;
+            
+            
             GuestList guestlist = new GuestList
             {
                 EventId = eventId,
@@ -48,7 +53,12 @@ namespace PartyCreatorWebApi.Controllers
         public async Task<ActionResult<ShoppingListItem>> NewShoppingListItem(ShoppingListItem request)
         {
             var creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
-            var eventCreatorId = _eventRepository.GetEventDetails(request.EventId).Result.CreatorId;
+            var isEvent = await _eventRepository.GetEventDetails(request.EventId);
+            if (isEvent == null)
+            {
+                return NotFound("Nie ma takiego wydarzenia");
+            }
+            var eventCreatorId = isEvent.CreatorId;
             if (creatorId != eventCreatorId)
             {
                 return BadRequest("Musisz być twórcą wydarzenia aby dodać przedmiot");
@@ -91,7 +101,7 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Nie ma takiego przedmiotu");
             }
-            if (shoppingListItem.UserId != userId || userId != eventCreatorId)
+            if (shoppingListItem.UserId != userId && userId != eventCreatorId)
             {
                 return BadRequest("Nie możesz zrezygnować z przedmiotu, którego nie zarezerwowałeś");
             }

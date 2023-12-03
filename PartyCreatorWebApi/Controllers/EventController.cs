@@ -174,7 +174,7 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Nie masz zaproszenia");
             }
-            await _eventRepository.DeleteInvite(invite.Id);
+            await _eventRepository.DeleteInviteList(invite.Id);
             //dodaj do guest
             var guest = await _eventRepository.AddToGuestList(new GuestList { UserId=request.UserId, EventId = request.EventId });
             if(guest == null)
@@ -207,7 +207,7 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Nie masz zaproszenia");
             }
-            var result = await _eventRepository.DeleteInvite(invite.Id);
+            var result = await _eventRepository.DeleteInviteList(invite.Id);
             
             //usun powiadomienie
             await _notificationRepository.DeleteNotification(request.Id);
@@ -297,10 +297,7 @@ namespace PartyCreatorWebApi.Controllers
             return await InviteToEvent(test);
         }
 
-
-
-
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         [Authorize]
         public async Task<ActionResult<Event>> UpdateEvent(int id, EventDto updatedEventDto)
         {
@@ -329,7 +326,45 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Wystąpił problem podczas aktualizacji wydarzenia");
             }
 
+            await _notificationRepository.CreateNotificationToAllGuests(new Notification
+            {
+                Id = 0,
+                Description = "Wydarzenie uległo zmianie",
+                IsRead = false,
+                Type = "Powiadomienie",
+                EventId = id,
+                UserId = 0
+            });
+
             return Ok(updatedEvent);
+        }
+        
+        [HttpDelete("deleteGuest/{eventId}/{userId}"), Authorize]
+        public async Task<ActionResult<GuestList>> DeleteGuest(int eventId, int userId)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+
+            var _event = await _eventRepository.GetEventDetails(eventId);
+            if (_event == null)
+            {
+                return BadRequest("Nie ma takiego wydarzenia");
+            }
+
+            if (creatorId != _event.CreatorId)
+            {
+                return BadRequest("Nie masz dostepu do usuwania");
+            }
+
+            var guestList = await _eventRepository.CheckGuestList(new GuestList { EventId=eventId, UserId=userId, Id=0});
+            if(guestList == null)
+            {
+                return BadRequest("Nie ma takiego uczestnika w tym wydarzeniu");
+            }
+
+            var result = await _eventRepository.DeleteGuestList(guestList.Id);
+
+            return Ok(result);
         }
 
         [HttpPost("{eventId}/addFunctions")]
@@ -346,6 +381,32 @@ namespace PartyCreatorWebApi.Controllers
             }
         }
 
+        [HttpDelete("deleteInvited/{eventId}/{userId}"), Authorize]
+        public async Task<ActionResult<InviteList>> DeleteInvited(int eventId, int userId)
+        {
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var _event = await _eventRepository.GetEventDetails(eventId);
+            if (_event == null)
+            {
+                return BadRequest("Nie ma takiego wydarzenia");
+            }
+
+            if (creatorId != _event.CreatorId)
+            {
+                return BadRequest("Nie masz dostepu do usuwania");
+            }
+
+            var guestList = await _eventRepository.CheckInviteList(new InviteList { EventId = eventId, UserId = userId, Id = 0 });
+            if (guestList == null)
+            {
+                return BadRequest("Nie ma takiego uczestnika w tym wydarzeniu");
+            }
+
+            var result = await _eventRepository.DeleteInviteList(guestList.Id);
+
+            return Ok(result);
+        }
     }
 
 }

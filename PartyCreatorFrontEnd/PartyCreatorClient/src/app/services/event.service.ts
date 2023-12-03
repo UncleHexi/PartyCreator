@@ -81,16 +81,29 @@ export class EventService {
   }
 
   inviteToEventByEmail(contactEventDto: ContactEventDto) {
-    return this.http.post<InviteListDto>(`${this.baseUrl2}inviteEmail`, contactEventDto);
+    return this.http.post<InviteListDto>(
+      `${this.baseUrl2}inviteEmail`,
+      contactEventDto
+    );
   }
 
   updateEventDetails(eventId: string, updatedDetails: any): Observable<any> {
-    const url = `${this.baseUrl2}${eventId}`;
+    const url = `${this.baseUrl2}update/${eventId}`;
     return this.http.put(url, updatedDetails);
   }
 
   addEventFunctions(eventId: string, functions: EventFunctionsDto): Observable<any> {
     const url = `${this.baseUrl2}${eventId}/addFunctions`;
     return this.http.post(url, functions);
+  }
+  deleteGuest(eventId: string, userId: string) {
+    return this.http.delete<GuestListDto>(
+      `${this.baseUrl2}deleteGuest/${eventId}/${userId}`
+    );
+  }
+  deleteInvited(eventId: string, userId: string) {
+    return this.http.delete<GuestListDto>(
+      `${this.baseUrl2}deleteInvited/${eventId}/${userId}`
+    );
   }
 }

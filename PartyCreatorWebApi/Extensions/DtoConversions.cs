@@ -39,7 +39,8 @@ namespace PartyCreatorWebApi.Extensions
             {
                 Id = _event.Id,
                 CreatorId = _event.CreatorId,
-                CreatorName = _user.FirstName + " " + _user.LastName,
+                CreatorFirstName = _user.FirstName,
+                CreatorLastName = _user.LastName,
                 Title = _event.Title,
                 Description = _event.Description,
                 DateTime = _event.DateTime,

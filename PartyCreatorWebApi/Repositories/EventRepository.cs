@@ -31,9 +31,13 @@ namespace PartyCreatorWebApi.Repositories
                 {
                     Id = e.Id,
                     CreatorId = e.CreatorId,
-                    CreatorName = _dataContext.Users
+                    CreatorFirstName = _dataContext.Users
                         .Where(u => u.Id == e.CreatorId)
-                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .Select(u => u.FirstName)
+                        .FirstOrDefault(),
+                    CreatorLastName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => u.LastName)
                         .FirstOrDefault(),
                     Title = e.Title,
                     Description = e.Description,
@@ -59,10 +63,14 @@ namespace PartyCreatorWebApi.Repositories
             {
                 Id = e.Id,
                 CreatorId = e.CreatorId,
-                CreatorName = _dataContext.Users
-                        .Where(u => u.Id == e.CreatorId)
-                        .Select(u => $"{u.FirstName} {u.LastName}")
-                        .FirstOrDefault(),
+                CreatorFirstName = _dataContext.Users
+                    .Where(u => u.Id == e.CreatorId)
+                    .Select(u => u.FirstName)
+                    .FirstOrDefault(),
+                CreatorLastName = _dataContext.Users
+                    .Where(u => u.Id == e.CreatorId)
+                    .Select(u => u.LastName)
+                    .FirstOrDefault(),
                 Title = e.Title,
                 Description = e.Description,
                 DateTime = e.DateTime,
@@ -104,7 +112,7 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
-        public async Task<InviteList> DeleteInvite(int id)
+        public async Task<InviteList> DeleteInviteList(int id)
         {
             var result = await _dataContext.InviteLists.FirstOrDefaultAsync(i => i.Id == id);
             if(result != null)
@@ -131,9 +139,13 @@ namespace PartyCreatorWebApi.Repositories
                 {
                     Id = e.Id,
                     CreatorId = e.CreatorId,
-                    CreatorName = _dataContext.Users
+                    CreatorFirstName = _dataContext.Users
                         .Where(u => u.Id == e.CreatorId)
-                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .Select(u => u.FirstName)
+                        .FirstOrDefault(),
+                    CreatorLastName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => u.LastName)
                         .FirstOrDefault(),
                     Title = e.Title,
                     Description = e.Description,
@@ -155,9 +167,13 @@ namespace PartyCreatorWebApi.Repositories
                 {
                     Id = e.Id,
                     CreatorId = e.CreatorId,
-                    CreatorName = _dataContext.Users
+                    CreatorFirstName = _dataContext.Users
                         .Where(u => u.Id == e.CreatorId)
-                        .Select(u => $"{u.FirstName} {u.LastName}")
+                        .Select(u => u.FirstName)
+                        .FirstOrDefault(),
+                    CreatorLastName = _dataContext.Users
+                        .Where(u => u.Id == e.CreatorId)
+                        .Select(u => u.LastName)
                         .FirstOrDefault(),
                     Title = e.Title,
                     Description = e.Description,
@@ -256,6 +272,17 @@ namespace PartyCreatorWebApi.Repositories
             }
         }
 
+        public async Task<GuestList> DeleteGuestList(int id)
+        {
+            var result = await _dataContext.GuestLists.FirstOrDefaultAsync(i => i.Id == id);
+            if (result != null)
+            {
+                _dataContext.GuestLists.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return result;
+            }
+            return null;
+        }
     }
 }
 

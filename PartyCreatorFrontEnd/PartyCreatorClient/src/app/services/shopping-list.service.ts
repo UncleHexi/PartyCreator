@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ShoppingListService {
   private Url = 'https://localhost:7241/api/ShoppingList';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
   getShoppingList(eventId: number): Observable<any> {
     return this.http.get(`${this.Url}/GetShoppingList/${eventId}`);
   }
@@ -19,5 +19,13 @@ export class ShoppingListService {
 
   deleteItem(eventId: number, itemId: number): Observable<any> {
     return this.http.delete(`${this.Url}/RemoveShoppingListItem/${eventId}/${itemId}`);
+  }
+
+  signUpForItem(itemId: number): Observable<any> {
+    return this.http.put(`${this.Url}/SignUpForItem/${itemId}`, null);
+  }
+
+  signOutFromItem(itemId: number): Observable<any> {
+    return this.http.put(`${this.Url}/SignOutFromItem/${itemId}`, null);
   }
 }

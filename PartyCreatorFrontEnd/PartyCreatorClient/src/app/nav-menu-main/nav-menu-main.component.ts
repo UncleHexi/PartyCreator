@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatBadgeModule } from '@angular/material/badge';
+import { UserSearchComponent } from './user-search/user-search.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 //icons
 import { faBell, faX } from '@fortawesome/free-solid-svg-icons';
@@ -27,6 +29,8 @@ import { EventService } from '../services/event.service';
     MatIconModule,
     MatButtonModule,
     MatBadgeModule,
+    UserSearchComponent,
+    MatTooltipModule,
   ],
 })
 export class NavMenuMainComponent implements OnInit {
@@ -69,7 +73,6 @@ export class NavMenuMainComponent implements OnInit {
   getNotifications() {
     this.notificationService.getAllOfUser().subscribe({
       next: (res) => {
-        console.log(res);
         this.notifications = res.reverse();
       },
       error: (err: HttpErrorResponse) => {
@@ -87,7 +90,6 @@ export class NavMenuMainComponent implements OnInit {
       next: (res) => {
         this.notifications.splice(this.notifications.indexOf(invite), 1);
         this.router.navigate([`wydarzenie/${invite.eventId}`]);
-        console.log(res);
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Udało się dołączyć do wydarzenia',
@@ -108,7 +110,6 @@ export class NavMenuMainComponent implements OnInit {
     this.eventService.declineInvite(invite).subscribe({
       next: (res) => {
         this.notifications.splice(this.notifications.indexOf(invite), 1);
-        console.log(res);
         this.toast.success({
           detail: 'SUCCESS',
           summary: 'Odrzuciłeś zaproszenie do wydarzenia',
@@ -126,24 +127,20 @@ export class NavMenuMainComponent implements OnInit {
   }
   toggleRead(notification: NotificationDto) {
     if (!notification.isRead) {
-      console.log(notification.id);
-      this.notificationService
-        .toggleRead(notification.id.toString())
-        .subscribe({
-          next: () => {
-            this.notifications[
-              this.notifications.indexOf(notification)
-            ].isRead = true;
-            this.countRead();
-          },
-          error: (err: HttpErrorResponse) => {
-            this.toast.error({
-              detail: 'ERROR',
-              summary: err.error,
-              duration: 3000,
-            });
-          },
-        });
+      this.notificationService.toggleRead(notification.id).subscribe({
+        next: () => {
+          this.notifications[this.notifications.indexOf(notification)].isRead =
+            true;
+          this.countRead();
+        },
+        error: (err: HttpErrorResponse) => {
+          this.toast.error({
+            detail: 'ERROR',
+            summary: err.error,
+            duration: 3000,
+          });
+        },
+      });
     }
   }
   countRead() {
@@ -154,5 +151,29 @@ export class NavMenuMainComponent implements OnInit {
       }
     });
     return this.counter;
+  }
+
+  deleteNotification(id: number) {
+    this.notificationService.delete(id.toString()).subscribe({
+      next: (res) => {
+        this.notifications.splice(
+          this.notifications.findIndex((obj) => obj.id === id),
+          1
+        );
+        console.log(res);
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Usunąłeś powiadomienie',
+          duration: 3000,
+        });
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      },
+    });
   }
 }
