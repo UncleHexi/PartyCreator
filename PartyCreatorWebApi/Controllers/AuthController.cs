@@ -19,6 +19,12 @@ namespace PartyCreatorWebApi.Controllers
             _usersRepository = usersRepository;
         }
 
+        [HttpGet("test")]
+        public string Test()
+        {
+            return "dziala";
+        }
+
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto request)
         {   
