@@ -3,6 +3,7 @@ using PartyCreatorWebApi.Repositories.Contracts;
 using PartyCreatorWebApi.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration.UserSecrets;
+using PartyCreatorWebApi.Dtos;
 
 namespace PartyCreatorWebApi.Controllers
 {
@@ -107,7 +108,42 @@ namespace PartyCreatorWebApi.Controllers
             shoppingListItem.UserId = 0;
             return await _shoppingListRepository.UpdateShoppingListItem(shoppingListItem);
         }
-        
+        [HttpDelete("RemoveShoppingListItem/{eventId:int}/{itemId:int}"), Authorize]
+        public async Task<ActionResult<bool>> RemoveShoppingListItem(int eventId, int itemId)
+        {
+            try
+            {
+                var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+                var shoppingListItem = await _shoppingListRepository.GetShoppingListItemById(itemId);
+
+                if (shoppingListItem == null)
+                {
+                    return NotFound("Nie ma takiego przedmiotu");
+                }
+
+                var eventCreatorId = _eventRepository.GetEventDetails(shoppingListItem.EventId).Result.CreatorId;
+
+                // Sprawdź, czy użytkownik ma uprawnienia do usunięcia przedmiotu
+                if (userId != shoppingListItem.UserId && userId != eventCreatorId)
+                {
+                    return Unauthorized("Nie masz uprawnień do usunięcia tego przedmiotu");
+                }
+
+                var result = await _shoppingListRepository.RemoveShoppingListItem(itemId);
+
+                if (result)
+                {
+                    return Ok(true);
+                }
+
+                return BadRequest("Wystąpił błąd podczas usuwania przedmiotu");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Wewnętrzny błąd serwera: {ex.Message}");
+            }
+        }
+
 
     }
 }

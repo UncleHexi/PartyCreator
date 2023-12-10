@@ -8,5 +8,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<List<ShoppingListItem>> GetShoppigList(int eventId);
         Task<ShoppingListItem> GetShoppingListItemById(int id);
         Task<ShoppingListItem> UpdateShoppingListItem(ShoppingListItem shoppingListItem);
+        Task<bool> RemoveShoppingListItem(int id); 
+
     }
 }

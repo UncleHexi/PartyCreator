@@ -71,12 +71,41 @@
           </form>
         </ng-template>
 
-        <p (click)="toggleMapVisibility()" class="eventAddress">
-          <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
-          </fa-icon>
-          {{ eventDetails.address }}
-          {{ eventDetails.city }}
-        </p>
+      
+<!-- adres -->
+<div *ngIf="editField !== 'address'; else editFormAddress">
+  <p (click)="toggleMapVisibility()" class="eventAddress">
+    <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
+    </fa-icon> 
+    {{ eventDetails.address }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'address'"></i></p>
+</div>
+
+<ng-template #editFormAddress>
+  <form (ngSubmit)="saveChanges()">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Adres</mat-label>
+      <input matInput [(ngModel)]="eventDetails.address" #address name="address">
+    </mat-form-field>
+    <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+  </form>
+</ng-template>
+
+<!-- miasto -->
+<div *ngIf="editField !== 'city'; else editFormCity">
+  <p>{{ eventDetails.city }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'city'"></i></p>
+</div>
+
+<ng-template #editFormCity>
+  <form (ngSubmit)="saveChanges()">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Miasto</mat-label>
+      <input matInput [(ngModel)]="eventDetails.city" #city name="city">
+    </mat-form-field>
+    <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+  </form>
+</ng-template>
+
+
 
         <div *ngIf="editField !== 'dateTime'; else editFormDateTime">
           <p>
@@ -246,7 +275,20 @@
           <button mat-raised-button (click)="addItem()">Dodaj przedmiot</button>
         </div>
       </div>
+      <div class="add-item-form" *ngIf="userRole.role == 'Admin'">
+        <mat-form-field appearance="outline" class="item-name-field">
+          <mat-label>Nazwa przedmiotu</mat-label>
+          <input matInput [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="quantity-field">
+          <mat-label>Ilość</mat-label>
+          <input matInput [(ngModel)]="newItemQuantity" placeholder="Ilość" type="number" class="numberOfItem">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="addItem()" class="buttonAddItem">Dodaj przedmiot</button>
+      </div>
+      
     </div>
+    
     <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
       playlista spotify
     </div>
@@ -254,15 +296,12 @@
       dzielenie się rachunkiem
     </div>
     <div class="surveys">ankiety</div>
-    <div
-      class="addNewContent"
-      *ngIf="
-        eventDetails.receiptTitle === '' ||
-        eventDetails.playlistTitle === '' ||
-        eventDetails.shoppingListTitle === ''
-      "
-    >
-      +
-    </div>
+ 
+    <div class="addNewContent"  *ngIf="eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === ''" >
+      <button mat-icon-button (click)="openAddContentModal()">
+        <mat-icon >add</mat-icon>
+      </button>
+    
+  </div>
   </div>
 </body>

@@ -26,6 +26,8 @@ import { InviteModalComponent } from '../invite-modal/invite-modal.component';
 import { AllGuestsListDto } from '../interfaces/all-guests-list-dto';
 import { EventUserDto } from '../interfaces/event-user-dto';
 import { ShoppingListService } from '../services/shopping-list.service';
+import { ExtraFunctionsModalComponent } from '../extra-functions-modal/extra-functions-modal.component'; 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
 
 
@@ -298,9 +300,11 @@ export class EventViewComponent implements OnInit {
   }
 
   deleteItem(itemId: number) {
-    this.shoppingListService.deleteItem(Number(this.eventId), itemId).subscribe(
-      () => {
-        this.loadShoppingList(); // odśwież listę po usunięciu przedmiotu
+    this.shoppingListService.deleteItem(Number(this.eventDetails.id), itemId).subscribe(
+      response => {
+        console.log('Przedmiot został usunięty', response);
+        // Aktualizacja lokalnej listy przedmiotów - usuń przedmiot z listy
+        this.shoppingList = this.shoppingList.filter(item => item.id !== itemId);
       },
       (error) => {
         console.error('Wystąpił błąd podczas usuwania przedmiotu', error);
@@ -388,4 +392,22 @@ export class EventViewComponent implements OnInit {
       console.error('Nieprawidłowy format daty lub czasu');
     }
   }
+  openAddContentModal(): void {
+    const dialogRef = this.dialog.open(ExtraFunctionsModalComponent, {
+      height: '330px',
+      width: '600px', 
+      data: {
+        eventId: this.eventDetails.id, 
+        hasShoppingList: !!this.eventDetails.shoppingListTitle,
+        hasPlaylist: !!this.eventDetails.playlistTitle,
+        hasReceipt: !!this.eventDetails.receiptTitle,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed with result:', result);
+    });
+  }
+
+  
 }
