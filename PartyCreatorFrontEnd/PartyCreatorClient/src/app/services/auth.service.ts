@@ -6,13 +6,13 @@ import { RegisterDto } from '../interfaces/register-dto';
 import { LoginResponseDto } from '../interfaces/login-response-dto';
 import { UserDto } from '../interfaces/user-dto';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/envrionment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl: string =
-    'https://partycreatorwebapi.azurewebsites.net/api/Auth/';
+  private baseUrl = environment.apiUrl + 'Auth/';
   private loginTypeSource = new BehaviorSubject<string>('signin'); //domyślnie signin
   currentLoginType = this.loginTypeSource.asObservable();
 
