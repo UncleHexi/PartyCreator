@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
         builder
-        .WithOrigins("http://localhost:4200")
+        .WithOrigins("https://partycreatorwebapi.azurewebsites.net")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials());
@@ -25,7 +25,7 @@ builder.Services.AddSignalR();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PubConnection"));
 });
 
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
