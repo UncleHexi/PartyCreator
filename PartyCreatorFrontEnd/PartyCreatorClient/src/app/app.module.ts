@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { TestComponent } from './test/test.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -45,13 +44,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 import { MatInputModule } from '@angular/material/input';
 import { ExtraFunctionsModalComponent } from './extra-functions-modal/extra-functions-modal.component';
+import { ChatComponent } from './event-view/chat/chat.component';
 
 registerLocaleData(localePl);
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestComponent,
     NavMenuComponent,
     HomeComponent,
     LoginComponent,
@@ -95,7 +94,7 @@ registerLocaleData(localePl);
     MatTooltipModule,
     UserProfileComponent,
     MatInputModule,
-    ReactiveFormsModule
+    ChatComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

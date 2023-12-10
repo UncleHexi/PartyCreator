@@ -29,6 +29,8 @@ import { ShoppingListService } from '../services/shopping-list.service';
 import { ExtraFunctionsModalComponent } from '../extra-functions-modal/extra-functions-modal.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
+import { ChatService } from '../services/chat.service';
+import { ChatMessageReceiveDto } from '../interfaces/chat-message-receive-dto';
 
 @Component({
   selector: 'app-event-view',
@@ -88,7 +90,8 @@ export class EventViewComponent implements OnInit {
     private toast: NgToastService,
     private router: Router,
     private shoppingListService: ShoppingListService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private chatService: ChatService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
@@ -116,6 +119,27 @@ export class EventViewComponent implements OnInit {
     //if(this.userRole.id!=0)
     //{
     this.loadEventDetails();
+    this.loadAllMessages();
+  }
+
+  //Event methods
+  authorization() {
+    //tutaj naprawic te returny
+    this.eventId = this.route.snapshot.paramMap.get('id')!;
+    this.eventService.getAccess(this.eventId).subscribe({
+      next: (res) => {
+        this.userRole = res;
+        console.log(this.userRole);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.router.navigate([`wydarzenia`]);
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      },
+    });
   }
 
   loadEventDetails(): void {
@@ -144,42 +168,85 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-  authorization() {
-    //tutaj naprawic te returny
-    this.eventId = this.route.snapshot.paramMap.get('id')!;
-    this.eventService.getAccess(this.eventId).subscribe({
-      next: (res) => {
-        this.userRole = res;
-        console.log(this.userRole);
-      },
-      error: (err: HttpErrorResponse) => {
-        this.router.navigate([`wydarzenia`]);
-        this.toast.error({
-          detail: 'ERROR',
-          summary: err.error,
-          duration: 3000,
+  goToUserProfile(userId: number): void {
+    this.router.navigate(['/profil', userId]);
+  }
+
+  loadGuestsUsers() {
+    this.eventService
+      .getGuestsUsers(this.eventDetails!.id.toString())
+      .subscribe((users) => {
+        this.guestsUsers = users;
+        this.guestsUsers.unshift({
+          id: this.eventDetails.creatorId,
+          firstName: this.eventDetails.creatorFirstName,
+          lastName: this.eventDetails.creatorLastName,
         });
-      },
-    });
+      });
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(InviteModalComponent, {
-      data: {
-        eventId: this.eventId,
-        guests: this.guestsUsers,
-        invites: this.invitesUsers,
-      },
-      panelClass: 'inviteDialog',
-      backdropClass: 'dialogBackgroundClass',
-    });
-
-    dialogRef.afterClosed().subscribe((res) => {
-      this.loadInvitedUsers();
-      this.loadGuestsUsers();
-    });
+  loadInvitedUsers() {
+    this.eventService
+      .getInvitesUsers(this.eventDetails!.id.toString())
+      .subscribe((users) => {
+        this.invitesUsers = users;
+      });
   }
 
+  saveChanges() {
+    this.editMode = false;
+    this.editField = null;
+
+    console.log('Edited Date:', this.editedDate);
+    console.log('Edited Time:', this.editedTime);
+
+    let dateToUse = this.editedDate;
+    if (!this.editedDate) {
+      dateToUse = new Date(this.eventDetails.dateTime)
+        .toISOString()
+        .split('T')[0];
+    }
+
+    let timeToUse = this.editedTime;
+    if (!this.editedTime) {
+      timeToUse = new Date(this.eventDetails.dateTime)
+        .toISOString()
+        .split('T')[1]
+        .substring(0, 5);
+    }
+
+    if (!dateToUse || !timeToUse) {
+      console.error('Nieprawidłowy format daty lub czasu');
+      return;
+    }
+
+    if (
+      dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) &&
+      timeToUse.match(/^\d{2}:\d{2}$/)
+    ) {
+      const updatedDate = new Date(Date.parse(dateToUse));
+      const updatedTime = timeToUse.split(':');
+      updatedDate.setHours(Number(updatedTime[0]));
+      updatedDate.setMinutes(Number(updatedTime[1]));
+
+      console.log('Updated Date:', updatedDate);
+
+      this.eventDetails.dateTime = updatedDate;
+
+      this.eventService
+        .updateEventDetails(this.eventId, this.eventDetails)
+        .subscribe(
+          (response) => {},
+          (error) => {
+            console.error('Błąd podczas aktualizacji danych wydarzenia', error);
+          }
+        );
+    } else {
+      console.error('Nieprawidłowy format daty lub czasu');
+    }
+  }
+
+  //Mapa
   toggleMapVisibility(): void {
     if (this.isMapVisible) {
       this.isMapVisible = false;
@@ -187,10 +254,6 @@ export class EventViewComponent implements OnInit {
       // Wyszukiwanie koordynatów tylko, gdy mapa jest ustawiona na widoczność
       this.findMapCoordinates();
     }
-  }
-
-  goToUserProfile(userId: number): void {
-    this.router.navigate(['/profil', userId]);
   }
 
   private findMapCoordinates(): void {
@@ -226,27 +289,7 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-  loadGuestsUsers() {
-    this.eventService
-      .getGuestsUsers(this.eventDetails!.id.toString())
-      .subscribe((users) => {
-        this.guestsUsers = users;
-        this.guestsUsers.unshift({
-          id: this.eventDetails.creatorId,
-          firstName: this.eventDetails.creatorFirstName,
-          lastName: this.eventDetails.creatorLastName,
-        });
-      });
-  }
-
-  loadInvitedUsers() {
-    this.eventService
-      .getInvitesUsers(this.eventDetails!.id.toString())
-      .subscribe((users) => {
-        this.invitesUsers = users;
-      });
-  }
-
+  //ShoppingList
   loadShoppingList() {
     this.shoppingListService.getShoppingList(this.eventDetails.id).subscribe(
       (shoppingList: ShoppingListItemDto[]) => {
@@ -338,58 +381,23 @@ export class EventViewComponent implements OnInit {
     );
   }
 
-  saveChanges() {
-    this.editMode = false;
-    this.editField = null;
+  //Dialogs
+  openDialog() {
+    const dialogRef = this.dialog.open(InviteModalComponent, {
+      data: {
+        eventId: this.eventId,
+        guests: this.guestsUsers.slice(1),
+        invites: this.invitesUsers,
+      },
+      panelClass: 'inviteDialog',
+      backdropClass: 'dialogBackgroundClass',
+    });
 
-    console.log('Edited Date:', this.editedDate);
-    console.log('Edited Time:', this.editedTime);
-
-    let dateToUse = this.editedDate;
-    if (!this.editedDate) {
-      dateToUse = new Date(this.eventDetails.dateTime)
-        .toISOString()
-        .split('T')[0];
-    }
-
-    let timeToUse = this.editedTime;
-    if (!this.editedTime) {
-      timeToUse = new Date(this.eventDetails.dateTime)
-        .toISOString()
-        .split('T')[1]
-        .substring(0, 5);
-    }
-
-    if (!dateToUse || !timeToUse) {
-      console.error('Nieprawidłowy format daty lub czasu');
-      return;
-    }
-
-    if (
-      dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) &&
-      timeToUse.match(/^\d{2}:\d{2}$/)
-    ) {
-      const updatedDate = new Date(Date.parse(dateToUse));
-      const updatedTime = timeToUse.split(':');
-      updatedDate.setHours(Number(updatedTime[0]));
-      updatedDate.setMinutes(Number(updatedTime[1]));
-
-      console.log('Updated Date:', updatedDate);
-
-      this.eventDetails.dateTime = updatedDate;
-
-      this.eventService
-        .updateEventDetails(this.eventId, this.eventDetails)
-        .subscribe(
-          (response) => {},
-          (error) => {
-            console.error('Błąd podczas aktualizacji danych wydarzenia', error);
-          }
-        );
-    } else {
-      console.error('Nieprawidłowy format daty lub czasu');
-    }
+    dialogRef.afterClosed().subscribe((res) => {
+      this.loadInvitedUsers();
+    });
   }
+
   openAddContentModal(): void {
     const dialogRef = this.dialog.open(ExtraFunctionsModalComponent, {
       height: '330px',
@@ -404,6 +412,24 @@ export class EventViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed with result:', result);
+    });
+  }
+
+  //Chat
+  messages: ChatMessageReceiveDto[] = [];
+
+  loadAllMessages() {
+    this.chatService.getAllMessages(this.eventId).subscribe({
+      next: (res) => {
+        this.messages = res;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+      },
     });
   }
 }
