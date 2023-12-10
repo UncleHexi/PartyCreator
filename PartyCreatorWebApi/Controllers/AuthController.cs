@@ -20,9 +20,9 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpGet("test")]
-        public ActionResult<string> Test()
+        public string Test()
         {
-            return Ok("dziala");
+            return "dziala";
         }
 
         [HttpPost("register")]
