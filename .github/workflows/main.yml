@@ -29,5 +29,12 @@ jobs:
         run: dotnet build ./PartyCreatorWebApi/PartyCreatorWebApi.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./PartyCreatorWebApi/PartyCreatorWebApi.sln --configuration Release --no-build
+        run: dotnet publish ./PartyCreatorWebApi/PartyCreatorWebApi.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
+      - name: Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+    
