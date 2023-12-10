@@ -13,14 +13,14 @@ import { UserContactDto } from '../interfaces/user-contact-dto';
 import { ContactDto } from '../interfaces/contact-dto';
 import { ContactEventDto } from '../interfaces/contact-event-dto';
 import { EventFunctionsDto } from '../interfaces/event-functions-dto';
-
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private baseUrl: string = 'https://localhost:7241/api/Auth/';
-  private baseUrl2: string = 'https://localhost:7241/api/Event/';
+  private baseUrl = environment.apiUrl + 'Auth/';
+  private baseUrl2 = environment.apiUrl + 'Event/';
   constructor(private http: HttpClient) {}
 
   getMe() {
@@ -28,9 +28,7 @@ export class EventService {
   }
 
   getEventDetails(id: string): Observable<any> {
-    return this.http.get<EventUserDto[]>(
-      `https://localhost:7241/api/Event/${id}`
-    );
+    return this.http.get<EventUserDto[]>(`${this.baseUrl2}${id}`);
   }
 
   getOfCreator() {
@@ -92,7 +90,10 @@ export class EventService {
     return this.http.put(url, updatedDetails);
   }
 
-  addEventFunctions(eventId: string, functions: EventFunctionsDto): Observable<any> {
+  addEventFunctions(
+    eventId: string,
+    functions: EventFunctionsDto
+  ): Observable<any> {
     const url = `${this.baseUrl2}${eventId}/addFunctions`;
     return this.http.post(url, functions);
   }

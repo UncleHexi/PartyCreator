@@ -6,7 +6,7 @@ import { RegisterDto } from '../interfaces/register-dto';
 import { LoginResponseDto } from '../interfaces/login-response-dto';
 import { UserDto } from '../interfaces/user-dto';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/envrionment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
