@@ -7,7 +7,7 @@ on:
     - main
 
 env:
-  AZURE_WEBAPP_NAME: PartyCreator
+  AZURE_WEBAPP_NAME: PartyCreatorWebAPI
   AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
