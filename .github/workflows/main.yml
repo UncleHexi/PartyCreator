@@ -19,11 +19,11 @@ jobs:
           dotnet-version: '6.0.x'
 
       - name: Restore
-        run: dotnet restore ./PartyCreatorWebApi.sln
+        run: dotnet restore ./PartyCreatorWebApi/PartyCreatorWebApi.sln
 
       - name: Build
-        run: dotnet build ./PartyCreatorWebApi.sln --configuration Release --no-restore
+        run: dotnet build ./PartyCreatorWebApi/PartyCreatorWebApi.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./PartyCreatorWebApi.sln --configuration Release --no-build
+        run: dotnet publish ./PartyCreatorWebApi/PartyCreatorWebApi.sln --configuration Release --no-build
     
