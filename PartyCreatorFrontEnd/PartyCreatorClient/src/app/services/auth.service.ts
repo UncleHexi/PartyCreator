@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl: string = 'https://localhost:7241/api/Auth/';
+  private baseUrl: string =
+    'https://partycreatorwebapi.azurewebsites.net/api/Auth/';
   private loginTypeSource = new BehaviorSubject<string>('signin'); //domyślnie signin
   currentLoginType = this.loginTypeSource.asObservable();
 
