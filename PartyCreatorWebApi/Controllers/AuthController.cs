@@ -18,7 +18,7 @@ namespace PartyCreatorWebApi.Controllers
             _authRepository = authRepository;
             _usersRepository = usersRepository;
         }
-
+        
         [HttpGet("test")]
         public string Test()
         {
