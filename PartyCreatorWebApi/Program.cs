@@ -20,7 +20,10 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()
         .AllowCredentials());
 });
-builder.Services.AddSignalR().AddAzureSignalR("Endpoint=https://partycreatorsignalr.service.signalr.net;AccessKey=e9CUqGZI3z1NnA0d17Dk2JrUPZQb6jCd52zc23Ygjmg=;Version=1.0;");
+builder.Services.AddSignalR().AddAzureSignalR(options =>
+{
+    options.ConnectionString = "Endpoint=https://partycreatorsignalr.service.signalr.net;AccessKey=e9CUqGZI3z1NnA0d17Dk2JrUPZQb6jCd52zc23Ygjmg=;Version=1.0;";
+});
 
 builder.Services.AddControllers();
 
