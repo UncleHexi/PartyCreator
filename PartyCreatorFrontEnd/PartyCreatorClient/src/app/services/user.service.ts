@@ -5,62 +5,56 @@ import { UserDto } from '../interfaces/user-dto';
 import { ContactDto } from '../interfaces/contact-dto';
 import { UserContactDto } from '../interfaces/user-contact-dto';
 import { SearchEmailDto } from '../interfaces/search-email-dto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private baseUrl = environment.apiUrl + 'User/';
+
   profileUpdated = new Subject<void>();
   constructor(private http: HttpClient) {}
 
   getUserData(userId: string): Observable<any> {
-    return this.http.get<UserDto>(
-      `https://localhost:7241/api/User/GetUserById/${userId}`
-    );
+    return this.http.get<UserDto>(`${this.baseUrl}GetUserById/${userId}`);
   }
 
   getMyProfileData(): Observable<any> {
-    return this.http.get<UserDto>(
-      'https://localhost:7241/api/User/GetMyProfile'
-    );
+    return this.http.get<UserDto>(`${this.baseUrl}GetMyProfile`);
   }
 
   editMyProfileData(userData: UserDto): Observable<any> {
-    return this.http.post<UserDto>(
-      'https://localhost:7241/api/User/EditMyProfile',
-      userData
-    );
+    return this.http.post<UserDto>(`${this.baseUrl}EditMyProfile`, userData);
   }
 
   getMyContacts(): Observable<ContactDto[]> {
-    return this.http.get<ContactDto[]>(
-      'https://localhost:7241/api/User/GetMyContacts'
-    );
+    return this.http.get<ContactDto[]>(`${this.baseUrl}GetMyContacts`);
   }
 
   addContact(contactData: ContactDto): Observable<ContactDto[]> {
     return this.http.post<ContactDto[]>(
-      'https://localhost:7241/api/User/AddContact',
+      `${this.baseUrl}AddContact`,
       contactData
     );
   }
 
   editContact(contactData: ContactDto): Observable<any> {
     return this.http.put<ContactDto>(
-      `https://localhost:7241/api/User/EditContact/`,
+      `${this.baseUrl}EditContact/`,
       contactData
     );
   }
 
   deleteContact(contactId: string): Observable<any> {
     return this.http.delete<ContactDto>(
-      `https://localhost:7241/api/User/DeleteContact/${contactId}`
+      `${this.baseUrl}DeleteContact/${contactId}`
     );
   }
 
   getUsersEmailContains(request: SearchEmailDto) {
     return this.http.post<UserContactDto[]>(
-      'https://localhost:7241/api/User/GetUsersEmailContains',
+      `${this.baseUrl}GetUsersEmailContains`,
       request
     );
   }

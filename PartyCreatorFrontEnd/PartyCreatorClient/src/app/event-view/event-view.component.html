@@ -166,7 +166,10 @@
         *ngIf="isMapVisible"
       ></app-map>
     </div>
-    <div class="photos">zdjecia</div>
+    <div class="photos">
+      zdjecia
+      <app-chat [eventId]="eventId" [messages]="messages"></app-chat>
+    </div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
       <div

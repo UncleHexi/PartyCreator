@@ -47,9 +47,9 @@ namespace PartyCreatorWebApi.Repositories
             return null;
         }
 
-        public Task<List<NotificationDto>> GetAllNotificationsOfUser(int id)
+        public async Task<List<NotificationDto>> GetAllNotificationsOfUser(int id)
         {
-            var result = _dataContext.Notifications.Where(n => n.UserId == id)
+            var result = await _dataContext.Notifications.Where(n => n.UserId == id)
                 .Select(n=>new NotificationDto
                 {
                     Id = n.Id,
