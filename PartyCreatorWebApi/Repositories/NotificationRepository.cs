@@ -70,6 +70,12 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
+        public async Task<Notification> GetNotificationByUserIdEventId(int userId, int eventId)
+        {
+            var result = await _dataContext.Notifications.Where(x=> x.UserId == userId &&  x.EventId == eventId).FirstOrDefaultAsync();
+            return result;
+        }
+
         public async Task<Notification> ToggleRead(Notification request)
         {
             request.IsRead = !request.IsRead;

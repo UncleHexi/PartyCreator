@@ -11,5 +11,6 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<Notification> ToggleRead(Notification request);
         Task<Notification> GetNotification(int id);
         Task<List<Notification>> CreateNotificationToAllGuests(Notification notification);
+        Task<Notification> GetNotificationByUserIdEventId(int userId, int eventId);
     }
 }

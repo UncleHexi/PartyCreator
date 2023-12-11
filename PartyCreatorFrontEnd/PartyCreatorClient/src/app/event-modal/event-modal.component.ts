@@ -12,7 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 
 @Component({
   selector: 'app-event-modal',
@@ -29,7 +29,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   providers: [DatePipe],
 })
@@ -67,9 +67,9 @@ export class EventModalComponent {
     private fb: FormBuilder,
     private datePipe: DatePipe
   ) {}
- close() {
-  this.dialogRef.close({data: "2"});
- }
+  close() {
+    this.dialogRef.close();
+  }
   createEvent() {
     this.eventService.createEvent(this.eventData).subscribe({
       next: (res) => {
@@ -79,7 +79,7 @@ export class EventModalComponent {
           summary: 'Udało się stworzyć wydarzenie!',
           duration: 3000,
         });
-        this.dialogRef.close({data: res.id});
+        this.dialogRef.close({ data: res.id });
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
@@ -93,7 +93,7 @@ export class EventModalComponent {
 
   onSubmit() {
     this.addTimeToDate();
-    this.convertFormToData()
+    this.convertFormToData();
     this.createEvent();
   }
 
@@ -107,24 +107,29 @@ export class EventModalComponent {
     const combinedDateTimeString = `${datePart}T${timePart}`;
     const combinedDateTime = new Date(combinedDateTimeString);
 
-    this.eventOptions.value.dateTime=combinedDateTime;
+    this.eventOptions.value.dateTime = combinedDateTime;
   }
 
-convertFormToData() {
-  this.eventData.title = this.eventOptions.value.title!;
-  this.eventData.description = this.eventOptions.value.description!;
-  this.eventData.dateTime = this.eventOptions.value.dateTime!;
-  this.eventData.city = this.eventOptions.value.city!;
-  this.eventData.address = this.eventOptions.value.address!;
-  this.eventData.country = this.eventOptions.value.country!;
-  
-  // Dodanie
-  this.eventData.playlistTitle = this.eventOptions.value.playlist ? "Title" : "";
-  this.eventData.shoppingListTitle = this.eventOptions.value.shoppingLis ? "Title" : "";
-  this.eventData.receiptTitle = this.eventOptions.value.receipt ? "Title" : "";
-  
-  // Do usunięcia?
-  this.eventData.color = "";
-}
+  convertFormToData() {
+    this.eventData.title = this.eventOptions.value.title!;
+    this.eventData.description = this.eventOptions.value.description!;
+    this.eventData.dateTime = this.eventOptions.value.dateTime!;
+    this.eventData.city = this.eventOptions.value.city!;
+    this.eventData.address = this.eventOptions.value.address!;
+    this.eventData.country = this.eventOptions.value.country!;
 
+    // Dodanie
+    this.eventData.playlistTitle = this.eventOptions.value.playlist
+      ? 'Title'
+      : '';
+    this.eventData.shoppingListTitle = this.eventOptions.value.shoppingLis
+      ? 'Title'
+      : '';
+    this.eventData.receiptTitle = this.eventOptions.value.receipt
+      ? 'Title'
+      : '';
+
+    // Do usunięcia?
+    this.eventData.color = '';
+  }
 }
