@@ -22,7 +22,7 @@ namespace PartyCreatorWebApi.Controllers
         [HttpGet("test")]
         public string Test()
         {
-            return "dziala";
+            return "adamtogejestfajny";
         }
 
         [HttpPost("register")]

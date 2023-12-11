@@ -15,12 +15,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
         builder
-        .WithOrigins("http://localhost:4200")
+        .WithOrigins("http://localhost:4200", "https://partycreatorfrontend.azurewebsites.net")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials());
 });
-builder.Services.AddSignalR();
+builder.Services.AddSignalR().AddAzureSignalR("Endpoint=https://partycreatorsignalr.service.signalr.net;AccessKey=e9CUqGZI3z1NnA0d17Dk2JrUPZQb6jCd52zc23Ygjmg=;Version=1.0;");
 
 builder.Services.AddControllers();
 
@@ -86,9 +86,9 @@ var app = builder.Build();
     app.UseSwaggerUI();
 
 
-app.UseHttpsRedirection();
-
 app.UseCors("CorsPolicy");
+
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
