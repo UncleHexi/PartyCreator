@@ -3,6 +3,17 @@
 <div class="bg">
   <div class="parent">
     <div class="div1">
+      <div>
+        <div *ngFor="let message of messages">
+          <strong>{{ message.user }}:</strong> {{ message.text }}
+        </div>
+      </div>
+      <div>
+        <input [(ngModel)]="user" placeholder="Enter your name" />
+        <input [(ngModel)]="message" placeholder="Type your message" />
+        <button (click)="sendMessage()">Send</button>
+      </div>
+
       <h1>Najprostszy sposób organizowania wydarzeń</h1>
       <p>
         PartyCreator pomoże Ci stworzyć wydarzenie, dokładnie zaplanować

@@ -18,11 +18,11 @@ namespace PartyCreatorWebApi.Controllers
             _authRepository = authRepository;
             _usersRepository = usersRepository;
         }
-
+        
         [HttpGet("test")]
         public string Test()
         {
-            return "dziala";
+            return "adamtogejestfajny";
         }
 
         [HttpPost("register")]
