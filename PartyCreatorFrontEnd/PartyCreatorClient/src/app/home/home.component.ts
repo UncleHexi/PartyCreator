@@ -45,15 +45,19 @@ export class HomeComponent implements OnInit {
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl(`${this.baseUrl}/chat`)
-      .build();
+    if (this.auth.isLoggedIn()) {
+      this.hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl(`${this.baseUrl}/chat`, {
+          accessTokenFactory: () => this.auth.getToken()!,
+        })
+        .build();
 
-    this.hubConnection.start().catch((err) => console.error(err));
+      this.hubConnection.start().catch((err) => console.error(err));
 
-    this.hubConnection.on('ReceiveMessage', (user: string, text: string) => {
-      this.messages.push({ user, text });
-    });
+      this.hubConnection.on('ReceiveMessage', (user: string, text: string) => {
+        this.messages.push({ user, text });
+      });
+    }
 
     this.isLoggedIn = this.auth.isLoggedIn();
   }
