@@ -20,10 +20,19 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader()
         .AllowCredentials());
 });
-builder.Services.AddSignalR().AddAzureSignalR(options =>
+
+if (builder.Environment.IsProduction())
 {
-    options.ConnectionString = "Endpoint=https://partycreatorsignalr.service.signalr.net;AccessKey=e9CUqGZI3z1NnA0d17Dk2JrUPZQb6jCd52zc23Ygjmg=;Version=1.0;";
-});
+    builder.Services.AddSignalR().AddAzureSignalR(options =>
+    {
+        options.ConnectionString = "Endpoint=https://partycreatorsignalr.service.signalr.net;AccessKey=e9CUqGZI3z1NnA0d17Dk2JrUPZQb6jCd52zc23Ygjmg=;Version=1.0;";
+    });
+}
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddSignalR();
+}
 
 builder.Services.AddControllers();
 
@@ -78,6 +87,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false,
             ClockSkew = TimeSpan.Zero
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+                if (string.IsNullOrEmpty(accessToken) == false)
+                {
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
         };
     });
 
