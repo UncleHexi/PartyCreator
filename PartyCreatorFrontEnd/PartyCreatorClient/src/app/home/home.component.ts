@@ -14,6 +14,7 @@ import {
   faComments,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
+import { environment } from 'src/environments/environment';
 //icons
 @Component({
   selector: 'app-home',
@@ -39,12 +40,13 @@ export class HomeComponent implements OnInit {
   message = '';
   messages: { user: string; text: string }[] = [];
   isLoggedIn = false;
+  private baseUrl = environment.apiUrl.replace('/api/', '');
 
   constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:7241/chat')
+      .withUrl(`${this.baseUrl}/chat`)
       .build();
 
     this.hubConnection.start().catch((err) => console.error(err));
