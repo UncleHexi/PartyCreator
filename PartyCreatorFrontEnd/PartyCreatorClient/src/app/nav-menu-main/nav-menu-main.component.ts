@@ -42,7 +42,7 @@ export class NavMenuMainComponent implements OnInit {
   counter = 0;
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private notificationService: NotificationService,
     private eventService: EventService,
     private toast: NgToastService,
@@ -57,6 +57,10 @@ export class NavMenuMainComponent implements OnInit {
     this.auth.signOut();
   }
 
+  changeLoginType() {
+    this.auth.changeLoginType('signin');
+  }
+
   toggleNotifications() {
     this.isNotificationVisible = !this.isNotificationVisible;
   }
@@ -67,7 +71,7 @@ export class NavMenuMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getNotifications();
+    // this.getNotifications();
   }
 
   getNotifications() {

@@ -43,9 +43,13 @@ export class MainComponent implements OnInit {
   upcomingEvents: EventUserDto[] = [];
 
   finishedEvents: EventUserDto[] = [];
-  createdEventId: string ='1';
+  createdEventId: string = '1';
 
-  constructor(private event: EventService, public dialog: MatDialog, private router: Router) {
+  constructor(
+    private event: EventService,
+    public dialog: MatDialog,
+    private router: Router
+  ) {
     this.selected = null;
   }
 
@@ -70,7 +74,7 @@ export class MainComponent implements OnInit {
   openDialog() {
     const dialogRef = this.dialog.open(EventModalComponent, {
       data: {
-        eventId: this.createdEventId
+        eventId: this.createdEventId,
       },
       panelClass: 'eventDialog',
       backdropClass: 'dialogBackgroundClass',
@@ -80,7 +84,7 @@ export class MainComponent implements OnInit {
       if (!!res) {
         //this.getMyEvents();
         console.log(res.data);
-        this.router.navigate([`wydarzenie/${res.data}`])
+        this.router.navigate([`wydarzenie/${res.data}`]);
       }
     });
   }
