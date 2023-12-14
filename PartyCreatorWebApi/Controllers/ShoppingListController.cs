@@ -64,7 +64,7 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Musisz być twórcą wydarzenia aby dodać przedmiot");
             }
 
-            ShoppingListItem shoppingListItem = new ShoppingListItem
+            ShoppingListItem shoppingListItem = new()
             {
                 EventId = request.EventId,
                 Name = request.Name,

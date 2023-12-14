@@ -1,5 +1,6 @@
 global using PartyCreatorWebApi.Data;
 global using Microsoft.EntityFrameworkCore;
+global using Azure.Storage.Blobs;
 using PartyCreatorWebApi.HubConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
@@ -34,6 +35,8 @@ if (builder.Environment.IsDevelopment())
     builder.Services.AddSignalR();
 }
 
+builder.Services.AddSingleton(x => new BlobServiceClient(builder.Configuration.GetConnectionString("AzureBlobConnection")));
+
 builder.Services.AddControllers();
 
 if (builder.Environment.IsProduction())
@@ -59,6 +62,7 @@ builder.Services.AddScoped<IEventRepository, EventRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IBlobStorageRepository, BlobStorageRepository>();
 
 builder.Services.AddHttpContextAccessor();
 
