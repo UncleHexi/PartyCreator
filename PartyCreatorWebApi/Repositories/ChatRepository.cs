@@ -12,11 +12,21 @@ namespace PartyCreatorWebApi.Repositories
         {
             _dataContext = dataContext;
         }
-        public async Task<ChatMessage> CreateChatMessage(ChatMessage chatMessage)
+        public async Task<ChatMessageDto> CreateChatMessage(ChatMessage chatMessage)
         {
-            var result = _dataContext.ChatMessages.AddAsync(chatMessage);
+            var result = await _dataContext.ChatMessages.AddAsync(chatMessage);
             await _dataContext.SaveChangesAsync();
-            return result.Result.Entity;
+            var message = new ChatMessageDto
+            {
+                Id = chatMessage.Id,
+                EventId = chatMessage.EventId,
+                DateTime = chatMessage.DateTime,
+                UserId = chatMessage.UserId,
+                Message = chatMessage.Message,
+                FirstName = _dataContext.Users.Where(u => u.Id == result.Entity.UserId).Select(f => f.FirstName).FirstOrDefault(),
+                LastName = _dataContext.Users.Where(u => u.Id == result.Entity.UserId).Select(f => f.LastName).FirstOrDefault(),
+            };
+            return message;
         }
 
         public async Task<List<ChatMessageDto>> GetAllMessages(int eventId)

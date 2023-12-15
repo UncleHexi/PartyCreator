@@ -31,5 +31,6 @@ namespace PartyCreatorWebApi.HubConfig
             string user = $"{Context.UserIdentifier}";
             await Clients.Group(eventId).SendAsync("EventLeft", user, message);
         }
+
     }
 }

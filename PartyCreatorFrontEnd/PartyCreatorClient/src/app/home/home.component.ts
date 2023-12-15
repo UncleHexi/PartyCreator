@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 //icons
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
@@ -22,7 +22,7 @@ import { SignalRService } from '../services/signal-r.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   title = 'PartyCreatorClient';
   //icons
   faSpotify = faSpotify; //ikonka spotify
@@ -53,11 +53,23 @@ export class HomeComponent implements OnInit {
         this.messages.push({ user, text });
       }
     );
+    this.signalRService.hubConnection.on(
+      'EventLeft',
+      (user: string, text: string) => {
+        this.messages.push({ user, text });
+      }
+    );
+
     this.addToEventGroup();
     window.addEventListener('signalRConnected', (e) => this.addToEventGroup());
 
     this.auth.changeIsLoggedInValue();
     this.isLoggedIn = this.auth.isLoggedIn();
+  }
+
+  ngOnDestroy(): void {
+    //sprawdz czy jest dolaczony
+    this.removeFromEventGroup();
   }
 
   sendMessage() {
@@ -77,6 +89,12 @@ export class HomeComponent implements OnInit {
         .invoke('AddToEventGroup', '100')
         .catch((err) => console.error(err));
     }
+  }
+
+  removeFromEventGroup() {
+    this.signalRService.hubConnection
+      .invoke('RemoveFromEventGroup', '100')
+      .catch((err) => console.error(err));
   }
 
   scrollToElement($element: HTMLElement): void {
