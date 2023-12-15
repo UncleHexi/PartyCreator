@@ -172,10 +172,25 @@
         </ng-template>
       </div>
     </div>
-    <div class="editDetails" *ngIf="userRole.role == 'Admin'">
-      <button *ngIf="!editMode" (click)="editMode = true">
+    <div class="editDetails">
+      <button
+        *ngIf="!editMode && userRole.role == 'Admin'"
+        (click)="editMode = true"
+      >
         Edytuj wydarzenie
       </button>
+      <p-fileUpload
+        #fileUploader
+        name="file"
+        mode="basic"
+        chooseLabel="Dodaj zdjęcie"
+        accept="image/*"
+        [maxFileSize]="10000000"
+        [customUpload]="true"
+        (uploadHandler)="uploadFile($event)"
+        [auto]="true"
+      >
+      </p-fileUpload>
     </div>
 
     <div class="chat">
@@ -185,8 +200,10 @@
       ></app-map>
     </div>
     <div class="photos">
-      zdjecia
-      <app-chat [eventId]="eventId" [messages]="messages"></app-chat>
+      <app-event-gallery
+        [eventId]="eventId"
+        [images]="images"
+      ></app-event-gallery>
     </div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
