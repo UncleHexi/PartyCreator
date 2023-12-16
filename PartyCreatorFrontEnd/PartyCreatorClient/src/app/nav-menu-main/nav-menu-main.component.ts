@@ -71,7 +71,7 @@ export class NavMenuMainComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getNotifications();
+    this.getNotifications();
   }
 
   getNotifications() {
