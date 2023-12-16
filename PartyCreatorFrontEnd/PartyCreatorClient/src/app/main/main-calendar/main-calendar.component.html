@@ -48,4 +48,24 @@
       Następny
     </div>
   </div>
+  <div class="mobilebuttons">
+    <div
+      class="btn btn-primary mobilebutton1"
+      mwlCalendarPreviousView
+      [view]="view"
+      [(viewDate)]="viewDate"
+      (viewDateChange)="closeOpenMonthViewDay()"
+    >
+      Poprzedni
+    </div>
+    <div
+      class="btn btn-primary mobilebutton2"
+      mwlCalendarNextView
+      [view]="view"
+      [(viewDate)]="viewDate"
+      (viewDateChange)="closeOpenMonthViewDay()"
+    >
+      Następny
+    </div>
+  </div>
 </div>

@@ -115,4 +115,8 @@ table.blueTable tr:nth-child(odd) {
     width: 150px;
     height: 150px;
   }
+
+  ::ng-deep .mat-mdc-tab-group {
+    width: 100%;
+  }
 }

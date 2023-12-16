@@ -7,25 +7,26 @@
           class="profileTab"
           mat-stretch-tabs="true"
           mat-align-tabs="center"
+          animationDuration="0ms"
         >
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon>account_circle</mat-icon>
-              <span>&nbsp;Profil</span>
+              <span class="tab-label-text">&nbsp;Profil</span>
             </ng-template>
             <app-profile-view></app-profile-view>
           </mat-tab>
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon>edit</mat-icon>
-              <span>&nbsp;Edycja</span>
+              <span class="tab-label-text">&nbsp;Edycja</span>
             </ng-template>
             <app-profile-edit></app-profile-edit>
           </mat-tab>
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon>contacts</mat-icon>
-              <span>&nbsp;Lista kontaktów</span>
+              <span class="tab-label-text">&nbsp;Lista kontaktów</span>
             </ng-template>
             <app-profile-contacts></app-profile-contacts>
           </mat-tab>
