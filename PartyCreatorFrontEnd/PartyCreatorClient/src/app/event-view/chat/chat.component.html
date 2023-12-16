@@ -1,3 +1,18 @@
-<div *ngFor="let message of messages">
-  <p>{{ message.message }}</p>
+<div class="chat-container">
+  <div class="messages-container" #myScrollContainer>
+    <div *ngFor="let message of messages" [ngClass]="{'message-container': true, 'sent-message': message.userId === this.userId}">
+      <div class="user-info">{{ message.userId === this.userId ? 'Ty' : message.firstName + " " + message.lastName }}</div>
+      <div class="message">{{ message.message }}</div>
+      <div class="message-time">{{ message.dateTime | date: 'mediumTime' }}</div>
+    </div>
+  </div>
+  <div class="input-container">
+    <form (ngSubmit)="sendMessage()" [formGroup]="messageData" class="messageInput">
+    <mat-form-field appearance="outline" class="example-full-width" [style.width.px]=780>
+      <mat-label>Napisz wiadomość</mat-label>
+      <input type="text" matInput placeholder="Twoja wiadomość" formControlName="message">
+    </mat-form-field>
+    <button color="primary" mat-raised-button type="submit" class="buttonSend">Wyślij</button>
+    </form>
+  </div>
 </div>

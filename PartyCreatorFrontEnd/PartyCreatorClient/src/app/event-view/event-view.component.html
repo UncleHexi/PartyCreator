@@ -69,61 +69,45 @@
           </form>
         </ng-template>
 
-        <!-- adres -->
-        <div *ngIf="editField !== 'address'; else editFormAddress">
-          <p (click)="toggleMapVisibility()" class="eventAddress">
-            <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
-            </fa-icon>
-            {{ eventDetails.address }}
-            <i
-              class="fa fa-pencil"
-              *ngIf="editMode"
-              (click)="editField = 'address'"
-            ></i>
-          </p>
-        </div>
+      
+<!-- adres -->
+<div *ngIf="editField !== 'address'; else editFormAddress">
+  <p class="eventAddress">
+    <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
+    </fa-icon> 
+    {{ eventDetails.address }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'address'"></i></p>
+</div>
 
-        <ng-template #editFormAddress>
-          <form (ngSubmit)="saveChanges()">
-            <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Adres</mat-label>
-              <input
-                matInput
-                [(ngModel)]="eventDetails.address"
-                #address
-                name="address"
-              />
-            </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
-          </form>
-        </ng-template>
+<ng-template #editFormAddress>
+  <form (ngSubmit)="saveChanges()">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Adres</mat-label>
+      <input matInput [(ngModel)]="eventDetails.address" #address name="address">
+    </mat-form-field>
+    <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+  </form>
+</ng-template>
 
-        <!-- miasto -->
-        <div *ngIf="editField !== 'city'; else editFormCity">
-          <p>
-            {{ eventDetails.city }}
-            <i
-              class="fa fa-pencil"
-              *ngIf="editMode"
-              (click)="editField = 'city'"
-            ></i>
-          </p>
-        </div>
+<!-- miasto -->
+<div *ngIf="editField !== 'city'; else editFormCity">
+  <p>{{ eventDetails.city }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'city'"></i></p>
+</div>
 
-        <ng-template #editFormCity>
-          <form (ngSubmit)="saveChanges()">
-            <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Miasto</mat-label>
-              <input
-                matInput
-                [(ngModel)]="eventDetails.city"
-                #city
-                name="city"
-              />
-            </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
-          </form>
-        </ng-template>
+<ng-template #editFormCity>
+  <form (ngSubmit)="saveChanges()">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Miasto</mat-label>
+      <input matInput [(ngModel)]="eventDetails.city" #city name="city">
+    </mat-form-field>
+    <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+  </form>
+</ng-template>
+ <div>
+  <p  (click)="openMapModal()" style="cursor:pointer;">
+    <mat-icon style="font-size:28px; margin-bottom:-2px; margin-left:9px;">map</mat-icon>
+    Otwórz mapę 
+</p>
+ </div>
 
         <div *ngIf="editField !== 'dateTime'; else editFormDateTime">
           <p>
@@ -194,10 +178,8 @@
     </div>
 
     <div class="chat">
-      <app-map
-        [eventAddress]="eventDetails.address + ', ' + eventDetails.city"
-        *ngIf="isMapVisible"
-      ></app-map>
+      <app-chat [eventId]="eventId" [messages]="messages"></app-chat>
+
     </div>
     <div class="photos">
       <app-event-gallery
@@ -225,7 +207,7 @@
       </div>
       <div>
         <button *ngIf="userRole.role == 'Admin'" (click)="openDialog()">
-          Zaproś do wydarzenia
+          Zarządzaj uczestnikami
         </button>
       </div>
     </div>
@@ -301,37 +283,23 @@
             </tr>
           </tbody>
         </table>
+
+      
       </div>
       <div class="add-item-form" *ngIf="userRole.role == 'Admin'">
         <mat-form-field appearance="outline" class="item-name-field">
           <mat-label>Nazwa przedmiotu</mat-label>
-          <input
-            matInput
-            [(ngModel)]="newItemName"
-            placeholder="Nazwa przedmiotu"
-          />
+          <input matInput [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu">
         </mat-form-field>
         <mat-form-field appearance="outline" class="quantity-field">
           <mat-label>Ilość</mat-label>
-          <input
-            matInput
-            [(ngModel)]="newItemQuantity"
-            placeholder="Ilość"
-            type="number"
-            class="numberOfItem"
-          />
+          <input matInput [(ngModel)]="newItemQuantity" placeholder="Ilość" type="number" class="numberOfItem">
         </mat-form-field>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="addItem()"
-          class="buttonAddItem"
-        >
-          Dodaj przedmiot
-        </button>
+        <button mat-raised-button color="primary" (click)="addItem()" class="buttonAddItem">Dodaj przedmiot</button>
       </div>
+      
     </div>
-
+    
     <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
       playlista spotify
     </div>
@@ -339,18 +307,12 @@
       dzielenie się rachunkiem
     </div>
     <div class="surveys">ankiety</div>
-
-    <div
-      class="addNewContent"
-      *ngIf="
-        eventDetails.receiptTitle === '' ||
-        eventDetails.playlistTitle === '' ||
-        eventDetails.shoppingListTitle === ''
-      "
-    >
+ 
+    <div class="addNewContent"  *ngIf="eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === ''" >
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>
-    </div>
+    
+  </div>
   </div>
 </body>
