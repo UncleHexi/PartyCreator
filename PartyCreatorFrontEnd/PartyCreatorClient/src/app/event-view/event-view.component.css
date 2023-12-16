@@ -39,7 +39,6 @@ body {
 .chat,
 .inviteList,
 .spotifyPlaylist,
-.shareReceipt,
 .surveys {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   border-radius: 15px;
@@ -204,12 +203,14 @@ textarea[name="description"] {
 }
 
 .spotifyPlaylist,
-.shareReceipt,
+
 .surveys {
   background-color: var(--special-accent);
   height: 406px;
 }
-
+.shareReceipt{
+  height:406px;
+}
 .chat {
   grid-area: chat;
   height: 550px;
