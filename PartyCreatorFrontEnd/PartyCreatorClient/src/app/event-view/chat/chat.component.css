@@ -1,13 +1,11 @@
 .chat-container {
-  height: 100vh; 
   position: relative; 
-  top: 370px;
 }
 .messages-container {
   display: flex;
   flex-direction: column;
   overflow-y: auto; 
-  max-height: 470px; 
+  max-height: 445px; 
 }
 .message-container {
   display: flex;
@@ -36,6 +34,9 @@
   font-size: smaller;
 }
 
+.message {
+  word-wrap: break-word;
+}
 
 .input-container {
   display: flex;
@@ -53,3 +54,4 @@
   width: 180px;
   margin-left:10px;
 }
+
