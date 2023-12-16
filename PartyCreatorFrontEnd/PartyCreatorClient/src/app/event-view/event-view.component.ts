@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { UserService } from '../services/user.service';
@@ -32,7 +32,10 @@ import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
 import { ChatService } from '../services/chat.service';
 import { ChatMessageReceiveDto } from '../interfaces/chat-message-receive-dto';
 import { MapComponent } from '../map/map.component';
-
+import { GalleryService } from '../services/gallery.service';
+import { FileUpload } from 'primeng/fileupload';
+import { Observable } from 'rxjs';
+import { PhotoDto } from '../interfaces/photo-dto';
 
 @Component({
   selector: 'app-event-view',
@@ -65,6 +68,8 @@ export class EventViewComponent implements OnInit {
 
   arrowAnimationState: string = 'rest';
 
+  images: PhotoDto[] = [];
+
   guestsUsers: AllGuestsListDto[] = [];
   invitesUsers: AllGuestsListDto[] = [];
   userRole: RoleDto = { id: 0, role: '' };
@@ -93,7 +98,8 @@ export class EventViewComponent implements OnInit {
     private router: Router,
     private shoppingListService: ShoppingListService,
     public dialog: MatDialog,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private galleryService: GalleryService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
@@ -122,6 +128,7 @@ export class EventViewComponent implements OnInit {
     //{
     this.loadEventDetails();
     this.loadAllMessages();
+    this.loadImages();
   }
 
   //Event methods
@@ -168,6 +175,18 @@ export class EventViewComponent implements OnInit {
     } else {
       console.error('ID wydarzenia jest nullem lub niezdefiniowane');
     }
+  }
+
+  loadImages() {
+    this.galleryService.GetImagesFromEvent(Number(this.eventId)).subscribe({
+      next: (res) => {
+        this.images = res;
+        console.log('Images:', this.images);
+      },
+      error: (error) => {
+        console.error('Error fetching images', error);
+      },
+    });
   }
 
   goToUserProfile(userId: number): void {
@@ -248,7 +267,40 @@ export class EventViewComponent implements OnInit {
     }
   }
 
+  @ViewChild('fileUploader') fileUploader: FileUpload | undefined;
 
+  uploadFile(event: any) {
+    // event.files zawiera wybrane pliki
+    const formData: FormData = new FormData();
+    formData.append('file', event.files[0], event.files[0].name);
+    formData.append('eventId', this.eventId.toString());
+    formData.append('userId', this.userRole.id.toString());
+
+    this.galleryService.UploadImage(formData).subscribe({
+      next: (res) => {
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Plik został przesłany!',
+          duration: 3000,
+        });
+        this.images.push(res);
+        if (this.fileUploader) {
+          this.fileUploader.clear();
+        }
+      },
+      error: (error) => {
+        this.toast.error({
+          detail: 'ERROR',
+          summary: 'Błąd podczas przesyłania pliku',
+          duration: 3000,
+        });
+      },
+    });
+  }
+
+  onUpload(event: any) {
+    this.fileUploader?.clear();
+  }
 
   //ShoppingList
   loadShoppingList() {

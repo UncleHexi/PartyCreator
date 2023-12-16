@@ -5,7 +5,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
 {
     public interface IChatRepository
     {
-        Task<ChatMessage> CreateChatMessage(ChatMessage chatMessage);
+        Task<ChatMessageDto> CreateChatMessage(ChatMessage chatMessage);
         Task<List<ChatMessageDto>> GetAllMessages(int eventId);
     }
 }

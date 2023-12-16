@@ -24,7 +24,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("sendMessage"), Authorize]
-        public async Task<ActionResult<ChatMessage>> SendMessage([FromBody] ChatMessage request)
+        public async Task<ActionResult<ChatMessageDto>> SendMessage([FromBody] ChatMessage request)
         {
             int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 

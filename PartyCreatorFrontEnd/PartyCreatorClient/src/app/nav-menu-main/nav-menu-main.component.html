@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/wydarzenia']">PartyCreator</a>
+      <a class="navbar-brand" [routerLink]="['']">PartyCreator</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -19,20 +19,23 @@
       >
         <ul class="navbar-nav flex-grow">
           <li
+            *ngIf="auth.isLoggedInValue"
             class="nav-item"
             [routerLinkActive]="['link-active']"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            <a class="nav-link text-white menu-link" [routerLink]="['/wydarzenia']"
+            <a
+              class="nav-link text-white menu-link"
+              [routerLink]="['/wydarzenia']"
               >Wydarzenia</a
             >
           </li>
 
-          <li class="nav-item">
+          <li *ngIf="auth.isLoggedInValue" class="nav-item">
             <app-user-search></app-user-search>
           </li>
 
-          <li class="nav-item">
+          <li *ngIf="auth.isLoggedInValue" class="nav-item">
             <button
               [matMenuTriggerFor]="Menu"
               class="nav-link text-white"
@@ -52,17 +55,35 @@
             </button>
           </li>
 
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li
+            *ngIf="auth.isLoggedInValue"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
             <a class="nav-link text-white menu-link" [routerLink]="['/profil']"
               >Profil</a
             >
           </li>
 
-          <li class="nav-item" [routerLinkActive]="['link-active']">
+          <li
+            *ngIf="auth.isLoggedInValue; else elseBlock"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
             <a class="nav-link text-white menu-link" (click)="logOut()"
               >Wyloguj się</a
             >
           </li>
+          <ng-template #elseBlock>
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a
+                class="nav-link text-white menu-link"
+                [routerLink]="['/logowanie']"
+                (click)="changeLoginType()"
+                >Zaloguj się</a
+              >
+            </li>
+          </ng-template>
         </ul>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 //icons
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
@@ -15,13 +15,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 import { environment } from 'src/environments/environment';
+import { SignalRService } from '../services/signal-r.service';
 //icons
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   title = 'PartyCreatorClient';
   //icons
   faSpotify = faSpotify; //ikonka spotify
@@ -35,38 +36,65 @@ export class HomeComponent implements OnInit {
   faComments = faComments;
   faArrowDown = faAnglesDown;
   //end of icons
-  private hubConnection!: signalR.HubConnection;
   user = '';
   message = '';
   messages: { user: string; text: string }[] = [];
   isLoggedIn = false;
-  private baseUrl = environment.apiUrl.replace('/api/', '');
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private signalRService: SignalRService
+  ) {}
 
   ngOnInit(): void {
-    if (this.auth.isLoggedIn()) {
-      this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${this.baseUrl}/chat`, {
-          accessTokenFactory: () => this.auth.getToken()!,
-        })
-        .build();
-
-      this.hubConnection.start().catch((err) => console.error(err));
-
-      this.hubConnection.on('ReceiveMessage', (user: string, text: string) => {
+    this.signalRService.hubConnection.on(
+      'EventJoined',
+      (user: string, text: string) => {
         this.messages.push({ user, text });
-      });
-    }
+      }
+    );
+    this.signalRService.hubConnection.on(
+      'EventLeft',
+      (user: string, text: string) => {
+        this.messages.push({ user, text });
+      }
+    );
 
+    this.addToEventGroup();
+    window.addEventListener('signalRConnected', (e) => this.addToEventGroup());
+
+    this.auth.changeIsLoggedInValue();
     this.isLoggedIn = this.auth.isLoggedIn();
   }
 
+  ngOnDestroy(): void {
+    //sprawdz czy jest dolaczony
+    this.removeFromEventGroup();
+  }
+
   sendMessage() {
-    this.hubConnection
-      .invoke('SendMessage', this.user, this.message)
+    // this.signalRService.hubConnection
+    //   .invoke('SendPrivateMessage', '18', this.user, this.message)
+    //   .catch((err) => console.error(err));
+    // this.message = '';
+  }
+
+  addToEventGroup() {
+    //sprawdz jeszcze czy juz nie jest dolaczony
+    if (
+      this.signalRService.hubConnection.state ===
+      signalR.HubConnectionState.Connected
+    ) {
+      this.signalRService.hubConnection
+        .invoke('AddToEventGroup', '100')
+        .catch((err) => console.error(err));
+    }
+  }
+
+  removeFromEventGroup() {
+    this.signalRService.hubConnection
+      .invoke('RemoveFromEventGroup', '100')
       .catch((err) => console.error(err));
-    this.message = '';
   }
 
   scrollToElement($element: HTMLElement): void {

@@ -46,6 +46,8 @@ import { MatInputModule } from '@angular/material/input';
 import { ExtraFunctionsModalComponent } from './extra-functions-modal/extra-functions-modal.component';
 import { ChatComponent } from './event-view/chat/chat.component';
 import { SplitBillComponent } from './event-view/split-bill/split-bill.component';
+import { EventGalleryComponent } from './event-view/event-gallery/event-gallery.component';
+import { FileUploadModule } from 'primeng/fileupload';
 
 registerLocaleData(localePl);
 
@@ -88,6 +90,7 @@ registerLocaleData(localePl);
     ProfileEditAvatarComponent,
     MainComponent,
     NavMenuMainComponent,
+    FileUploadModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
@@ -97,6 +100,7 @@ registerLocaleData(localePl);
     UserProfileComponent,
     MatInputModule,
     ChatComponent,
+    EventGalleryComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

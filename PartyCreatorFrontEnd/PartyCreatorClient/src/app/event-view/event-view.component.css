@@ -25,20 +25,19 @@ body {
   grid-template-rows: 1fr 1fr;
   gap: 35px 35px;
   grid-auto-flow: row;
-  grid-template-areas: "thingsToBring  surveys"
-                       "spotifyPlaylist shareReceipt";
-  padding:20px;
+  grid-template-areas:
+    "thingsToBring  surveys"
+    "spotifyPlaylist shareReceipt";
+  padding: 20px;
 }
 
-
-.surveys{
+.surveys {
   grid-area: surveys;
 }
 
 .details,
 .chat,
 .inviteList,
-.photos,
 .spotifyPlaylist,
 .shareReceipt,
 .surveys {
@@ -97,11 +96,20 @@ body {
 }
 
 .editDetails {
-
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   align-self: flex-start;
+}
+
+::ng-deep .p-fileupload-choose {
+  font-size: 22px;
+  color: #000;
+  margin-top: 3em;
+  background-color: var(--special-accent);
+  border: none;
+  border-radius: 15px;
 }
 
 .editDetails button {
@@ -110,7 +118,7 @@ body {
   height: 80px;
   border-radius: 15px;
   font-size: 24px;
-  font-weight:bold;
+  font-weight: bold;
 }
 
 input[name="name"] {
@@ -126,7 +134,7 @@ input[name="description"] {
 textarea[name="description"] {
   width: 100%;
   word-break: break-all;
-  font-size:24px;
+  font-size: 24px;
 }
 .thingsToBring {
   text-align: center;
@@ -141,7 +149,6 @@ textarea[name="description"] {
   float: right;
   margin-right: 5px;
 }
-
 
 .thingsToBringTitle {
   background-color: var(--special-accent);
@@ -164,7 +171,6 @@ textarea[name="description"] {
   padding: 20px;
   z-index: 1;
   overflow-y: auto;
-  
 }
 .thingsToBringList::-webkit-scrollbar {
   background-color: #333;
@@ -197,9 +203,11 @@ textarea[name="description"] {
   border-bottom-right-radius: 0;
 }
 
-.spotifyPlaylist, .shareReceipt, .surveys{
+.spotifyPlaylist,
+.shareReceipt,
+.surveys {
   background-color: var(--special-accent);
-  height:406px;
+  height: 406px;
 }
 
 .chat {
@@ -211,8 +219,8 @@ textarea[name="description"] {
 
 .photos {
   grid-area: photos;
-  background-color: #545454;
-  height: 250px;
+  background-color: transparent;
+  height: 100%;
 }
 
 .creator {
@@ -253,21 +261,20 @@ textarea[name="description"] {
   border-radius: 15px;
 }
 
-.addNewContent{
-  font-size:200px;
-  text-align:center;
-  justify-content:center;
-  align-items:center;
-  display:flex;
-  background-color:#343434;
-  border:rgb(168, 168, 168) 4px solid;
-  border-radius:15px;
-  padding-bottom:50px;
-  cursor:pointer;
+.addNewContent {
+  font-size: 200px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background-color: #343434;
+  border: rgb(168, 168, 168) 4px solid;
+  border-radius: 15px;
+  padding-bottom: 50px;
+  cursor: pointer;
 }
 
-
-table{
+table {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
@@ -296,7 +303,8 @@ table th:last-child {
 
 table tr:nth-child(even) {
   background: #373737;
-}.thingsToBring {
+}
+.thingsToBring {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -306,7 +314,7 @@ table tr:nth-child(even) {
 .thingsToBringContainer {
   flex: 1;
   overflow-y: auto;
-  padding: 5px; 
+  padding: 5px;
 }
 
 .thingsToBringList {
@@ -314,32 +322,31 @@ table tr:nth-child(even) {
 }
 .add-item-form {
   display: flex;
-  flex-direction: row; 
-  justify-content: space-between; 
-  align-items: center; 
-  padding: 10px; 
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
   background-color: #212121;
   z-index: 1;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
 
-.item-name-field{
-  flex: 2; 
+.item-name-field {
+  flex: 2;
   max-width: 400px;
   margin-bottom: -20px;
 }
 .quantity-field {
-  flex: 1; 
+  flex: 1;
   margin-bottom: -20px;
   max-width: 200px;
 }
 
-.buttonAddItem
-{
+.buttonAddItem {
   min-width: 120px;
   height: 50px;
-  margin-left: 10px; 
+  margin-left: 10px;
   font-size: 22px;
 }
 
@@ -370,10 +377,10 @@ table tr:nth-child(even) {
   }
 }
 
-.details i{
-  font-size:28px;
+.details i {
+  font-size: 28px;
   color: var(--special-accent);
-  cursor:pointer;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {
@@ -410,4 +417,3 @@ table tr:nth-child(even) {
     width: 100%;
   }
 }
-

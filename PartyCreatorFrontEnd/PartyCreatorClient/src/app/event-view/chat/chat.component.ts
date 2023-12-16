@@ -82,7 +82,7 @@ export class ChatComponent implements OnInit {
         (response) => {
           console.log('Message sent successfully:', response);
           this.newMessage = '';
-         // this.messages.push(response);
+          this.messages.push(response);
           this.messageData.reset();
         },
         (error: HttpErrorResponse) => {

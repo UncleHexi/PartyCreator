@@ -18,7 +18,7 @@ export class ChatService {
   }
 
   sendMessage(message: ChatMessageSendDto) {
-    return this.http.post<ChatMessageSendDto>(
+    return this.http.post<ChatMessageReceiveDto>(
       `${this.baseUrl}sendMessage`,
       message
     );

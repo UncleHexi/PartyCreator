@@ -28,20 +28,14 @@
               color="accent"
             >
               <mat-label>Wpisz email</mat-label>
-              <input
-                matInput
-                #search
-                maxlength="30"
-                formControlName="search"
-                required
-              />
+              <input matInput #search maxlength="30" formControlName="search" />
               <mat-hint align="end">{{ search.value.length }}/30</mat-hint>
             </mat-form-field>
           </div>
           <div class="col-3" style="padding: 5px">
             <button
               type="submit"
-              [disabled]="!userSearch.valid"
+              [disabled]="userSearch.value.search == ''"
               color="primary"
               style="color: white; height: 56px"
               mat-raised-button
