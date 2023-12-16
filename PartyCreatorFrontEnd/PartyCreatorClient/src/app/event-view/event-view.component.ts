@@ -31,6 +31,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ShoppingListItemDto } from '../interfaces/shopping-list-item-dto';
 import { ChatService } from '../services/chat.service';
 import { ChatMessageReceiveDto } from '../interfaces/chat-message-receive-dto';
+import { MapComponent } from '../map/map.component';
+
 
 @Component({
   selector: 'app-event-view',
@@ -246,48 +248,7 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-  //Mapa
-  toggleMapVisibility(): void {
-    if (this.isMapVisible) {
-      this.isMapVisible = false;
-    } else {
-      // Wyszukiwanie koordynatów tylko, gdy mapa jest ustawiona na widoczność
-      this.findMapCoordinates();
-    }
-  }
 
-  private findMapCoordinates(): void {
-    const addressToGeocode =
-      this.eventDetails?.address + ', ' + this.eventDetails?.city;
-
-    if (addressToGeocode) {
-      const provider = new leafletGeosearch.OpenStreetMapProvider();
-
-      provider
-        .search({ query: addressToGeocode })
-        .then((result: any) => {
-          if (result.length > 0) {
-            this.isMapVisible = true;
-          } else {
-            this.toast.error({
-              detail: 'Mapa nie potrafiła znaleźć tego adresu.',
-              duration: 3000,
-            });
-            // Dodaj odpowiedni kod, aby wyświetlić komunikat o błędzie (np. Angular Material Snackbar)
-            console.error('Mapa nie potrafiła znaleźć tego adresu.');
-          }
-        })
-        .catch((error: any) => {
-          // Dodaj odpowiedni kod, aby wyświetlić komunikat o błędzie (np. Angular Material Snackbar)
-          console.error('Błąd podczas geokodowania:', error);
-          console.error('Mapa nie potrafiła znaleźć tego adresu.');
-          this.toast.error({
-            detail: 'Mapa nie potrafiła znaleźć tego adresu.',
-            duration: 3000,
-          });
-        });
-    }
-  }
 
   //ShoppingList
   loadShoppingList() {
@@ -432,4 +393,41 @@ export class EventViewComponent implements OnInit {
       },
     });
   }
+
+  
+  openMapModal() {
+    const addressToGeocode = this.eventDetails.address + ', ' + this.eventDetails.city;
+  
+    if (addressToGeocode) {
+      const provider = new leafletGeosearch.OpenStreetMapProvider();
+      provider
+        .search({ query: addressToGeocode })
+        .then((result: any) => {
+          if (result.length > 0) {
+            const dialogRef = this.dialog.open(MapComponent, {
+              width: '80vw', // lub inny rozmiar
+              data: { 
+                eventAddress: this.eventDetails.address + ', ' + this.eventDetails.city,
+                coordinates: result[0] // przekazanie koordynatów do komponentu MapComponent
+              },
+            });
+          } else {
+            this.toast.error({
+              detail: 'Mapa nie potrafiła znaleźć tego adresu.',
+              duration: 3000,
+            });
+            console.error('Mapa nie potrafiła znaleźć tego adresu.');
+          }
+        })
+        .catch((error: any) => {
+          console.error('Błąd podczas geokodowania:', error);
+          console.error('Mapa nie potrafiła znaleźć tego adresu.');
+          this.toast.error({
+            detail: 'Mapa nie potrafiła znaleźć tego adresu.',
+            duration: 3000,
+          });
+        });
+    }
+  }
+  
 }

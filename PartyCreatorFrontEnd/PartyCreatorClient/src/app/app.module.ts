@@ -45,6 +45,7 @@ import { UserProfileComponent } from './profile/user-profile/user-profile.compon
 import { MatInputModule } from '@angular/material/input';
 import { ExtraFunctionsModalComponent } from './extra-functions-modal/extra-functions-modal.component';
 import { ChatComponent } from './event-view/chat/chat.component';
+import { SplitBillComponent } from './event-view/split-bill/split-bill.component';
 
 registerLocaleData(localePl);
 
@@ -59,6 +60,7 @@ registerLocaleData(localePl);
     EventViewComponent,
     ProfileComponent,
     MapComponent,
+    SplitBillComponent,
   ],
 
   imports: [

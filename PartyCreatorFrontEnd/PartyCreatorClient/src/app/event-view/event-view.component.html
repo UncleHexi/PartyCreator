@@ -74,7 +74,7 @@
       
 <!-- adres -->
 <div *ngIf="editField !== 'address'; else editFormAddress">
-  <p (click)="toggleMapVisibility()" class="eventAddress">
+  <p class="eventAddress">
     <fa-icon [icon]="faLocationDot" style="color: white" size="2xl">
     </fa-icon> 
     {{ eventDetails.address }} <i class="fa fa-pencil" *ngIf="editMode" (click)="editField = 'address'"></i></p>
@@ -104,8 +104,12 @@
     <button mat-raised-button (click)="saveChanges()">Zapisz</button>
   </form>
 </ng-template>
-
-
+ <div>
+  <p  (click)="openMapModal()" style="cursor:pointer;">
+    <mat-icon style="font-size:28px; margin-bottom:-2px; margin-left:9px;">map</mat-icon>
+    Otwórz mapę 
+</p>
+ </div>
 
         <div *ngIf="editField !== 'dateTime'; else editFormDateTime">
           <p>
@@ -161,14 +165,10 @@
     </div>
 
     <div class="chat">
-      <app-map
-        [eventAddress]="eventDetails.address + ', ' + eventDetails.city"
-        *ngIf="isMapVisible"
-      ></app-map>
+      <app-chat [eventId]="eventId" [messages]="messages"></app-chat>
+
     </div>
     <div class="photos">
-      zdjecia
-      <app-chat [eventId]="eventId" [messages]="messages"></app-chat>
     </div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>

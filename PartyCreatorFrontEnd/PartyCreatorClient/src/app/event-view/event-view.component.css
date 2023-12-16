@@ -204,8 +204,9 @@ textarea[name="description"] {
 
 .chat {
   grid-area: chat;
-  background-color: #545454;
   height: 550px;
+  display: flex;
+  flex-direction: column-reverse; /* Reverse the direction of the flex container */
 }
 
 .photos {
