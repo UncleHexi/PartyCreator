@@ -14,7 +14,7 @@
         src="{{ img.image }}"
         width="100%"
         style="cursor: pointer; max-height: 300px"
-        (click)="showImage($event, img.image)"
+        (click)="showImage($event, img.image, img.userId)"
       />
     </ng-template>
   </p-carousel>
@@ -33,9 +33,11 @@
   >
     <img [src]="selectedImage" style="width: 100%" class="previewimg" />
     <button mat-button color="warn"
-     style="width:100%; border-radius:15px;    background-color:black; padding: 15px; margin-top:15px; font-size:22px;"
-     (click)="deleteImage()" >
-     <mat-icon>delete</mat-icon>Usuń zdjęcie</button>
+      style="width:100%; border-radius:15px;    background-color:black; padding: 15px; margin-top:15px; font-size:22px;"
+      (click)="deleteImage()"
+      *ngIf="userRole.role === 'Admin' || selectedImageUserId === userRole.id">
+      <mat-icon>delete</mat-icon>Usuń zdjęcie
+    </button>
 
 
   </p-dialog>
