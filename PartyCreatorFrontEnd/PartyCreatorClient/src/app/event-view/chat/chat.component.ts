@@ -20,6 +20,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import * as signalR from '@microsoft/signalr';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chat',
@@ -33,9 +34,9 @@ import * as signalR from '@microsoft/signalr';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatIconModule,
   ],
 })
-
 export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() eventId = '';
   messages: ChatMessageReceiveDto[] = [];
@@ -105,8 +106,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   scrollToBottom(): void {
     try {
-      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight - this.myScrollContainer.nativeElement.clientHeight;
-    } catch(err) { }
+      this.myScrollContainer.nativeElement.scrollTop =
+        this.myScrollContainer.nativeElement.scrollHeight -
+        this.myScrollContainer.nativeElement.clientHeight;
+    } catch (err) {}
   }
 
   loadAllMessages() {

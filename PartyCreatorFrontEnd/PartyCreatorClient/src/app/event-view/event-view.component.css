@@ -213,7 +213,7 @@ textarea[name="description"] {
 }
 .chat {
   grid-area: chat;
-  height: 550px;
+  height: 100%;
   display: flex;
   flex-direction: column-reverse; /* Reverse the direction of the flex container */
 }
