@@ -188,6 +188,8 @@
       >
         Edytuj wydarzenie
       </button>
+    </div>
+    <div class="uploadFile">
       <p-fileUpload
         #fileUploader
         name="file"
@@ -203,12 +205,16 @@
     </div>
 
     <div class="chat">
+
       <app-chat [eventId]="eventId" [userId]="userRole.id"></app-chat>
+
     </div>
     <div class="photos">
       <app-event-gallery
         [eventId]="eventId"
         [images]="images"
+        [numVisible]="numVisible"
+        [imagesNum]="imagesNum"
       ></app-event-gallery>
     </div>
     <div class="inviteList">
@@ -269,7 +275,7 @@
                   color="primary"
                   (click)="signOutFromItem(item.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>thumb_down</mat-icon>
                   <span>&nbsp;Nie Przynoś</span>
                 </button>
                 <button
@@ -282,7 +288,7 @@
                   color="primary"
                   (click)="signOutFromItem(item.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>clear</mat-icon>
                   <span>&nbsp;Resetuj</span>
                 </button>
                 <button
@@ -291,7 +297,7 @@
                   color="primary"
                   (click)="signUpForItem(item.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>thumb_up</mat-icon>
                   <span>&nbsp;Przynieś</span>
                 </button>
                 <button
@@ -345,8 +351,10 @@
       <app-split-bill [eventId]="eventId"></app-split-bill>
     </div>
     <div class="surveys">ankiety</div>
+
     
     <div class="addNewContent" *ngIf="userRole.role === 'Admin' && (eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === '')">
+
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>

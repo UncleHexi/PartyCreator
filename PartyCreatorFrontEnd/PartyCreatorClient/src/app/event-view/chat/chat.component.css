@@ -1,12 +1,14 @@
 .chat-container {
-  position: relative; 
+  position: relative;
 }
 .messages-container {
   display: flex;
   flex-direction: column;
+
   overflow-y: auto; 
   max-height: 445px; 
   max-width:1003px;
+
 }
 .message-container {
   display: flex;
@@ -17,8 +19,14 @@
   background-color: white;
   color: black;
   border-radius: 10px;
-  min-width:20%; 
+
+  min-width: 20%;
   max-width: 50%;
+}
+
+.example-full-width {
+  width: 100%;
+
 }
 
 .sent-message {
@@ -46,14 +54,12 @@
   padding: 10px;
   position: sticky; /* Ustaw pozycję na sticky */
   bottom: 0; /* Przesuń na dół */
-}   
+}
 
-
-
-.buttonSend{
-  height:56px;
+.buttonSend {
+  height: 56px;
   width: 180px;
-  margin-left:10px;
+  margin-left: 10px;
 }
 
 @media (max-width: 1051px) {
@@ -61,3 +67,4 @@
     max-height: 390px;
   }
 }
+

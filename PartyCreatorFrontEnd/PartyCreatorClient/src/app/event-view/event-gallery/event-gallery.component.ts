@@ -5,6 +5,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { ImageModule } from 'primeng/image';
 import { DialogModule } from 'primeng/dialog';
 import { PhotoDto } from 'src/app/interfaces/photo-dto';
+
 import { id } from 'date-fns/locale';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,10 +22,26 @@ import { NgToastService } from 'ng-angular-popup';
 export class EventGalleryComponent implements OnInit {
   @Input() eventId = '';
   @Input() images: PhotoDto[] = [];
+  @Input() numVisible: number = 0;
+  @Input() imagesNum: number = 0;
   imageUrls: string[] = [];
   responsiveOptions: any[] | undefined;
   display: boolean = false;
   selectedImage: string = '';
+  autoplay: number = 3000;
+  loaded: boolean = false;
+
+  AutoPlay() {
+    if (this.imagesNum < 4) {
+      this.autoplay = 0;
+    } else {
+      this.autoplay = 3000;
+    }
+    this.loaded = false;
+    setTimeout(() => {
+      this.loaded = true;
+    }, 0);
+  }
 
   onDialogHide() {
     this.display = false;
@@ -40,9 +57,13 @@ export class EventGalleryComponent implements OnInit {
     private galleryService: GalleryService,
     private toast: NgToastService ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['imagesNum']) {
+      this.AutoPlay();
+    }
+  }
+
   ngOnInit() {
-    console.log('EventGalleryComponent.ngOnInit()');
-    console.log(this.images);
     this.responsiveOptions = [
       {
         breakpoint: '1400px',

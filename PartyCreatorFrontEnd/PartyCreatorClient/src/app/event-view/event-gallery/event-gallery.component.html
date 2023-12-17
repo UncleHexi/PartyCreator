@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container" *ngIf="imagesNum > 0">
   <p-carousel
+    *ngIf="loaded"
     [value]="images"
-    [numVisible]="3"
+    [numVisible]="numVisible"
     [numScroll]="1"
     [circular]="true"
     [styleClass]="'custom-carousel'"
-    [autoplayInterval]="3000"
+    [autoplayInterval]="autoplay"
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template let-img pTemplate="item">

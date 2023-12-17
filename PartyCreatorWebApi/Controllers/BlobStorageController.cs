@@ -31,7 +31,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("UploadBlobFile"), Authorize]
-        [RequestSizeLimit(100_000_000)] // 100MB
+        [RequestSizeLimit(10_000_000)] // 10MB
         public async Task<ActionResult<Gallery>> UploadBlobFile([FromForm] BlobContentModel model)
         {
             var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
