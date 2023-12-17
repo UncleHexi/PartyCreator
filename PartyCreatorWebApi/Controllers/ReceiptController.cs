@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PartyCreatorWebApi.Entities;
+using PartyCreatorWebApi.Repositories;
 using PartyCreatorWebApi.Repositories.Contracts;
 using System;
 using System.Threading.Tasks;
@@ -12,18 +13,21 @@ namespace PartyCreatorWebApi.Controllers
     public class ReceiptItemController : ControllerBase
     {
         private readonly IReceiptItemRepository _receiptItemRepository;
+        private readonly IUsersRepository _usersRepository;
 
-        public ReceiptItemController(IReceiptItemRepository receiptItemRepository)
+        public ReceiptItemController(IReceiptItemRepository receiptItemRepository, IUsersRepository usersRepository)
         {
             _receiptItemRepository = receiptItemRepository;
+            _usersRepository = usersRepository;
         }
 
         [HttpGet("GetReceiptItems/{eventId:int}"), Authorize]
-        public async Task<ActionResult> GetReceiptItems(int eventId)
+        public async Task<ActionResult<List<ReceiptItem>>> GetReceiptItems(int eventId)
         {
             try
             {
-                var receiptItems = await _receiptItemRepository.GetReceiptItems(eventId);
+            //trzeba zabezpieczyc 
+            var receiptItems = await _receiptItemRepository.GetReceiptItems(eventId);
                 return Ok(receiptItems);
             }
             catch (Exception ex)
@@ -32,29 +36,21 @@ namespace PartyCreatorWebApi.Controllers
             }
         }
 
-        [HttpGet("GetReceiptItemById/{id:int}"), Authorize]
-        public async Task<ActionResult> GetReceiptItemById(int id)
-        {
-            try
-            {
-                var receiptItem = await _receiptItemRepository.GetReceiptItemById(id);
-
-                if (receiptItem != null)
-                    return Ok(receiptItem);
-                else
-                    return NotFound("Item not found");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
-        }
+  
 
         [HttpPost("AddReceiptItem"), Authorize]
-        public async Task<ActionResult> AddReceiptItem(ReceiptItem receiptItem)
+        public async Task<ActionResult<ReceiptItem>> AddReceiptItem([FromBody]ReceiptItem receiptItem)
         {
             try
             {
+                var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+                var isOrganizer = await _receiptItemRepository.IsUserEventOrganizer(userId, receiptItem.EventId);
+
+                if (!isOrganizer)
+                {
+                    return Forbid("Nie jesteś organizatorem tego wydarzenia");
+                }
+
                 var result = await _receiptItemRepository.AddReceiptItem(receiptItem);
                 return Ok(result);
             }
@@ -64,7 +60,8 @@ namespace PartyCreatorWebApi.Controllers
             }
         }
 
-        [HttpPut("UpdateReceiptItem"), Authorize]
+
+       /* [HttpPut("UpdateReceiptItem"), Authorize]
         public async Task<ActionResult> UpdateReceiptItem(ReceiptItem receiptItem)
         {
             try
@@ -81,16 +78,35 @@ namespace PartyCreatorWebApi.Controllers
                 return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
+        tez trzeba zwrocic przedmiot*/
 
         [HttpDelete("RemoveReceiptItem/{id:int}"), Authorize]
-        public async Task<ActionResult> RemoveReceiptItem(int id)
+        public async Task<ActionResult<ReceiptItem>> RemoveReceiptItem(int id)
         {
             try
             {
+               
+                var itemToRemove = await _receiptItemRepository.GetReceiptItemById(id);
+
+                if (itemToRemove == null)
+                {
+                    return NotFound("Item not found");
+                }
+
+                var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+                
+                var isOrganizer = await _receiptItemRepository.IsUserEventOrganizer(userId, itemToRemove.EventId);
+
+                if (!isOrganizer)
+                {
+                    return Forbid("Nie jesteś organizatorem tego wydarzenia");
+                }
+
                 var result = await _receiptItemRepository.RemoveReceiptItem(id);
 
-                if (result)
-                    return Ok("Item removed");
+                if (result != null )
+                    return Ok(result);
                 else
                     return NotFound("Item not found");
             }
@@ -100,22 +116,6 @@ namespace PartyCreatorWebApi.Controllers
             }
         }
 
-        [HttpPut("SetItemPrice/{itemId:int}/{price:int}"), Authorize]
-        public async Task<ActionResult> SetItemPrice(int itemId, int price)
-        {
-            try
-            {
-                var result = await _receiptItemRepository.SetItemPrice(itemId, price);
-
-                if (result)
-                    return Ok("Price set");
-                else
-                    return NotFound("Item not found");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
-            }
-        }
+        
     }
 }

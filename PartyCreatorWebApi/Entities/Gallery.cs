@@ -6,5 +6,8 @@
         public int UserId { get; set; }
         public int EventId { get; set; }
         public string Image { get; set; } = string.Empty;
+
+        public Event Event { get; set; }
+
     }
 }

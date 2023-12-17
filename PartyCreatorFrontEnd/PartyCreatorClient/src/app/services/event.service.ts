@@ -74,8 +74,8 @@ export class EventService {
     );
   }
 
-  getAccess(contactId: string) {
-    return this.http.get<RoleDto>(`${this.baseUrl2}getAccess/${contactId}`);
+  getAccess(eventId: string) {
+    return this.http.get<RoleDto>(`${this.baseUrl2}getAccess/${eventId}`);
   }
 
   inviteToEventByEmail(contactEventDto: ContactEventDto) {

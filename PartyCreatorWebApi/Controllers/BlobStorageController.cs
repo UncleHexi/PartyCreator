@@ -67,12 +67,28 @@ namespace PartyCreatorWebApi.Controllers
             
         }
 
-        [HttpDelete("DeleteBlobFile/{id:int}")]
+        [HttpDelete("DeleteBlobFile/{id:int}"), Authorize]
         public async Task<IActionResult> DeleteBlobFile(int id)
         {
-            //trzeba zabezpieczyć
             try
             {
+                var image = await _blobStorageRepository.GetImageById(id);
+
+                // Sprawdź, czy obraz istnieje
+                if (image == null)
+                {
+                    return NotFound("Nie znaleziono obrazu");
+                }
+
+                // Pobierz identyfikator użytkownika z kontekstu
+                var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+                // Sprawdź, czy użytkownik jest właścicielem obrazu lub organizatorem wydarzenia
+                if (userId != image.UserId && userId != image.Event.CreatorId)
+                {
+                    return Forbid("Nie masz uprawnień do usunięcia tego obrazu");
+                }
+
                 await _blobStorageRepository.DeleteBlobFile(id);
                 return Ok();
             }
@@ -85,6 +101,7 @@ namespace PartyCreatorWebApi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
 
         [HttpGet("GetImagesFromEvent/{id:int}"), Authorize]
         public async Task<ActionResult<Gallery>> GetImagesFromEvent(int id)

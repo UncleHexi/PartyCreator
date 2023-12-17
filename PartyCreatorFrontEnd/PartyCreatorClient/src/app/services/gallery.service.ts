@@ -20,4 +20,10 @@ export class GalleryService {
   UploadImage(formData: FormData) {
     return this.http.post<PhotoDto>(`${this.baseUrl}UploadBlobFile`, formData);
   }
+  
+  DeleteImage(imageId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}DeleteBlobFile/${imageId}`);
+  }
 }
+  
+

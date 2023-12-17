@@ -205,7 +205,9 @@
     </div>
 
     <div class="chat">
-      <app-chat [eventId]="eventId" [messages]="messages"></app-chat>
+
+      <app-chat [eventId]="eventId" [userId]="userRole.id"></app-chat>
+
     </div>
     <div class="photos">
       <app-event-gallery
@@ -312,7 +314,7 @@
           </tbody>
         </table>
       </div>
-      <div class="add-item-form" *ngIf="userRole.role == 'Admin'">
+      <div class="add-item-form" *ngIf="userRole.role == 'Organizator'">
         <mat-form-field appearance="outline" class="item-name-field">
           <mat-label>Nazwa przedmiotu</mat-label>
           <input
@@ -350,14 +352,9 @@
     </div>
     <div class="surveys">ankiety</div>
 
-    <div
-      class="addNewContent"
-      *ngIf="
-        eventDetails.receiptTitle === '' ||
-        eventDetails.playlistTitle === '' ||
-        eventDetails.shoppingListTitle === ''
-      "
-    >
+    
+    <div class="addNewContent" *ngIf="userRole.role === 'Admin' && (eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === '')">
+
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>

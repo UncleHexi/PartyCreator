@@ -4,8 +4,11 @@
 .messages-container {
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  max-height: 445px;
+
+  overflow-y: auto; 
+  max-height: 445px; 
+  max-width:1003px;
+
 }
 .message-container {
   display: flex;
@@ -13,15 +16,17 @@
   border: 1px solid #ccc;
   margin: 8px;
   padding: 10px;
-  max-width: 50%;
   background-color: white;
   color: black;
   border-radius: 10px;
+
   min-width: 20%;
+  max-width: 50%;
 }
 
 .example-full-width {
   width: 100%;
+
 }
 
 .sent-message {
@@ -56,3 +61,10 @@
   width: 180px;
   margin-left: 10px;
 }
+
+@media (max-width: 1051px) {
+  .messages-container {
+    max-height: 390px;
+  }
+}
+
