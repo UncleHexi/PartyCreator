@@ -286,7 +286,7 @@
 
       
       </div>
-      <div class="add-item-form" *ngIf="userRole.role == 'Admin'">
+      <div class="add-item-form" *ngIf="userRole.role == 'Organizator'">
         <mat-form-field appearance="outline" class="item-name-field">
           <mat-label>Nazwa przedmiotu</mat-label>
           <input matInput [(ngModel)]="newItemName" placeholder="Nazwa przedmiotu">
@@ -307,12 +307,11 @@
       <app-split-bill [eventId]="eventId"></app-split-bill>
     </div>
     <div class="surveys">ankiety</div>
- 
-    <div class="addNewContent"  *ngIf="eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === ''" >
+    
+    <div class="addNewContent" *ngIf="userRole.role === 'Admin' && (eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === '')">
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>
-    
-  </div>
+    </div>
   </div>
 </body>

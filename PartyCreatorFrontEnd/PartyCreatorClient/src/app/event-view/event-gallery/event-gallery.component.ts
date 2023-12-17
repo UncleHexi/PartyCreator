@@ -6,13 +6,17 @@ import { ImageModule } from 'primeng/image';
 import { DialogModule } from 'primeng/dialog';
 import { PhotoDto } from 'src/app/interfaces/photo-dto';
 import { id } from 'date-fns/locale';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import { NgToastService } from 'ng-angular-popup';
+
 
 @Component({
   selector: 'app-event-gallery',
   templateUrl: './event-gallery.component.html',
   styleUrls: ['./event-gallery.component.css'],
   standalone: true,
-  imports: [CommonModule, CarouselModule, ImageModule, DialogModule],
+  imports: [MatButtonModule, CommonModule, CarouselModule, ImageModule, DialogModule, MatIconModule],
 })
 export class EventGalleryComponent implements OnInit {
   @Input() eventId = '';
@@ -32,7 +36,9 @@ export class EventGalleryComponent implements OnInit {
     this.display = true;
   }
 
-  constructor(private galleryService: GalleryService) {}
+  constructor(
+    private galleryService: GalleryService,
+    private toast: NgToastService ) {}
 
   ngOnInit() {
     console.log('EventGalleryComponent.ngOnInit()');
@@ -54,5 +60,33 @@ export class EventGalleryComponent implements OnInit {
         numScroll: 1,
       },
     ];
+  }
+  deleteImage() {
+    if (this.selectedImage) {
+      const imageId = this.images.find((img) => img.image === this.selectedImage)?.id;
+      if (imageId) {
+        this.galleryService.DeleteImage(imageId).subscribe(
+          () => {
+            console.log('Zdjęcie usunięte pomyślnie');
+            this.display = false;
+            this.toast.success({
+              detail: 'SUCCESS',
+              summary: 'Zdjęcie zostało usunięte!',
+              duration: 3000,
+            });
+          },
+          (error) => {
+            console.error('Błąd podczas usuwania zdjęcia:', error);
+            this.toast.error({
+              detail: 'ERROR',
+              summary: 'Zdjęcie nie zostało usunięte, nie jesteś organizatorem ani nie dodałeś tego zdjęcia!',
+              duration: 3000,
+            });
+          }
+        ); 
+      
+      }
+      
+    }
   }
 }
