@@ -1,5 +1,5 @@
 <div class="container">
-  <p class="title"> <mat-icon>receipt</mat-icon> Dodaj swoje zakupy oraz cenę, żeby członkowie wydarzenia wiedzieli ile są Ci dłużni</p>
+  <p class="title"> <mat-icon>receipt</mat-icon> Dzielenie się rachunkiem <mat-icon>receipt</mat-icon></p>
 
   <form *ngIf="userRole.role === 'Admin'"
     (ngSubmit)="onSubmit()" 
@@ -71,8 +71,8 @@
       </div>
   
 </div>
-<div style="display: flex; justify-content: space-between; padding-left: 50px; padding-right:50px;">
-  <p>Łączna suma jaką wydałeś: <b>{{ getTotalPrice() }}zł</b></p>
-  <p>Każdy uczestnik wydarzenia powinien ci oddać: <b>{{ getAmountPerPerson() }}zł</b></p>
+<div class="informations">
+  <p>Łączna kwota wydana przez organizatora: <b>{{ getTotalPrice() }}zł</b></p>
+  <p>Uczestnicy powinni oddać po: <b>{{ getAmountPerPerson() }}zł</b></p>
 </div>
   
