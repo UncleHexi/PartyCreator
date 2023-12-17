@@ -4,6 +4,10 @@
   width: 100%;
 }
 
+.mobilebuttons {
+  display: none;
+}
+
 ::ng-deep .my-calendar .cal-month-view,
 ::ng-deep .my-calendar .cal-week-view,
 ::ng-deep .my-calendar .cal-day-view {
@@ -124,4 +128,32 @@
   background-color: var(--special-primary);
   border-color: var(--special-primary);
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .calContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1em;
+  }
+
+  .calContainer .btn {
+    display: none;
+  }
+
+  .col-md-4:first-child {
+    padding-bottom: 10px;
+  }
+
+  .mobilebuttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 2.5em;
+    position: absolute;
+    z-index: 0;
+    padding: 0 1em;
+  }
 }

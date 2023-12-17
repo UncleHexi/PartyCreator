@@ -342,7 +342,7 @@
       playlista spotify
     </div>
     <div class="shareReceipt" *ngIf="eventDetails.receiptTitle === 'Title'">
-      dzielenie się rachunkiem
+      <app-split-bill [eventId]="eventId"></app-split-bill>
     </div>
     <div class="surveys">ankiety</div>
 

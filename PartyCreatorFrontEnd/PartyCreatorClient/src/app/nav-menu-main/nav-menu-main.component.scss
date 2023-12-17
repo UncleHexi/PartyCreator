@@ -67,6 +67,12 @@ html {
   cursor: pointer;
 }
 
+.navbar-nav .nav-item.link-active a {
+  color: white !important;
+  font-weight: bolder;
+  text-decoration-line: none;
+}
+
 .notificationMenu {
   $special-primary: mat.define-palette(mat.$indigo-palette, 600, 300, 800);
   $special-accent: mat.define-palette(mat.$green-palette, 600, 200, 900);

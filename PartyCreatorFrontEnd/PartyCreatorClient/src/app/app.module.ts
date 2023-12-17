@@ -47,6 +47,7 @@ import { ChatComponent } from './event-view/chat/chat.component';
 import { SplitBillComponent } from './event-view/split-bill/split-bill.component';
 import { EventGalleryComponent } from './event-view/event-gallery/event-gallery.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { RegulationsComponent } from './login/signup/regulations/regulations.component';
 
 registerLocaleData(localePl);
 
@@ -61,6 +62,7 @@ registerLocaleData(localePl);
     ProfileComponent,
     MapComponent,
     SplitBillComponent,
+    RegulationsComponent,
   ],
 
   imports: [
