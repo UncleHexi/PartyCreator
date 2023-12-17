@@ -21,7 +21,7 @@ html {
 }
 
 ::ng-deep .profileTab .mat-mdc-tab-body-wrapper {
-  height: 70vh;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -41,5 +41,9 @@ html {
     width: 100%;
     align-items: center;
     padding-top: 4em;
+  }
+
+  .tab-label-text {
+    display: none;
   }
 }

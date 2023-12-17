@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import * as signalR from '@microsoft/signalr';
+import { Component, OnInit } from '@angular/core';
 //icons
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import {
@@ -14,7 +13,6 @@ import {
   faComments,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
-import { environment } from 'src/environments/environment';
 import { SignalRService } from '../services/signal-r.service';
 //icons
 @Component({
@@ -22,7 +20,7 @@ import { SignalRService } from '../services/signal-r.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   title = 'PartyCreatorClient';
   //icons
   faSpotify = faSpotify; //ikonka spotify
@@ -47,54 +45,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.signalRService.hubConnection.on(
-      'EventJoined',
-      (user: string, text: string) => {
-        this.messages.push({ user, text });
-      }
-    );
-    this.signalRService.hubConnection.on(
-      'EventLeft',
-      (user: string, text: string) => {
-        this.messages.push({ user, text });
-      }
-    );
-
-    this.addToEventGroup();
-    window.addEventListener('signalRConnected', (e) => this.addToEventGroup());
-
     this.auth.changeIsLoggedInValue();
     this.isLoggedIn = this.auth.isLoggedIn();
-  }
-
-  ngOnDestroy(): void {
-    //sprawdz czy jest dolaczony
-    this.removeFromEventGroup();
-  }
-
-  sendMessage() {
-    // this.signalRService.hubConnection
-    //   .invoke('SendPrivateMessage', '18', this.user, this.message)
-    //   .catch((err) => console.error(err));
-    // this.message = '';
-  }
-
-  addToEventGroup() {
-    //sprawdz jeszcze czy juz nie jest dolaczony
-    if (
-      this.signalRService.hubConnection.state ===
-      signalR.HubConnectionState.Connected
-    ) {
-      this.signalRService.hubConnection
-        .invoke('AddToEventGroup', '100')
-        .catch((err) => console.error(err));
-    }
-  }
-
-  removeFromEventGroup() {
-    this.signalRService.hubConnection
-      .invoke('RemoveFromEventGroup', '100')
-      .catch((err) => console.error(err));
   }
 
   scrollToElement($element: HTMLElement): void {

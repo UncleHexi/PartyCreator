@@ -5,7 +5,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './login/signup/signup.component';
@@ -48,13 +47,13 @@ import { ChatComponent } from './event-view/chat/chat.component';
 import { SplitBillComponent } from './event-view/split-bill/split-bill.component';
 import { EventGalleryComponent } from './event-view/event-gallery/event-gallery.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { RegulationsComponent } from './login/signup/regulations/regulations.component';
 
 registerLocaleData(localePl);
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     HomeComponent,
     LoginComponent,
     SignupComponent,
@@ -63,6 +62,7 @@ registerLocaleData(localePl);
     ProfileComponent,
     MapComponent,
     SplitBillComponent,
+    RegulationsComponent,
   ],
 
   imports: [

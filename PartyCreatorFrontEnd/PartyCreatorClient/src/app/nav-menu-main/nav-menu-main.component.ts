@@ -16,6 +16,7 @@ import { AuthService } from '../services/auth.service';
 import { NotificationService } from '../services/notification.service';
 import { NotificationDto } from '../interfaces/notification-dto';
 import { EventService } from '../services/event.service';
+import { SignalRService } from '../services/signal-r.service';
 
 @Component({
   selector: 'app-nav-menu-main',
@@ -46,8 +47,25 @@ export class NavMenuMainComponent implements OnInit {
     private notificationService: NotificationService,
     private eventService: EventService,
     private toast: NgToastService,
-    private router: Router
+    private router: Router,
+    private signalRService: SignalRService
   ) {}
+
+  ngOnInit(): void {
+    if (this.auth.isLoggedIn()) {
+      this.getNotifications();
+
+      this.signalRService.hubConnection.on(
+        'ReceiveNotification',
+        (notification: NotificationDto) => {
+          console.log(notification);
+          this.notifications.push(notification);
+        }
+      );
+    }
+
+    window.addEventListener('signIn', (e) => this.ngOnInit());
+  }
 
   toggle() {
     this.isExpanded = !this.isExpanded;
@@ -68,10 +86,6 @@ export class NavMenuMainComponent implements OnInit {
   doSomething($event: any) {
     $event.stopPropagation();
     //Another instructions
-  }
-
-  ngOnInit(): void {
-    this.getNotifications();
   }
 
   getNotifications() {

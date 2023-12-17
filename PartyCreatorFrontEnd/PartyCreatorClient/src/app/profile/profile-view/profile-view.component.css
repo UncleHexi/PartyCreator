@@ -55,10 +55,17 @@ table.blueTable tr:nth-child(odd) {
   .parent {
     display: flex;
     flex-direction: column;
+    padding-top: 2em;
+  }
+
+  .profile-picture {
+    margin: 0;
   }
 
   .profile-picture img {
     width: 150px;
     height: 150px;
+
+    margin-bottom: 20px;
   }
 }

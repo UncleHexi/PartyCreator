@@ -8,6 +8,7 @@ import { authGuard } from './guards/auth.guard';
 import { loggedinGuard } from './guards/loggedin.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { UserProfileComponent } from './profile/user-profile/user-profile.component';
+import { RegulationsComponent } from './login/signup/regulations/regulations.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -27,6 +28,10 @@ const routes: Routes = [
     path: 'wydarzenie/:id',
     component: EventViewComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'regulamin',
+    component: RegulationsComponent,
   },
 ];
 

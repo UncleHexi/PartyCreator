@@ -123,11 +123,9 @@ export class EventViewComponent implements OnInit {
 
   ngOnInit() {
     this.authorization();
-    //jakims chujem nie dziala
-    //if(this.userRole.id!=0)
-    //{
+    //zaladuj wszystko jesli ma autoryzacje
+    //w html tak samo
     this.loadEventDetails();
-    this.loadAllMessages();
     this.loadImages();
   }
 
@@ -428,28 +426,10 @@ export class EventViewComponent implements OnInit {
     });
   }
 
-  //Chat
-  messages: ChatMessageReceiveDto[] = [];
-
-  loadAllMessages() {
-    this.chatService.getAllMessages(this.eventId).subscribe({
-      next: (res) => {
-        this.messages = res;
-      },
-      error: (err: HttpErrorResponse) => {
-        this.toast.error({
-          detail: 'ERROR',
-          summary: err.error,
-          duration: 3000,
-        });
-      },
-    });
-  }
-
-  
   openMapModal() {
-    const addressToGeocode = this.eventDetails.address + ', ' + this.eventDetails.city;
-  
+    const addressToGeocode =
+      this.eventDetails.address + ', ' + this.eventDetails.city;
+
     if (addressToGeocode) {
       const provider = new leafletGeosearch.OpenStreetMapProvider();
       provider
@@ -458,9 +438,10 @@ export class EventViewComponent implements OnInit {
           if (result.length > 0) {
             const dialogRef = this.dialog.open(MapComponent, {
               width: '80vw', // lub inny rozmiar
-              data: { 
-                eventAddress: this.eventDetails.address + ', ' + this.eventDetails.city,
-                coordinates: result[0] // przekazanie koordynatów do komponentu MapComponent
+              data: {
+                eventAddress:
+                  this.eventDetails.address + ', ' + this.eventDetails.city,
+                coordinates: result[0], // przekazanie koordynatów do komponentu MapComponent
               },
             });
           } else {
@@ -481,5 +462,4 @@ export class EventViewComponent implements OnInit {
         });
     }
   }
-  
 }

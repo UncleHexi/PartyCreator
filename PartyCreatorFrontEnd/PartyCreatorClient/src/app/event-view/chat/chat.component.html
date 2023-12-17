@@ -1,9 +1,23 @@
 <div class="chat-container">
   <div class="messages-container" #myScrollContainer>
-    <div *ngFor="let message of messages" [ngClass]="{'message-container': true, 'sent-message': message.userId === this.userId}">
-      <div class="user-info">{{ message.userId === this.userId ? 'Ty' : message.firstName + " " + message.lastName }}</div>
+    <div
+      *ngFor="let message of messages"
+      [ngClass]="{
+        'message-container': true,
+        'sent-message': message.userId === this.userId
+      }"
+    >
+      <div class="user-info">
+        {{
+          message.userId === this.userId
+            ? "Ty"
+            : message.firstName + " " + message.lastName
+        }}
+      </div>
       <div class="message">{{ message.message }}</div>
-      <div class="message-time">{{ message.dateTime | date: 'mediumTime' }}</div>
+      <div class="message-time">
+        {{ message.dateTime + "Z" | date : "mediumTime" }}
+      </div>
     </div>
   </div>
   <div class="input-container">
