@@ -13,25 +13,47 @@ namespace PartyCreatorWebApi.Repositories
         {
             _dataContext = dataContext;
         }
-        public async Task<Notification> CreateNotification(Notification request)
+        public async Task<NotificationDto> CreateNotification(Notification request)
         {
             var result = _dataContext.Notifications.AddAsync(request);
             await _dataContext.SaveChangesAsync();
-            return result.Result.Entity;
+            var notification = new NotificationDto
+            {
+                Id = result.Result.Entity.Id,
+                Description = request.Description,
+                EventId = request.EventId,
+                IsRead = request.IsRead,
+                Type = request.Type,
+                UserId = request.UserId,
+                EventTitle = _dataContext.Events.Where(e => e.Id == request.EventId).Select(t => t.Title).FirstOrDefault()
+            };
+            return notification;
         }
 
-        public async Task<List<Notification>> CreateNotificationToAllGuests(Notification notification)
+        public async Task<List<NotificationDto>> CreateNotificationToAllGuests(Notification notification)
         {
             var guests = await _dataContext.GuestLists.Where(x => x.EventId == notification.EventId).ToListAsync();
-            List<Notification> results = new List<Notification>();
+            List<NotificationDto> results = new List<NotificationDto>();
 
             foreach(GuestList guest in  guests)
             {
                 notification.UserId= guest.UserId;
-                await _dataContext.Notifications.AddAsync(notification);
-                results.Add(notification);
+                var result = await _dataContext.Notifications.AddAsync(notification);
+                await _dataContext.SaveChangesAsync();
+
+                var notificationDto = new NotificationDto
+                {
+                    Id = result.Entity.Id,
+                    Description = notification.Description,
+                    EventId = notification.EventId,
+                    IsRead = notification.IsRead,
+                    Type = notification.Type,
+                    UserId = notification.UserId,
+                    EventTitle = await _dataContext.Events.Where(e => e.Id == notification.EventId).Select(t => t.Title).FirstOrDefaultAsync()
+                };
+
+                results.Add(notificationDto);
             }
-            await _dataContext.SaveChangesAsync();
             return results;
         }
 

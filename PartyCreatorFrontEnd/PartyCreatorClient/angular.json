@@ -23,7 +23,6 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss",
-              "src/app/nav-menu/nav-menu.component.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/leaflet/dist/leaflet.css"
             ],
@@ -90,7 +89,6 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "@angular/material/prebuilt-themes/pink-bluegrey.css",
               "src/styles.scss",
-              "src/app/nav-menu/nav-menu.component.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": []

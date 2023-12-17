@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
+using PartyCreatorWebApi.HubConfig;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -15,12 +17,14 @@ namespace PartyCreatorWebApi.Controllers
         private readonly IChatRepository _chatRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly IHubContext<ChatHub> _hub;
 
-        public ChatController(IChatRepository chatRepository, IUsersRepository usersRepository, IEventRepository eventRepository)
+        public ChatController(IChatRepository chatRepository, IUsersRepository usersRepository, IEventRepository eventRepository, IHubContext<ChatHub> hub)
         {
             _chatRepository = chatRepository;
             _usersRepository = usersRepository;
             _eventRepository = eventRepository;
+            _hub = hub;
         }
 
         [HttpPost("sendMessage"), Authorize]
@@ -36,7 +40,8 @@ namespace PartyCreatorWebApi.Controllers
             }
 
             var result = await _chatRepository.CreateChatMessage(request);
-            //dodac interakcje z hubem
+            string eventId = result.EventId.ToString();
+            await _hub.Clients.Group(eventId).SendAsync("ReceiveChatMessage", result);
 
             return Ok(result);
         }

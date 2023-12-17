@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Extensions;
+using PartyCreatorWebApi.HubConfig;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -15,12 +18,14 @@ namespace PartyCreatorWebApi.Controllers
         private readonly IEventRepository _eventRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly INotificationRepository _notificationRepository;
+        private readonly IHubContext<ChatHub> _hub;
 
-        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository)
+        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub)
         {
             _eventRepository = eventRepository;
             _usersRepository = usersRepository;
             _notificationRepository = notificationRepository;
+            _hub = hub;
         }
 
         [HttpGet("getOfCreator"), Authorize]
@@ -148,7 +153,9 @@ namespace PartyCreatorWebApi.Controllers
                 IsRead = false,
                 EventId = request.EventId
             };
-            await _notificationRepository.CreateNotification(notification);
+
+            var notificationDto = await _notificationRepository.CreateNotification(notification);
+            await _hub.Clients.User(request.UserId.ToString()).SendAsync("ReceiveNotification", notificationDto);
 
             return Ok(result);
         }
@@ -326,7 +333,7 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Wystąpił problem podczas aktualizacji wydarzenia");
             }
 
-            await _notificationRepository.CreateNotificationToAllGuests(new Notification
+            var notifications = await _notificationRepository.CreateNotificationToAllGuests(new Notification
             {
                 Id = 0,
                 Description = "Wydarzenie uległo zmianie",
@@ -335,6 +342,11 @@ namespace PartyCreatorWebApi.Controllers
                 EventId = id,
                 UserId = 0
             });
+
+            foreach(var notification in notifications)
+            {
+                await _hub.Clients.User(notification.UserId.ToString()).SendAsync("ReceiveNotification", notification);
+            }
 
             return Ok(updatedEvent);
         }
