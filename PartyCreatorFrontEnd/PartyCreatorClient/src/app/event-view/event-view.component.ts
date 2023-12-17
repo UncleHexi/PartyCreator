@@ -69,6 +69,8 @@ export class EventViewComponent implements OnInit {
   arrowAnimationState: string = 'rest';
 
   images: PhotoDto[] = [];
+  numVisible = 3;
+  maxNumVisible = 3;
 
   guestsUsers: AllGuestsListDto[] = [];
   invitesUsers: AllGuestsListDto[] = [];
@@ -177,18 +179,6 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-  loadImages() {
-    this.galleryService.GetImagesFromEvent(Number(this.eventId)).subscribe({
-      next: (res) => {
-        this.images = res;
-        console.log('Images:', this.images);
-      },
-      error: (error) => {
-        console.error('Error fetching images', error);
-      },
-    });
-  }
-
   goToUserProfile(userId: number): void {
     this.router.navigate(['/profil', userId]);
   }
@@ -267,6 +257,20 @@ export class EventViewComponent implements OnInit {
     }
   }
 
+  imagesNum: number = 0; //liczba wszystkich zdjęć
+  loadImages() {
+    this.galleryService.GetImagesFromEvent(Number(this.eventId)).subscribe({
+      next: (res) => {
+        this.images = res;
+        this.numVisible = Math.min(this.maxNumVisible, this.images.length);
+        this.imagesNum = this.images.length;
+      },
+      error: (error) => {
+        console.error('Error fetching images', error);
+      },
+    });
+  }
+
   @ViewChild('fileUploader') fileUploader: FileUpload | undefined;
 
   uploadFile(event: any) {
@@ -284,6 +288,8 @@ export class EventViewComponent implements OnInit {
           duration: 3000,
         });
         this.images.push(res);
+        this.numVisible = Math.min(this.maxNumVisible, this.images.length);
+        this.imagesNum = this.images.length;
         if (this.fileUploader) {
           this.fileUploader.clear();
         }
@@ -446,10 +452,10 @@ export class EventViewComponent implements OnInit {
     });
   }
 
-  
   openMapModal() {
-    const addressToGeocode = this.eventDetails.address + ', ' + this.eventDetails.city;
-  
+    const addressToGeocode =
+      this.eventDetails.address + ', ' + this.eventDetails.city;
+
     if (addressToGeocode) {
       const provider = new leafletGeosearch.OpenStreetMapProvider();
       provider
@@ -458,9 +464,10 @@ export class EventViewComponent implements OnInit {
           if (result.length > 0) {
             const dialogRef = this.dialog.open(MapComponent, {
               width: '80vw', // lub inny rozmiar
-              data: { 
-                eventAddress: this.eventDetails.address + ', ' + this.eventDetails.city,
-                coordinates: result[0] // przekazanie koordynatów do komponentu MapComponent
+              data: {
+                eventAddress:
+                  this.eventDetails.address + ', ' + this.eventDetails.city,
+                coordinates: result[0], // przekazanie koordynatów do komponentu MapComponent
               },
             });
           } else {
@@ -481,5 +488,4 @@ export class EventViewComponent implements OnInit {
         });
     }
   }
-  
 }

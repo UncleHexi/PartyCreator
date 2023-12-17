@@ -103,12 +103,22 @@
 }
 
 ::ng-deep .my-calendar .cal-cell.cal-today {
-  background-color: var(--special-primary);
+  background-color: var(--special-primary-300);
   color: #fff;
+}
+
+::ng-deep .my-calendar .cal-days .cal-cell.cal-today {
+  background-color: var(--special-primary-300);
+  color: #fff;
+  font-size: 1.2em;
 }
 
 ::ng-deep .my-calendar .cal-day-cell.cal-has-events {
   background-color: var(--special-primary);
+}
+
+::ng-deep .my-calendar .cal-day-cell.cal-has-events:hover {
+  background-color: var(--special-accent) !important;
 }
 
 ::ng-deep .my-calendar .cal-event {
@@ -121,13 +131,12 @@
 }
 
 ::ng-deep .my-calendar .cal-days .cal-cell:hover {
-  background-color: var(--special-primary-300);
+  background-color: transparent;
 }
 
 .btn-primary {
   background-color: var(--special-primary);
   border-color: var(--special-primary);
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 768px) {
@@ -154,6 +163,6 @@
     margin-top: 2.5em;
     position: absolute;
     z-index: 0;
-    padding: 0 1em;
+    padding: 0;
   }
 }
