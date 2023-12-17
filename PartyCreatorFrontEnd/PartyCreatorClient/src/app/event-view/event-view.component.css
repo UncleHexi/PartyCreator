@@ -77,7 +77,7 @@ body {
   color: white;
   font-weight: bold;
   padding: 10px;
-  word-break: break-all;
+  word-break: normal;
 }
 .Details {
   text-align: center;
@@ -101,6 +101,14 @@ body {
   align-items: center;
   justify-content: center;
   align-self: flex-start;
+}
+
+.editDetails2 {
+  display: none;
+}
+
+.uploadFile {
+  display: none;
 }
 
 ::ng-deep .p-fileupload-choose {
@@ -213,9 +221,10 @@ textarea[name="description"] {
 }
 .chat {
   grid-area: chat;
-  height: 100%;
+  height: fit-content;
   display: flex;
   flex-direction: column-reverse; /* Reverse the direction of the flex container */
+  min-height: 500px;
 }
 
 .photos {
@@ -399,18 +408,37 @@ table tr:nth-child(even) {
       "photos";
   }
 
+  .mainLayout .buttons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .editDetails {
+    display: none;
+  }
+
   .details {
     height: 500px;
     margin-top: 1em;
     margin-bottom: 0;
     order: 1;
   }
-  .editDetails {
+  .editDetails2 {
+    display: flex;
     order: 1;
     width: 100%;
   }
 
-  .editDetails button {
+  .editDetails2 button {
+    background-color: var(--special-accent);
+    width: 80%;
+    height: 80px;
+    border-radius: 15px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .editDetails2 button {
     width: 100%;
     height: 60px;
   }
@@ -436,6 +464,7 @@ table tr:nth-child(even) {
   }
 
   .uploadFile {
+    display: block;
     order: 5;
     width: 100%;
   }

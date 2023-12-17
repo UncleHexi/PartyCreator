@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-modal',
@@ -65,7 +66,8 @@ export class EventModalComponent {
     private eventService: EventService,
     private toast: NgToastService,
     private fb: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {}
   close() {
     this.dialogRef.close();
@@ -80,6 +82,7 @@ export class EventModalComponent {
           duration: 3000,
         });
         this.dialogRef.close({ data: res.id });
+        this.router.navigate([`wydarzenie/${res.id}`]);
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
