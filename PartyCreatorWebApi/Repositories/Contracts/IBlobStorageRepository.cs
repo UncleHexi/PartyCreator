@@ -9,5 +9,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<Gallery> UploadBlobFile(IFormFile file, int eventId, int userId);
         Task DeleteBlobFile(int id);
         Task<List<Gallery>> GetImageByEventId(int eventId);
+        Task<Gallery> GetImageById(int id);
+
     }
 }
