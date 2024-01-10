@@ -181,6 +181,14 @@
         </ng-template>
       </div>
     </div>
+    <div class="editDetails2">
+      <button
+        *ngIf="!editMode && userRole.role == 'Admin'"
+        (click)="editMode = true"
+      >
+        Edytuj wydarzenie
+      </button>
+    </div>
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
@@ -188,6 +196,20 @@
       >
         Edytuj wydarzenie
       </button>
+      <div class="uploadFile2">
+        <p-fileUpload
+          #fileUploader
+          name="file"
+          mode="basic"
+          chooseLabel="Dodaj zdjęcie"
+          accept="image/*"
+          [maxFileSize]="10000000"
+          [customUpload]="true"
+          (uploadHandler)="uploadFile($event)"
+          [auto]="true"
+        >
+        </p-fileUpload>
+      </div>
     </div>
     <div class="uploadFile">
       <p-fileUpload
@@ -203,11 +225,8 @@
       >
       </p-fileUpload>
     </div>
-
     <div class="chat">
-
       <app-chat [eventId]="eventId" [userId]="userRole.id"></app-chat>
-
     </div>
     <div class="photos">
       <app-event-gallery
@@ -352,9 +371,15 @@
     </div>
     <div class="surveys">ankiety</div>
 
-    
-    <div class="addNewContent" *ngIf="userRole.role === 'Admin' && (eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === '')">
-
+    <div
+      class="addNewContent"
+      *ngIf="
+        userRole.role === 'Admin' &&
+        (eventDetails.receiptTitle === '' ||
+          eventDetails.playlistTitle === '' ||
+          eventDetails.shoppingListTitle === '')
+      "
+    >
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>
