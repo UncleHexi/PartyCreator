@@ -1,9 +1,7 @@
 ﻿using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Repositories.Contracts;
 using Azure.Storage.Blobs.Models;
-using System.Web;
 using PartyCreatorWebApi.Entities;
-using Azure.Core;
 
 namespace PartyCreatorWebApi.Repositories
 {

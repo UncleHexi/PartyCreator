@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
-using PartyCreatorWebApi.Repositories;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -60,7 +58,6 @@ namespace PartyCreatorWebApi.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, ex.Message);
             }
 

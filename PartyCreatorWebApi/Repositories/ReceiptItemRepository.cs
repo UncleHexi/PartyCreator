@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PartyCreatorWebApi.Entities;
-using PartyCreatorWebApi.Repositories.Contracts;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using PartyCreatorWebApi.Entities;
 
 namespace PartyCreatorWebApi.Repositories
 {

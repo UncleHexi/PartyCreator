@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 using System.IdentityModel.Tokens.Jwt;

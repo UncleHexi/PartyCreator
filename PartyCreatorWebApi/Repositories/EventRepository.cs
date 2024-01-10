@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PartyCreatorWebApi.Dtos;
+﻿using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
-using System.Transactions;
 
 namespace PartyCreatorWebApi.Repositories
 {
