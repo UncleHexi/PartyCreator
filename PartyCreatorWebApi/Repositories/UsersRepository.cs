@@ -1,5 +1,4 @@
-﻿using PartyCreatorWebApi.Dtos;
-using PartyCreatorWebApi.Entities;
+﻿using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 using System.Security.Claims;
 

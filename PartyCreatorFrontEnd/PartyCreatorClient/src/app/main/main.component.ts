@@ -84,7 +84,7 @@ export class MainComponent implements OnInit {
       if (!!res) {
         //this.getMyEvents();
         console.log(res.data);
-        this.router.navigate([`wydarzenie/${res.data}`]);
+        //this.router.navigate([`wydarzenie/${res.data}`]);
       }
     });
   }

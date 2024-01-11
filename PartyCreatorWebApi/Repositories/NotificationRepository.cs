@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using PartyCreatorWebApi.Dtos;
+﻿using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 
