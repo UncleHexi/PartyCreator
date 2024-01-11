@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
-using PartyCreatorWebApi.Repositories;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -31,7 +29,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("UploadBlobFile"), Authorize]
-        [RequestSizeLimit(100_000_000)] // 100MB
+        [RequestSizeLimit(10_000_000)] // 10MB
         public async Task<ActionResult<Gallery>> UploadBlobFile([FromForm] BlobContentModel model)
         {
             var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
@@ -60,19 +58,34 @@ namespace PartyCreatorWebApi.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, ex.Message);
             }
 
             
         }
 
-        [HttpDelete("DeleteBlobFile/{id:int}")]
+        [HttpDelete("DeleteBlobFile/{id:int}"), Authorize]
         public async Task<IActionResult> DeleteBlobFile(int id)
         {
-            //trzeba zabezpieczyć
             try
             {
+                var image = await _blobStorageRepository.GetImageById(id);
+
+                // Sprawdź, czy obraz istnieje
+                if (image == null)
+                {
+                    return NotFound("Nie znaleziono obrazu");
+                }
+
+                // Pobierz identyfikator użytkownika z kontekstu
+                var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+                // Sprawdź, czy użytkownik jest właścicielem obrazu lub organizatorem wydarzenia
+                if (userId != image.UserId && userId != image.Event.CreatorId)
+                {
+                    return Forbid("Nie masz uprawnień do usunięcia tego obrazu");
+                }
+
                 await _blobStorageRepository.DeleteBlobFile(id);
                 return Ok();
             }
@@ -85,6 +98,7 @@ namespace PartyCreatorWebApi.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
 
         [HttpGet("GetImagesFromEvent/{id:int}"), Authorize]
         public async Task<ActionResult<Gallery>> GetImagesFromEvent(int id)

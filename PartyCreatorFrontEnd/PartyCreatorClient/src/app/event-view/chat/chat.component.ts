@@ -2,7 +2,6 @@ import {
   Component,
   Input,
   OnInit,
-  SimpleChanges,
   AfterViewChecked,
   ElementRef,
   ViewChild,
@@ -15,11 +14,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
 import { ChatMessageSendDto } from 'src/app/interfaces/chat-message-send-dto';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { SignalRService } from 'src/app/services/signal-r.service';
 import * as signalR from '@microsoft/signalr';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chat',
@@ -33,9 +34,10 @@ import * as signalR from '@microsoft/signalr';
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
+    MatIconModule,
   ],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   @Input() eventId = '';
   messages: ChatMessageReceiveDto[] = [];
   @ViewChild('myScrollContainer', { static: false })
@@ -45,6 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   messageData = this.fb.group({
     message: '',
   });
+  prevMessagesLength: number = 0;
 
   constructor(
     private chatService: ChatService,
@@ -95,13 +98,17 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewChecked(): void {
-    this.scrollToBottom();
+    if (this.prevMessagesLength !== this.messages.length) {
+      this.prevMessagesLength = this.messages.length;
+      this.scrollToBottom();
+    }
   }
 
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop =
-        this.myScrollContainer.nativeElement.scrollHeight;
+        this.myScrollContainer.nativeElement.scrollHeight -
+        this.myScrollContainer.nativeElement.clientHeight;
     } catch (err) {}
   }
 
@@ -146,7 +153,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           this.messageData.reset();
         },
         (error: HttpErrorResponse) => {
-          console.error('Error sending message:', error);
+          console.error('Błąd podczas wysyłania wiadomości:', error);
         }
       );
     }

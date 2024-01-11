@@ -20,7 +20,7 @@
     border: none;
   }
   
-  .kontakty {
+  .items {
     width: 100%;
     text-align: left;
     border-collapse: collapse;
@@ -30,8 +30,8 @@
     background-color: #373737;
   }
   
-  .kontakty td,
-  .kontakty th {
+  .items td,
+  .items th {
     border: 0;
     padding: 1em 1rem;
   }
@@ -60,7 +60,24 @@
     text-align: center;
     background-color: var(--special-accent);
     padding: 10px; 
-    color: black; font-size: 20px;
+    color: black; 
+    font-size: 20px;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px; 
+    margin:0;
     }
+.informations{
+ display: flex;
+  justify-content: space-between; 
+  padding-left: 50px; 
+  padding-right:50px;
+  font-size:20px;
+}
+
+@media (max-width: 900px) {
+  .informations{
+    display: block;
+    padding:4px;
+    font-size:16px;
+   }
+}

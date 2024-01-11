@@ -16,23 +16,15 @@ export class ReceiptItemService {
     return this.http.get<ReceiptItem[]>(`${this.apiUrl}/GetReceiptItems/${eventId}`);
   }
 
-  getReceiptItemById(id: number): Observable<ReceiptItem> {
-    return this.http.get<ReceiptItem>(`${this.apiUrl}/GetReceiptItemById/${id}`);
-  }
-
   addReceiptItem(receiptItem: ReceiptItem): Observable<ReceiptItem> {
     return this.http.post<ReceiptItem>(`${this.apiUrl}/AddReceiptItem`, receiptItem);
   }
 
-  updateReceiptItem(receiptItem: ReceiptItem): Observable<ReceiptItem> {
+/*  updateReceiptItem(receiptItem: ReceiptItem): Observable<ReceiptItem> {
     return this.http.put<ReceiptItem>(`${this.apiUrl}/UpdateReceiptItem`, receiptItem);
-  }
+  } */
 
-  removeReceiptItem(id: number): Observable<boolean> {
-    return this.http.delete<boolean>(`${this.apiUrl}/RemoveReceiptItem/${id}`);
-  }
-
-  setItemPrice(itemId: number, price: number): Observable<boolean> {
-    return this.http.put<boolean>(`${this.apiUrl}/SetItemPrice/${itemId}/${price}`, {});
+  removeReceiptItem(id: number): Observable<ReceiptItem> {
+    return this.http.delete<ReceiptItem>(`${this.apiUrl}/RemoveReceiptItem/${id}`);
   }
 }

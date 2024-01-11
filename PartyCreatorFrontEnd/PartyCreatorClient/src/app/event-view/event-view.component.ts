@@ -69,6 +69,8 @@ export class EventViewComponent implements OnInit {
   arrowAnimationState: string = 'rest';
 
   images: PhotoDto[] = [];
+  numVisible = 3;
+  maxNumVisible = 3;
 
   guestsUsers: AllGuestsListDto[] = [];
   invitesUsers: AllGuestsListDto[] = [];
@@ -175,18 +177,6 @@ export class EventViewComponent implements OnInit {
     }
   }
 
-  loadImages() {
-    this.galleryService.GetImagesFromEvent(Number(this.eventId)).subscribe({
-      next: (res) => {
-        this.images = res;
-        console.log('Images:', this.images);
-      },
-      error: (error) => {
-        console.error('Error fetching images', error);
-      },
-    });
-  }
-
   goToUserProfile(userId: number): void {
     this.router.navigate(['/profil', userId]);
   }
@@ -265,6 +255,20 @@ export class EventViewComponent implements OnInit {
     }
   }
 
+  imagesNum: number = 0; //liczba wszystkich zdjęć
+  loadImages() {
+    this.galleryService.GetImagesFromEvent(Number(this.eventId)).subscribe({
+      next: (res) => {
+        this.images = res;
+        this.numVisible = Math.min(this.maxNumVisible, this.images.length);
+        this.imagesNum = this.images.length;
+      },
+      error: (error) => {
+        console.error('Error fetching images', error);
+      },
+    });
+  }
+
   @ViewChild('fileUploader') fileUploader: FileUpload | undefined;
 
   uploadFile(event: any) {
@@ -282,6 +286,8 @@ export class EventViewComponent implements OnInit {
           duration: 3000,
         });
         this.images.push(res);
+        this.numVisible = Math.min(this.maxNumVisible, this.images.length);
+        this.imagesNum = this.images.length;
         if (this.fileUploader) {
           this.fileUploader.clear();
         }
@@ -425,6 +431,7 @@ export class EventViewComponent implements OnInit {
       console.log('The dialog was closed with result:', result);
     });
   }
+
 
   openMapModal() {
     const addressToGeocode =

@@ -181,6 +181,14 @@
         </ng-template>
       </div>
     </div>
+    <div class="editDetails2">
+      <button
+        *ngIf="!editMode && userRole.role == 'Admin'"
+        (click)="editMode = true"
+      >
+        Edytuj wydarzenie
+      </button>
+    </div>
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
@@ -188,6 +196,22 @@
       >
         Edytuj wydarzenie
       </button>
+      <div class="uploadFile2">
+        <p-fileUpload
+          #fileUploader
+          name="file"
+          mode="basic"
+          chooseLabel="Dodaj zdjęcie"
+          accept="image/*"
+          [maxFileSize]="10000000"
+          [customUpload]="true"
+          (uploadHandler)="uploadFile($event)"
+          [auto]="true"
+        >
+        </p-fileUpload>
+      </div>
+    </div>
+    <div class="uploadFile">
       <p-fileUpload
         #fileUploader
         name="file"
@@ -201,7 +225,6 @@
       >
       </p-fileUpload>
     </div>
-
     <div class="chat">
       <app-chat [eventId]="eventId" [userId]="userRole.id"></app-chat>
     </div>
@@ -209,6 +232,8 @@
       <app-event-gallery
         [eventId]="eventId"
         [images]="images"
+        [numVisible]="numVisible"
+        [imagesNum]="imagesNum"
       ></app-event-gallery>
     </div>
     <div class="inviteList">
@@ -269,7 +294,7 @@
                   color="primary"
                   (click)="signOutFromItem(item.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>thumb_down</mat-icon>
                   <span>&nbsp;Nie Przynoś</span>
                 </button>
                 <button
@@ -282,7 +307,7 @@
                   color="primary"
                   (click)="signOutFromItem(item.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>clear</mat-icon>
                   <span>&nbsp;Resetuj</span>
                 </button>
                 <button
@@ -291,7 +316,7 @@
                   color="primary"
                   (click)="signUpForItem(item.id)"
                 >
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>thumb_up</mat-icon>
                   <span>&nbsp;Przynieś</span>
                 </button>
                 <button
@@ -308,7 +333,7 @@
           </tbody>
         </table>
       </div>
-      <div class="add-item-form" *ngIf="userRole.role == 'Admin'">
+      <div class="add-item-form" *ngIf="userRole.role == 'Organizator'">
         <mat-form-field appearance="outline" class="item-name-field">
           <mat-label>Nazwa przedmiotu</mat-label>
           <input
@@ -349,9 +374,10 @@
     <div
       class="addNewContent"
       *ngIf="
-        eventDetails.receiptTitle === '' ||
-        eventDetails.playlistTitle === '' ||
-        eventDetails.shoppingListTitle === ''
+        userRole.role === 'Admin' &&
+        (eventDetails.receiptTitle === '' ||
+          eventDetails.playlistTitle === '' ||
+          eventDetails.shoppingListTitle === '')
       "
     >
       <button mat-icon-button (click)="openAddContentModal()">

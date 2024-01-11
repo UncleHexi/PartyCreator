@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container" *ngIf="imagesNum > 0">
   <p-carousel
+    *ngIf="loaded"
     [value]="images"
-    [numVisible]="3"
+    [numVisible]="numVisible"
     [numScroll]="1"
     [circular]="true"
     [styleClass]="'custom-carousel'"
-    [autoplayInterval]="3000"
+    [autoplayInterval]="autoplay"
     [responsiveOptions]="responsiveOptions"
   >
     <ng-template let-img pTemplate="item">
@@ -13,7 +14,7 @@
         src="{{ img.image }}"
         width="100%"
         style="cursor: pointer; max-height: 300px"
-        (click)="showImage($event, img.image)"
+        (click)="showImage($event, img.image, img.userId)"
       />
     </ng-template>
   </p-carousel>
@@ -31,5 +32,13 @@
     contentStyleClass="custom - dialog"
   >
     <img [src]="selectedImage" style="width: 100%" class="previewimg" />
+    <button mat-button color="warn"
+      style="width:100%; border-radius:15px;    background-color:black; padding: 15px; margin-top:15px; font-size:22px;"
+      (click)="deleteImage()"
+      *ngIf="userRole.role === 'Admin' || selectedImageUserId === userRole.id">
+      <mat-icon>delete</mat-icon>Usuń zdjęcie
+    </button>
+
+
   </p-dialog>
 </div>

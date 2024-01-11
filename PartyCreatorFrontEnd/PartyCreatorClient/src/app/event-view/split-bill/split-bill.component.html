@@ -1,27 +1,29 @@
 <div class="container">
-  <p class="title">Dodaj swoje zakupy oraz cenę, żeby członkowie wydarzenia wiedzieli ile są Ci dłużni</p>
+  <p class="title"> <mat-icon>receipt</mat-icon> Dzielenie się rachunkiem <mat-icon>receipt</mat-icon></p>
 
-    <form (ngSubmit)="onSubmit()" 
+  <form *ngIf="userRole.role === 'Admin'"
+    (ngSubmit)="onSubmit()" 
+     #myForm="ngForm"
      class="mb-3"
      style="display: flex; flex-direction: row; align-items: center; gap: 5px; background-color:#212121; 
-     padding-bottom:0px; padding-top:15px; padding-left:15px;">
+     padding-bottom:0px; padding-top:15px; padding-left:15px; margin:0;">
       
      <div class="form-group">
-        <mat-form-field appearance="outline" class="mb-0"  [ngStyle]="{'width.px': 400}">
+        <mat-form-field appearance="outline" class="mb-0"  [ngStyle]="{'width.px': 400}" >
           <mat-label>Nazwa przedmiotu</mat-label>
-          <input matInput [(ngModel)]="receiptItem.name" name="name">
+          <input matInput [(ngModel)]="receiptItem.name" name="name" required>
         </mat-form-field>
       </div>
   
       <div class="form-group">
-        <mat-form-field appearance="outline" class="mb-0" [ngStyle]="{'width.px': 100}">
+        <mat-form-field appearance="outline" class="mb-0" [ngStyle]="{'width.px':98}">
           <mat-label>Ilość</mat-label>
-          <input matInput [(ngModel)]="receiptItem.quantity" name="quantity" type="number">
-        </mat-form-field>
+          <input matInput [(ngModel)]="receiptItem.quantity" name="quantity" type="number" required min="1" pattern="^[1-9]\d*$">
+          </mat-form-field>
       </div>
       
       <div class="form-group">
-        <mat-form-field appearance="outline" class="mb-0" [ngStyle]="{'width.px': 160}">
+        <mat-form-field appearance="outline" class="mb-0" [ngStyle]="{'width.px': 160}" required>
           <mat-label>Cena (za całość)</mat-label>
           <input matInput [(ngModel)]="receiptItem.price" name="price" type="number">
         </mat-form-field>
@@ -29,35 +31,48 @@
   
       <button type="submit" 
         mat-raised-button class="buttonAdd"
-         [ngStyle]="{'height.px': 58, 'width.px': 200, 'margin-bottom.px': 21}">
+         [ngStyle]="{'height.px': 58, 'width.px': 200, 'margin-bottom.px': 21}"
+         [disabled]="!myForm.form.valid">
          Dodaj przedmiot
        </button>        
       </form>
   
   
-      <div style="max-height: 200px; min-height:193px; overflow-y: auto;">
+      <div [ngStyle]="{
+        'max-height': userRole.role === 'Admin' ? '207px' : '316px', 
+        'min-height': userRole.role === 'Admin' ? '207px' : '316px', 
+        'overflow-y': 'auto'
+      }">
         <div class="card-body">
-          <table class="kontakty">
+          <table class="items">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">Nazwa</th>
                 <th scope="col">Ilość</th>
                 <th scope="col">Cena</th>
+                <th scope="col"></th>
+
               </tr>
             </thead>
           <tbody>
             <tr *ngFor="let item of receiptItems">
               <td>{{ item.name }}</td>
               <td>{{ item.quantity }}</td>
-              <td>{{ item.price }}zł</td>  
+              <td>{{ item.price }}zł</td> 
+              <td>
+                <button mat-icon-button color="warn"  (click)="removeItem(item.id)" *ngIf="userRole.role === 'Admin'">
+                  <mat-icon>clear</mat-icon>
+
+                </button>
+              </td> 
             </tr>
           </tbody>
         </table>
       </div>
   
 </div>
-<div style="display: flex; justify-content: space-between; padding-left: 10px; padding-right:10px;">
-  <p>Łączna suma jaką wydałeś: {{ getTotalPrice() }}zł</p>
-  <p>Każdy uczestnik wydarzenia powinień ci oddać: </p>
+<div class="informations">
+  <p>Łączna kwota wydana przez organizatora: <b>{{ getTotalPrice() }}zł</b></p>
+  <p>Uczestnicy powinni oddać po: <b>{{ getAmountPerPerson() }}zł</b></p>
 </div>
   
