@@ -184,8 +184,7 @@
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
-        (click)="editMode = true"
-      >
+        (click)="editMode = true">
         Edytuj wydarzenie
       </button>
     </div>
@@ -199,8 +198,7 @@
         [maxFileSize]="10000000"
         [customUpload]="true"
         (uploadHandler)="uploadFile($event)"
-        [auto]="true"
-      >
+        [auto]="true">
       </p-fileUpload>
     </div>
 
@@ -214,8 +212,8 @@
         [eventId]="eventId"
         [images]="images"
         [numVisible]="numVisible"
-        [imagesNum]="imagesNum"
-      ></app-event-gallery>
+        [imagesNum]="imagesNum">
+      </app-event-gallery>
     </div>
     <div class="inviteList">
       <h3>Lista uczestników</h3>
