@@ -61,9 +61,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit(): void {
     this.loadAllMessages();
 
-    this.addToEventGroup();
-    window.addEventListener('signalRConnected', (e) => this.addToEventGroup());
-
     this.signalRService.hubConnection.on(
       'ReceiveChatMessage',
       (signalRMessage: ChatMessageReceiveDto) => {
@@ -79,22 +76,10 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
     );
-    this.signalRService.hubConnection.on('EventJoined', (message: string) => {
-      console.log(message);
-    });
-    this.signalRService.hubConnection.on('EventLeft', (message: string) => {
-      console.log(message);
-    });
   }
 
   ngOnDestroy(): void {
-    this.removeFromEventGroup();
-    this.signalRService.hubConnection.off('EventJoined');
-    this.signalRService.hubConnection.off('EventLeft');
     this.signalRService.hubConnection.off('ReceiveChatMessage');
-    window.removeEventListener('signalRConnected', (e) =>
-      this.addToEventGroup()
-    ); //niby nie trzeba ale dla pewnosci
   }
 
   ngAfterViewChecked(): void {
@@ -156,28 +141,6 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
           console.error('Błąd podczas wysyłania wiadomości:', error);
         }
       );
-    }
-  }
-
-  addToEventGroup() {
-    if (
-      this.signalRService.hubConnection.state ===
-      signalR.HubConnectionState.Connected
-    ) {
-      this.signalRService.hubConnection
-        .invoke('AddToEventGroup', this.eventId)
-        .catch((err) => console.error(err));
-    }
-  }
-
-  removeFromEventGroup() {
-    if (
-      this.signalRService.hubConnection.state ===
-      signalR.HubConnectionState.Connected
-    ) {
-      this.signalRService.hubConnection
-        .invoke('RemoveFromEventGroup', this.eventId)
-        .catch((err) => console.error(err));
     }
   }
 }
