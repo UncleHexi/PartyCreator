@@ -64,6 +64,7 @@ builder.Services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IBlobStorageRepository, BlobStorageRepository>();
 builder.Services.AddScoped<IReceiptItemRepository, ReceiptItemRepository>();
+builder.Services.AddScoped<ISpotifyRepository, SpotifyRepository>();
 builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
 builder.Services.AddHttpContextAccessor();
 
