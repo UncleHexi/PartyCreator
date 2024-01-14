@@ -50,6 +50,10 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { RegulationsComponent } from './login/signup/regulations/regulations.component';
 import { ShoppingListComponent } from './event-view/shopping-list/shopping-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SurveyComponent } from './event-view/survey/survey.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
 
 registerLocaleData(localePl);
 
@@ -66,6 +70,7 @@ registerLocaleData(localePl);
     SplitBillComponent,
     RegulationsComponent,
     ShoppingListComponent,
+    SurveyComponent,
   ],
 
   imports: [
@@ -104,7 +109,15 @@ registerLocaleData(localePl);
     MatInputModule,
     ChatComponent,
     EventGalleryComponent,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

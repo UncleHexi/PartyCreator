@@ -50,6 +50,12 @@ namespace PartyCreatorWebApi.Repositories
             var result = await _dataContext.Choices.FirstOrDefaultAsync(x => x.Id == choiceId);
             if(result != null)
             {
+                var votes = await _dataContext.SurveyVotes.Where(x => x.ChoiceId == choiceId).ToListAsync();
+                foreach (var vote in votes)
+                {
+                    _dataContext.SurveyVotes.Remove(vote);
+                }
+
                 _dataContext.Choices.Remove(result);
                 await _dataContext.SaveChangesAsync();
                 return result;

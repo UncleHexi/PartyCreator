@@ -5,6 +5,7 @@ import { SurveyDto } from '../interfaces/survey-dto';
 import { ChoiceDto } from '../interfaces/choice-dto';
 import { SurveyVoteDto } from '../interfaces/survey-vote-dto';
 import { SurveyVoteSendDto } from '../interfaces/survey-vote-send-dto';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -38,10 +39,17 @@ export class SurveyService {
   }
 
   addVote(surveyVoteData: SurveyVoteSendDto) {
-    return this.http.post<SurveyVoteDto>(`${this.Url}addVote`, surveyVoteData);
+    return this.http.post<SurveyVoteDto>(`${this.Url}addVote`, surveyVoteData)
+      .pipe(
+        catchError((error: any) => {
+          console.error('Błąd podczas dodawania głosu:', error);
+          throw error; // Rzutuj błąd ponownie, aby przekazać go do komponentu
+        })
+      );
   }
 
   removeVote(voteId: string) {
     return this.http.delete<SurveyVoteDto>(`${this.Url}removeVote/${voteId}`);
   }
+  
 }
