@@ -32,6 +32,10 @@ export class UserService {
     return this.http.get<ContactDto[]>(`${this.baseUrl}GetMyContacts`);
   }
 
+  getUserType(): Observable<string> {
+    return this.http.get<string>(`${this.baseUrl}GetUserType`);
+  }
+
   addContact(contactData: ContactDto): Observable<ContactDto[]> {
     return this.http.post<ContactDto[]>(
       `${this.baseUrl}AddContact`,

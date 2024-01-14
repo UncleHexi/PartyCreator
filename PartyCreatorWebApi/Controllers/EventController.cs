@@ -21,13 +21,23 @@ namespace PartyCreatorWebApi.Controllers
         private readonly IUsersRepository _usersRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IHubContext<ChatHub> _hub;
+        private readonly IBlobStorageRepository _blobStorageRepository;
+        private readonly IShoppingListRepository _shoppingListRepository;
+        private readonly IReceiptItemRepository _receiptItemRepository;
+        private readonly IChatRepository _chatRepository;
+        private readonly ISurveyRepository _surveyRepository;
 
-        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub)
+        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub, IBlobStorageRepository blobStorageRepository, IShoppingListRepository shoppingListRepository, IReceiptItemRepository receiptItemRepository, IChatRepository chatRepository, ISurveyRepository surveyRepository)
         {
             _eventRepository = eventRepository;
             _usersRepository = usersRepository;
             _notificationRepository = notificationRepository;
             _hub = hub;
+            _blobStorageRepository = blobStorageRepository;
+            _shoppingListRepository = shoppingListRepository;
+            _receiptItemRepository = receiptItemRepository;
+            _chatRepository = chatRepository;
+            _surveyRepository = surveyRepository;
         }
 
         [HttpGet("getOfCreator"), Authorize]
@@ -428,6 +438,64 @@ namespace PartyCreatorWebApi.Controllers
             var result = await _eventRepository.DeleteInviteList(guestList.Id);
 
             return Ok(result);
+        }
+
+        [HttpDelete("deleteEvent/{eventId}"), Authorize]
+        public async Task<ActionResult<Event>> DeleteEvent(int eventId)
+        {
+            int userid = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var _event = await _eventRepository.GetEventDetails(eventId);
+            if(_event == null)
+            {
+                return BadRequest("Nie ma takiego wydarzenia");
+            }
+
+            if(_event.CreatorId != userid)
+            {
+                return BadRequest("Nie masz uprawnien do usuwania");
+            }
+
+            //gallery
+            var images = await _blobStorageRepository.GetImageByEventId(eventId);
+            foreach(var image in images)
+            {
+                await _blobStorageRepository.DeleteBlobFile(image.Id);
+            }
+
+            //shopping list
+            var shoppingList = await _shoppingListRepository.GetShoppigList(eventId);
+            foreach(var list in shoppingList)
+            {
+                await _shoppingListRepository.RemoveShoppingListItem(list.Id);
+            }
+
+            //receipt
+            var receiptitems = await _receiptItemRepository.GetReceiptItems(eventId);
+            foreach(var receiptitem in receiptitems)
+            {
+                await _receiptItemRepository.RemoveReceiptItem(receiptitem.Id);
+            }
+
+            //notification
+            await _notificationRepository.DeleteAllFromEvent(eventId);
+
+            //survey
+            var survey = await _surveyRepository.GetAllSurveysOfEvent(eventId);
+            foreach (var item in survey)
+            {
+                await _surveyRepository.DeleteSurvey(item.SurveyId);
+            }
+            //guestlist
+            await _eventRepository.DeleteAllGuestList(eventId);
+            //invitelist
+            await _eventRepository.DeleteAllInviteList(eventId);
+            //chatmessage
+            await _chatRepository.DeleteAllFromEvent(eventId);
+
+            //event
+            var deletedEvent = await _eventRepository.DeleteEvent(eventId);
+            return Ok(deletedEvent);
         }
     }
 

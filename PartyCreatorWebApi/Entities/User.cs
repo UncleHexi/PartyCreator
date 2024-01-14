@@ -15,6 +15,7 @@ namespace PartyCreatorWebApi.Entities
         public byte[] PasswordSalt { get; set; } = new byte[256];
         public string? VerificationToken {  get; set; }
         public DateTime? VerifiedAt { get; set; }
+        public string Type {  get; set; } = string.Empty;
 
     }
 }

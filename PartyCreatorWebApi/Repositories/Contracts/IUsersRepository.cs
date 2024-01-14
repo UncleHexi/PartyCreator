@@ -20,6 +20,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<UserContact> DeleteContact(int id);
         string GetUserIdFromContext();
         Task<List<User>> GetUsersEmailContains(string email);
+        Task<string> GetUserType(int userId);
 
     }
 }

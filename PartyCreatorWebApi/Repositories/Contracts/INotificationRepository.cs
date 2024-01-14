@@ -12,5 +12,6 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<Notification> GetNotification(int id);
         Task<List<NotificationDto>> CreateNotificationToAllGuests(Notification notification);
         Task<Notification> GetNotificationByUserIdEventId(int userId, int eventId);
+        Task<List<Notification>> DeleteAllFromEvent(int eventId);
     }
 }

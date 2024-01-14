@@ -104,6 +104,17 @@ namespace PartyCreatorWebApi.Repositories
             return null;
         }
 
+        public async Task<List<SurveyVote>> RemoveAllVotes(int surveyId)
+        {
+            var votes = await _dataContext.SurveyVotes.Where(x => x.SurveyId == surveyId).ToListAsync();
+            foreach (var vote in votes)
+            {
+                _dataContext.SurveyVotes.Remove(vote);
+            }
+            await _dataContext.SaveChangesAsync();
+            return votes;
+        }
+
         public async Task<List<SurveyDto>> GetAllSurveysOfEvent(int eventId)
         {
             List<SurveyDto> surveys = await _dataContext.Surveys
