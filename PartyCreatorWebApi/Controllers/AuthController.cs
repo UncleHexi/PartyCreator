@@ -110,11 +110,11 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Podane haslo sie nie zgadza");
             }
-
+            /*
             if(user.VerifiedAt == null)
             {
                 return BadRequest("Musisz najpierw potwierdzic email zeby sie zalogowac");
-            }
+            }*/
 
             string token = _authRepository.CreateToken(user);
 
