@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
+using PartyCreatorWebApi.Extensions;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -116,7 +117,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpGet("getVotesFromSurvey/{surveyId:int}"), Authorize]
-        public async Task<ActionResult<List<SurveyVote>>> GetVotesFromSurvey(int surveyId)
+        public async Task<ActionResult<List<SurveyVoteDto>>> GetVotesFromSurvey(int surveyId)
         {
             int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
@@ -138,7 +139,7 @@ namespace PartyCreatorWebApi.Controllers
         }
 
         [HttpPost("addVote"), Authorize]
-        public async Task<ActionResult<SurveyVote>> AddVote([FromBody] SurveyVote surveyVote)
+        public async Task<ActionResult<SurveyVoteDto>> AddVote([FromBody] SurveyVote surveyVote)
         {
             int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             if(userId != surveyVote.UserId)
@@ -176,11 +177,13 @@ namespace PartyCreatorWebApi.Controllers
             {
                 return BadRequest("Cos poszlo nie tak");
             }
-            return Ok(result);
+
+            var user = await _usersRepository.GetUserById(userId);
+            return Ok(DtoConversions.SurveyVoteToDto(surveyVote, user));
         }
 
         [HttpDelete("removeVote/{voteId:int}"),Authorize]
-        public async Task<ActionResult<SurveyVote>> RemoveVote(int voteId)
+        public async Task<ActionResult<SurveyVoteDto>> RemoveVote(int voteId)
         {
             int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
@@ -209,7 +212,8 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Cos poszlo nie tak");
             }
 
-            return Ok(result);
+            var user = await _usersRepository.GetUserById(userId);
+            return Ok(DtoConversions.SurveyVoteToDto(result, user));
         }
     }
 }

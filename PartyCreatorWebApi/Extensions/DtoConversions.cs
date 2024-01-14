@@ -53,5 +53,18 @@ namespace PartyCreatorWebApi.Extensions
                 ReceiptTitle = _event.ReceiptTitle
             };
         }
+
+        public static SurveyVoteDto SurveyVoteToDto(SurveyVote _surveyVote, User _user)
+        {
+            return new SurveyVoteDto
+            {
+                SurveyId = _surveyVote.SurveyId,
+                ChoiceId = _surveyVote.ChoiceId,
+                Id = _surveyVote.Id,
+                UserId = _surveyVote.UserId,
+                FirstName = _user.FirstName,
+                LastName = _user.LastName
+            };
+        }
     }
 }

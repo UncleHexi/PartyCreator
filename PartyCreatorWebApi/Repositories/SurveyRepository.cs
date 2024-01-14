@@ -108,9 +108,26 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
-        public async Task<List<SurveyVote>> GetAllVotesOfSurvey(int surveyId)
+        public async Task<List<SurveyVoteDto>> GetAllVotesOfSurvey(int surveyId)
         {
-            var result = await _dataContext.SurveyVotes.Where(x=> x.SurveyId == surveyId).ToListAsync();
+            var result = await _dataContext.SurveyVotes
+                .Where(x=> x.SurveyId == surveyId)
+                .Select(x=> new SurveyVoteDto
+                {
+                    SurveyId=x.SurveyId,
+                    ChoiceId=x.ChoiceId,
+                    Id=x.Id,
+                    UserId=x.UserId,
+                    FirstName= _dataContext.Users
+                    .Where(u => u.Id == x.UserId)
+                    .Select(u => u.FirstName)
+                    .FirstOrDefault(),
+                    LastName= _dataContext.Users
+                    .Where(u => u.Id == x.UserId)
+                    .Select(u => u.LastName)
+                    .FirstOrDefault(),
+                })
+                .ToListAsync();
             return result;
         }
 

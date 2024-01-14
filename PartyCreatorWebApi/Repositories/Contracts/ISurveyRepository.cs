@@ -11,7 +11,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<Choice> GetChoice(int choiceId);
         Task<SurveyVote> AddVote(SurveyVote vote);
         Task<SurveyVote> RemoveVote(int voteId);
-        Task<List<SurveyVote>> GetAllVotesOfSurvey(int surveyId);
+        Task<List<SurveyVoteDto>> GetAllVotesOfSurvey(int surveyId);
         Task<List<SurveyDto>> GetAllSurveysOfEvent(int eventId);
         Task<Survey> GetSurvey(int id);
         Task<SurveyVote> CheckIfAlreadyVotedInSurvey(SurveyVote surveyVote);
