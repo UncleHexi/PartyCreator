@@ -259,7 +259,7 @@
     </div>
 
     <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
-      playlista spotify
+      <app-spotify [eventId]="eventId" [eventTitle]="eventTitle"></app-spotify>
     </div>
     <div class="shareReceipt" *ngIf="eventDetails.receiptTitle === 'Title'">
       <app-split-bill [eventId]="eventId"></app-split-bill>
