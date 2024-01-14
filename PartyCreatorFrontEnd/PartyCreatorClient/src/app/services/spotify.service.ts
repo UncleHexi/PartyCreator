@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { LoginResponseDto } from '../interfaces/login-response-dto';
+import { SongDto } from '../interfaces/song-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +40,65 @@ export class SpotifyService {
       }
     );
     return await result.json();
+  }
+
+  async getUserId() {
+    const result = await fetch('https://api.spotify.com/v1/me', {
+      method: 'GET',
+      headers: {
+        Authorization: 'Bearer ' + this.getToken(),
+      },
+    });
+    return await result.json();
+  }
+
+  async createPlaylist(name: string, userId: string, description: string) {
+    const result = await fetch(
+      'https://api.spotify.com/v1/users/' + userId + '/playlists',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + this.getToken(),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: name,
+          description: description,
+          public: false,
+        }),
+      }
+    );
+    return await result.json();
+  }
+
+  async addTracksToPlaylist(playlistId: string, uris: string[]) {
+    const result = await fetch(
+      'https://api.spotify.com/v1/playlists/' + playlistId + '/tracks',
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + this.getToken(),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uris: uris.map((uri) => 'spotify:track:' + uri),
+        }),
+      }
+    );
+    return await result.json();
+  }
+
+  addSong(song: SongDto) {
+    return this.http.post<SongDto>(`${this.baseUrl}addSong`, song);
+  }
+
+  getPlaylist(eventId: number) {
+    return this.http.get<SongDto[]>(
+      `${this.baseUrl}getSongsFromEvent/${eventId}`
+    );
+  }
+
+  removeSong(songId: number) {
+    return this.http.delete(`${this.baseUrl}deleteSong/${songId}`);
   }
 }

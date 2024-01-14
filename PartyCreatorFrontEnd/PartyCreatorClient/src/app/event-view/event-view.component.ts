@@ -34,7 +34,6 @@ import { ChatMessageReceiveDto } from '../interfaces/chat-message-receive-dto';
 import { MapComponent } from '../map/map.component';
 import { GalleryService } from '../services/gallery.service';
 import { FileUpload } from 'primeng/fileupload';
-import { Observable } from 'rxjs';
 import { PhotoDto } from '../interfaces/photo-dto';
 import { SignalRService } from '../services/signal-r.service';
 import * as signalR from '@microsoft/signalr';
@@ -78,6 +77,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
   invitesUsers: AllGuestsListDto[] = [];
   userRole: RoleDto = { id: 0, role: '' };
   eventId = '';
+  eventTitle = '';
   editMode = false;
   editField: string | null = null;
   editedTime: string = '';
@@ -180,6 +180,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
         (data: EventUserDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
+            this.eventTitle = data.title;
             this.loadGuestsUsers();
             this.loadInvitedUsers();
             this.loadShoppingList();
@@ -395,7 +396,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
   signUpForItem(itemId: number) {
     this.shoppingListService.signUpForItem(itemId).subscribe(
       () => {
-        this.loadShoppingList(); 
+        this.loadShoppingList();
       },
       (error) => {
         console.error(

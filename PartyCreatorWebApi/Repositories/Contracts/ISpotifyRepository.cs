@@ -6,7 +6,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
     {
         Task<string> GetAccessToken(string code);
         Task<Song> AddSong(Song song);
-        Task<Song> GetSongsFromEvent(int eventId);
+        Task<List<Song>> GetSongsFromEvent(int eventId);
         Task<Song> DeleteSong(int id);
     }
 }

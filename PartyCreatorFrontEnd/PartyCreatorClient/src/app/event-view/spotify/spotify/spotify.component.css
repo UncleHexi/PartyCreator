@@ -33,7 +33,7 @@
   padding: 10px 20px;
   border-radius: 30px;
   align-self: center;
-  margin-top: 20%;
+  margin-top: 15%;
   text-align: center;
   width: 250px;
   text-decoration: none;
@@ -77,7 +77,6 @@
 .spotify-button {
   background-color: #1db954;
   border: none;
-  margin-right: 1em;
 }
 
 .spotify-search-button {
@@ -85,6 +84,21 @@
   width: 100%;
   border-top-right-radius: 0;
   border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.spotify-playlist-button {
+  background-color: var(--special-primary);
+  color: aliceblue;
+  align-self: flex-end;
+  width: 100%;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.spotify-add-button {
+  margin-right: 20px;
 }
 
 .playlist-songs {
@@ -106,4 +120,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.button-container {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
