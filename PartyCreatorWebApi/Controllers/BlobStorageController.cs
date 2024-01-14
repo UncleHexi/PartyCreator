@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
+using PartyCreatorWebApi.HubConfig;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -13,12 +16,14 @@ namespace PartyCreatorWebApi.Controllers
         private readonly IBlobStorageRepository _blobStorageRepository;
         private readonly IUsersRepository _usersRepository;
         private readonly IEventRepository _eventRepository;
+        private readonly IHubContext<ChatHub> _hub;
 
-        public BlobStorageController(IBlobStorageRepository blobStorageRepository, IUsersRepository usersRepository, IEventRepository eventRepository)
+        public BlobStorageController(IBlobStorageRepository blobStorageRepository, IUsersRepository usersRepository, IEventRepository eventRepository, IHubContext<ChatHub> hub)
         {
             _blobStorageRepository = blobStorageRepository;
             _usersRepository = usersRepository;
             _eventRepository = eventRepository;
+            _hub = hub;
         }
 
         [HttpGet("GetBlobFile")]
@@ -54,6 +59,8 @@ namespace PartyCreatorWebApi.Controllers
             try
             {
                 var result = await _blobStorageRepository.UploadBlobFile(model.File, model.EventId, model.UserId);
+                string eventId = result.EventId.ToString();
+                await _hub.Clients.Group(eventId).SendAsync("ReceiveImage", result);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -80,13 +87,22 @@ namespace PartyCreatorWebApi.Controllers
                 // Pobierz identyfikator użytkownika z kontekstu
                 var userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
 
+                var _event = await _eventRepository.GetEventDetails(image.EventId);
+                if(_event == null)
+                {
+                    return NotFound("Nie znaleziono wydarzenia");
+                }
+
                 // Sprawdź, czy użytkownik jest właścicielem obrazu lub organizatorem wydarzenia
-                if (userId != image.UserId && userId != image.Event.CreatorId)
+                if (userId != image.UserId && userId != _event.CreatorId)
                 {
                     return Forbid("Nie masz uprawnień do usunięcia tego obrazu");
                 }
 
-                await _blobStorageRepository.DeleteBlobFile(id);
+                var result = await _blobStorageRepository.DeleteBlobFile(id);
+                var eventId = _event.Id.ToString();
+
+                await _hub.Clients.Group(eventId).SendAsync("DeleteImage", result);
                 return Ok();
             }
             catch (ArgumentException ex)

@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private auth: AuthService,
-    private signalRservice: SignalRService
+    private signalRservice: SignalRService,
   ) {}
 
   ngOnInit(): void {
@@ -53,4 +53,5 @@ export class AppComponent implements OnInit {
       this.signalRservice.hubConnection.start();
     }
   }
+  
 }

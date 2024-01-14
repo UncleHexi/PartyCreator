@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GalleryService } from 'src/app/services/gallery.service';
 import { CarouselModule } from 'primeng/carousel';
@@ -12,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgToastService } from 'ng-angular-popup';
 import { RoleDto } from 'src/app/interfaces/role-dto';
 import { EventService } from 'src/app/services/event.service';
+import { SignalRService } from 'src/app/services/signal-r.service';
 
 @Component({
   selector: 'app-event-gallery',
@@ -27,12 +34,12 @@ import { EventService } from 'src/app/services/event.service';
     MatIconModule,
   ],
 })
-export class EventGalleryComponent implements OnInit {
+export class EventGalleryComponent implements OnInit, OnDestroy {
   @Input() eventId = '';
   @Input() images: PhotoDto[] = [];
   @Input() numVisible: number = 0;
   @Input() imagesNum: number = 0;
-  userRole: RoleDto = { id: 0, role: '' };
+  @Input() userRole: RoleDto = { id: 0, role: '' };
 
   imageUrls: string[] = [];
   responsiveOptions: any[] | undefined;
@@ -67,7 +74,8 @@ export class EventGalleryComponent implements OnInit {
   constructor(
     private galleryService: GalleryService,
     private toast: NgToastService,
-    private eventService: EventService
+    private eventService: EventService,
+    private signalRService: SignalRService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -94,7 +102,38 @@ export class EventGalleryComponent implements OnInit {
         numScroll: 1,
       },
     ];
-    this.loadUserRole();
+
+    this.signalRService.hubConnection.on(
+      'ReceiveImage',
+      (signalRMessage: PhotoDto) => {
+        console.log(signalRMessage);
+
+        if (signalRMessage.userId != this.userRole.id) {
+          this.images.push(signalRMessage);
+        }
+      }
+    );
+
+    this.signalRService.hubConnection.on(
+      'DeleteImage',
+      (signalRMessage: PhotoDto) => {
+        console.log(signalRMessage);
+
+        var imageIndex = this.images.findIndex(
+          (img) => img.id === signalRMessage.id
+        );
+        if (imageIndex !== -1) {
+          this.images.splice(imageIndex, 1);
+
+          this.numVisible = this.images.length;
+          this.imagesNum = this.images.length;
+        }
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.signalRService.hubConnection.off('ReceiveImage');
   }
 
   deleteImage() {
@@ -111,8 +150,8 @@ export class EventGalleryComponent implements OnInit {
           this.userRole.role === 'Admin' ||
           this.userRole.id === imageUserId
         ) {
-          this.galleryService.DeleteImage(imageId).subscribe(
-            () => {
+          this.galleryService.DeleteImage(imageId).subscribe({
+            next: (res) => {
               console.log('Zdjęcie usunięte pomyślnie');
               this.display = false;
               this.toast.success({
@@ -121,11 +160,16 @@ export class EventGalleryComponent implements OnInit {
                 duration: 3000,
               });
 
-              this.images = this.images.filter((img) => img.id !== imageId);
+              var imageIndex = this.images.findIndex(
+                (img) => img.id === imageId
+              );
+              if (imageIndex !== -1) {
+                this.images.splice(imageIndex, 1);
+              }
               this.numVisible = this.images.length;
               this.imagesNum = this.images.length;
             },
-            (error) => {
+            error: (error) => {
               console.error('Błąd podczas usuwania zdjęcia:', error);
               this.toast.error({
                 detail: 'ERROR',
@@ -133,19 +177,12 @@ export class EventGalleryComponent implements OnInit {
                   'Zdjęcie nie zostało usunięte, nie jesteś organizatorem ani nie dodałeś tego zdjęcia!',
                 duration: 3000,
               });
-            }
-          );
+            },
+          });
         } else {
           console.log('Brak uprawnień do usunięcia zdjęcia.');
         }
       }
     }
-  }
-
-  loadUserRole(): void {
-    this.eventService.getAccess(this.eventId).subscribe(
-      (data) => (this.userRole = data),
-      (error) => console.error('Error loading user role', error)
-    );
   }
 }

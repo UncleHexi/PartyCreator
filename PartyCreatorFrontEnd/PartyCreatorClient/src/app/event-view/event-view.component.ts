@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventService } from '../services/event.service';
 import { UserService } from '../services/user.service';
@@ -36,6 +36,8 @@ import { GalleryService } from '../services/gallery.service';
 import { FileUpload } from 'primeng/fileupload';
 import { Observable } from 'rxjs';
 import { PhotoDto } from '../interfaces/photo-dto';
+import { SignalRService } from '../services/signal-r.service';
+import * as signalR from '@microsoft/signalr';
 
 @Component({
   selector: 'app-event-view',
@@ -54,7 +56,7 @@ import { PhotoDto } from '../interfaces/photo-dto';
     ]),
   ],
 })
-export class EventViewComponent implements OnInit {
+export class EventViewComponent implements OnInit, OnDestroy {
   faArrowRight: any;
   selected: Date | null;
   eventDetails: EventUserDto;
@@ -101,7 +103,8 @@ export class EventViewComponent implements OnInit {
     private shoppingListService: ShoppingListService,
     public dialog: MatDialog,
     private chatService: ChatService,
-    private galleryService: GalleryService
+    private galleryService: GalleryService,
+    private signalRService: SignalRService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
@@ -129,6 +132,25 @@ export class EventViewComponent implements OnInit {
     //w html tak samo
     this.loadEventDetails();
     this.loadImages();
+
+    this.addToEventGroup();
+    window.addEventListener('signalRConnected', (e) => this.addToEventGroup());
+
+    this.signalRService.hubConnection.on('EventJoined', (message: string) => {
+      console.log(message);
+    });
+    this.signalRService.hubConnection.on('EventLeft', (message: string) => {
+      console.log(message);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.removeFromEventGroup();
+    this.signalRService.hubConnection.off('EventJoined');
+    this.signalRService.hubConnection.off('EventLeft');
+    window.removeEventListener('signalRConnected', (e) =>
+      this.addToEventGroup()
+    ); //niby nie trzeba ale dla pewnosci
   }
 
   //Event methods
@@ -373,7 +395,7 @@ export class EventViewComponent implements OnInit {
   signUpForItem(itemId: number) {
     this.shoppingListService.signUpForItem(itemId).subscribe(
       () => {
-        this.loadShoppingList(); // odśwież listę po zapisaniu się na przedmiot
+        this.loadShoppingList(); 
       },
       (error) => {
         console.error(
@@ -432,7 +454,6 @@ export class EventViewComponent implements OnInit {
     });
   }
 
-
   openMapModal() {
     const addressToGeocode =
       this.eventDetails.address + ', ' + this.eventDetails.city;
@@ -467,6 +488,29 @@ export class EventViewComponent implements OnInit {
             duration: 3000,
           });
         });
+    }
+  }
+
+  //SingalR
+  addToEventGroup() {
+    if (
+      this.signalRService.hubConnection.state ===
+      signalR.HubConnectionState.Connected
+    ) {
+      this.signalRService.hubConnection
+        .invoke('AddToEventGroup', this.eventId)
+        .catch((err) => console.error(err));
+    }
+  }
+
+  removeFromEventGroup() {
+    if (
+      this.signalRService.hubConnection.state ===
+      signalR.HubConnectionState.Connected
+    ) {
+      this.signalRService.hubConnection
+        .invoke('RemoveFromEventGroup', this.eventId)
+        .catch((err) => console.error(err));
     }
   }
 }

@@ -3,7 +3,7 @@ header {
 }
 body {
   padding: 10px;
-  background-color: #2d2d2d;
+  background-color: var(--background-color);
   color: #fff;
 }
 
@@ -15,7 +15,7 @@ body {
   grid-template-areas:
     "details chat inviteList"
     "editDetails photos inviteList";
-  background-color: #2d2d2d;
+  background-color: var(--background-color);
   margin-left: 20px;
 }
 
@@ -73,7 +73,7 @@ body {
 }
 
 .details h1 {
-  color: white;
+  color: aliceblue;
   font-weight: bold;
   padding: 10px;
   word-break: normal;
@@ -126,6 +126,8 @@ body {
   border-radius: 15px;
   font-size: 24px;
   font-weight: bold;
+  border-style: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 input[name="name"] {
@@ -223,6 +225,7 @@ textarea[name="description"] {
   display: flex;
   flex-direction: column-reverse; /* Reverse the direction of the flex container */
   min-height: 500px;
+  background-color: var(--backgroundChat);
 }
 
 .photos {
@@ -248,7 +251,7 @@ textarea[name="description"] {
 
 .inviteList {
   grid-area: inviteList;
-  background-color: #484848;
+  background-color: var(--backgroundInviteList);
   text-align: center;
   width: 400px;
   height: 815px;
@@ -258,7 +261,7 @@ textarea[name="description"] {
 .inviteList button {
   background-color: var(--special-primary);
   font-weight: bold;
-  color: white;
+  color: (--h1-color);
   position: absolute;
   bottom: 10px; /* Adjust the distance from the bottom as needed */
   left: 50%; /* Center the button horizontally */
@@ -267,6 +270,7 @@ textarea[name="description"] {
   padding: 20px;
   font-size: 28px;
   border-radius: 15px;
+  border-style: none;
 }
 
 .addNewContent {
@@ -389,6 +393,12 @@ table tr:nth-child(even) {
   font-size: 28px;
   color: var(--special-accent);
   cursor: pointer;
+}
+
+.addNewContent {
+  background-color: var(--background-color);
+  color: var(--h1-color);
+  font-size: 64px;
 }
 
 @media (max-width: 700px) {

@@ -19,7 +19,7 @@ namespace PartyCreatorWebApi.Repositories
             _dataContext = dataContext;
 
         }
-        public async Task DeleteBlobFile(int id)    
+        public async Task<Gallery> DeleteBlobFile(int id)    
         {
             var image = await _dataContext.Galleries.FirstOrDefaultAsync(x => x.Id == id);
             if (image == null)
@@ -36,6 +36,7 @@ namespace PartyCreatorWebApi.Repositories
 
             _dataContext.Galleries.Remove(image);
             await _dataContext.SaveChangesAsync();
+            return image;
         }
 
 
@@ -127,9 +128,9 @@ namespace PartyCreatorWebApi.Repositories
         }
         public async Task<Gallery> GetImageById(int id)
         {
-            return await _dataContext.Galleries
-                .Include(g => g.Event) 
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var result = await _dataContext.Galleries.FirstOrDefaultAsync(x => x.Id == id);
+
+            return result;
         }
     }
 }

@@ -7,6 +7,7 @@ import { LoginResponseDto } from '../interfaces/login-response-dto';
 import { UserDto } from '../interfaces/user-dto';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ChangePasswordDto } from '../interfaces/change-password-dto'; // Upewnij się, że masz odpowiednią strukturę DTO.
 
 @Injectable({
   providedIn: 'root',
@@ -66,5 +67,9 @@ export class AuthService {
     } else {
       this.isLoggedInValue = false;
     }
+  }
+
+  changePassword(changePasswordData: ChangePasswordDto) {
+    return this.http.post<any>(`${this.baseUrl}change-password`, changePasswordData);
   }
 }

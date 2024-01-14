@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
+import {ProgressSpinnerMode, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-signin',
@@ -15,6 +16,7 @@ import { NgToastService } from 'ng-angular-popup';
 export class SigninComponent {
   public signinForm: FormGroup; // formularz logowania
   credentials: LoginDto = { email: '', password: '' };
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +41,8 @@ export class SigninComponent {
   }
 
   submit() {
+    this.isLoading = true;  
+
     this.credentials.email = this.signinForm.value.email;
     this.credentials.password = this.signinForm.value.password;
 
@@ -52,6 +56,7 @@ export class SigninComponent {
         });
         this.signinForm.reset(); // resetowanie formularza po jego złożeniu
         this.router.navigate(['wydarzenia']);
+        this.isLoading = false;
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({
@@ -59,6 +64,7 @@ export class SigninComponent {
           summary: err.error,
           duration: 3000,
         });
+        this.isLoading = false;
       },
     });
   }

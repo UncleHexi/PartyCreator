@@ -64,7 +64,11 @@ builder.Services.AddScoped<IShoppingListRepository, ShoppingListRepository>();
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
 builder.Services.AddScoped<IBlobStorageRepository, BlobStorageRepository>();
 builder.Services.AddScoped<IReceiptItemRepository, ReceiptItemRepository>();
+<<<<<<< HEAD
 builder.Services.AddScoped<ISpotifyRepository, SpotifyRepository>();
+=======
+builder.Services.AddScoped<ISurveyRepository, SurveyRepository>();
+>>>>>>> 10c9474915c1017f3d3472d1907b5ee6ddcff44d
 builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

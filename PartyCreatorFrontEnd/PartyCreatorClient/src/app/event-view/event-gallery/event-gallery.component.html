@@ -4,7 +4,7 @@
     [value]="images"
     [numVisible]="numVisible"
     [numScroll]="1"
-    [circular]="true"
+    [circular]="false"
     [styleClass]="'custom-carousel'"
     [autoplayInterval]="autoplay"
     [responsiveOptions]="responsiveOptions"
@@ -32,13 +32,21 @@
     contentStyleClass="custom - dialog"
   >
     <img [src]="selectedImage" style="width: 100%" class="previewimg" />
-    <button mat-button color="warn"
-      style="width:100%; border-radius:15px;    background-color:black; padding: 15px; margin-top:15px; font-size:22px;"
+    <button
+      mat-button
+      color="warn"
+      style="
+        width: 100%;
+        border-radius: 15px;
+        background-color: black;
+        padding: 15px;
+        margin-top: 15px;
+        font-size: 22px;
+      "
       (click)="deleteImage()"
-      *ngIf="userRole.role === 'Admin' || selectedImageUserId === userRole.id">
+      *ngIf="userRole.role === 'Admin' || selectedImageUserId === userRole.id"
+    >
       <mat-icon>delete</mat-icon>Usuń zdjęcie
     </button>
-
-
   </p-dialog>
 </div>
