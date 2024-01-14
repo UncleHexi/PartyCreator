@@ -18,7 +18,6 @@ import { NotificationDto } from '../interfaces/notification-dto';
 import { EventService } from '../services/event.service';
 import { SignalRService } from '../services/signal-r.service';
 
-
 @Component({
   selector: 'app-nav-menu-main',
   templateUrl: './nav-menu-main.component.html',
@@ -43,7 +42,7 @@ export class NavMenuMainComponent implements OnInit {
   notifications: NotificationDto[] = [];
   counter = 0;
   public isLightTheme = false;
-  
+
   constructor(
     public auth: AuthService,
     private notificationService: NotificationService,
@@ -61,7 +60,7 @@ export class NavMenuMainComponent implements OnInit {
         'ReceiveNotification',
         (notification: NotificationDto) => {
           console.log(notification);
-          this.notifications.push(notification);
+          this.notifications.unshift(notification);
         }
       );
     }

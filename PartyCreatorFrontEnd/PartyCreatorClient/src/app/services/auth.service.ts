@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoginDto } from '../interfaces/login-dto';
@@ -70,6 +70,18 @@ export class AuthService {
   }
 
   changePassword(changePasswordData: ChangePasswordDto) {
-    return this.http.post<any>(`${this.baseUrl}change-password`, changePasswordData);
+    return this.http.post<any>(
+      `${this.baseUrl}change-password`,
+      changePasswordData
+    );
+  }
+
+  LoginWithFacebook(credentials: string): Observable<any> {
+    const header = new HttpHeaders().set('Content-type', 'application/json');
+    return this.http.post(
+      `${this.baseUrl}loginWithFacebook`,
+      JSON.stringify(credentials),
+      { headers: header, withCredentials: true }
+    );
   }
 }

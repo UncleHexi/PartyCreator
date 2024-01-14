@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Extensions;
 using PartyCreatorWebApi.HubConfig;
+using PartyCreatorWebApi.Migrations;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -19,13 +21,25 @@ namespace PartyCreatorWebApi.Controllers
         private readonly IUsersRepository _usersRepository;
         private readonly INotificationRepository _notificationRepository;
         private readonly IHubContext<ChatHub> _hub;
+        private readonly IBlobStorageRepository _blobStorageRepository;
+        private readonly IShoppingListRepository _shoppingListRepository;
+        private readonly IReceiptItemRepository _receiptItemRepository;
+        private readonly IChatRepository _chatRepository;
+        private readonly ISurveyRepository _surveyRepository;
+        private readonly ISpotifyRepository _spotifyRepository;
 
-        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub)
+        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub, IBlobStorageRepository blobStorageRepository, IShoppingListRepository shoppingListRepository, IReceiptItemRepository receiptItemRepository, IChatRepository chatRepository, ISurveyRepository surveyRepository, ISpotifyRepository spotifyRepository)
         {
             _eventRepository = eventRepository;
             _usersRepository = usersRepository;
             _notificationRepository = notificationRepository;
             _hub = hub;
+            _blobStorageRepository = blobStorageRepository;
+            _shoppingListRepository = shoppingListRepository;
+            _receiptItemRepository = receiptItemRepository;
+            _chatRepository = chatRepository;
+            _surveyRepository = surveyRepository;
+            _spotifyRepository = spotifyRepository;
         }
 
         [HttpGet("getOfCreator"), Authorize]
@@ -190,6 +204,9 @@ namespace PartyCreatorWebApi.Controllers
             }
             //usun powiadomienie
             await _notificationRepository.DeleteNotification(request.Id);
+            ChangeGuestInviteDto changeGuestInviteDto = new ChangeGuestInviteDto { GuestListId = guest.Id, InviteListId = invite.Id };
+            await _hub.Clients.Group(_event.Id.ToString()).SendAsync("AcceptedInvite", changeGuestInviteDto);
+
             return Ok(guest);
         }
 
@@ -218,6 +235,8 @@ namespace PartyCreatorWebApi.Controllers
             
             //usun powiadomienie
             await _notificationRepository.DeleteNotification(request.Id);
+            
+            await _hub.Clients.Group(_event.Id.ToString()).SendAsync("DeclineInvite", invite);
             return Ok(result);
 
         }
@@ -421,6 +440,67 @@ namespace PartyCreatorWebApi.Controllers
             var result = await _eventRepository.DeleteInviteList(guestList.Id);
 
             return Ok(result);
+        }
+
+        [HttpDelete("deleteEvent/{eventId}"), Authorize]
+        public async Task<ActionResult<Event>> DeleteEvent(int eventId)
+        {
+            int userid = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var _event = await _eventRepository.GetEventDetails(eventId);
+            if(_event == null)
+            {
+                return BadRequest("Nie ma takiego wydarzenia");
+            }
+
+            if(_event.CreatorId != userid)
+            {
+                return BadRequest("Nie masz uprawnien do usuwania");
+            }
+
+            //gallery
+            var images = await _blobStorageRepository.GetImageByEventId(eventId);
+            foreach(var image in images)
+            {
+                await _blobStorageRepository.DeleteBlobFile(image.Id);
+            }
+
+            //shopping list
+            var shoppingList = await _shoppingListRepository.GetShoppigList(eventId);
+            foreach(var list in shoppingList)
+            {
+                await _shoppingListRepository.RemoveShoppingListItem(list.Id);
+            }
+
+            //receipt
+            var receiptitems = await _receiptItemRepository.GetReceiptItems(eventId);
+            foreach(var receiptitem in receiptitems)
+            {
+                await _receiptItemRepository.RemoveReceiptItem(receiptitem.Id);
+            }
+
+            //notification
+            await _notificationRepository.DeleteAllFromEvent(eventId);
+
+            //survey
+            var survey = await _surveyRepository.GetAllSurveysOfEvent(eventId);
+            foreach (var item in survey)
+            {
+                await _surveyRepository.DeleteSurvey(item.SurveyId);
+            }
+            //guestlist
+            await _eventRepository.DeleteAllGuestList(eventId);
+            //invitelist
+            await _eventRepository.DeleteAllInviteList(eventId);
+            //chatmessage
+            await _chatRepository.DeleteAllFromEvent(eventId);
+
+            //songs
+            await _spotifyRepository.DeleteAllSongs(eventId);
+
+            //event
+            var deletedEvent = await _eventRepository.DeleteEvent(eventId);
+            return Ok(deletedEvent);
         }
     }
 

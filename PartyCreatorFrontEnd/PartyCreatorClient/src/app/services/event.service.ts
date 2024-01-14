@@ -107,4 +107,8 @@ export class EventService {
       `${this.baseUrl2}deleteInvited/${eventId}/${userId}`
     );
   }
+
+  deleteEvent(eventId: string) {
+    return this.http.delete<any>(`${this.baseUrl2}deleteEvent/${eventId}`);
+  }
 }

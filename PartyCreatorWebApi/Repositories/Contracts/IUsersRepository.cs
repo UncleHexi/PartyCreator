@@ -7,6 +7,8 @@ namespace PartyCreatorWebApi.Repositories.Contracts
     {
         Task<List<User>> GetUsers(); 
         Task<User> GetUserByEmail(string email);
+        Task<User> GetUserByToken(string token);
+        Task<User> Verify(int id);
         Task<User> GetUserById(int id);
         Task<User> AddUser(User user);
         Task<User> EditUser(User user);
@@ -18,6 +20,7 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<UserContact> DeleteContact(int id);
         string GetUserIdFromContext();
         Task<List<User>> GetUsersEmailContains(string email);
+        Task<string> GetUserType(int userId);
 
     }
 }

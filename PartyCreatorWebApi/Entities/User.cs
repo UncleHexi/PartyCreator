@@ -13,6 +13,9 @@ namespace PartyCreatorWebApi.Entities
         public string Image { get; set; } = "avatar1.png";
         public byte[] PasswordHash { get; set; } = new byte[256];
         public byte[] PasswordSalt { get; set; } = new byte[256];
+        public string? VerificationToken {  get; set; }
+        public DateTime? VerifiedAt { get; set; }
+        public string Type {  get; set; } = string.Empty;
 
     }
 }

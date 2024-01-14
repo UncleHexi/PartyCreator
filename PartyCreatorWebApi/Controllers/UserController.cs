@@ -181,5 +181,14 @@ namespace PartyCreatorWebApi.Controllers
             return Ok(DtoConversions.UserToUserContactDto(result));
         }
 
+        [HttpGet("GetUserType"),Authorize]
+        public async Task<ActionResult<string>> GetUserType()
+        {
+            int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var result = await _usersRepository.GetUserType(userId);
+            return Ok(result);
+        }
+
     }
 }

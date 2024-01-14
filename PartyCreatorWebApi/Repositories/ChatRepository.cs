@@ -44,5 +44,16 @@ namespace PartyCreatorWebApi.Repositories
                 }).ToListAsync();
             return result;
         }
+
+        public async Task<List<ChatMessage>> DeleteAllFromEvent(int eventId)
+        {
+            var messages = await _dataContext.ChatMessages.Where(x => x.EventId == eventId).ToListAsync();
+            foreach (var message in messages)
+            {
+                _dataContext.ChatMessages.Remove(message);
+            }
+            await _dataContext.SaveChangesAsync();
+            return messages;
+        }
     }
 }
