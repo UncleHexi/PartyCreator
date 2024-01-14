@@ -48,6 +48,8 @@ import { SplitBillComponent } from './event-view/split-bill/split-bill.component
 import { EventGalleryComponent } from './event-view/event-gallery/event-gallery.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RegulationsComponent } from './login/signup/regulations/regulations.component';
+import { RedirectComponent } from './redirect/redirect.component';
+import { SpotifyComponent } from './event-view/spotify/spotify/spotify.component';
 
 registerLocaleData(localePl);
 
@@ -101,6 +103,8 @@ registerLocaleData(localePl);
     MatInputModule,
     ChatComponent,
     EventGalleryComponent,
+    RedirectComponent,
+    SpotifyComponent,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

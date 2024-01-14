@@ -13,7 +13,6 @@ import {
   faComments,
 } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
-import { SignalRService } from '../services/signal-r.service';
 //icons
 @Component({
   selector: 'app-home',
@@ -39,10 +38,7 @@ export class HomeComponent implements OnInit {
   messages: { user: string; text: string }[] = [];
   isLoggedIn = false;
 
-  constructor(
-    private auth: AuthService,
-    private signalRService: SignalRService
-  ) {}
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
     this.auth.changeIsLoggedInValue();
