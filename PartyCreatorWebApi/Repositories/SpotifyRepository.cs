@@ -52,9 +52,10 @@ namespace PartyCreatorWebApi.Repositories
             return tokenResponse.AccessToken;
         }
 
-        public Task<Song> GetSongsFromEvent(int eventId)
+        public Task<List<Song>> GetSongsFromEvent(int eventId)
         {
-            throw new NotImplementedException();
+            var result = _dataContext.Songs.Where(x => x.EventId == eventId).ToListAsync();
+            return result;
         }
     }
 }

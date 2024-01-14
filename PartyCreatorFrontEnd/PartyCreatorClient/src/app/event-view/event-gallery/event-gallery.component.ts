@@ -125,7 +125,9 @@ export class EventGalleryComponent implements OnInit, OnDestroy {
         if (imageIndex !== -1) {
           this.images.splice(imageIndex, 1);
 
-          this.numVisible = this.images.length;
+          if (this.images.length < 4) {
+            this.numVisible = this.images.length;
+          }
           this.imagesNum = this.images.length;
         }
       }
@@ -166,7 +168,10 @@ export class EventGalleryComponent implements OnInit, OnDestroy {
               if (imageIndex !== -1) {
                 this.images.splice(imageIndex, 1);
               }
-              this.numVisible = this.images.length;
+              if (this.images.length < 4) {
+                this.numVisible = this.images.length;
+              }
+
               this.imagesNum = this.images.length;
             },
             error: (error) => {

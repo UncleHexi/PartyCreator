@@ -8,42 +8,49 @@
     "
       >Zaloguj się do Spotify</a
     >
-
-    <ol class="search-results playlist-songs">
-      <li
-        *ngFor="let track of playlistTracks; let i = index"
-        class="track-item"
-      >
-        <img
-          [src]="track.album.images[0]?.url"
-          alt="Album cover"
-          class="spotify-album-cover"
-        />
-        <div class="track-info">
-          <strong>{{ track.name }} </strong>
-          <div
-            class="artist-container"
-            *ngFor="let artist of track.artists; let j = index"
-          >
-            <div *ngIf="j < 2">{{ artist.name }}</div>
+    <div *ngIf="spotiToken">
+      <ol class="search-results playlist-songs">
+        <li
+          *ngFor="let track of playlistTracks; let i = index"
+          class="track-item"
+        >
+          <img
+            [src]="track.image"
+            alt="Album cover"
+            class="spotify-album-cover"
+          />
+          <div class="track-info">
+            <strong>{{ track.title }} </strong>
+            <div>{{ track.artist }}</div>
           </div>
-        </div>
-        <button class="btn btn-danger" (click)="removeFromPlaylist(i)">
-          Usuń z playlisty
-        </button>
-      </li>
-    </ol>
+          <button
+            class="btn btn-danger"
+            (click)="removeFromPlaylist(i, track.id)"
+          >
+            Usuń z playlisty
+          </button>
+        </li>
+      </ol>
+    </div>
   </div>
-
   <!-- Button trigger modal -->
-  <button
-    type="button"
-    class="btn spotify-button spotify-search-button"
-    data-bs-toggle="modal"
-    data-bs-target="#searchModal"
-  >
-    Wyszukaj piosenki
-  </button>
+  <div *ngIf="spotiToken" class="button-container">
+    <button
+      type="button"
+      class="btn spotify-button spotify-search-button"
+      data-bs-toggle="modal"
+      data-bs-target="#searchModal"
+    >
+      Wyszukaj piosenki
+    </button>
+    <button
+      type="button"
+      class="btn spotify-button spotify-playlist-button"
+      (click)="createPlaylist()"
+    >
+      Dodaj playlistę do konta
+    </button>
+  </div>
 </div>
 
 <!-- Modal -->
@@ -90,7 +97,7 @@
             </div>
           </div>
           <button
-            class="btn btn-primary spotify-button"
+            class="btn btn-primary spotify-button spotify-add-button"
             (click)="addToPlaylist(track)"
           >
             Dodaj do playlisty
