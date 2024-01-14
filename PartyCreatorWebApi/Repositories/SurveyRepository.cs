@@ -56,9 +56,27 @@ namespace PartyCreatorWebApi.Repositories
             }
             return null;
         }
-        public Task<Survey> DeleteSurvey(int id)
+        public async Task<Survey> DeleteSurvey(int id)
         {
-            throw new NotImplementedException();
+            var votes = await _dataContext.SurveyVotes.Where(x => x.SurveyId == id).ToListAsync();
+            foreach(var vote in votes)
+            {
+                _dataContext.SurveyVotes.Remove(vote);
+            }
+
+            var choices = await _dataContext.Choices.Where(x => x.SurveyId == id).ToListAsync();
+            foreach(var choice in choices)
+            {
+                _dataContext.Choices.Remove(choice);
+            }
+
+            var survey = await _dataContext.Surveys.Where(x=> x.Id== id).FirstOrDefaultAsync();
+            
+            _dataContext.Surveys.Remove(survey);
+
+            await _dataContext.SaveChangesAsync();
+
+            return survey;
         }
 
         public async Task<SurveyVote> AddVote(SurveyVote vote)
