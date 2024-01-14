@@ -72,9 +72,14 @@
                   type="submit"
                   class="btn btn-primary btn-block mt-4 w-100"
                   [disabled]="signinForm.invalid"
+                  *ngIf="!isLoading"
                 >
-                  Zaloguj się
+                <span>Zaloguj się</span>
+                
                 </button>
+                <span *ngIf="isLoading">    
+                  <mat-spinner style="margin:auto;"></mat-spinner>
+                </span>
               </div>
               <br />
               <div class="text-center pt-4 text-muted">

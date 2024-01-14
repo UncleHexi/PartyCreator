@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators  } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,6 +10,9 @@ import { DatePipe } from '@angular/common';
 import { NgToastService } from 'ng-angular-popup';
 import { ProfileEditAvatarComponent } from './profile-edit-avatar/profile-edit-avatar.component';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services/auth.service';
+import { ChangePasswordDto } from 'src/app/interfaces/change-password-dto';
+import { CustomValidators } from 'src/app/login/custom-validators';
 
 @Component({
   selector: 'app-profile-edit',
@@ -29,10 +32,12 @@ import { MatDialog } from '@angular/material/dialog';
 export class ProfileEditComponent implements OnInit {
   public userData: any;
   public profileForm!: FormGroup;
+  public passwordForm!: FormGroup;
   public profilePicture: string = '';
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private toast: NgToastService,
     private dialog: MatDialog
   ) {
@@ -72,8 +77,32 @@ export class ProfileEditComponent implements OnInit {
         });
       }
     });
+    this.passwordForm = new FormGroup({
+      oldPassword: new FormControl('', [Validators.required]),
+      newPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl('', [Validators.required])
+    }, { validators: CustomValidators.passwordMatchValidator });
   }
+  
+  public savePassword(): void {
+    if (this.passwordForm.valid) {
+      const changePasswordData: ChangePasswordDto = {
+        oldPassword: this.passwordForm.value.oldPassword,
+        newPassword: this.passwordForm.value.newPassword
+      };
 
+      this.authService.changePassword(changePasswordData).subscribe({
+        next: () => {
+          this.toast.success({ detail: 'SUCCESS', summary: 'Hasło zostało zmienione', duration: 3000 });
+          this.passwordForm.reset();
+        },
+        error: (err) => {
+          this.toast.error({ detail: 'ERROR', summary: err.error, duration: 3000 });
+        }
+      });
+    }
+  }
+  
   changeProfilePicture(): void {
     const dialogRef = this.dialog.open(ProfileEditAvatarComponent);
 

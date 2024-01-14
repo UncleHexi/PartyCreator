@@ -107,5 +107,7 @@ namespace PartyCreatorWebApi.Repositories
             var result = await _dataContext.UserContacts.FirstOrDefaultAsync(x => x.Email == email);
             return result;
         }
+
+
     }
 }

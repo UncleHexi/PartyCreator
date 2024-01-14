@@ -373,7 +373,7 @@ export class EventViewComponent implements OnInit {
   signUpForItem(itemId: number) {
     this.shoppingListService.signUpForItem(itemId).subscribe(
       () => {
-        this.loadShoppingList(); // odśwież listę po zapisaniu się na przedmiot
+        this.loadShoppingList(); 
       },
       (error) => {
         console.error(
