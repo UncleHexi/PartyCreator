@@ -71,6 +71,7 @@
           cdkAutosizeMaxRows="6"
         ></textarea>
       </mat-form-field>
+
       <br />
       <button
         mat-raised-button
@@ -81,6 +82,25 @@
       >
         Zapisz
       </button>
+
+    </form>
+
+    <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
+      <mat-form-field appearance="outline" color="accent" style="width: 100%">
+        <mat-label>Stare hasło</mat-label>
+        <input matInput type="password" formControlName="oldPassword" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent" style="width: 100%">
+        <mat-label>Nowe hasło</mat-label>
+        <input matInput type="password" formControlName="newPassword" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" color="accent" style="width: 100%">
+        <mat-label>Powtórz nowe hasło</mat-label>
+        <input matInput type="password" formControlName="confirmPassword"/>
+      </mat-form-field>
+      <button mat-raised-button color="accent" type="submit">Zapisz hasło</button>
     </form>
   </div>
 </div>

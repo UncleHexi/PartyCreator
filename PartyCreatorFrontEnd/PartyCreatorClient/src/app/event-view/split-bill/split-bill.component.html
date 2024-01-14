@@ -4,9 +4,8 @@
   <form *ngIf="userRole.role === 'Admin'"
     (ngSubmit)="onSubmit()" 
      #myForm="ngForm"
-     class="mb-3"
-     style="display: flex; flex-direction: row; align-items: center; gap: 5px; background-color:#212121; 
-     padding-bottom:0px; padding-top:15px; padding-left:15px; margin:0;">
+     class="mb-3 addItems"
+    >
       
      <div class="form-group">
         <mat-form-field appearance="outline" class="mb-0"  [ngStyle]="{'width.px': 400}" >

@@ -48,6 +48,8 @@ import { SplitBillComponent } from './event-view/split-bill/split-bill.component
 import { EventGalleryComponent } from './event-view/event-gallery/event-gallery.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RegulationsComponent } from './login/signup/regulations/regulations.component';
+import { ShoppingListComponent } from './event-view/shopping-list/shopping-list.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 registerLocaleData(localePl);
 
@@ -63,6 +65,7 @@ registerLocaleData(localePl);
     MapComponent,
     SplitBillComponent,
     RegulationsComponent,
+    ShoppingListComponent,
   ],
 
   imports: [
@@ -101,6 +104,7 @@ registerLocaleData(localePl);
     MatInputModule,
     ChatComponent,
     EventGalleryComponent,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

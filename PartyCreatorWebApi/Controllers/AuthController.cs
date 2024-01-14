@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
+using System.Security.Claims;
 
 namespace PartyCreatorWebApi.Controllers
 {
@@ -103,5 +104,46 @@ namespace PartyCreatorWebApi.Controllers
 
             return Ok(loginResponseDto);
         }
+
+        [HttpPost("change-password"), Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            
+            int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            
+            var user = await _usersRepository.GetUserById(userId);
+            if (user == null)
+            {
+                return NotFound("Nie znaleziono użytkownika.");
+            }
+
+            
+            if (!_authRepository.VerifyPasswordHash(changePasswordDto.OldPassword, user.PasswordHash, user.PasswordSalt))
+            {
+                return BadRequest("Niepoprawne stare hasło.");
+            }
+
+           
+          //  if (changePasswordDto.NewPassword != changePasswordDto.ConfirmNewPassword)
+            //{
+              //  return BadRequest("Nowe hasło i potwierdzenie hasła nie są takie same.");
+            //}
+
+            _authRepository.CreatePasswordHash(changePasswordDto.NewPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+            
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            var updatedUser = await _usersRepository.EditUser(user);
+
+            if (updatedUser == null)
+            {
+                return BadRequest("Nie udało się zaktualizować hasła.");
+            }
+
+            return Ok();
+        }
+
     }
 }
