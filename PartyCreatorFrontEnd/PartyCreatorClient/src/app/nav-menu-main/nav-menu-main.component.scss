@@ -3,7 +3,7 @@
 @include mat.core();
 
 a {
-  color: white !important;
+  color: var(--h1-color)!important;
 }
 
 a.navbar-brand {
@@ -30,7 +30,7 @@ html {
 }
 
 .navbar {
-  background-color: #191919;
+  background-color: var(--backgroundNavbar) ;
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
   box-shadow: inset;
   z-index: 1000;
@@ -45,6 +45,16 @@ html {
 
 .nav-link.text-white {
   margin-left: 20px;
+}
+
+.dark-theme {
+
+  background-color: #333;
+  color: yellow !important;
+}.light-theme {
+  
+  background-color: #fff;
+  color: red !important;
 }
 
 @media (min-width: 800px) {
@@ -68,7 +78,7 @@ html {
 }
 
 .navbar-nav .nav-item.link-active a {
-  color: white !important;
+  color: var(--h1-color) !important;
   font-weight: bolder;
   text-decoration-line: none;
 }
@@ -90,3 +100,5 @@ html {
   );
   @include mat.all-component-themes($special-theme);
 }
+
+

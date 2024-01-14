@@ -64,7 +64,14 @@
               >Profil</a
             >
           </li>
+          <li class="nav-item">
+            <button class="nav-link text-white" (click)="onThemeSwitchChange()">
+              <mat-icon *ngIf="isLightTheme">brightness_3</mat-icon>
+              <mat-icon *ngIf="!isLightTheme">wb_sunny</mat-icon>
+            </button>
+          </li>
 
+          
           <li
             *ngIf="auth.isLoggedInValue; else elseBlock"
             class="nav-item"

@@ -1,5 +1,5 @@
 .card {
-  background-color: #3d3d3d;
+  background-color: var(--background-main-color);
   margin-top: 3em;
   height: 83%;
   width: 85%;
@@ -10,7 +10,7 @@
 }
 
 body {
-  background-color: #2d2d2d;
+  background-color: var(--background-color);  
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@ body {
 }
 
 h1 {
-  color: aliceblue;
+  color: var(--h1-color);
   text-align: center;
 }
 
@@ -50,7 +50,7 @@ html {
 }
 
 .Event {
-  color: white;
+  color: aliceblue;
   font-size: 22px;
   padding: 15px;
   width: fit-content;
@@ -92,7 +92,7 @@ html {
 }
 
 p {
-  color: white;
+  color: aliceblue;
   margin: 5px;
 }
 

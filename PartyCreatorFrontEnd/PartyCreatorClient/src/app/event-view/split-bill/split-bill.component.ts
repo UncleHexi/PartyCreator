@@ -22,12 +22,12 @@ export class SplitBillComponent implements OnInit {
     quantity: 1,
     price: 0,
     eventId: 0
-    
   };
   
 
   constructor(
-    private splitBillService: ReceiptItemService, private eventService: EventService) { }
+    private splitBillService: ReceiptItemService, 
+    private eventService: EventService) { }
  
   ngOnInit(): void {
     this.receiptItem.eventId = Number(this.eventId);

@@ -181,34 +181,12 @@
         </ng-template>
       </div>
     </div>
-    <div class="editDetails2">
-      <button
-        *ngIf="!editMode && userRole.role == 'Admin'"
-        (click)="editMode = true"
-      >
-        Edytuj wydarzenie
-      </button>
-    </div>
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
         (click)="editMode = true">
         Edytuj wydarzenie
       </button>
-      <div class="uploadFile2">
-        <p-fileUpload
-          #fileUploader
-          name="file"
-          mode="basic"
-          chooseLabel="Dodaj zdjęcie"
-          accept="image/*"
-          [maxFileSize]="10000000"
-          [customUpload]="true"
-          (uploadHandler)="uploadFile($event)"
-          [auto]="true"
-        >
-        </p-fileUpload>
-      </div>
     </div>
     <div class="uploadFile">
       <p-fileUpload
@@ -223,8 +201,11 @@
         [auto]="true">
       </p-fileUpload>
     </div>
+
     <div class="chat">
+
       <app-chat [eventId]="eventId" [userId]="userRole.id"></app-chat>
+
     </div>
     <div class="photos">
       <app-event-gallery
@@ -262,104 +243,11 @@
   <div class="extraFunctions">
     <div
       class="thingsToBring"
-      *ngIf="eventDetails.shoppingListTitle === 'Title'"
-    >
-      <div
-        class="thingsToBringTitle"
-        [ngClass]="{ 'rounded-bottom': isThingsToBringVisible }"
-      >
-        <h5 class="titleBringThings">Zabierz ze sobą!</h5>
-      </div>
-      <div class="thingsToBringList">
-        <table>
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">Przedmiot</th>
-              <th scope="col">Liczba</th>
-              <th scope="col">Kto przyniesie</th>
-              <th scope="col" style="text-align: center">Akcje</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of shoppingList">
-              <td>{{ item.name }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>{{ item.firstName }} {{ item.lastName }}</td>
-              <td class="action-column">
-                <button
-                  mat-raised-button
-                  *ngIf="userRole.id == item.userId"
-                  color="primary"
-                  (click)="signOutFromItem(item.id)"
-                >
-                  <mat-icon>thumb_down</mat-icon>
-                  <span>&nbsp;Nie Przynoś</span>
-                </button>
-                <button
-                  mat-raised-button
-                  *ngIf="
-                    userRole.role == 'Admin' &&
-                    item.userId != 0 &&
-                    item.userId != userRole.id
-                  "
-                  color="primary"
-                  (click)="signOutFromItem(item.id)"
-                >
-                  <mat-icon>clear</mat-icon>
-                  <span>&nbsp;Resetuj</span>
-                </button>
-                <button
-                  mat-raised-button
-                  *ngIf="item.userId == 0"
-                  color="primary"
-                  (click)="signUpForItem(item.id)"
-                >
-                  <mat-icon>thumb_up</mat-icon>
-                  <span>&nbsp;Przynieś</span>
-                </button>
-                <button
-                  mat-raised-button
-                  color="warn"
-                  *ngIf="userRole.role == 'Admin'"
-                  (click)="deleteItem(item.id)"
-                >
-                  <mat-icon>delete</mat-icon>
-                  <span>&nbsp;Usuń</span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="add-item-form" *ngIf="userRole.role == 'Organizator'">
-        <mat-form-field appearance="outline" class="item-name-field">
-          <mat-label>Nazwa przedmiotu</mat-label>
-          <input
-            matInput
-            [(ngModel)]="newItemName"
-            placeholder="Nazwa przedmiotu"
-          />
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="quantity-field">
-          <mat-label>Ilość</mat-label>
-          <input
-            matInput
-            [(ngModel)]="newItemQuantity"
-            placeholder="Ilość"
-            type="number"
-            class="numberOfItem"
-          />
-        </mat-form-field>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="addItem()"
-          class="buttonAddItem"
-        >
-          Dodaj przedmiot
-        </button>
-      </div>
+      *ngIf="eventDetails.shoppingListTitle === 'Title'">
+    <app-shopping-list [eventId]="eventId"></app-shopping-list>
     </div>
+
+
 
     <div class="spotifyPlaylist" *ngIf="eventDetails.playlistTitle === 'Title'">
       playlista spotify
@@ -369,15 +257,9 @@
     </div>
     <div class="surveys">ankiety</div>
 
-    <div
-      class="addNewContent"
-      *ngIf="
-        userRole.role === 'Admin' &&
-        (eventDetails.receiptTitle === '' ||
-          eventDetails.playlistTitle === '' ||
-          eventDetails.shoppingListTitle === '')
-      "
-    >
+    
+    <div class="addNewContent"
+     *ngIf="userRole.role === 'Admin' && (eventDetails.receiptTitle === '' || eventDetails.playlistTitle === '' || eventDetails.shoppingListTitle === '')">
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>
