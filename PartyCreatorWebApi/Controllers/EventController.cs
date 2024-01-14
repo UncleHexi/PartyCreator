@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Extensions;
 using PartyCreatorWebApi.HubConfig;
+using PartyCreatorWebApi.Migrations;
 using PartyCreatorWebApi.Repositories.Contracts;
 
 namespace PartyCreatorWebApi.Controllers
@@ -190,6 +192,9 @@ namespace PartyCreatorWebApi.Controllers
             }
             //usun powiadomienie
             await _notificationRepository.DeleteNotification(request.Id);
+            ChangeGuestInviteDto changeGuestInviteDto = new ChangeGuestInviteDto { GuestListId = guest.Id, InviteListId = invite.Id };
+            await _hub.Clients.Group(_event.Id.ToString()).SendAsync("AcceptedInvite", changeGuestInviteDto);
+
             return Ok(guest);
         }
 
@@ -218,6 +223,8 @@ namespace PartyCreatorWebApi.Controllers
             
             //usun powiadomienie
             await _notificationRepository.DeleteNotification(request.Id);
+            
+            await _hub.Clients.Group(_event.Id.ToString()).SendAsync("DeclineInvite", invite);
             return Ok(result);
 
         }

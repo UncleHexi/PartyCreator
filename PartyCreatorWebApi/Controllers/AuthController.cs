@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MailKit.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit.Text;
+using MimeKit;
 using PartyCreatorWebApi.Dtos;
 using PartyCreatorWebApi.Entities;
 using PartyCreatorWebApi.Repositories.Contracts;
 using System.Security.Claims;
+using MailKit.Net.Smtp;
 
 namespace PartyCreatorWebApi.Controllers
 {
@@ -48,7 +52,8 @@ namespace PartyCreatorWebApi.Controllers
                 Description = request.Description,
                 Email = request.Email.ToLower(),
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                VerificationToken = _authRepository.CreateRandomToken(),
             };
             
             //dodaj uzytkownika do bazy
@@ -59,6 +64,17 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Wystapil problem, nie udalo sie zarejestrowac");
             }
 
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse("partycreator@gmail.com"));
+            email.To.Add(MailboxAddress.Parse(user.Email));
+            email.Subject = "PartyCreator Weryfikacja";
+            email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>https://localhost:7241/api/Auth/verify?token={user.VerificationToken}<h1>" };
+
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp-relay.brevo.com", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("mariusz.bar.walce@gmail.com", "gK6B82DOqJHXQFbk");
+            smtp.Send(email);
+            smtp.Disconnect(true);
 
             UserDto userDto = new UserDto
             {
@@ -83,19 +99,24 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseDto>> Login(LoginDto request)
         {
-            var result = await _usersRepository.GetUserByEmail(request.Email);
+            var user = await _usersRepository.GetUserByEmail(request.Email);
 
-            if(result == null)
+            if(user == null)
             {
                 return BadRequest("Nie znaleziono użytkownika");
             }
 
-            if(!_authRepository.VerifyPasswordHash(request.Password, result.PasswordHash, result.PasswordSalt))
+            if(!_authRepository.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return BadRequest("Podane haslo sie nie zgadza");
             }
 
-            string token = _authRepository.CreateToken(result);
+            if(user.VerifiedAt == null)
+            {
+                return BadRequest("Musisz najpierw potwierdzic email zeby sie zalogowac");
+            }
+
+            string token = _authRepository.CreateToken(user);
 
             LoginResponseDto loginResponseDto = new LoginResponseDto
             {
@@ -103,6 +124,21 @@ namespace PartyCreatorWebApi.Controllers
             };
 
             return Ok(loginResponseDto);
+        }
+
+        [HttpGet("verify")]
+        public async Task<ActionResult<LoginResponseDto>> Verify([FromQuery]string token)
+        {
+            var user = await _usersRepository.GetUserByToken(token);
+
+            if (user == null)
+            {
+                return BadRequest("Niepoprawny token");
+            }
+
+            var result = await _usersRepository.Verify(user.Id);
+
+            return Ok("Udalo sie potwierdzic email");
         }
 
         [HttpPost("change-password"), Authorize]

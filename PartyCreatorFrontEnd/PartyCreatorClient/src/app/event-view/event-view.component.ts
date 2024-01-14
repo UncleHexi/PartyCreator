@@ -38,6 +38,8 @@ import { Observable } from 'rxjs';
 import { PhotoDto } from '../interfaces/photo-dto';
 import { SignalRService } from '../services/signal-r.service';
 import * as signalR from '@microsoft/signalr';
+import { ChangeGuestInviteDto } from '../interfaces/change-guest-invite-dto';
+import { InviteListDto } from '../interfaces/invite-list-dto';
 
 @Component({
   selector: 'app-event-view',
@@ -142,12 +144,52 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.on('EventLeft', (message: string) => {
       console.log(message);
     });
+
+    this.signalRService.hubConnection.on(
+      'AcceptedInvite',
+      (signalRMessage: ChangeGuestInviteDto) => {
+        console.log(signalRMessage);
+
+        // var inviteIndex = this.invitesUsers.findIndex(
+        //   (invite) => invite.id === signalRMessage.inviteListId
+        // );
+        // if (inviteIndex !== -1) {
+        //   console.log('TUTAJ');
+        //   var user = this.invitesUsers.find(
+        //     (u) => u.id == signalRMessage.inviteListId
+        //   );
+        //   this.guestsUsers.push(user!);
+
+        //   this.invitesUsers.splice(inviteIndex, 1);
+        // } nie dziala :)
+        this.loadGuestsUsers();
+        this.loadInvitedUsers();
+      }
+    );
+
+    this.signalRService.hubConnection.on(
+      'DeclineInvite',
+      (signalRMessage: InviteListDto) => {
+        console.log(signalRMessage);
+
+        // var inviteIndex = this.invitesUsers.findIndex(
+        //   (invite) => invite.id === signalRMessage.id
+        // );
+        // if (inviteIndex !== -1) {
+        //   this.invitesUsers.splice(inviteIndex, 1);
+        // } nie dziala :)
+        this.loadGuestsUsers();
+        this.loadInvitedUsers();
+      }
+    );
   }
 
   ngOnDestroy(): void {
     this.removeFromEventGroup();
     this.signalRService.hubConnection.off('EventJoined');
     this.signalRService.hubConnection.off('EventLeft');
+    this.signalRService.hubConnection.off('AcceptedInvite');
+    this.signalRService.hubConnection.off('DeclineInvite');
     window.removeEventListener('signalRConnected', (e) =>
       this.addToEventGroup()
     ); //niby nie trzeba ale dla pewnosci
@@ -395,7 +437,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
   signUpForItem(itemId: number) {
     this.shoppingListService.signUpForItem(itemId).subscribe(
       () => {
-        this.loadShoppingList(); 
+        this.loadShoppingList();
       },
       (error) => {
         console.error(
@@ -434,6 +476,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((res) => {
       this.loadInvitedUsers();
+      this.loadGuestsUsers(); //poprawic to
     });
   }
 

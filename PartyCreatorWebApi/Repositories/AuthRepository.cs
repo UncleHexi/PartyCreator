@@ -24,6 +24,11 @@ namespace PartyCreatorWebApi.Repositories
             }
         }
 
+        public string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+
         public string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
