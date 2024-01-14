@@ -26,8 +26,9 @@ namespace PartyCreatorWebApi.Controllers
         private readonly IReceiptItemRepository _receiptItemRepository;
         private readonly IChatRepository _chatRepository;
         private readonly ISurveyRepository _surveyRepository;
+        private readonly ISpotifyRepository _spotifyRepository;
 
-        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub, IBlobStorageRepository blobStorageRepository, IShoppingListRepository shoppingListRepository, IReceiptItemRepository receiptItemRepository, IChatRepository chatRepository, ISurveyRepository surveyRepository)
+        public EventController(IEventRepository eventRepository, IUsersRepository usersRepository, INotificationRepository notificationRepository, IHubContext<ChatHub> hub, IBlobStorageRepository blobStorageRepository, IShoppingListRepository shoppingListRepository, IReceiptItemRepository receiptItemRepository, IChatRepository chatRepository, ISurveyRepository surveyRepository, ISpotifyRepository spotifyRepository)
         {
             _eventRepository = eventRepository;
             _usersRepository = usersRepository;
@@ -38,6 +39,7 @@ namespace PartyCreatorWebApi.Controllers
             _receiptItemRepository = receiptItemRepository;
             _chatRepository = chatRepository;
             _surveyRepository = surveyRepository;
+            _spotifyRepository = spotifyRepository;
         }
 
         [HttpGet("getOfCreator"), Authorize]
@@ -492,6 +494,9 @@ namespace PartyCreatorWebApi.Controllers
             await _eventRepository.DeleteAllInviteList(eventId);
             //chatmessage
             await _chatRepository.DeleteAllFromEvent(eventId);
+
+            //songs
+            await _spotifyRepository.DeleteAllSongs(eventId);
 
             //event
             var deletedEvent = await _eventRepository.DeleteEvent(eventId);

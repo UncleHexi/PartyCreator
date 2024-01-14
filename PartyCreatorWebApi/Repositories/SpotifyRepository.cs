@@ -33,6 +33,17 @@ namespace PartyCreatorWebApi.Repositories
             return null;
         }
 
+        public async Task<List<Song>> DeleteAllSongs(int eventId)
+        {
+            var songs = await _dataContext.Songs.Where(x=>x.EventId == eventId).ToListAsync();
+            foreach (var song in songs)
+            {
+                _dataContext.Songs.Remove(song);
+            }
+            await _dataContext.SaveChangesAsync();
+            return songs;
+        }
+
         public async Task<string> GetAccessToken(string code)
         {
             var client = new HttpClient();
