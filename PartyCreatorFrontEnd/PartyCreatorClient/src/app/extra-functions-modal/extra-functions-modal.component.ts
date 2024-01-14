@@ -1,6 +1,6 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EventService } from '../services/event.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,13 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './extra-functions-modal.component.html',
   styleUrls: ['./extra-functions-modal.component.css'],
   standalone: true,
-  imports: [
-    MatSlideToggleModule,
-    ReactiveFormsModule,
-    MatButtonModule
-  ],
+  imports: [MatSlideToggleModule, ReactiveFormsModule, MatButtonModule],
 })
-export class ExtraFunctionsModalComponent{
+export class ExtraFunctionsModalComponent {
   form: FormGroup;
 
   constructor(
@@ -26,15 +22,13 @@ export class ExtraFunctionsModalComponent{
     @Inject(MAT_DIALOG_DATA) public data: any,
     private eventService: EventService,
     private fb: FormBuilder
-
-  ) {    
+  ) {
     this.form = this.fb.group({
-    playlist: data.hasPlaylist,
-    receipt: data.hasReceipt,
-    shoppingList: data.hasShoppingList
-  });
-  
-}
+      playlist: data.hasPlaylist,
+      receipt: data.hasReceipt,
+      shoppingList: data.hasShoppingList,
+    });
+  }
 
   ngOnInit(): void {}
 
@@ -47,12 +41,14 @@ export class ExtraFunctionsModalComponent{
     const functions: EventFunctionsDto = {
       playlistTitle: values.playlist ? 'Title' : '',
       receiptTitle: values.receipt ? 'Title' : '',
-      shoppingListTitle: values.shoppingList ? 'Title' : ''
+      shoppingListTitle: values.shoppingList ? 'Title' : '',
     };
     console.log(this.data.eventId);
 
-    this.eventService.addEventFunctions(this.data.eventId, functions).subscribe(() => {
-      this.dialogRef.close();
-    });
+    this.eventService
+      .addEventFunctions(this.data.eventId, functions)
+      .subscribe(() => {
+        this.dialogRef.close();
+      });
   }
 }
