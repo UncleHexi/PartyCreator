@@ -495,6 +495,11 @@ export class EventViewComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed with result:', result);
+      this.eventService.getEventDetails(this.eventId).subscribe({
+        next: (res) => {
+          this.eventDetails = res;
+        },
+      });
     });
   }
 
@@ -556,5 +561,17 @@ export class EventViewComponent implements OnInit, OnDestroy {
         .invoke('RemoveFromEventGroup', this.eventId)
         .catch((err) => console.error(err));
     }
+  }
+  
+  deleteEvent() {
+    this.eventService.deleteEvent(this.eventId).subscribe(
+      (response) => {
+        console.log('Wydarzenie zostało usunięte', response);
+        this.router.navigate([`wydarzenia`]);
+      },
+      (error) => {
+        console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
+      }
+    );
   }
 }
