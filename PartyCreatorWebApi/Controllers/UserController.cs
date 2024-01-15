@@ -53,12 +53,12 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("EditMyProfile"), Authorize]
         public async Task<ActionResult<UserDto>> EditUser(UserDto userDto)
         {
-            
+
 
 
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             var result = await _usersRepository.GetUserById(creatorId);
-            if(result.FirstName == userDto.FirstName && result.LastName == userDto.LastName && result.Birthday == userDto.Birthday && result.Description == userDto.Description && result.Image == userDto.Image)
+            if (result.FirstName == userDto.FirstName && result.LastName == userDto.LastName && result.Birthday == userDto.Birthday && result.Description == userDto.Description && result.Image == userDto.Image)
             {
                 return BadRequest("Nie wprowadzono zadnych zmian");
             }
@@ -75,14 +75,14 @@ namespace PartyCreatorWebApi.Controllers
         public async Task<ActionResult<UserContact>> AddContact(UserContact request)
         {
             var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower());
-            if(mailcheck != null)
+            if (mailcheck != null)
             {
                 return BadRequest("Uzytkownik został już dodany");
             }
 
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             var user = await _usersRepository.GetUserById(creatorId);
-            if(user.Email.ToLower() == request.Email.ToLower())
+            if (user.Email.ToLower() == request.Email.ToLower())
             {
                 return BadRequest("Nie możesz dodać samego siebie");
             }
@@ -110,7 +110,7 @@ namespace PartyCreatorWebApi.Controllers
         {
             var result = await _usersRepository.GetContactById(id);
 
-            if(result == null)
+            if (result == null)
             {
                 return BadRequest("Nie znaleziono kontaktu");
             }
@@ -122,37 +122,37 @@ namespace PartyCreatorWebApi.Controllers
         {
             int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             var user = await _usersRepository.GetUserById(creatorId);
-            if(user.Email.ToLower() == request.Email.ToLower())
+            if (user.Email.ToLower() == request.Email.ToLower())
             {
                 return BadRequest("Nie możesz dodać samego siebie");
             }
 
 
             var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower());
-            
-            if(mailcheck.Id != request.Id)
+
+            if (mailcheck.Id != request.Id)
             {
                 return BadRequest("Uzytkownik został już dodany");
             }
 
             var contact = await _usersRepository.GetContactById(request.Id);
 
-            if(contact == null)
+            if (contact == null)
             {
                 return BadRequest("Nie znaleziono kontaktu");
             }
 
-            if(contact.UserId != creatorId)
+            if (contact.UserId != creatorId)
             {
                 return BadRequest("Nie masz uprawnien do edycji tego kontaktu");
             }
 
-            if(request.Name == "" || request.Email == "")
+            if (request.Name == "" || request.Email == "")
             {
                 return BadRequest("Proszę podać wszystkie dane");
             }
 
-            if(request.Id != contact.Id)
+            if (request.Id != contact.Id)
             {
                 return BadRequest("Id kontaktu nie zgadza sie z id w adresie url");
             }
@@ -179,6 +179,16 @@ namespace PartyCreatorWebApi.Controllers
             var result = await _usersRepository.GetUsersEmailContains(request.Email.ToLower());
 
             return Ok(DtoConversions.UserToUserContactDto(result));
+        }
+
+        [HttpGet("GetUserType"), Authorize]
+        public async Task<ActionResult<LoginResponseDto>> GetUserType()
+        {
+            int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var result = await _usersRepository.GetUserType(userId);
+
+            return Ok(new LoginResponseDto { Token=result});
         }
 
     }

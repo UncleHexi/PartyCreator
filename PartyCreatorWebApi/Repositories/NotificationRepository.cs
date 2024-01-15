@@ -105,5 +105,16 @@ namespace PartyCreatorWebApi.Repositories
             await _dataContext.SaveChangesAsync();
             return result.Entity;
         }
+
+        public async Task<List<Notification>> DeleteAllFromEvent(int eventId)
+        {
+            var notifications = await _dataContext.Notifications.Where(x=>x.EventId == eventId).ToListAsync();
+            foreach(var notification in notifications)
+            {
+                _dataContext.Notifications.Remove(notification);
+            }
+            await _dataContext.SaveChangesAsync();
+            return notifications;
+        }
     }
 }

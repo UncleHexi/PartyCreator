@@ -22,6 +22,9 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<Event> UpdateEvent(Event updatedEvent);
         Task AddEventFunctions(int eventId, EventFunctionsDto eventFunctions);
         Task<GuestList> DeleteGuestList(int id);
+        Task<List<InviteList>> DeleteAllInviteList(int eventId);
+        Task<List<GuestList>> DeleteAllGuestList(int eventId);
+        Task<Event> DeleteEvent(int eventId);
 
     }
 }

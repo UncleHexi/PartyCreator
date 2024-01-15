@@ -48,6 +48,8 @@ import { SplitBillComponent } from './event-view/split-bill/split-bill.component
 import { EventGalleryComponent } from './event-view/event-gallery/event-gallery.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RegulationsComponent } from './login/signup/regulations/regulations.component';
+import { RedirectComponent } from './redirect/redirect.component';
+import { SpotifyComponent } from './event-view/spotify/spotify/spotify.component';
 import { ShoppingListComponent } from './event-view/shopping-list/shopping-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SurveyComponent } from './event-view/survey/survey.component';
@@ -109,15 +111,16 @@ registerLocaleData(localePl);
     MatInputModule,
     ChatComponent,
     EventGalleryComponent,
-    MatProgressSpinnerModule,
     MatExpansionModule,
     MatIconModule,
     MatFormFieldModule,
-    MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    RedirectComponent,
+    SpotifyComponent,
+    MatProgressSpinnerModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'pl-PL' },

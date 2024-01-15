@@ -74,20 +74,21 @@
                   [disabled]="signinForm.invalid"
                   *ngIf="!isLoading"
                 >
-                <span>Zaloguj się</span>
-                
+                  <span>Zaloguj się</span>
                 </button>
-                <span *ngIf="isLoading">    
-                  <mat-spinner style="margin:auto;"></mat-spinner>
+                <span *ngIf="isLoading">
+                  <mat-spinner style="margin: auto"></mat-spinner>
                 </span>
               </div>
               <br />
               <div class="text-center pt-4 text-muted">
                 Nie masz konta? <a (click)="toggleForm()">Zarejestruj się!</a>
               </div>
+              <div class="text-center pt-4 text-muted">
+                <a (click)="loginFacebook()">Zaloguj sie przez Facebooka</a>
+              </div>
             </form>
           </div>
-         
         </div>
       </div>
     </div>

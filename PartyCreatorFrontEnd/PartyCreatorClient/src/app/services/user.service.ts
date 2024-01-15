@@ -6,6 +6,7 @@ import { ContactDto } from '../interfaces/contact-dto';
 import { UserContactDto } from '../interfaces/user-contact-dto';
 import { SearchEmailDto } from '../interfaces/search-email-dto';
 import { environment } from 'src/environments/environment';
+import { LoginResponseDto } from '../interfaces/login-response-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,10 @@ export class UserService {
 
   getMyContacts(): Observable<ContactDto[]> {
     return this.http.get<ContactDto[]>(`${this.baseUrl}GetMyContacts`);
+  }
+
+  getUserType(): Observable<LoginResponseDto> {
+    return this.http.get<LoginResponseDto>(`${this.baseUrl}GetUserType`);
   }
 
   addContact(contactData: ContactDto): Observable<ContactDto[]> {

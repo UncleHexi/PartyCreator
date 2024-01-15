@@ -18,5 +18,6 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<SurveyVote> GetVote(int voteId);
         Task<Choice> CheckVoteChoice(SurveyVote surveyVote);
         Task<Survey> DeleteSurvey(int id);
+        Task<List<SurveyVote>> RemoveAllVotes(int surveyId);
     }
 }

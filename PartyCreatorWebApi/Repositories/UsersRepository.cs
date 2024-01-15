@@ -108,6 +108,25 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
+        public async Task<User> GetUserByToken(string token)
+        {
+            var result = await _dataContext.Users.FirstOrDefaultAsync(x=> x.VerificationToken == token);
+            return result;
+        }
 
+        public async Task<User> Verify(int id)
+        {
+            var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            user.VerifiedAt = DateTime.Now;
+
+            await _dataContext.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<string> GetUserType(int userId)
+        {
+            var result = await _dataContext.Users.FirstOrDefaultAsync(x=>x.Id == userId);
+            return result.Type;
+        }
     }
 }

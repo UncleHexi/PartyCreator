@@ -215,5 +215,26 @@ namespace PartyCreatorWebApi.Controllers
             var user = await _usersRepository.GetUserById(userId);
             return Ok(DtoConversions.SurveyVoteToDto(result, user));
         }
+
+        [HttpDelete("deleteSurvey/{surveyId:int}"), Authorize]
+        public async Task<ActionResult<SurveyDto>> DeleteSurvey(int surveyId)
+        {
+            int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var survey = await _surveyRepository.GetSurvey(surveyId);
+            if (survey == null)
+            {
+                return BadRequest("Nie ma takiej ankiety");
+            }
+
+            var eventDetails = await _eventRepository.GetEventDetails(survey.EventId);
+            if (userId != eventDetails.CreatorId)
+            {
+                return BadRequest("Musisz byc administratorem wydarzenia zeby wykonac ta czynnosc");
+            }
+
+            var result = await _surveyRepository.DeleteSurvey(surveyId);
+            return Ok(new SurveyDto { SurveyId = surveyId, EventId = survey.EventId, Question=survey.Question });
+        }
     }
 }

@@ -9,9 +9,11 @@ import { loggedinGuard } from './guards/loggedin.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { UserProfileComponent } from './profile/user-profile/user-profile.component';
 import { RegulationsComponent } from './login/signup/regulations/regulations.component';
+import { RedirectComponent } from './redirect/redirect.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'redirect', component: RedirectComponent },
   {
     path: 'logowanie',
     component: LoginComponent,

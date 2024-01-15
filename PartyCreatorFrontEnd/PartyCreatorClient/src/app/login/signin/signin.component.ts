@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginComponent } from '../login.component';
 import { LoginDto } from 'src/app/interfaces/login-dto';
@@ -6,7 +6,13 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
-import {ProgressSpinnerMode, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {
+  ProgressSpinnerMode,
+  MatProgressSpinnerModule,
+} from '@angular/material/progress-spinner';
+import { LoginResponseDto } from 'src/app/interfaces/login-response-dto';
+
+declare const FB: any;
 
 @Component({
   selector: 'app-signin',
@@ -23,7 +29,8 @@ export class SigninComponent {
     private loginComponent: LoginComponent,
     private auth: AuthService,
     private router: Router,
-    private toast: NgToastService
+    private toast: NgToastService,
+    private _ngZone: NgZone
   ) {
     this.signinForm = this.createSigninForm();
   }
@@ -41,7 +48,7 @@ export class SigninComponent {
   }
 
   submit() {
-    this.isLoading = true;  
+    this.isLoading = true;
 
     this.credentials.email = this.signinForm.value.email;
     this.credentials.password = this.signinForm.value.password;
@@ -82,5 +89,30 @@ export class SigninComponent {
       x!.setAttribute('type', 'password');
       this.eyeIcon = 'fa-eye-slash';
     }
+  }
+
+  async loginFacebook() {
+    FB.login(
+      async (result: any) => {
+        await this.auth
+          .LoginWithFacebook(result.authResponse.accessToken)
+          .subscribe({
+            next: (res: LoginResponseDto) => {
+              this._ngZone.run(() => {
+                this.auth.storeToken(res.token);
+                this.router.navigate(['/wydarzenia']);
+              });
+            },
+            error: (err: HttpErrorResponse) => {
+              this.toast.error({
+                detail: 'ERROR',
+                summary: err.error,
+                duration: 3000,
+              });
+            }
+      });
+      },
+      { scope: 'email', auth_type: 'reauthenticate' }
+    );
   }
 }

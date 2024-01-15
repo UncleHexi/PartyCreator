@@ -51,5 +51,8 @@ export class SurveyService {
   removeVote(voteId: string) {
     return this.http.delete<SurveyVoteDto>(`${this.Url}removeVote/${voteId}`);
   }
-  
+
+  deleteSurvey(surveyId: string) {
+    return this.http.delete<SurveyDto>(`${this.Url}deleteSurvey/${surveyId}`);
+  }
 }

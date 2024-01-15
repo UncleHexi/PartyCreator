@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormGroup, FormControl, ReactiveFormsModule, Validators  } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,6 +47,8 @@ export class ProfileEditComponent implements OnInit {
   showChangePasswordForm = false;
   hideOldPassword = true;
   hideNewPassword = true;
+  public accountType: string = '';
+
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -88,28 +95,41 @@ export class ProfileEditComponent implements OnInit {
       oldPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
       newPassword: new FormControl('', [Validators.required, Validators.minLength(8), CustomValidator]),
     }, { validators: CustomValidators.passwordMatchValidator });
+    
+    this.userService.getUserType().subscribe((res) => {
+      this.accountType = res.token;
+      console.log(this.accountType);
+    });
   }
-  
+
   public savePassword(): void {
     if (this.passwordForm.valid) {
       const changePasswordData: ChangePasswordDto = {
         oldPassword: this.passwordForm.value.oldPassword,
-        newPassword: this.passwordForm.value.newPassword
+        newPassword: this.passwordForm.value.newPassword,
       };
 
       this.authService.changePassword(changePasswordData).subscribe({
         next: () => {
-          this.toast.success({ detail: 'SUCCESS', summary: 'Hasło zostało zmienione', duration: 3000 });
+          this.toast.success({
+            detail: 'SUCCESS',
+            summary: 'Hasło zostało zmienione',
+            duration: 3000,
+          });
           this.passwordForm.reset();
           this.showChangePasswordForm = false;
         },
         error: (err) => {
-          this.toast.error({ detail: 'ERROR', summary: err.error, duration: 3000 });
-        }
+          this.toast.error({
+            detail: 'ERROR',
+            summary: err.error,
+            duration: 3000,
+          });
+        },
       });
     }
   }
-  
+
   changeProfilePicture(): void {
     const dialogRef = this.dialog.open(ProfileEditAvatarComponent);
 

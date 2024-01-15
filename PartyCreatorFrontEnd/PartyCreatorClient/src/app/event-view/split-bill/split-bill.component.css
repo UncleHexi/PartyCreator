@@ -80,22 +80,21 @@
   font-size:20px;
 }
 
-.addItems{
-  display: flex; 
+.addItems {
+  display: flex;
   flex-direction: row;
-  align-items: center; 
-  gap: 5px; 
-  background-color:var(--addItems-color); 
-  padding-bottom:0px; 
-  padding-top:15px; 
-  padding-left:15px; 
-  margin:0;
-  
+  align-items: center;
+  gap: 5px;
+  background-color: var(--addItems-color);
+  padding-bottom: 0px;
+  padding-top: 15px;
+  padding-left: 15px;
+  margin: 0;
 }
 @media (max-width: 900px) {
-  .informations{
+  .informations {
     display: block;
-    padding:4px;
-    font-size:16px;
-   }
+    padding: 4px;
+    font-size: 16px;
+  }
 }

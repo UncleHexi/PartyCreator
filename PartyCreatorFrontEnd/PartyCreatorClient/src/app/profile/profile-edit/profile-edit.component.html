@@ -111,7 +111,7 @@
       <button mat-raised-button color="accent" type="submit"  [disabled]="!passwordForm.valid" style="margin-top:20px;">Zapisz hasło</button>
     </form>
     <br>
-    <button mat-raised-button color="accent" class="editPassword" (click)="toggleChangePasswordForm()" >
+    <button mat-raised-button color="accent" class="editPassword" (click)="toggleChangePasswordForm()" *ngIf="accountType == 'Email'" >
       Edytuj hasło
     </button>
   </div>

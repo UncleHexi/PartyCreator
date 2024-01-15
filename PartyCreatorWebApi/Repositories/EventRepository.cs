@@ -110,6 +110,17 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
+        public async Task<Event> DeleteEvent(int eventId)
+        {
+            var result = await _dataContext.Events.FirstOrDefaultAsync(x=>x.Id == eventId);
+            if (result != null)
+            {
+                _dataContext.Events.Remove(result);
+                await _dataContext.SaveChangesAsync();
+                return result;
+            }
+            return null;
+        }
         public async Task<InviteList> DeleteInviteList(int id)
         {
             var result = await _dataContext.InviteLists.FirstOrDefaultAsync(i => i.Id == id);
@@ -120,6 +131,28 @@ namespace PartyCreatorWebApi.Repositories
                 return result;
             }
             return null;
+        }
+
+        public async Task<List<InviteList>> DeleteAllInviteList(int eventId)
+        {
+            var result = await _dataContext.InviteLists.Where(x=>x.EventId == eventId).ToListAsync();
+            foreach(var item in result)
+            {
+                _dataContext.InviteLists.Remove(item);
+            }
+            await _dataContext.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<List<GuestList>> DeleteAllGuestList(int eventId)
+        {
+            var result = await _dataContext.GuestLists.Where(x => x.EventId == eventId).ToListAsync();
+            foreach (var item in result)
+            {
+                _dataContext.GuestLists.Remove(item);
+            }
+            await _dataContext.SaveChangesAsync();
+            return result;
         }
 
         public async Task<GuestList> AddToGuestList(GuestList guestList)
