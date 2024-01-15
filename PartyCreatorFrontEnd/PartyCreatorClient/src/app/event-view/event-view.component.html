@@ -197,7 +197,17 @@
         Edytuj wydarzenie
       </button>
 
-      <div class="uploadFile2">
+      <button
+        *ngIf="editMode && userRole.role == 'Admin'"
+        (click)="editMode = true"
+        class="btn btn-danger"
+        style="background-color: red"
+        (click)="deleteEvent()"
+      >
+        Usuń wydarzenie
+      </button>
+
+      <div class="uploadFile2" *ngIf="!editMode">
         <p-fileUpload
           #fileUploader
           name="file"

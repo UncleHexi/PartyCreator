@@ -557,4 +557,16 @@ export class EventViewComponent implements OnInit, OnDestroy {
         .catch((err) => console.error(err));
     }
   }
+
+  deleteEvent() {
+    this.eventService.deleteEvent(this.eventId).subscribe(
+      (response) => {
+        console.log('Wydarzenie zostało usunięte', response);
+        this.router.navigate([`wydarzenia`]);
+      },
+      (error) => {
+        console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
+      }
+    );
+  }
 }

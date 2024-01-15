@@ -1,4 +1,5 @@
 import { Component, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { EventService } from '../services/event.service';
@@ -20,6 +21,7 @@ export class ExtraFunctionsModalComponent {
   constructor(
     public dialogRef: MatDialogRef<ExtraFunctionsModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router,
     private eventService: EventService,
     private fb: FormBuilder
   ) {
@@ -49,6 +51,7 @@ export class ExtraFunctionsModalComponent {
       .addEventFunctions(this.data.eventId, functions)
       .subscribe(() => {
         this.dialogRef.close();
+        this.router.navigate(['/wydarzenie/' + this.data.eventId]);
       });
   }
 }

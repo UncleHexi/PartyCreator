@@ -76,7 +76,7 @@ namespace PartyCreatorWebApi.Controllers
             email.From.Add(MailboxAddress.Parse("partycreator@gmail.com"));
             email.To.Add(MailboxAddress.Parse(user.Email));
             email.Subject = "PartyCreator Weryfikacja";
-            email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>Potwierdz email<h1><h2>https://localhost:7241/api/Auth/verify?token={user.VerificationToken}<h2>" };
+            email.Body = new TextPart(TextFormat.Html) { Text = $"<h1>Potwierdz email<h1><h2>https://partycreatorwebapi.azurewebsites.net/api/Auth/verify?token={user.VerificationToken}<h2>" };
 
             using var smtp = new SmtpClient();
             smtp.Connect("smtp-relay.brevo.com", 587, SecureSocketOptions.StartTls);
