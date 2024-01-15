@@ -100,7 +100,9 @@ p {
   /* umiejscowienie przycisku */
   text-align: center;
 }
-
+.tab-label-text{
+  color:var(--label-text-color);
+}
 @media (max-width: 1400px) {
   .calendar {
     display: grid;

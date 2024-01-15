@@ -11,7 +11,7 @@
 ::ng-deep .my-calendar .cal-month-view,
 ::ng-deep .my-calendar .cal-week-view,
 ::ng-deep .my-calendar .cal-day-view {
-  background-color: #303030;
+  background-color: var(--calendar-color);
   width: 100%;
 }
 

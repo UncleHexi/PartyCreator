@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['']">PartyCreator</a>
+      <a class="navbar-brand" [routerLink]="['']"><img src="/assets/PartyCreatorSmallLogo.png" alt="Logo" width="90"></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -98,10 +98,10 @@
 </header>
 
 <mat-menu #Menu="matMenu" xPosition="before">
-  <div class="notificationMenu" style="width: 400px; max-height: 400px">
+  <div class="notificationMenu" style="width: 400px; max-height: 400px; background-color: var(--background-main-color)">
     <div
       class="d-flex justify-content-center"
-      style="height: 40px; color: white"
+      style="height: 40px; color: var(--h1-color)"
     >
       <p>Powiadomienia</p>
     </div>
@@ -128,7 +128,7 @@
             >fiber_manual_record</mat-icon
           >
         </div>
-        <div class="col" style="padding: 0px; max-width: 275px">
+        <div class="col" style="padding: 0px; max-width: 275px ">
           <div class="row d-flex align-items-center justify-content-center">
             {{ notification.description }}
           </div>

@@ -1,11 +1,11 @@
 .card {
-  color: #ffffff99 !important;
-  background-color: #3d3d3d;
+  color: var(--card-color) !important;
+  background-color: var(--background-main-color);
   border: none;
 }
 
 .card-header {
-  background-color: #3d3d3d;
+  background-color: var(--background-main-color);
   border: none;
 }
 
@@ -25,7 +25,7 @@ table.kontakty {
 }
 
 thead.thead-dark {
-  background-color: #373737;
+  background-color: var(--child-background-color);
 }
 
 table.kontakty td,
@@ -46,7 +46,7 @@ table.kontakty th:last-child {
 }
 
 table.kontakty tr:nth-child(even) {
-  background: #373737;
+  background: var( --child-background-color);
 }
 
 button.add-button {
