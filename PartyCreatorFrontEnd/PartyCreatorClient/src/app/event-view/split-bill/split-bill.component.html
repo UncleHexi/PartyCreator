@@ -31,6 +31,8 @@
       <button type="submit" 
         mat-raised-button class="buttonAdd"
          [ngStyle]="{'height.px': 58, 'width.px': 200, 'margin-bottom.px': 21}"
+         [style.background-color]="myForm.valid ? ' var(--special-primary)' : 'grey'"
+
          [disabled]="!myForm.form.valid">
          Dodaj przedmiot
        </button>        

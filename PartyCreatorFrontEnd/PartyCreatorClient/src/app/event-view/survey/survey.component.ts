@@ -123,7 +123,13 @@ export class SurveyComponent implements OnInit {
           duration: 3000
         });
         this.loadSurveys();
-        this.newSurveyForm.reset();
+        this.newSurveyForm = this.fb.group({
+          question: [''],
+          choices: this.fb.array([
+            this.fb.control(''),
+            this.fb.control('')
+          ])
+        });
       },
       error: (err) => console.error('Błąd podczas dodawania ankiety', err)
     });

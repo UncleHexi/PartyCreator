@@ -78,6 +78,7 @@
             matInput
             [(ngModel)]="newItemName"
             placeholder="Nazwa przedmiotu"
+            maxlength="48"
           />
         </mat-form-field>
         <mat-form-field appearance="outline" class="quantity-field">
@@ -88,6 +89,7 @@
             placeholder="Ilość"
             type="number"
             class="numberOfItem"
+            maxlength="2"
           />
         </mat-form-field>
         <button

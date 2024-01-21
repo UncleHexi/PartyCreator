@@ -39,6 +39,7 @@ import { SignalRService } from '../services/signal-r.service';
 import * as signalR from '@microsoft/signalr';
 import { ChangeGuestInviteDto } from '../interfaces/change-guest-invite-dto';
 import { InviteListDto } from '../interfaces/invite-list-dto';
+import { ConfirmDialogComponent } from 'src/app/event-view/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-event-view',
@@ -106,7 +107,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private chatService: ChatService,
     private galleryService: GalleryService,
-    private signalRService: SignalRService
+    private signalRService: SignalRService,
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
@@ -182,6 +183,14 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.loadInvitedUsers();
       }
     );
+    this.signalRService.hubConnection.on('DeleteEvent',()=> {
+      this.router.navigate([`wydarzenia`]);
+      this.toast.error({
+        detail: 'ERROR',
+        summary: 'Wydarzenie zostalo usuniete',
+        duration: 3000,
+      });
+    })
   }
 
   ngOnDestroy(): void {
@@ -190,6 +199,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.off('EventLeft');
     this.signalRService.hubConnection.off('AcceptedInvite');
     this.signalRService.hubConnection.off('DeclineInvite');
+    this.signalRService.hubConnection.off('DeleteEvent');
     window.removeEventListener('signalRConnected', (e) =>
       this.addToEventGroup()
     ); //niby nie trzeba ale dla pewnosci
@@ -562,16 +572,26 @@ export class EventViewComponent implements OnInit, OnDestroy {
         .catch((err) => console.error(err));
     }
   }
-  
   deleteEvent() {
-    this.eventService.deleteEvent(this.eventId).subscribe(
-      (response) => {
-        console.log('Wydarzenie zostało usunięte', response);
-        this.router.navigate([`wydarzenia`]);
-      },
-      (error) => {
-        console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.eventService.deleteEvent(this.eventId).subscribe(
+          response => {
+            console.log('Wydarzenie zostało usunięte', response);
+            this.router.navigate([`wydarzenia`]);
+          },
+          error => {
+            console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
+          }
+        );
       }
-    );
+    });
   }
+  
+  cancelEdit() {
+    this.editMode = false;
+    this.editField = null;
+    }
 }
