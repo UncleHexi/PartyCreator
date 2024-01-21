@@ -11,6 +11,7 @@
           #title
           maxlength="50"
           formControlName="title"
+          minlength="3"
           required
         />
         <mat-hint align="end">{{ title.value.length }}/50</mat-hint>
@@ -30,6 +31,7 @@
           cdkAutosizeMinRows="3"
           cdkAutosizeMaxRows="6"
         ></textarea>
+        
         <mat-hint align="end">{{ description.value.length }}/100</mat-hint>
       </mat-form-field>
     </div>
@@ -42,6 +44,7 @@
             #address
             maxlength="30"
             formControlName="address"
+            minlength="3"
             required
           />
           <mat-hint align="end">{{ address.value.length }}/30</mat-hint>
@@ -56,6 +59,7 @@
               #country
               maxlength="30"
               formControlName="country"
+              minlength="3"
               required
             />
             <mat-hint align="end">{{ country.value.length }}/30</mat-hint>
@@ -69,6 +73,7 @@
               #city
               maxlength="30"
               formControlName="city"
+              minlength="3"
               required
             />
             <mat-hint align="end">{{ city.value.length }}/30</mat-hint>

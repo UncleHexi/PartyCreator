@@ -40,6 +40,8 @@ import * as signalR from '@microsoft/signalr';
 import { ChangeGuestInviteDto } from '../interfaces/change-guest-invite-dto';
 import { InviteListDto } from '../interfaces/invite-list-dto';
 import { ConfirmDialogComponent } from 'src/app/event-view/confirm-dialog/confirm-dialog.component';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-event-view',
