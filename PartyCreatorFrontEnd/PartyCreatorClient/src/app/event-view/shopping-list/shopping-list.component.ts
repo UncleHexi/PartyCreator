@@ -81,7 +81,7 @@ export class ShoppingListComponent implements OnInit {
   
 
   addItem() {
-    if (this.newItemName && this.newItemQuantity > 0) {
+    if (this.newItemName && this.newItemQuantity > 0 && this.newItemQuantity < 100) {
       const newItem = {
         id: 0,
         userId: 0,
