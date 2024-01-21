@@ -302,6 +302,7 @@ textarea[name="description"] {
   border-radius: 15px;
   padding-bottom: 50px;
   cursor: pointer;
+  height: 408px;
 }
 
 table {

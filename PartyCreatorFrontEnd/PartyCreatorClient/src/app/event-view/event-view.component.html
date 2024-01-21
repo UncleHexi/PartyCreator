@@ -22,15 +22,22 @@
               <input
                 matInput
                 [(ngModel)]="eventDetails.title"
-                #title
+                #title="ngModel"
                 name="name"
                 maxlength="36"
+                minlength="3"
+                required
               />
               <span>{{ title.value.length }}/36</span>
+              <!-- Wiadomość o błędzie -->
+              <mat-error *ngIf="title.errors?.['minlength']">
+                Nazwa musi mieć co najmniej 3 znaki.
+              </mat-error>
             </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+            <button mat-raised-button [disabled]="title.invalid">Zapisz</button>
           </form>
         </ng-template>
+        
 
         <!-- ogranizator -->
         <p style="font-weight: bold">
@@ -90,13 +97,20 @@
               <input
                 matInput
                 [(ngModel)]="eventDetails.address"
-                #address
+                #address="ngModel"
                 name="address"
+                minlength="3"
+                required
               />
+              <!-- Wiadomość o błędzie -->
+              <mat-error *ngIf="address.errors?.['minlength']">
+                Adres musi mieć co najmniej 3 znaki.
+              </mat-error>
             </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+            <button mat-raised-button [disabled]="address.invalid">Zapisz</button>
           </form>
         </ng-template>
+        
 
         <!-- miasto -->
         <div *ngIf="editField !== 'city'; else editFormCity">
@@ -117,13 +131,21 @@
               <input
                 matInput
                 [(ngModel)]="eventDetails.city"
-                #city
+                #city="ngModel"
                 name="city"
+                minlength="3"
+                required
               />
+              
+              <mat-error *ngIf="city.errors?.['minlength']">
+                Nazwa miasta musi mieć co najmniej 3 znaki.
+              </mat-error>
             </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+            <button mat-raised-button [disabled]="city.invalid">Zapisz</button>
           </form>
         </ng-template>
+        
+        
         <div>
           <p (click)="openMapModal()" style="cursor: pointer">
             <mat-icon
@@ -284,10 +306,7 @@
     <div
       class="addNewContent"
       *ngIf="
-        userRole.role === 'Admin' &&
-        (eventDetails.receiptTitle === '' ||
-          eventDetails.playlistTitle === '' ||
-          eventDetails.shoppingListTitle === '')
+        userRole.role === 'Admin' 
       "
     >
       <button mat-icon-button (click)="openAddContentModal()">
