@@ -125,7 +125,7 @@ namespace PartyCreatorWebApi.Controllers
                 return BadRequest("Podane haslo sie nie zgadza");
             }
             
-            if(user.VerifiedAt == null)
+            if(user.Type == "Email" && user.VerifiedAt == null)
             {
                 return BadRequest("Musisz najpierw potwierdzic email zeby sie zalogowac");
             }

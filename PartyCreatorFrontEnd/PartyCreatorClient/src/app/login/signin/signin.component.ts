@@ -96,17 +96,21 @@ export class SigninComponent {
       async (result: any) => {
         await this.auth
           .LoginWithFacebook(result.authResponse.accessToken)
-          .subscribe(
-            (res: LoginResponseDto) => {
+          .subscribe({
+            next: (res: LoginResponseDto) => {
               this._ngZone.run(() => {
                 this.auth.storeToken(res.token);
                 this.router.navigate(['/wydarzenia']);
               });
             },
-            (error: any) => {
-              console.log(error);
-            }
-          );
+            error: (err: HttpErrorResponse) => {
+              this.toast.error({
+                detail: 'ERROR',
+                summary: err.error,
+                duration: 3000,
+              });
+            },
+          });
       },
       { scope: 'email', auth_type: 'reauthenticate' }
     );

@@ -182,6 +182,15 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.loadInvitedUsers();
       }
     );
+
+    this.signalRService.hubConnection.on('DeleteEvent', () => {
+      this.router.navigate([`wydarzenia`]);
+      this.toast.error({
+        detail: 'ERROR',
+        summary: 'Wydarzenie zostalo usuniete',
+        duration: 3000,
+      });
+    });
   }
 
   ngOnDestroy(): void {
@@ -190,6 +199,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.off('EventLeft');
     this.signalRService.hubConnection.off('AcceptedInvite');
     this.signalRService.hubConnection.off('DeclineInvite');
+    this.signalRService.hubConnection.off('DeleteEvent');
     window.removeEventListener('signalRConnected', (e) =>
       this.addToEventGroup()
     ); //niby nie trzeba ale dla pewnosci
@@ -495,6 +505,11 @@ export class EventViewComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('The dialog was closed with result:', result);
+      this.eventService.getEventDetails(this.eventId).subscribe({
+        next: (res) => {
+          this.eventDetails = res;
+        },
+      });
     });
   }
 
