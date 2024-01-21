@@ -15,11 +15,11 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<UserContact> AddContact(UserContact userContact);
         Task<List<UserContact>> ShowContacts(int userId);
         Task<UserContact> GetContactById(int id);
-        Task<UserContact> GetContactByEmail(string email);
+        Task<UserContact> GetContactByEmail(string email, int userId);
         Task<UserContact> EditContact(UserContact userContact);
         Task<UserContact> DeleteContact(int id);
         string GetUserIdFromContext();
-        Task<List<User>> GetUsersEmailContains(string email);
+        Task<List<User>> GetUsersEmailContains(string email, int userId);
         Task<string> GetUserType(int userId);
 
     }

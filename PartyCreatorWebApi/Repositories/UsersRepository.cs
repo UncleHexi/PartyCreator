@@ -96,15 +96,15 @@ namespace PartyCreatorWebApi.Repositories
             return result;
         }
 
-        public async Task<List<User>> GetUsersEmailContains(string email)
+        public async Task<List<User>> GetUsersEmailContains(string email, int userId)
         {
-            var result = await _dataContext.Users.Where(u => u.Email.Contains(email)).ToListAsync();
+            var result = await _dataContext.Users.Where(u => u.Email.Contains(email) && u.Id != userId).ToListAsync();
             return result;
         }
 
-        public async Task<UserContact> GetContactByEmail(string email)
+        public async Task<UserContact> GetContactByEmail(string email, int userId)
         {
-            var result = await _dataContext.UserContacts.FirstOrDefaultAsync(x => x.Email == email);
+            var result = await _dataContext.UserContacts.Where(x => x.Email == email && x.UserId == userId).FirstOrDefaultAsync();
             return result;
         }
 

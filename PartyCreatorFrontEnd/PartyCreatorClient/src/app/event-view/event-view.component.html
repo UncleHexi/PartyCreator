@@ -181,14 +181,14 @@
         </ng-template>
       </div>
     </div>
-   <!--<div class="editDetails2">
+    <!--<div class="editDetails2">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
         (click)="editMode = true"
       >
         Edytuj wydarzenie
       </button>
-    </div>--> 
+    </div>-->
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
@@ -196,10 +196,13 @@
       >
         Edytuj wydarzenie
       </button>
-      <button *ngIf="editMode && userRole.role == 'Admin'"
-       (click)="cancelEdit()">
-       Opuść edycję wydarzenia</button>
-       <br>
+      <button
+        *ngIf="editMode && userRole.role == 'Admin'"
+        (click)="cancelEdit()"
+      >
+        Opuść edycję wydarzenia
+      </button>
+      <br />
 
       <button
         *ngIf="editMode && userRole.role == 'Admin'"

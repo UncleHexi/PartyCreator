@@ -232,6 +232,13 @@ export class EventViewComponent implements OnInit, OnDestroy {
         (data: EventUserDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
+            console.log(this.eventDetails.dateTime);
+
+            //var responeDate = new Date(this.eventDetails.dateTime);
+            //var stringDate = responeDate.toISOString();
+            //console.log(stringDate);
+            // this.eventDetails.dateTime = new Date(stringDate);
+
             this.eventTitle = data.title;
             this.loadGuestsUsers();
             this.loadInvitedUsers();

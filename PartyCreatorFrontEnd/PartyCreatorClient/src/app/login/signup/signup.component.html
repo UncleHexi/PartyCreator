@@ -231,9 +231,13 @@
                   type="submit"
                   class="btn btn-primary btn-block mt-4 w-100"
                   [disabled]="!signupForm.valid"
+                  *ngIf="!isLoading"
                 >
                   Zarejestruj się
                 </button>
+                <span *ngIf="isLoading">
+                  <mat-spinner style="margin: auto"></mat-spinner>
+                </span>
               </div>
               <br />
               <div class="text-center pt-4 text-muted">
