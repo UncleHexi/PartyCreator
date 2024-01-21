@@ -43,6 +43,27 @@
   width: 80%;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px; 
+}
+
+.profileForm, .passwordForm {
+  flex: 1; 
+}
+
+.editPassword{
+  margin-right:50px;
+  height:43px;
+}
+mat-label{
+  color:var(--h1-color);
+}
+.textInput {
+  color: var(--h1-color) !important; 
+}
 @media (max-width: 800px) {
   .desktop-calendar {
     display: none;
@@ -80,5 +101,8 @@
 
   ::ng-deep .mat-mdc-tab-group {
     height: fit-content;
+  }
+  .form-container {
+    flex-direction: column;
   }
 }

@@ -1,6 +1,6 @@
 body,
 html {
-  background-color: #2d2d2d;
+  background-color: var(--background-color);
   min-height: 100%;
 }
 
@@ -12,12 +12,12 @@ html {
 }
 
 .card {
-  background-color: #3d3d3d;
+  background-color: var(--background-main-color);
   border-radius: 20px;
   width: 60vw;
   min-height: 70vh;
   display: flex;
-  color: #ffffff99 !important;
+  color: var(--card-color);
 }
 
 ::ng-deep .profileTab .mat-mdc-tab-body-wrapper {
@@ -25,6 +25,9 @@ html {
   overflow-y: auto;
 }
 
+.tab-label-text{
+  color:var(--label-text-color);
+}
 @media (max-width: 1600px) {
   .card {
     width: 80vw;

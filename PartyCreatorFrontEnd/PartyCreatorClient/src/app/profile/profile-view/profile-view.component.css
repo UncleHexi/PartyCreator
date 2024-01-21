@@ -48,7 +48,7 @@ table.blueTable th:last-child {
   border-bottom-right-radius: 10px;
 }
 table.blueTable tr:nth-child(odd) {
-  background: #373737;
+  background: var(--child-background-color);
 }
 
 @media (max-width: 800px) {

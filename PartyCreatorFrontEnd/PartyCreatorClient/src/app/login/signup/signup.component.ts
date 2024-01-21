@@ -7,6 +7,8 @@ import { RegisterDto } from 'src/app/interfaces/register-dto';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmRegistrationDialogComponent } from './confirm-registration-dialog/confirm-registration-dialog.component';
 
 @Component({
   selector: 'app-signup',
@@ -21,13 +23,17 @@ export class SignupComponent {
     private fb: FormBuilder,
     private loginComponent: LoginComponent,
     private auth: AuthService,
-    private toast: NgToastService
+    private toast: NgToastService,
+    public dialog: MatDialog
+
     ) {
     this.signupForm = this.createSingupForm();
+    
   }
 
   // tworzenie formularza rejestracji
   createSingupForm(): FormGroup {
+
     return this.fb.group(
       {
         firstName: [
@@ -83,6 +89,7 @@ export class SignupComponent {
         this.toast.success({detail:"SUCCESS", summary:"Udało się stworzyć konto!",duration:3000});
         this.signupForm.reset(); //resetowanie formularza po jego złożeniu
         this.toggleForm(); //zmiana formularza z rejestracji na logowanie
+        this.dialog.open(ConfirmRegistrationDialogComponent);
       },
       error: (err: HttpErrorResponse) => {
         this.toast.error({detail:"ERROR", summary:err.error, duration:3000});

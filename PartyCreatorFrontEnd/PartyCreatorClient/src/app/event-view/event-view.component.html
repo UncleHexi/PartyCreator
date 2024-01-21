@@ -181,14 +181,14 @@
         </ng-template>
       </div>
     </div>
-    <div class="editDetails2">
+   <!--<div class="editDetails2">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
         (click)="editMode = true"
       >
         Edytuj wydarzenie
       </button>
-    </div>
+    </div>--> 
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
@@ -196,8 +196,21 @@
       >
         Edytuj wydarzenie
       </button>
+      <button *ngIf="editMode && userRole.role == 'Admin'"
+       (click)="cancelEdit()">
+       Opuść edycję wydarzenia</button>
+       <br>
 
-      <div class="uploadFile2">
+      <button
+        *ngIf="editMode && userRole.role == 'Admin'"
+        (click)="editMode = true"
+        class="btn btn-danger"
+        style="background-color: red"
+        (click)="deleteEvent()"
+      >
+        Usuń wydarzenie
+      </button>
+      <div class="uploadFile2" *ngIf="!editMode">
         <p-fileUpload
           #fileUploader
           name="file"
@@ -264,7 +277,9 @@
     <div class="shareReceipt" *ngIf="eventDetails.receiptTitle === 'Title'">
       <app-split-bill [eventId]="eventId"></app-split-bill>
     </div>
-    <div class="surveys">ankiety</div>
+    <div class="surveys">
+      <app-survey [eventId]="eventId" [userId]="userRole.id"></app-survey>
+    </div>
 
     <div
       class="addNewContent"

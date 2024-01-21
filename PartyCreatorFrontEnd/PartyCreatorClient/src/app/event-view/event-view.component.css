@@ -1,10 +1,20 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html{
+  background-color:var(--background-color) !important;
+}
+
 header {
   margin-bottom: 60px;
 }
 body {
-  padding: 10px;
-  background-color: var(--background-color);
+  background-color: var(--background-color) !important;
   color: #fff;
+  height:100%;
 }
 
 .mainLayout {
@@ -29,6 +39,9 @@ body {
     "thingsToBring  surveys"
     "spotifyPlaylist shareReceipt";
   padding: 20px;
+  width:100%;
+  background-color: var(--background-color);
+  margin:0;
 }
 
 .surveys {
@@ -212,8 +225,13 @@ textarea[name="description"] {
   border-bottom-right-radius: 0;
 }
 
+/* .spotifyPlaylist{
+  background-color: var(--special-accent);
+} */
 .surveys {
-  background-color: #1db954;
+  height: 406px;
+}
+.surveys{
   height: 406px;
 }
 .shareReceipt {

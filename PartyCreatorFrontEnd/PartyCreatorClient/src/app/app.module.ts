@@ -52,6 +52,12 @@ import { RedirectComponent } from './redirect/redirect.component';
 import { SpotifyComponent } from './event-view/spotify/spotify/spotify.component';
 import { ShoppingListComponent } from './event-view/shopping-list/shopping-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SurveyComponent } from './event-view/survey/survey.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { ConfirmDialogComponent } from './event-view/confirm-dialog/confirm-dialog.component';
+import { ConfirmRegistrationDialogComponent } from './login/signup/confirm-registration-dialog/confirm-registration-dialog.component';
 
 registerLocaleData(localePl);
 
@@ -68,6 +74,9 @@ registerLocaleData(localePl);
     SplitBillComponent,
     RegulationsComponent,
     ShoppingListComponent,
+    SurveyComponent,
+    ConfirmDialogComponent,
+    ConfirmRegistrationDialogComponent,
   ],
 
   imports: [
@@ -106,6 +115,13 @@ registerLocaleData(localePl);
     MatInputModule,
     ChatComponent,
     EventGalleryComponent,
+    MatExpansionModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
     RedirectComponent,
     SpotifyComponent,
     MatProgressSpinnerModule,

@@ -18,6 +18,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChangePasswordDto } from 'src/app/interfaces/change-password-dto';
 import { CustomValidators } from 'src/app/login/custom-validators';
+import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
+import { AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-edit',
@@ -25,12 +28,14 @@ import { CustomValidators } from 'src/app/login/custom-validators';
   styleUrls: ['./profile-edit.component.css'],
   standalone: true,
   imports: [
+    CommonModule, 
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIconModule
   ],
   providers: [DatePipe],
 })
@@ -39,6 +44,9 @@ export class ProfileEditComponent implements OnInit {
   public profileForm!: FormGroup;
   public passwordForm!: FormGroup;
   public profilePicture: string = '';
+  showChangePasswordForm = false;
+  hideOldPassword = true;
+  hideNewPassword = true;
   public accountType: string = '';
 
   constructor(
@@ -83,18 +91,11 @@ export class ProfileEditComponent implements OnInit {
         });
       }
     });
-    this.passwordForm = new FormGroup(
-      {
-        oldPassword: new FormControl('', [Validators.required]),
-        newPassword: new FormControl('', [
-          Validators.required,
-          Validators.minLength(8),
-        ]),
-        confirmPassword: new FormControl('', [Validators.required]),
-      },
-      { validators: CustomValidators.passwordMatchValidator }
-    );
-
+    this.passwordForm = new FormGroup({
+      oldPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      newPassword: new FormControl('', [Validators.required, Validators.minLength(8), CustomValidator]),
+    }, { validators: CustomValidators.passwordMatchValidator });
+    
     this.userService.getUserType().subscribe((res) => {
       this.accountType = res.token;
       console.log(this.accountType);
@@ -116,6 +117,7 @@ export class ProfileEditComponent implements OnInit {
             duration: 3000,
           });
           this.passwordForm.reset();
+          this.showChangePasswordForm = false;
         },
         error: (err) => {
           this.toast.error({
@@ -160,4 +162,33 @@ export class ProfileEditComponent implements OnInit {
       },
     });
   }
+  toggleChangePasswordForm(): void {
+    this.showChangePasswordForm = !this.showChangePasswordForm;
+    console.log('showChangePasswordForm:', this.showChangePasswordForm);
+
+  }
+
+  toggleOldPasswordVisibility(): void {
+    this.hideOldPassword = !this.hideOldPassword;
+  }
+
+  toggleNewPasswordVisibility(): void {
+    this.hideNewPassword = !this.hideNewPassword;
+  }
+}
+
+export function CustomValidator(control: AbstractControl) {
+  let value: string = control.value || '';
+  let upperCaseCharacters = /[A-Z]+/g;
+  let numberCharacters = /[0-9]+/g;
+  if (value.length < 8) {
+    return { customError: 'Hasło musi zawierać przynajmniej 8 znaków' };
+  }
+  if (!upperCaseCharacters.test(value)) {
+    return { customError: 'Hasło musi zawierać przynajmniej jedną dużą literę' };
+  }
+  if (!numberCharacters.test(value)) {
+    return { customError: 'Hasło musi zawierać przynajmniej jedną cyfrę' };
+  }
+  return null;
 }
