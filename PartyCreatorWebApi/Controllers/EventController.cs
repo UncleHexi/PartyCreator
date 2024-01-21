@@ -500,6 +500,7 @@ namespace PartyCreatorWebApi.Controllers
 
             //event
             var deletedEvent = await _eventRepository.DeleteEvent(eventId);
+            await _hub.Clients.Group(eventId.ToString()).SendAsync("DeleteEvent");
             return Ok(deletedEvent);
         }
     }

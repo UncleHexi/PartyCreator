@@ -56,6 +56,8 @@ import { SurveyComponent } from './event-view/survey/survey.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
+import { ConfirmDialogComponent } from './event-view/confirm-dialog/confirm-dialog.component';
+import { ConfirmRegistrationDialogComponent } from './login/signup/confirm-registration-dialog/confirm-registration-dialog.component';
 
 registerLocaleData(localePl);
 
@@ -73,6 +75,8 @@ registerLocaleData(localePl);
     RegulationsComponent,
     ShoppingListComponent,
     SurveyComponent,
+    ConfirmDialogComponent,
+    ConfirmRegistrationDialogComponent,
   ],
 
   imports: [
