@@ -5,14 +5,14 @@ import { SurveyVoteSendDto } from '../../interfaces/survey-vote-send-dto';
 import { RoleDto } from 'src/app/interfaces/role-dto';
 import { EventService } from 'src/app/services/event.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service'; 
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatNativeDateModule} from '@angular/material/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatNativeDateModule } from '@angular/material/core';
 import { NgToastService } from 'ng-angular-popup';
 
 @Component({
@@ -20,7 +20,6 @@ import { NgToastService } from 'ng-angular-popup';
   templateUrl: './survey.component.html',
   styleUrls: ['./survey.component.css'],
 })
-
 export class SurveyComponent implements OnInit {
   userRole: RoleDto = { id: 0, role: '' };
   surveys: SurveyDto[] = [];
@@ -33,7 +32,7 @@ export class SurveyComponent implements OnInit {
   @Input() eventId = '';
 
   constructor(
-    private surveyService: SurveyService, 
+    private surveyService: SurveyService,
     private eventService: EventService,
     private authService: AuthService,
     private toast: NgToastService,
@@ -43,8 +42,8 @@ export class SurveyComponent implements OnInit {
       question: ['', Validators.required],
       choices: this.fb.array([
         this.fb.control('', Validators.required),
-        this.fb.control('', Validators.required)
-      ])
+        this.fb.control('', Validators.required),
+      ]),
     });
   }
 
@@ -55,8 +54,8 @@ export class SurveyComponent implements OnInit {
 
   loadUserRole(): void {
     this.eventService.getAccess(this.eventId).subscribe(
-      data => this.userRole = data,
-      error => console.error('Error loading user role', error)
+      (data) => (this.userRole = data),
+      (error) => console.error('Error loading user role', error)
     );
   }
 
@@ -65,26 +64,29 @@ export class SurveyComponent implements OnInit {
       console.error('Event ID is not provided for Survey Component');
       return;
     }
-  
+
     this.surveyService.getAllSurveysOfEvent(this.eventId).subscribe({
       next: (data) => {
         console.log('Ankiety załadowane:', data);
         this.surveys = data;
-  
+
         data.forEach((survey) => {
-          this.surveyService.getVotesFromSurvey(survey.surveyId.toString()).subscribe({
-            next: (votes) => {
-  
-              this.surveyResults.set(survey.surveyId, votes.map((vote) => vote.choiceId));
-            },
-            error: (err) => console.error('Error loading survey votes', err)
-          });
+          this.surveyService
+            .getVotesFromSurvey(survey.surveyId.toString())
+            .subscribe({
+              next: (votes) => {
+                this.surveyResults.set(
+                  survey.surveyId,
+                  votes.map((vote) => vote.choiceId)
+                );
+              },
+              error: (err) => console.error('Error loading survey votes', err),
+            });
         });
       },
-      error: (err) => console.error('Error loading surveys', err)
+      error: (err) => console.error('Error loading surveys', err),
     });
   }
-  
 
   addNewChoice(): void {
     const choices = this.newSurveyForm.get('choices') as FormArray;
@@ -93,8 +95,7 @@ export class SurveyComponent implements OnInit {
     } else {
       this.toast.error({
         detail: 'ERROR',
-        summary:
-          'Możesz dodać maksymalnie 4 opcje do wyboru!',
+        summary: 'Możesz dodać maksymalnie 4 opcje do wyboru!',
         duration: 3000,
       });
     }
@@ -109,8 +110,8 @@ export class SurveyComponent implements OnInit {
       choices: formValue.choices.map((choiceText: string) => ({
         id: 0, // lub inna logika do ustalania ID, jeśli to konieczne
         surveyId: 0, // lub inna logika do ustalania ID, jeśli to konieczne
-        choiceText: choiceText
-      }))
+        choiceText: choiceText,
+      })),
     };
 
     this.surveyService.addSurvey(newSurvey).subscribe({
@@ -118,20 +119,16 @@ export class SurveyComponent implements OnInit {
         console.log('Ankieta została dodana pomyślnie', data);
         this.toast.success({
           detail: 'SUKCES',
-          summary:
-            'Dodano ankietę!',
-          duration: 3000
+          summary: 'Dodano ankietę!',
+          duration: 3000,
         });
         this.loadSurveys();
         this.newSurveyForm = this.fb.group({
           question: [''],
-          choices: this.fb.array([
-            this.fb.control(''),
-            this.fb.control('')
-          ])
+          choices: this.fb.array([this.fb.control(''), this.fb.control('')]),
         });
       },
-      error: (err) => console.error('Błąd podczas dodawania ankiety', err)
+      error: (err) => console.error('Błąd podczas dodawania ankiety', err),
     });
   }
 
@@ -141,7 +138,7 @@ export class SurveyComponent implements OnInit {
 
   submitVote(surveyId: number): void {
     const choiceId = this.selectedChoices.get(surveyId);
-    
+
     if (choiceId !== undefined) {
       const voteData: SurveyVoteSendDto = {
         id: 0,
@@ -154,26 +151,37 @@ export class SurveyComponent implements OnInit {
           console.log('Vote submitted successfully');
           this.toast.success({
             detail: 'SUKCES',
-            summary:
-              'Twój wybór został zapisany!',
-            duration: 3000
+            summary: 'Twój wybór został zapisany!',
+            duration: 3000,
           });
           this.loadSurveys(); // Ponowne załadowanie ankiet po oddaniu głosu
-
         },
         error: (err) => {
           console.error('Error submitting vote', err);
           this.toast.error({
             detail: 'ERROR',
-            summary:
-              'Już oddałeś głos w tej ankiecie, nie możesz go zmienić!',
-            duration: 3000
+            summary: 'Już oddałeś głos w tej ankiecie, nie możesz go zmienić!',
+            duration: 3000,
           });
-        }
+        },
       });
     }
   }
-  
+
+  deleteSurvey(surveyId: number): void {
+    this.surveyService.deleteSurvey(surveyId.toString()).subscribe({
+      next: () => {
+        this.toast.success({
+          detail: 'SUKCES',
+          summary: 'Ankieta została usunięta!',
+          duration: 3000,
+        });
+        this.loadSurveys();
+      },
+      error: (err) => console.error('Błąd podczas usuwania ankiety', err),
+    });
+  }
+
   setStep(index: number) {
     this.step = index;
   }
@@ -200,12 +208,9 @@ export class SurveyComponent implements OnInit {
     } else {
       this.toast.error({
         detail: 'ERROR',
-        summary:
-          'Nie możesz usunąć wszystkich opcji!',
+        summary: 'Nie możesz usunąć wszystkich opcji!',
         duration: 3000,
       });
     }
   }
-  
 }
-

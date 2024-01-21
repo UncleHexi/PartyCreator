@@ -51,7 +51,7 @@ namespace PartyCreatorWebApi.Repositories
             {
                 new KeyValuePair<string, string>("grant_type", "authorization_code"),
                 new KeyValuePair<string, string>("code", code),
-                new KeyValuePair<string, string>("redirect_uri", "https://partycreatorfrontend.azurewebsites.net/redirect"),
+                new KeyValuePair<string, string>("redirect_uri", "http://localhost:4200/redirect"),
                 new KeyValuePair<string, string>("client_id", "81810883fb3b47bb83ffa68101537c05"),
                 new KeyValuePair<string, string>("client_secret", "d5380ae4782748ff92520e95cdd1e7f4")
             });
