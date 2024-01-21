@@ -109,7 +109,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private chatService: ChatService,
     private galleryService: GalleryService,
-    private signalRService: SignalRService,
+    private signalRService: SignalRService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.selected = null;
@@ -185,14 +185,14 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.loadInvitedUsers();
       }
     );
-    this.signalRService.hubConnection.on('DeleteEvent',()=> {
+    this.signalRService.hubConnection.on('DeleteEvent', () => {
       this.router.navigate([`wydarzenia`]);
       this.toast.error({
         detail: 'ERROR',
         summary: 'Wydarzenie zostalo usuniete',
         duration: 3000,
       });
-    })
+    });
   }
 
   ngOnDestroy(): void {
@@ -576,27 +576,24 @@ export class EventViewComponent implements OnInit, OnDestroy {
   }
   deleteEvent() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
-  
-    dialogRef.afterClosed().subscribe(result => {
+
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.eventService.deleteEvent(this.eventId).subscribe(
-          response => {
+          (response) => {
             console.log('Wydarzenie zostało usunięte', response);
             this.router.navigate([`wydarzenia`]);
           },
-          error => {
+          (error) => {
             console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
           }
         );
       }
     });
   }
-  
+
   cancelEdit() {
     this.editMode = false;
     this.editField = null;
-    }
-    containsLetter(value: string): boolean {
-      return /[a-zA-Z]/.test(value);
-    }
+  }
 }

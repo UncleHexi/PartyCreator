@@ -203,14 +203,14 @@
         </ng-template>
       </div>
     </div>
-   <!--<div class="editDetails2">
+    <!--<div class="editDetails2">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
         (click)="editMode = true"
       >
         Edytuj wydarzenie
       </button>
-    </div>--> 
+    </div>-->
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
@@ -218,10 +218,13 @@
       >
         Edytuj wydarzenie
       </button>
-      <button *ngIf="editMode && userRole.role == 'Admin'"
-       (click)="cancelEdit()">
-       Opuść edycję wydarzenia</button>
-       <br>
+      <button
+        *ngIf="editMode && userRole.role == 'Admin'"
+        (click)="cancelEdit()"
+      >
+        Opuść edycję wydarzenia
+      </button>
+      <br />
 
       <button
         *ngIf="editMode && userRole.role == 'Admin'"
@@ -303,12 +306,7 @@
       <app-survey [eventId]="eventId" [userId]="userRole.id"></app-survey>
     </div>
 
-    <div
-      class="addNewContent"
-      *ngIf="
-        userRole.role === 'Admin' 
-      "
-    >
+    <div class="addNewContent" *ngIf="userRole.role === 'Admin'">
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>
