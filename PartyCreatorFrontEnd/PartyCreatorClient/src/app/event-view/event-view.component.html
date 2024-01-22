@@ -138,7 +138,7 @@
           <p>
             <fa-icon [icon]="faClock" style="color: white" size="2xl">
             </fa-icon>
-            {{ eventDetails.dateTime + "z" | date : "HH:mm" }}
+            {{ eventDetails.dateTime | date : "HH:mm" }}
             <i
               class="fa fa-pencil"
               *ngIf="editMode"

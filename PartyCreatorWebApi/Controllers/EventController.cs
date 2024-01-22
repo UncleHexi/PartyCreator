@@ -362,7 +362,7 @@ namespace PartyCreatorWebApi.Controllers
                 UserId = 0
             });
 
-            foreach(var notification in notifications)
+            foreach (var notification in notifications)
             {
                 await _hub.Clients.User(notification.UserId.ToString()).SendAsync("ReceiveNotification", notification);
             }

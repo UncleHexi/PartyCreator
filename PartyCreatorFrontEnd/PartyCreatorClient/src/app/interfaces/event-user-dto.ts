@@ -5,7 +5,7 @@ export interface EventUserDto {
   creatorLastName: string;
   title: string;
   description: string;
-  dateTime: Date;
+  dateTime: string;
   city: string;
   address: string;
   country: string;
