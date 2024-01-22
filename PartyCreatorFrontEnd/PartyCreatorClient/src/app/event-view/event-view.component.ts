@@ -42,7 +42,6 @@ import { InviteListDto } from '../interfaces/invite-list-dto';
 import { ConfirmDialogComponent } from 'src/app/event-view/confirm-dialog/confirm-dialog.component';
 import { FormControl } from '@angular/forms';
 
-
 @Component({
   selector: 'app-event-view',
   templateUrl: './event-view.component.html',
@@ -188,7 +187,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.on('DeleteEvent', () => {
       this.router.navigate([`wydarzenia`]);
       this.toast.error({
-        detail: 'ERROR',
+        detail: 'DELETE',
         summary: 'Wydarzenie zostalo usuniete',
         duration: 3000,
       });

@@ -17,7 +17,13 @@ import { ConfirmRegistrationDialogComponent } from './confirm-registration-dialo
 })
 export class SignupComponent {
   public signupForm: FormGroup; // formularz rejestracji
-  credentials: RegisterDto= {firstName:'',lastName:'',email:'',password:''}
+  credentials: RegisterDto = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -25,15 +31,12 @@ export class SignupComponent {
     private auth: AuthService,
     private toast: NgToastService,
     public dialog: MatDialog
-
-    ) {
+  ) {
     this.signupForm = this.createSingupForm();
-    
   }
 
   // tworzenie formularza rejestracji
   createSingupForm(): FormGroup {
-
     return this.fb.group(
       {
         firstName: [
@@ -78,22 +81,33 @@ export class SignupComponent {
   }
 
   submit() {
-    this.credentials.firstName=this.signupForm.value.firstName;
-    this.credentials.lastName=this.signupForm.value.lastName;
-    this.credentials.email=this.signupForm.value.email;
-    this.credentials.password=this.signupForm.value.password;
+    this.credentials.firstName = this.signupForm.value.firstName;
+    this.credentials.lastName = this.signupForm.value.lastName;
+    this.credentials.email = this.signupForm.value.email;
+    this.credentials.password = this.signupForm.value.password;
 
-    this.auth.signUp(this.credentials)
-    .subscribe({
+    this.isLoading = true;
+
+    this.auth.signUp(this.credentials).subscribe({
       next: (res) => {
-        this.toast.success({detail:"SUCCESS", summary:"Udało się stworzyć konto!",duration:3000});
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się stworzyć konto!',
+          duration: 3000,
+        });
+        this.isLoading = false;
         this.signupForm.reset(); //resetowanie formularza po jego złożeniu
         this.toggleForm(); //zmiana formularza z rejestracji na logowanie
         this.dialog.open(ConfirmRegistrationDialogComponent);
       },
       error: (err: HttpErrorResponse) => {
-        this.toast.error({detail:"ERROR", summary:err.error, duration:3000});
-      }
-    })
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+        this.isLoading = false;
+      },
+    });
   }
 }
