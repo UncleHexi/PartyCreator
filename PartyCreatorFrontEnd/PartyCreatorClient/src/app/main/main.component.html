@@ -15,8 +15,8 @@
               Organizator: {{ event.creatorFirstName }}
               {{ event.creatorLastName }}
             </p>
-            <p>Godzina: {{ event.dateTime + "Z" | date : "H:mm" }}</p>
-            <p>Data: {{ event.dateTime + "Z" | date : "d/M/yy" }}</p>
+            <p>Godzina: {{ event.dateTime | date : "H:mm" }}</p>
+            <p>Data: {{ event.dateTime | date : "d/M/yy" }}</p>
             <button
               type="button"
               class="btn btn-light btnToDetails"
@@ -40,8 +40,8 @@
               Organizator: {{ myEvent.creatorFirstName }}
               {{ myEvent.creatorLastName }}
             </p>
-            <p>Godzina: {{ myEvent.dateTime + "Z" | date : "H:mm" }}</p>
-            <p>Data: {{ myEvent.dateTime + "Z" | date : "d/M/yy" }}</p>
+            <p>Godzina: {{ myEvent.dateTime | date : "H:mm" }}</p>
+            <p>Data: {{ myEvent.dateTime | date : "d/M/yy" }}</p>
             <button
               type="button"
               class="btn btn-light btnToDetails"
