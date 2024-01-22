@@ -187,7 +187,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.on('DeleteEvent', () => {
       this.router.navigate([`wydarzenia`]);
       this.toast.error({
-        detail: 'ERROR',
+        detail: 'DELETE',
         summary: 'Wydarzenie zostalo usuniete',
         duration: 3000,
       });
