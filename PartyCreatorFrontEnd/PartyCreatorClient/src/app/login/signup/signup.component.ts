@@ -7,6 +7,8 @@ import { RegisterDto } from 'src/app/interfaces/register-dto';
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgToastService } from 'ng-angular-popup';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmRegistrationDialogComponent } from './confirm-registration-dialog/confirm-registration-dialog.component';
 
 @Component({
   selector: 'app-signup',
@@ -15,14 +17,21 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class SignupComponent {
   public signupForm: FormGroup; // formularz rejestracji
-  credentials: RegisterDto= {firstName:'',lastName:'',email:'',password:''}
+  credentials: RegisterDto = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  };
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private loginComponent: LoginComponent,
     private auth: AuthService,
-    private toast: NgToastService
-    ) {
+    private toast: NgToastService,
+    public dialog: MatDialog
+  ) {
     this.signupForm = this.createSingupForm();
   }
 
@@ -72,21 +81,33 @@ export class SignupComponent {
   }
 
   submit() {
-    this.credentials.firstName=this.signupForm.value.firstName;
-    this.credentials.lastName=this.signupForm.value.lastName;
-    this.credentials.email=this.signupForm.value.email;
-    this.credentials.password=this.signupForm.value.password;
+    this.credentials.firstName = this.signupForm.value.firstName;
+    this.credentials.lastName = this.signupForm.value.lastName;
+    this.credentials.email = this.signupForm.value.email;
+    this.credentials.password = this.signupForm.value.password;
 
-    this.auth.signUp(this.credentials)
-    .subscribe({
+    this.isLoading = true;
+
+    this.auth.signUp(this.credentials).subscribe({
       next: (res) => {
-        this.toast.success({detail:"SUCCESS", summary:"Udało się stworzyć konto!",duration:3000});
+        this.toast.success({
+          detail: 'SUCCESS',
+          summary: 'Udało się stworzyć konto!',
+          duration: 3000,
+        });
+        this.isLoading = false;
         this.signupForm.reset(); //resetowanie formularza po jego złożeniu
         this.toggleForm(); //zmiana formularza z rejestracji na logowanie
+        this.dialog.open(ConfirmRegistrationDialogComponent);
       },
       error: (err: HttpErrorResponse) => {
-        this.toast.error({detail:"ERROR", summary:err.error, duration:3000});
-      }
-    })
+        this.toast.error({
+          detail: 'ERROR',
+          summary: err.error,
+          duration: 3000,
+        });
+        this.isLoading = false;
+      },
+    });
   }
 }

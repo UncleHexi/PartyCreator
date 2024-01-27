@@ -22,13 +22,19 @@
               <input
                 matInput
                 [(ngModel)]="eventDetails.title"
-                #title
+                #title="ngModel"
                 name="name"
                 maxlength="36"
+                minlength="3"
+                required
               />
               <span>{{ title.value.length }}/36</span>
+              <!-- Wiadomość o błędzie -->
+              <mat-error *ngIf="title.errors?.['minlength']">
+                Nazwa musi mieć co najmniej 3 znaki.
+              </mat-error>
             </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+            <button mat-raised-button [disabled]="title.invalid">Zapisz</button>
           </form>
         </ng-template>
 
@@ -90,11 +96,19 @@
               <input
                 matInput
                 [(ngModel)]="eventDetails.address"
-                #address
+                #address="ngModel"
                 name="address"
+                minlength="3"
+                required
               />
+              <!-- Wiadomość o błędzie -->
+              <mat-error *ngIf="address.errors?.['minlength']">
+                Adres musi mieć co najmniej 3 znaki.
+              </mat-error>
             </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+            <button mat-raised-button [disabled]="address.invalid">
+              Zapisz
+            </button>
           </form>
         </ng-template>
 
@@ -117,13 +131,20 @@
               <input
                 matInput
                 [(ngModel)]="eventDetails.city"
-                #city
+                #city="ngModel"
                 name="city"
+                minlength="3"
+                required
               />
+
+              <mat-error *ngIf="city.errors?.['minlength']">
+                Nazwa miasta musi mieć co najmniej 3 znaki.
+              </mat-error>
             </mat-form-field>
-            <button mat-raised-button (click)="saveChanges()">Zapisz</button>
+            <button mat-raised-button [disabled]="city.invalid">Zapisz</button>
           </form>
         </ng-template>
+
         <div>
           <p (click)="openMapModal()" style="cursor: pointer">
             <mat-icon
@@ -138,7 +159,7 @@
           <p>
             <fa-icon [icon]="faClock" style="color: white" size="2xl">
             </fa-icon>
-            {{ eventDetails.dateTime + "z" | date : "HH:mm" }}
+            {{ eventDetails.dateTime | date : "HH:mm" }}
             <i
               class="fa fa-pencil"
               *ngIf="editMode"
@@ -161,7 +182,7 @@
           <p>
             <fa-icon [icon]="faCalendar" style="color: white" size="2xl">
             </fa-icon>
-            {{ eventDetails.dateTime + "z" | date : "dd-MM-yyyy" }}
+            {{ eventDetails.dateTime | date : "dd-MM-yyyy" }}
             <i
               class="fa fa-pencil"
               *ngIf="editMode"
@@ -181,14 +202,14 @@
         </ng-template>
       </div>
     </div>
-    <div class="editDetails2">
+    <!--<div class="editDetails2">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
         (click)="editMode = true"
       >
         Edytuj wydarzenie
       </button>
-    </div>
+    </div>-->
     <div class="editDetails">
       <button
         *ngIf="!editMode && userRole.role == 'Admin'"
@@ -196,6 +217,13 @@
       >
         Edytuj wydarzenie
       </button>
+      <button
+        *ngIf="editMode && userRole.role == 'Admin'"
+        (click)="cancelEdit()"
+      >
+        Opuść edycję wydarzenia
+      </button>
+      <br />
 
       <button
         *ngIf="editMode && userRole.role == 'Admin'"
@@ -277,15 +305,7 @@
       <app-survey [eventId]="eventId" [userId]="userRole.id"></app-survey>
     </div>
 
-    <div
-      class="addNewContent"
-      *ngIf="
-        userRole.role === 'Admin' &&
-        (eventDetails.receiptTitle === '' ||
-          eventDetails.playlistTitle === '' ||
-          eventDetails.shoppingListTitle === '')
-      "
-    >
+    <div class="addNewContent" *ngIf="userRole.role === 'Admin'">
       <button mat-icon-button (click)="openAddContentModal()">
         <mat-icon>add</mat-icon>
       </button>

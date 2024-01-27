@@ -109,8 +109,8 @@ export class SigninComponent {
                 summary: err.error,
                 duration: 3000,
               });
-            }
-      });
+            },
+          });
       },
       { scope: 'email', auth_type: 'reauthenticate' }
     );

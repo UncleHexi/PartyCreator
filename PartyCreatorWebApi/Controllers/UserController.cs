@@ -74,13 +74,14 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("AddContact"), Authorize]
         public async Task<ActionResult<UserContact>> AddContact(UserContact request)
         {
-            var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower());
+            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+
+            var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower(), creatorId);
             if (mailcheck != null)
             {
                 return BadRequest("Uzytkownik został już dodany");
             }
 
-            int creatorId = Int32.Parse(_usersRepository.GetUserIdFromContext());
             var user = await _usersRepository.GetUserById(creatorId);
             if (user.Email.ToLower() == request.Email.ToLower())
             {
@@ -128,7 +129,7 @@ namespace PartyCreatorWebApi.Controllers
             }
 
 
-            var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower());
+            var mailcheck = await _usersRepository.GetContactByEmail(request.Email.ToLower(), creatorId);
 
             if (mailcheck.Id != request.Id)
             {
@@ -176,7 +177,8 @@ namespace PartyCreatorWebApi.Controllers
         [HttpPost("GetUsersEmailContains"), Authorize]
         public async Task<ActionResult<UserContactDto>> GetUsersEmailContains(SearchEmailDto request)
         {
-            var result = await _usersRepository.GetUsersEmailContains(request.Email.ToLower());
+            int userId = Int32.Parse(_usersRepository.GetUserIdFromContext());
+            var result = await _usersRepository.GetUsersEmailContains(request.Email.ToLower(), userId);
 
             return Ok(DtoConversions.UserToUserContactDto(result));
         }

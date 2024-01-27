@@ -108,7 +108,7 @@ export class EventModalComponent {
     );
     const timePart = this.eventOptions.value.time;
     const combinedDateTimeString = `${datePart}T${timePart}`;
-    const combinedDateTime = new Date(combinedDateTimeString);
+    const combinedDateTime = new Date(combinedDateTimeString + 'Z');
 
     this.eventOptions.value.dateTime = combinedDateTime;
   }

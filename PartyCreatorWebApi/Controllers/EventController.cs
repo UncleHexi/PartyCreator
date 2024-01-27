@@ -362,7 +362,7 @@ namespace PartyCreatorWebApi.Controllers
                 UserId = 0
             });
 
-            foreach(var notification in notifications)
+            foreach (var notification in notifications)
             {
                 await _hub.Clients.User(notification.UserId.ToString()).SendAsync("ReceiveNotification", notification);
             }
@@ -500,6 +500,9 @@ namespace PartyCreatorWebApi.Controllers
 
             //event
             var deletedEvent = await _eventRepository.DeleteEvent(eventId);
+
+            await _hub.Clients.Group(eventId.ToString()).SendAsync("DeleteEvent");
+
             return Ok(deletedEvent);
         }
     }

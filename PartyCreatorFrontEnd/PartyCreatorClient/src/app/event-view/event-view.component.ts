@@ -39,6 +39,8 @@ import { SignalRService } from '../services/signal-r.service';
 import * as signalR from '@microsoft/signalr';
 import { ChangeGuestInviteDto } from '../interfaces/change-guest-invite-dto';
 import { InviteListDto } from '../interfaces/invite-list-dto';
+import { ConfirmDialogComponent } from 'src/app/event-view/confirm-dialog/confirm-dialog.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-event-view',
@@ -117,7 +119,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
       creatorLastName: '',
       title: '',
       description: '',
-      dateTime: new Date(),
+      dateTime: '',
       city: '',
       address: '',
       country: '',
@@ -182,6 +184,14 @@ export class EventViewComponent implements OnInit, OnDestroy {
         this.loadInvitedUsers();
       }
     );
+    this.signalRService.hubConnection.on('DeleteEvent', () => {
+      this.router.navigate([`wydarzenia`]);
+      this.toast.error({
+        detail: 'DELETE',
+        summary: 'Wydarzenie zostalo usuniete',
+        duration: 3000,
+      });
+    });
   }
 
   ngOnDestroy(): void {
@@ -190,6 +200,7 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.signalRService.hubConnection.off('EventLeft');
     this.signalRService.hubConnection.off('AcceptedInvite');
     this.signalRService.hubConnection.off('DeclineInvite');
+    this.signalRService.hubConnection.off('DeleteEvent');
     window.removeEventListener('signalRConnected', (e) =>
       this.addToEventGroup()
     ); //niby nie trzeba ale dla pewnosci
@@ -222,6 +233,8 @@ export class EventViewComponent implements OnInit, OnDestroy {
         (data: EventUserDto | null) => {
           if (data !== null) {
             this.eventDetails = data;
+            console.log(this.eventDetails.dateTime);
+            //this.eventDetails.dateTime = this.eventDetails.dateTime + 'Z';
             this.eventTitle = data.title;
             this.loadGuestsUsers();
             this.loadInvitedUsers();
@@ -271,53 +284,52 @@ export class EventViewComponent implements OnInit, OnDestroy {
     this.editMode = false;
     this.editField = null;
 
-    console.log('Edited Date:', this.editedDate);
-    console.log('Edited Time:', this.editedTime);
-
-    let dateToUse = this.editedDate;
     if (!this.editedDate) {
-      dateToUse = new Date(this.eventDetails.dateTime)
-        .toISOString()
-        .split('T')[0];
+      this.editedDate = this.eventDetails.dateTime.slice(0, 10);
     }
 
-    let timeToUse = this.editedTime;
     if (!this.editedTime) {
-      timeToUse = new Date(this.eventDetails.dateTime)
-        .toISOString()
-        .split('T')[1]
-        .substring(0, 5);
-    }
-
-    if (!dateToUse || !timeToUse) {
-      console.error('Nieprawidłowy format daty lub czasu');
-      return;
+      this.editedTime = this.eventDetails.dateTime.slice(11, 16);
     }
 
     if (
-      dateToUse.match(/^\d{4}-\d{2}-\d{2}$/) &&
-      timeToUse.match(/^\d{2}:\d{2}$/)
+      this.editedDate.match(/^\d{4}-\d{2}-\d{2}$/) &&
+      this.editedTime.match(/^\d{2}:\d{2}$/)
     ) {
-      const updatedDate = new Date(Date.parse(dateToUse));
-      const updatedTime = timeToUse.split(':');
-      updatedDate.setHours(Number(updatedTime[0]));
-      updatedDate.setMinutes(Number(updatedTime[1]));
+      const editedDateTime = new Date(
+        this.editedDate + 'T' + this.editedTime + ':00'
+      );
 
-      console.log('Updated Date:', updatedDate);
+      // Formatuj datę i czas jako ciąg znaków 'YYYY-MM-DDTHH:MM:SS'
+      const year = editedDateTime.getFullYear();
+      const month = String(editedDateTime.getMonth() + 1).padStart(2, '0'); // dodaj 1 do miesiąca, bo są indeksowane od 0
+      const day = String(editedDateTime.getDate()).padStart(2, '0');
+      const hour = String(editedDateTime.getHours()).padStart(2, '0');
+      const minute = String(editedDateTime.getMinutes()).padStart(2, '0');
+      const second = String(editedDateTime.getSeconds()).padStart(2, '0');
 
-      this.eventDetails.dateTime = updatedDate;
-
-      this.eventService
-        .updateEventDetails(this.eventId, this.eventDetails)
-        .subscribe(
-          (response) => {},
-          (error) => {
-            console.error('Błąd podczas aktualizacji danych wydarzenia', error);
-          }
-        );
-    } else {
-      console.error('Nieprawidłowy format daty lub czasu');
+      this.eventDetails.dateTime = `${year}-${month}-${day}T${hour}:${minute}:${second}`;
     }
+    this.eventService
+      .updateEventDetails(this.eventId, this.eventDetails)
+      .subscribe({
+        next: (res) => {
+          this.isSuccess = 1;
+          this.toast.success({
+            detail: 'SUCCESS',
+            summary: 'Wydarzenie zostało zaktualizowane!',
+            duration: 3000,
+          });
+        },
+        error: (error) => {
+          this.isSuccess = -1;
+          this.toast.error({
+            detail: 'ERROR',
+            summary: 'Błąd podczas aktualizowania wydarzenia',
+            duration: 3000,
+          });
+        },
+      });
   }
 
   imagesNum: number = 0; //liczba wszystkich zdjęć
@@ -562,16 +574,26 @@ export class EventViewComponent implements OnInit, OnDestroy {
         .catch((err) => console.error(err));
     }
   }
-  
   deleteEvent() {
-    this.eventService.deleteEvent(this.eventId).subscribe(
-      (response) => {
-        console.log('Wydarzenie zostało usunięte', response);
-        this.router.navigate([`wydarzenia`]);
-      },
-      (error) => {
-        console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eventService.deleteEvent(this.eventId).subscribe(
+          (response) => {
+            console.log('Wydarzenie zostało usunięte', response);
+            this.router.navigate([`wydarzenia`]);
+          },
+          (error) => {
+            console.error('Wystąpił błąd podczas usuwania wydarzenia', error);
+          }
+        );
       }
-    );
+    });
+  }
+
+  cancelEdit() {
+    this.editMode = false;
+    this.editField = null;
   }
 }
