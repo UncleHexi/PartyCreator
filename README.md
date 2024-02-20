@@ -7,7 +7,6 @@
     <br/>
     <br/>
     <a href="https://github.com/michalboese/PartyCreator">View Demo</a>
-    .
   </p>
 </p>
 
@@ -27,7 +26,7 @@ PartyCreator is a web application that allows users to create, browse, and manag
 
 Key Features:
 
-* Registration and Login: Users can create their account and then log in to access the full functionality of the application.
+* <b>Registration and Login:</b> Users can create their account and then log in to access the full functionality of the application.
 * Event Creation: Users can create new events, specifying their name, description, date, time, location, and other details.
 * Event Browsing: The application enables browsing available events, both those created by the user and those to which they have been invited.
 * Event Management: Users can manage their events by editing their details, inviting participants, monitoring the guest list, and adding additional features such as splitting the bill or creating a Spotify playlist.
