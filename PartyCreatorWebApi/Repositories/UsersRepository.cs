@@ -98,7 +98,7 @@ namespace PartyCreatorWebApi.Repositories
 
         public async Task<List<User>> GetUsersEmailContains(string email, int userId)
         {
-            var result = await _dataContext.Users.Where(u => u.Email.Contains(email) && u.Id != userId).ToListAsync();
+            var result = await _dataContext.Users.Where(u => u.Email.Contains(email) && u.Id != userId && !(u.VerifiedAt == null && u.VerificationToken != null)).ToListAsync();
             return result;
         }
 

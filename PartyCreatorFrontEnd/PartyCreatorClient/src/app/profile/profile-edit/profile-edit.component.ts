@@ -28,14 +28,14 @@ import { AbstractControl } from '@angular/forms';
   styleUrls: ['./profile-edit.component.css'],
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [DatePipe],
 })
@@ -83,7 +83,7 @@ export class ProfileEditComponent implements OnInit {
           ),
           email: new FormControl(this.userData ? this.userData.email : ''),
           birthday: new FormControl(
-            this.userData ? this.userData.birthday : ''
+            this.userData ? this.userData.birthday + 'Z' : ''
           ),
           description: new FormControl(
             this.userData ? this.userData.description : ''
@@ -91,11 +91,21 @@ export class ProfileEditComponent implements OnInit {
         });
       }
     });
-    this.passwordForm = new FormGroup({
-      oldPassword: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      newPassword: new FormControl('', [Validators.required, Validators.minLength(8), CustomValidator]),
-    }, { validators: CustomValidators.passwordMatchValidator });
-    
+    this.passwordForm = new FormGroup(
+      {
+        oldPassword: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+        newPassword: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+          CustomValidator,
+        ]),
+      },
+      { validators: CustomValidators.passwordMatchValidator }
+    );
+
     this.userService.getUserType().subscribe((res) => {
       this.accountType = res.token;
       console.log(this.accountType);
@@ -165,7 +175,6 @@ export class ProfileEditComponent implements OnInit {
   toggleChangePasswordForm(): void {
     this.showChangePasswordForm = !this.showChangePasswordForm;
     console.log('showChangePasswordForm:', this.showChangePasswordForm);
-
   }
 
   toggleOldPasswordVisibility(): void {
@@ -185,7 +194,9 @@ export function CustomValidator(control: AbstractControl) {
     return { customError: 'Hasło musi zawierać przynajmniej 8 znaków' };
   }
   if (!upperCaseCharacters.test(value)) {
-    return { customError: 'Hasło musi zawierać przynajmniej jedną dużą literę' };
+    return {
+      customError: 'Hasło musi zawierać przynajmniej jedną dużą literę',
+    };
   }
   if (!numberCharacters.test(value)) {
     return { customError: 'Hasło musi zawierać przynajmniej jedną cyfrę' };

@@ -8,7 +8,5 @@ namespace PartyCreatorWebApi.Repositories.Contracts
         Task<ChatMessageDto> CreateChatMessage(ChatMessage chatMessage);
         Task<List<ChatMessageDto>> GetAllMessages(int eventId);
         Task<List<ChatMessage>> DeleteAllFromEvent(int eventId);
-        string EncryptString(string key, string plainText);
-        string DecryptString(string key, string cipherText);
     }
 }

@@ -344,6 +344,8 @@ namespace PartyCreatorWebApi.Controllers
             existingEvent.Title = updatedEventDto.Title;
             existingEvent.Description = updatedEventDto.Description;
             existingEvent.DateTime = updatedEventDto.DateTime;
+            existingEvent.City = updatedEventDto.City;
+            existingEvent.Address = updatedEventDto.Address;
 
             var updatedEvent = await _eventRepository.UpdateEvent(existingEvent);
 

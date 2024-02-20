@@ -30,12 +30,6 @@ namespace PartyCreatorWebApi.Controllers
             _configuration = configuration;
             _httpClient = httpClient;
         }
-        
-        [HttpGet("test")]
-        public string Test()
-        {
-            return "adamtogejestfajny";
-        }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto request)
