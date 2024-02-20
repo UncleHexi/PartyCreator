@@ -1,6 +1,64 @@
 <body>
-  <app-signin *ngIf="showSignInForm"></app-signin>
-  <app-signup *ngIf="showSignUpForm"></app-signup>
-  this.dialog.open(ConfirmRegistrationDialogComponent);
-  
+  <div class="kontener">
+    <app-signin *ngIf="showSignInForm"></app-signin>
+    <app-signup *ngIf="showSignUpForm"></app-signup>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">UWAGA</h5>
+      <p class="card-text">
+        Aplikacja PartyCreator została stworzona jako projekt na studia.
+      </p>
+      <p class="card-text">Nie jest to wersja finalna, a jedynie prototyp.</p>
+      <p class="card-text">
+        W przypadku dłuższej nieaktywności serwer zostaje wyłączony <br />
+        (po 1 godzinie) aby nie generować kosztów. <br />
+        Należy poczekać ok. 30 sekund na ponowne uruchomienie <br />
+      </p>
+      <p class="card-text">
+        Wszelkie dane wprowadzone do aplikacji <br />
+        mogą zostać usunięte w dowolnym momencie.
+      </p>
+      <p class="card-text">
+        Funkcjonalności aplikacji korzystające z zewnętrznych <br />
+        serwisów (Facebook oraz Spotify) działają poprawnie jedynie <br />
+        w trybie deweloperskim z racji ograniczeń <br />narzuconych przez ich
+        twórców.
+      </p>
+      <p class="card-text">
+        W celu uzyskania dostępu do w.w. funkcjonalności <br />należy
+        skontaktować się z autorem.
+      </p>
+      <p class="card-text">
+        Autorzy aplikacji: <br />
+        <a
+          href="
+          https://www.linkedin.com/in/mariusz-bar-739013295/
+        "
+          target="_blank"
+        >
+          Mariusz Bar
+        </a>
+        <br />
+        <a
+          href="
+          https://www.linkedin.com/in/micha%C5%82-boese-2b1163114/
+        "
+          target="_blank"
+        >
+          Michał Boese
+        </a>
+        <br />
+        <a
+          href="
+          https://www.linkedin.com/in/adam-rekruciak-b9780b225/
+        "
+          target="_blank"
+        >
+          Adam Rekruciak
+        </a>
+        <br />
+      </p>
+    </div>
+  </div>
 </body>
