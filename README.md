@@ -7,7 +7,6 @@
     <br/>
     <br/>
     <a href="https://github.com/michalboese/PartyCreator">View Demo</a>
-    .
   </p>
 </p>
 
@@ -27,15 +26,15 @@ PartyCreator is a web application that allows users to create, browse, and manag
 
 Key Features:
 
-* Registration and Login: Users can create their account and then log in to access the full functionality of the application.
-* Event Creation: Users can create new events, specifying their name, description, date, time, location, and other details.
-* Event Browsing: The application enables browsing available events, both those created by the user and those to which they have been invited.
-* Event Management: Users can manage their events by editing their details, inviting participants, monitoring the guest list, and adding additional features such as splitting the bill or creating a Spotify playlist.
-* Interaction with Participants: The application provides tools for communication among participants through an embedded chat within events.
-* Adding Photos: Users can add photos related to events, allowing for * sharing memories and documenting the course of the meeting.
-Finding and Inviting Friends: Users can search for friends within the application and invite them to their events.
-* Notifications and Reminders: The application can send notifications about upcoming events and reminders about important deadlines.
-* Profile Personalization: Users have the option to personalize their profile by changing their profile picture and other information.
+* <b>Registration and Login:</b> Users can create their account and then log in to access the full functionality of the application.
+* <b>Event Creation:</b> Users can create new events, specifying their name, description, date, time, location, and other details.
+* <b>Event Browsing:</b> The application enables browsing available events, both those created by the user and those to which they have been invited.
+* <b>Event Management:</b> Users can manage their events by editing their details, inviting participants, monitoring the guest list, and adding additional features such as splitting the bill or creating a Spotify playlist.
+* <b>Interaction with Participants:</b> The application provides tools for communication among participants through an embedded chat within events.
+* <b>Adding Photos:</b> Users can add photos related to events, allowing for sharing memories and documenting the course of the meeting.
+* <b>Finding and Inviting Friends:</b> Users can search for friends within the application and invite them to their events.
+* <b>Notifications and Reminders:</b> The application can send notifications about upcoming events and reminders about important deadlines.
+* <b>Profile Personalization:</b> Users have the option to personalize their profile by changing their profile picture and other information.
 
 Project Goals:
 
@@ -46,9 +45,9 @@ Project Goals:
 
 ## Built With
 
-* Frontend: Angular
-* Backend: ASP.NET
-* Other: HTML/CSS, Typescript, C#, EntityFramework, Azure
+* <b>Frontend:</b> Angular
+* <b>Backend:</b> ASP.NET
+* <b>Other:</b> HTML/CSS, Typescript, C#, EntityFramework, Azure
 
 ## Authors
 
